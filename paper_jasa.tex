@@ -47,9 +47,11 @@ Statistical graphics play a crucial role in exploratory data analysis, model che
 
 \section{Introduction} Any statistical analysis must include some statistical graphics. For exploratory data analysis, statistical graphics play an invaluable role in model checking and diagnostics. Even though we have established mathematical procedures to obtain various statistics, we need to support the results by also producing the relevant plots. 
 
-The scientific foundation of the graphical methods for data analysis is well established by \cite{cleveland:1984}. In recent years we have seen several major advances in statistical graphics. A grammar of graphics introduced by \cite{wilkinson:1999} presents a structured way to generate specific graphics from data and define connections between disparate types of plots. We have modern computing systems like R and SAS that facilitate easy production of high quality statistical plots. \cite{hadley:2009} has implemented a revised version of the grammar of graphics in R, in the package {\tt ggplot2}. \citet{buja:2009}, following from \cite{gelman:2004}, proposed two protocols that allow the testing of discoveries made from statistical graphics. This work represents a major advance for graphics, because it bridges the gulf between classical statistical inference procedures and exploratory data analysis.
+The scientific foundation of graphical methods for data analysis is well established by \cite{cleveland:1984}. In recent years we have seen several major advances in statistical graphics. Modern computing systems like R and SAS tease the production of high quality statistical plots. A grammar of graphics introduced by \cite{wilkinson:1999} presents a structured way to generate specific graphics from data and define connections between disparate types of plots.  \cite{hadley:2009} has implemented a revised version of the grammar of graphics in R, in the package {\tt ggplot2}. 
 
-In this paper we present results of a human-subject study assessing the performance of individuals on lineup plots \citep{buja:2009} for testing significance of regression parameters. 
+\citet{buja:2009}, following from \cite{gelman:2004}, proposed two protocols that allow the testing of discoveries made from statistical graphics. This work represents a major advance for graphics, because it bridges the gulf between classical statistical inference procedures and exploratory data analysis.
+
+In this paper we compare graphical inference to classical statistical inference for a set of regression type example. We also present results of a human-subject study assessing the performance of individuals on lineup plots \citep{buja:2009} for testing significance of regression parameters. 
 
 Section \ref{sec:visual_test} describes the basic ideas of visual inference, Section \ref{sec:regression} applies these ideas to the case of inference for regression analysis. In Section \ref{sec:simulation} we outline the setup for the human-subject study and  and present results. 
 
@@ -89,13 +91,8 @@ Any null hypothesis $H_0$ then partitions the parameter space into $\Theta_0$ an
 
 %\subsection{Visual Statistic} 
 
-Unlike classical hypothesis testing the statistic in visual inference is not a single value, but a plot that is appropriately chosen to describe the parameter of interest, $\theta$. When the alternative hypothesis is true, it is expected that the plot of the observed data, the test statistic, will have visible feature(s) consistent with $\theta \in \Theta_0^c$, and that visual artifacts will not distinguish the test statistic as different when $H_1$ is not true.
-%% As per the grammar of graphics presented by \cite{wilkinson:1999} and its application in R by \cite{hadley:2009}  it is possible to obtain some graphs associated with an arbitrary hypothesis. 
+Unlike classical hypothesis testing the statistic in visual inference is not a single value, but a plot that is appropriately chosen to describe the parameter of interest, $\theta$. When the alternative hypothesis is true, it is expected that the plot of the observed data, the test statistic, will have visible feature(s) consistent with $\theta \in \Theta_0^c$, and that visual artifacts will not distinguish the test statistic as different when $H_1$ is not true. We will call a plot with this property a {\it visual statistic} for $\theta$.
 
-%%\subsection{Lineup Plot} 
-%
-%%To compare whether the visible pattern in the test statistic is due to randomness or not we obtain the lineup plot defined as follows.
-%
 \begin{dfn}\label{dfn:lplot}
 A lineup plot is a layout of $m$ visual statistics, consisting of 
 \begin{itemize}\itemsep-3pt
@@ -104,17 +101,14 @@ A lineup plot is a layout of $m$ visual statistics, consisting of
 \end{itemize}
 \end{dfn}
 
-If $H_1$ is true, the test statistic is expected to be the plot that is most different from the other plots in the lineup plot. A careful visual inspection should reveal the differences in the feature shown by the test statistic under null and alternative hypothesis. {\em If the test statistic cannot be identified} in the lineup the conclusion is to {\em not reject the null hypothesis.} The $(m-1)$ null plots can be considered to be samples drawn from the sampling distribution of the the test statistic assuming that the null hypothesis is true.
+The $(m-1)$ null plots can be considered to be samples drawn from the sampling distribution of the the test statistic assuming that the null hypothesis is true. If $H_1$ is true, the most different plot is expected to be the test statistic, i.e, the plot of the data. {\em If the test statistic cannot be identified} in the lineup the conclusion is to {\em not reject the null hypothesis.}  A careful visual insfection follows, and the observer is asked to point out the plot most different from the lineup.
 
-%Table \ref{tbl:compare}, derived from \citet{buja:2009}, describes the procedure in comparison to traditional testing.
-
-%\subsection{Type-I error and P-value}
 
 Since the lineup plot consists of $m$ plots, the probability of choosing any one of them is $1/m$. Thus we have type-I error probability of $1/m$.
 
 The lineup plot can be evaluated by one or more individuals. When a single individual identifies the observed graph in the lineup plot we report a $p$-value of at most $1/m$, otherwise the $p$-value is at least $1-\frac 1m$. 
 
-If $N$ individuals evaluate a lineup plot independently, we count the number of successful evaluations as $U \sim \text{Binom} (N,\frac{1}{m})$ and report a  $p$-value of at most $Pr(U \ge u)= \sum_{k \ge u}^N {{N \choose k} (\frac{1}{m})^k(1-\frac 1m)^{(N-k)}}$ where $u$ is the observed number of successful evaluations. %Notice that when $N=1$, this $p$-value is $\frac1m$. 
+If $N$ individuals evaluate a lineup plot independently, the number of successful evaluations, $U \sim \text{Binom} (N,\frac{1}{m})$ and we report a  $p$-value of at most $Pr(U \ge u)= \sum_{k \ge u}^N {{N \choose k} (\frac{1}{m})^k(1-\frac 1m)^{(N-k)}}$ where $u$ is the observed number of successful evaluations. %Notice that when $N=1$, this $p$-value is $\frac1m$. 
 
 %\subsection{Power}
 
@@ -142,7 +136,9 @@ Consider a linear regression model
 \end{equation}
 where $\epsilon_i \stackrel{iid}{ \sim } N(0,\sigma^2)$, $i=1,2, .., n$. The covariates ($X_j, j=1,..,p$) can be continuous or discrete. 
 
-Suppose $X_k$ is a categorical variable with two levels, and we test the hypothesis $H_0:\beta_k=0$ vs $H_1: \beta_k \ne 0, k=1, ...,p$. If the responses for the two levels of the categorical variable $X_k$ in the model are significantly different and we fit the null model to the observed data, the resulting residual plot shows two groups of residuals. To test this we generate side-by-side boxplots of the residuals conditioned on the two levels of $X_k$, as the test statistic. If $\beta_k\ne 0$ the boxplots show a vertical displacement. (Table \ref{tbl:stat_multiple} describes visual statistics for testing other hypotheses related to regression model \ref{multi}.)
+Suppose $X_k$ is a categorical variable with two levels, and we test the hypothesis $H_0:\beta_k=0$ vs $H_1: \beta_k \ne 0$. If the responses for the two levels of the categorical variable $X_k$ in the model are significantly different and we fit the null model to the observed data, the resulting residual plot shows two groups of residuals. To test this we generate side-by-side boxplots of the residuals conditioned on the two levels of $X_k$, as the test statistic. If $\beta_k\ne 0$ the boxplots show a vertical displacement. 
+
+In a regression setting, there is a multitude of established graphics that help with the evaluation and diagnostics of a model (e.g. Cook \& ... ). Table \ref{tbl:stat_multiple} shows an overview of some commonly used charts and their corresponding hypothesis tests. Note that some charts can be associated with several different testing situations. In our paper, we pick the example fo situation 2 and 3 as candidates.
 
 A lineup including this test statistic is shown in Figure \ref{fig:test_category}. The 19 null plots are generated  by simulating residuals from $N(0,\hat{\sigma^2})$. The test statistic, the plot containing the observed data, is randomly placed among these null plots. If the test statistic is identifiable the null hypothesis is rejected with a $p$-value of at most 0.05.
 
@@ -158,19 +154,19 @@ A lineup including this test statistic is shown in Figure \ref{fig:test_category
 \begin{table*}[hbtp] 
 \caption{Test Statistics for Testing Hypothesis Related to Model $Y_i = \beta_0 + \beta_1 X_{i1} + \beta_1 X_{i2} + \beta_3 X_{i1}X_{i2} ~~... + \epsilon_i  $ } 
 \centering 
-\begin{tabular}{m{3cm}m{2.5cm}m{2.6cm}m{5.5cm}} 
+\begin{tabular}{m{0.5cm}m{3cm}m{2.5cm}m{2.6cm}m{5.5cm}} 
 \hline\hline 
-Null Hypothesis & Statistic & Test Statistic & Description \\ [0.5ex] % inserts table %heading 
+Case & Null Hypothesis & Statistic & Test Statistic & Description \\ [0.5ex] % inserts table %heading 
 \hline 
-$H_0: \beta_0=0$ & Scatter plot & \begin{minipage}[t]{2cm}\begin{center}  	\scalebox{0.1}{\includegraphics{stat_intercept.pdf}} \end{center} \end{minipage} & Scatter plot with least square line overlaid. For lineup plot, we simulate data from fitted null model. \\ 
-$H_0: \beta_k=0$ & Residual plot & \begin{minipage}[t]{2cm}\begin{center}  	\scalebox{0.1}{\includegraphics{stat_bet_p.pdf}} \end{center} \end{minipage} & Residual vs $X_k$ plots. For lineup plot, we simulate data from normal with mean 0 variance $\hat{\sigma}^2$. \\ 
-$H_0: \beta_k=0$ (for categorical $X_k$) & Box plots of residuals & \begin{minipage}[t]{2cm}\begin{center}  	\scalebox{0.18}{\includegraphics{stat_category.pdf}} \end{center} \end{minipage} & Box plot of residuals grouped by category of $X_k$. For lineup plot, we simulate data from normal with mean 0 variance $\hat{\sigma}^2$. \\
-$H_0: \beta_k=0$ (interaction with categorical $X_k$) & Scatter plot & \begin{minipage}[t]{2cm}\begin{center}  \scalebox{0.11}{\includegraphics{stat_interection.pdf}} \end{center} \end{minipage} & Scatter plot with least square lines of each category overlaid. For lineup plot, we simulate data from fitted null model.\\[1ex] % [1ex] adds vertical space 
-$H_0: X$ Linear & Residual Plot & \begin{minipage}[t]{2cm}\begin{center}  	\scalebox{0.1}{\includegraphics{stat_nonlinear.pdf}} \end{center} \end{minipage} & Residual vs predictor plots with loess smoother overlaid. For lineup plot, we simulate residual data from normal with mean 0 variance $\hat{\sigma}^2$. \\ 
-$H_0: \sigma^2=\sigma^2_0$ & Box plot & \begin{minipage}[t]{2cm}\begin{center}  \scalebox{0.15}{\includegraphics{stat_sigma_box.pdf}} \end{center} \end{minipage} & Box plot of standardized residual divided by  $\sigma^2_0$. For lineup plot, we simulate data from standard normal. \\ 				
-$H_0: \rho_{X,Y|Z}=\rho$ & Scatter Plot & \begin{minipage}[t]{2cm}\begin{center}  	\scalebox{0.1}{\includegraphics{stat_intercept.pdf}} \end{center} \end{minipage} & Scatter plot of Residuals obtained by fitting partial regression. For lineup plot, we simulate data (mean 0 and variance 1) with specific correlation $\rho$. \\ 
-$H_0:$ Model Fits & Histogram & \begin{minipage}[t]{2cm}\begin{center}  \scalebox{0.1}{\includegraphics{stat_goodness_simple.pdf}} \end{center} \end{minipage} & Histogram of the response data. For lineup plot, we simulate data from fitted model. \\[1ex] % [1ex] adds vertical space 
-Special case $p=1$ $H_0: \rho_{X,Y} =\rho$ & Scatter plot & \begin{minipage}[t]{2cm}\begin{center}  \scalebox{0.1}{\includegraphics{stat_intercept.pdf}} \end{center} \end{minipage} & Scatter plot with least square line overlaid For lineup plot, we simulate data with correlation $\rho$.\\			
+1 & $H_0: \beta_0=0$ & Scatter plot & \begin{minipage}[t]{2cm}\begin{center}  	\scalebox{0.1}{\includegraphics{stat_intercept.pdf}} \end{center} \end{minipage} & Scatter plot with least square line overlaid. For lineup plot, we simulate data from fitted null model. \\ 
+2 & $H_0: \beta_k=0$ & Residual plot & \begin{minipage}[t]{2cm}\begin{center}  	\scalebox{0.1}{\includegraphics{stat_bet_p.pdf}} \end{center} \end{minipage} & Residual vs $X_k$ plots. For lineup plot, we simulate data from normal with mean 0 variance $\hat{\sigma}^2$. \\ 
+3 & $H_0: \beta_k=0$ (for categorical $X_k$) & Box plots of residuals & \begin{minipage}[t]{2cm}\begin{center}  	\scalebox{0.18}{\includegraphics{stat_category.pdf}} \end{center} \end{minipage} & Box plot of residuals grouped by category of $X_k$. For lineup plot, we simulate data from normal with mean 0 variance $\hat{\sigma}^2$. \\
+4 & $H_0: \beta_k=0$ (interaction with categorical $X_k$) & Scatter plot & \begin{minipage}[t]{2cm}\begin{center}  \scalebox{0.11}{\includegraphics{stat_interection.pdf}} \end{center} \end{minipage} & Scatter plot with least square lines of each category overlaid. For lineup plot, we simulate data from fitted null model.\\[1ex] % [1ex] adds vertical space 
+5 & $H_0: X$ Linear & Residual Plot & \begin{minipage}[t]{2cm}\begin{center}  	\scalebox{0.1}{\includegraphics{stat_nonlinear.pdf}} \end{center} \end{minipage} & Residual vs predictor plots with loess smoother overlaid. For lineup plot, we simulate residual data from normal with mean 0 variance $\hat{\sigma}^2$. \\ 
+6 & $H_0: \sigma^2=\sigma^2_0$ & Box plot & \begin{minipage}[t]{2cm}\begin{center}  \scalebox{0.15}{\includegraphics{stat_sigma_box.pdf}} \end{center} \end{minipage} & Box plot of standardized residual divided by  $\sigma^2_0$. For lineup plot, we simulate data from standard normal. \\ 				
+7 & $H_0: \rho_{X,Y|Z}=\rho$ & Scatter Plot & \begin{minipage}[t]{2cm}\begin{center}  	\scalebox{0.1}{\includegraphics{stat_intercept.pdf}} \end{center} \end{minipage} & Scatter plot of Residuals obtained by fitting partial regression. For lineup plot, we simulate data (mean 0 and variance 1) with specific correlation $\rho$. \\ 
+8 & $H_0:$ Model Fits & Histogram & \begin{minipage}[t]{2cm}\begin{center}  \scalebox{0.1}{\includegraphics{stat_goodness_simple.pdf}} \end{center} \end{minipage} & Histogram of the response data. For lineup plot, we simulate data from fitted model. \\[1ex] % [1ex] adds vertical space 
+9 & Special case $p=1$ $H_0: \rho_{X,Y} =\rho$ & Scatter plot & \begin{minipage}[t]{2cm}\begin{center}  \scalebox{0.1}{\includegraphics{stat_intercept.pdf}} \end{center} \end{minipage} & Scatter plot with least square line overlaid For lineup plot, we simulate data with correlation $\rho$.\\			
 \hline 
 \end{tabular} 
 \label{tbl:stat_multiple} 
@@ -195,12 +191,39 @@ Special case $p=1$ $H_0: \rho_{X,Y} =\rho$ & Scatter plot & \begin{minipage}[t]{
 
 % Di: This is specific for the regression model
 %Consider the hypothesis test $H_0: \beta_k=0$ against $H_1: \beta_k \ne 0$ in model \ref{multi}.
-Now consider estimating the power of the visual test. We have the estimate of the $\beta$ with a $p$-value $p_B$. The distribution of $p_B$ is a non-central $t$ distribution under $H_1$ and uniform under $H_0$. 
+Now consider estimating the power of the visual test. For the regression slope parameter $\beta$ suppose the associated $p$-value be $p_B$. The distribution of $p_B$ is a non-central $t$ distribution under $H_1$ and uniform under $H_0$. 
 In a lineup plot we simulate $m-1$ residual data sets from null model where each of these $m-1$ null data sets produces a corresponding $p$-value $p_{0,i}$ and $p_{0,i} \sim \text{Uniform}(0,1)$ for $i = 1, ..., m-1$. Suppose  $p_0=\min_i(p_{0,i})$. Thus $p_0 \sim \text{Beta}(1,m-1)$. 
 
-Now assume that individuals pick the plot that has the smallest $p$-value in the lineup plot. This leads to the decision to reject $H_0$ when $p_{B} < p_0$. Thus we have the expected power as \begin{equation}\label{power_exp} Power(\beta)=Pr(p_{B} < p_0) \end{equation}
+Now assume that individuals pick the plot that has the smallest $p$-value in the lineup plot. This leads to the decision to reject $H_0$ when $p_{B} < p_0$. Thus we have the expected power as 
 
-Figure \ref{fig:power_expected} shows the power of UMP test and expected power of visual test obtained from equation \eqref{power_exp}. Notice that the expected power of visual test is almost as good as the power of UMP test.
+\begin{equation}\label{power_exp} 
+   Power(\beta)=Pr(p_{B} < p_0)  \quad \text{for} \beta \ne 0
+\end{equation}
+
+Figure \ref{fig:power_expected} shows the power of UMP test and expected power of visual test obtained from equation \eqref{power_exp}. Notice that the expected power of visual test is almost as good as the power of UMP test. In fact, the only loss we experience stems from comparing the test statistic to only a discrete number $m-1$ samples of the null distribution. For infinitely many null plots we have the following theorem.
+
+\begin{thm}
+ For $m \rightarrow \infty $,  Power($\beta$) in equation \ref{power_exp} approaches to $F_{p_B}(0)$, where $F_{p_B}(.)$ is the distribution function of a non-central $t$ distribution. 
+ \end{thm}
+ 
+{ \em proof}
+
+Since $p_0 \sim \text{Beta}(1,m-1)$,  for $t \in (0,1)$ we have the distribution function of $p_0$ be
+\begin{eqnarray*}
+F{p_0}(t) &=& (m-1) \int_0^t{(1-p_0)^{(m-2)}dp_0} \\
+  &=&  -(m-1) \int_1^{1-t}{x^{(m-2)}dx}\\
+  &=& \left[ x^{m-1}\right]^1_{1-t}\\
+  &=&1-(1-t)^{m-1} \rightarrow 1 \quad \text{as} \quad m \rightarrow \infty
+\end{eqnarray*}
+
+Again $p_0 \in [0,1]$ and hence $F{p_0}(t) =0$ for $t \le 0$ and  $F{p_0}(t) =1$ for $t \ge 1$. Thus expected power in equation \ref{power_exp} be
+\begin{eqnarray*}
+ Pr(p_{B} < p_0) &=& 1- Pr( p_0 \le p_{B} ) \\
+  &=& 1- \int_{-\infty}^{\infty}{Pr( p_0 \le p_{B} |p_{B} =t) f_{p_{B} }(t)dt } \\
+  &=& 1-  \int_{-\infty}^{\infty}{F{p_0}(t) f_{p_{B} }(t)dt }  = 1-  \int_{0}^{\infty}{F{p_0}(t) f_{p_{B} }(t)dt }  \\
+  & \rightarrow &1-  \int_{0}^{\infty}{ f_{p_{B} }(t)dt }  = F_{p_B}(0) \quad \text{as} \quad m \rightarrow \infty
+\end{eqnarray*}
+
 
 \begin{figure}[hbtp]
    \centering
