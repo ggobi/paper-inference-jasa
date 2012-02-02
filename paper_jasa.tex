@@ -105,18 +105,19 @@ A lineup plot is a layout of $m$ visual statistics, consisting of
 \end{itemize}
 \end{dfn}
 
-The $(m-1)$ null plots can be considered to be samples drawn from the sampling distribution of the the test statistic assuming that the null hypothesis is true. If $H_1$ is true, the most different plot is expected to be the test statistic, i.e, the plot of the data. {\em If the test statistic cannot be identified} in the lineup the conclusion is to {\em not reject the null hypothesis.}  A careful visual insfection follows, and the observer is asked to point out the plot most different from the lineup.
+The $(m-1)$ null plots show samples drawn from the sampling distribution under $H_0$. %of the test statistic assuming that the null hypothesis is true. 
+If $H_1$ is true,  the most different plot is expected to be the test statistic, i.e, the plot of the data.  A careful visual inspection follows, and the observer is asked to point out the plot most different from the lineup.  {\em If the test statistic cannot be identified} in the lineup the conclusion is to {\em not reject the null hypothesis.}
 
+Since the lineup plot consists of $m$ plots, the probability of choosing any one of them at random is $1/m$. Thus we have a type-I error probability of $1/m$.
 
-Since the lineup plot consists of $m$ plots, the probability of choosing any one of them is $1/m$. Thus we have type-I error probability of $1/m$.
+When a single individual identifies the observed graph in the lineup plot we report a $p$-value of at most $1/m$, otherwise the $p$-value is at least $1-\frac 1m$. 
 
-The lineup plot can be evaluated by one or more individuals. When a single individual identifies the observed graph in the lineup plot we report a $p$-value of at most $1/m$, otherwise the $p$-value is at least $1-\frac 1m$. 
+The lineup plot can be evaluated by one or more individuals.  If $N$ individuals evaluate a lineup plot independently, the number of successful evaluations, $U \sim \text{Binom} (N,\frac{1}{m})$ and we report a  $p$-value of at most $Pr(U \ge u)= \sum_{k \ge u}^N {{N \choose k} (\frac{1}{m})^k(1-\frac 1m)^{(N-k)}}$ where $u$ is the observed number of successful evaluations. %Notice that when $N=1$, this $p$-value is $\frac1m$. 
 
-If $N$ individuals evaluate a lineup plot independently, the number of successful evaluations, $U \sim \text{Binom} (N,\frac{1}{m})$ and we report a  $p$-value of at most $Pr(U \ge u)= \sum_{k \ge u}^N {{N \choose k} (\frac{1}{m})^k(1-\frac 1m)^{(N-k)}}$ where $u$ is the observed number of successful evaluations. %Notice that when $N=1$, this $p$-value is $\frac1m$. 
-
+\blue{'successful' evaluation - that implies that we want to reject $H_0$. We need to phrase this more carefully. }
 %\subsection{Power}
 
-For two different visual test statistics of the same observed data, the one  is better, in which a specific pattern is more easily distinguishable visually. This should be reflected in the power of the test. We can assess power therefore both empirically based on experimental data and through theoretical considerations. Next, we will develop power theoretically and then %It is feasible to assess power theoretically and 
+\blue{This gives us a tool to evaluate different types of graphics with respect to their efficiency:} for two different visual test statistics of the same observed data, the one  is better, in which a specific pattern is more easily distinguishable visually. This should be reflected in the power of the test. We can assess power therefore both empirically based on experimental data and through theoretical considerations. Next, we will develop power theoretically and then %It is feasible to assess power theoretically and 
 relate it to the empirical results.
 
 \begin{dfn} \label{dfn:power}
