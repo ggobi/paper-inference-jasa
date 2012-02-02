@@ -202,7 +202,10 @@ Now consider estimating the power of the visual test. For the regression slope p
 
 
  In a lineup plot we simulate $m-1$ residual data sets from null model where each of these $m-1$ null data sets produces a corresponding $p$-value $p_{0,i}$ and $p_{0,i} \sim \text{Uniform}(0,1)$ for $i = 1, ..., m-1$. 
-Now assume that individuals pick the plot that has the smallest $p$-value in the lineup plot. This leads to the decision to reject $H_0$ when $p_{B} < p_0 := \min_{i} p_{0,i}$ with  $p_0 \sim \text{Beta}(1,m-1)$. 
+
+{\it Now assume that individuals pick the plot that has the smallest $p$-value in the lineup plot. }
+
+This leads to the decision to reject $H_0$ when $p_{B} < p_0 := \min_{i} p_{0,i}$ with  $p_0 \sim \text{Beta}(1,m-1)$. 
 Thus we have the expected power as 
 
 \begin{equation}\label{power_exp} 
