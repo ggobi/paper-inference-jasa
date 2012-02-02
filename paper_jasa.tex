@@ -122,6 +122,7 @@ relate it to the empirical results.
 
 \begin{dfn} \label{dfn:power}
 For a lineup of $m$ plots the power of $\theta$ is defined as 
+\blue{shouldn't we define power in terms of the test statistic rather than the parameter?}
     \begin{equation*}
       \text{Power}(\theta)= 
         \begin{cases} 
@@ -139,13 +140,14 @@ Power has a lower limit of $\frac1m$ since the probability that a person will ra
 Consider a linear regression model 
 \begin{equation}\label{multi} Y_i = \beta_0 + \beta_1 X_{i1} + \beta_1 X_{i2} + \beta_3 X_{i1}X_{i2} ~~... + \epsilon_i 
 \end{equation}
-where $\epsilon_i \stackrel{iid}{ \sim } N(0,\sigma^2)$, $i=1,2, .., n$. The covariates ($X_j, j=1,..,p$) can be continuous or discrete. 
+where $\epsilon_i \stackrel{iid}{ \sim } N(0,\sigma^2)$, $i=1,2, .., n$. The covariates $X_j, j=1,..,p$, can be continuous or discrete. 
 
-Suppose $X_k$ is a categorical variable with two levels, and we test the hypothesis $H_0:\beta_k=0$ vs $H_1: \beta_k \ne 0$. If the responses for the two levels of the categorical variable $X_k$ in the model are significantly different and we fit the null model to the observed data, the resulting residual plot shows two groups of residuals. To test this we generate side-by-side boxplots of the residuals conditioned on the two levels of $X_k$, as the test statistic. If $\beta_k\ne 0$ the boxplots show a vertical displacement. 
+Suppose $X_k$ is a categorical variable with two levels, and we test the hypothesis $H_0:\beta_k=0$ vs $H_1: \beta_k \ne 0$. If the responses for the two levels of the categorical variable $X_k$ in the model are significantly different and we fit the null model to the observed data, the resulting residual plot shows two groups of residuals \blue{with a difference in means reflecting the strength of the signal}. As a visual test statistic we use side-by-side boxplots of the residuals conditioned on the two levels of $X_k$. If $\beta_k\ne 0$ the boxplots show a vertical displacement. 
 
-In a regression setting, there is a multitude of established graphics that help with the evaluation and diagnostics of a model (e.g. Cook \& ... ). Table \ref{tbl:stat_multiple} shows an overview of some commonly used charts and their corresponding hypothesis tests. Note that some charts can be associated with several different testing situations. In our paper, we pick the example fo situation 2 and 3 as candidates.
 
 A lineup including this test statistic is shown in Figure \ref{fig:test_category}. The 19 null plots are generated  by simulating residuals from $N(0,\hat{\sigma^2})$. The test statistic, the plot containing the observed data, is randomly placed among these null plots. If the test statistic is identifiable the null hypothesis is rejected with a $p$-value of at most 0.05.
+
+In a regression setting, there is a multitude of established graphics that help with the evaluation and diagnostics of a model (e.g. \citep{cook:99}). Table \ref{tbl:stat_multiple} shows an overview of some commonly used charts and their corresponding hypothesis tests. Note that some charts can be associated with several different testing situations. In our paper, we pick  situations 2 and 3 as candidates for further discussion.
 
 \begin{figure}[hbt]
 %\begin{figurehere}
@@ -196,9 +198,12 @@ Case & Null Hypothesis & Statistic & Test Statistic & Description \\ [0.5ex] % i
 
 % Di: This is specific for the regression model
 %Consider the hypothesis test $H_0: \beta_k=0$ against $H_1: \beta_k \ne 0$ in model \ref{multi}.
-Now consider estimating the power of the visual test. For the regression slope parameter $\beta$ suppose the associated $p$-value be $p_B$ and its distribution function be  $F_{p_B}(.)$ . As noted by \cite{Ruppert:2007} $F_{p_B}(.)$ is a right skewed distribution under $H_1$ and uniform under $H_0$.  In a lineup plot we simulate $m-1$ residual data sets from null model where each of these $m-1$ null data sets produces a corresponding $p$-value $p_{0,i}$ and $p_{0,i} \sim \text{Uniform}(0,1)$ for $i = 1, ..., m-1$. Suppose  $p_0=\min_i(p_{0,i})$. Thus $p_0 \sim \text{Beta}(1,m-1)$. 
+Now consider estimating the power of the visual test. For the regression slope parameter $\beta$ suppose the associated $p$-value be $p_B$ and its distribution function be  $F_{p_B}(.)$ . As noted by \cite{Ruppert:2007} $F_{p_B}(.)$ is a right skewed distribution under $H_1$ and uniform under $H_0$. \blue{you were using that this is a non-central $t$ distribution before ... where did that go?}
 
-Now assume that individuals pick the plot that has the smallest $p$-value in the lineup plot. This leads to the decision to reject $H_0$ when $p_{B} < p_0$. Thus we have the expected power as 
+
+ In a lineup plot we simulate $m-1$ residual data sets from null model where each of these $m-1$ null data sets produces a corresponding $p$-value $p_{0,i}$ and $p_{0,i} \sim \text{Uniform}(0,1)$ for $i = 1, ..., m-1$. 
+Now assume that individuals pick the plot that has the smallest $p$-value in the lineup plot. This leads to the decision to reject $H_0$ when $p_{B} < p_0 := \min_{i} p_{0,i}$ with  $p_0 \sim \text{Beta}(1,m-1)$. 
+Thus we have the expected power as 
 
 \begin{equation}\label{power_exp} 
    Power(\beta)=Pr(p_{B} < p_0)  \quad \text{for}  \quad \beta \ne 0
