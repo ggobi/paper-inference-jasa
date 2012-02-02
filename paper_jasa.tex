@@ -218,9 +218,9 @@ F{p_0}(t) &=& (m-1) \int_0^t{(1-p_0)^{(m-2)}dp_0} \\
 Thus expected power in equation \ref{power_exp} be
 \begin{eqnarray*}
  Pr(p_{B} < p_0) &=& 1- Pr( p_0 \le p_{B} ) \\
-  &=& 1- \int_{-\infty}^{\infty}{Pr( p_0 \le p_{B} |p_{B} =t) f_{p_{B} }(t)dt } \\
-  &=& 1-  \int_{-\infty}^{\infty}{F{p_0}(t) f_{p_{B} }(t)dt }  = 1-  \int_{0}^{\infty}{F{p_0}(t) f_{p_{B} }(t)dt }  \\
-  & \rightarrow &1-  \int_{0}^{\infty}{ f_{p_{B} }(t)dt }  = F_{p_B}(0) \quad \text{as} \quad m \rightarrow \infty
+  &=& 1- \int_{0}^{1}{Pr( p_0 \le p_{B} |p_{B} =t) f_{p_{B} }(t)dt } \\
+  &=& 1-  \int_{0}^{1}{F{p_0}(t) f_{p_{B} }(t)dt }    \\
+  & \rightarrow &1-  \int_{0}^{1}{ f_{p_{B} }(t)dt }  = F_{p_B}(0) \quad \text{as} \quad m \rightarrow \infty
 \end{eqnarray*}
 
 
