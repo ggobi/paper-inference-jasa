@@ -221,7 +221,7 @@ Figure \ref{fig:power_expected} shows the power of UMP test and expected power o
  For $m \rightarrow \infty $,  Power($\beta$) in equation \ref{power_exp} approaches to $F_{p_B}(0)$.
 \end{thm}
  
-{ \em proof}
+\begin{proof}
 
 Since $p_0 \sim \text{Beta}(1,m-1)$,  for $t \in (0,1)$ we have the distribution function of $p_0$ be
 \begin{eqnarray*}
@@ -236,9 +236,11 @@ Thus expected power in equation \ref{power_exp} be
  Pr(p_{B} < p_0) &=& 1- Pr( p_0 \le p_{B} ) \\
   &=& 1- \int_{0}^{1}{Pr( p_0 \le p_{B} |p_{B} =t) f_{p_{B} }(t)dt } \\
   &=& 1-  \int_{0}^{1}{F{p_0}(t) f_{p_{B} }(t)dt }    \\
-  & \rightarrow &1-  \int_{0}^{1}{ f_{p_{B} }(t)dt }  = F_{p_B}(0) \quad \text{as} \quad m \rightarrow \infty
+ &=& 1 - \int_{0}^{1}(t) f_{p_{B} }(t)dt + \int_{0}^{1} (1-t)^{m-1} f_{p_{B} }(t)dt \\
+ &=& E\left[(1-p_B)^{m-1}\right] \\
+%  & \rightarrow &1-  \int_{0}^{1}{ f_{p_{B} }(t)dt }  = F_{p_B}(0) \quad \text{as} \quad m \rightarrow \infty
 \end{eqnarray*}
-
+\end{proof}
 
 \begin{figure}[hbtp]
    \centering
