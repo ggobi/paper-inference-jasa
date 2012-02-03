@@ -50,7 +50,7 @@ Statistical graphics play a crucial role in exploratory data analysis, model che
 
 \section{Introduction} Any statistical analysis must include some statistical graphics. For exploratory data analysis, statistical graphics play an invaluable role in model checking and diagnostics. Even though we have established mathematical procedures to obtain various statistics, we need to support the results by also producing the relevant plots. 
 
-The scientific foundation of graphical methods for data analysis is well established by \cite{cleveland:1984}. In recent years we have seen several major advances in statistical graphics. Modern computing systems like R and SAS tease the production of high quality statistical plots. A grammar of graphics introduced by \cite{wilkinson:1999} presents a structured way to generate specific graphics from data and define connections between disparate types of plots.  \cite{hadley:2009} has implemented a revised version of the grammar of graphics in R, in the package {\tt ggplot2}.   Graham Wills has implemented the grammar in SPSS, but I'm not sure how to cite this.
+The scientific foundation of graphical methods for data analysis is well established by \cite{cleveland:1984}. In recent years we have seen several major advances in statistical graphics. Modern computing systems like R and SAS tease the production of high quality statistical plots. A grammar of graphics introduced by \cite{wilkinson:1999} presents a structured way to generate specific graphics from data and define connections between disparate types of plots.  \cite{hadley:2009} has implemented a revised version of the grammar of graphics in R, in the package {\tt ggplot2}.   \blue {Graham Wills has implemented the grammar in SPSS, but I'm not sure how to cite this.}
 
 
 \citet{buja:2009}, following from \cite{gelman:2004}, proposed two protocols that allow the testing of discoveries made from statistical graphics. This work represents a major advance for graphics, because it bridges the gulf between classical statistical inference procedures and exploratory data analysis.
@@ -200,18 +200,18 @@ Now consider estimating the power of the visual test. Suppose $F_{|t|}(.)$ be th
 $$p_B=Pr(|t| \ge t_{obs}| H_0)=1-F_{|t|}(t_{obs}) \Rightarrow t_{obs}=F_{|t|}^{-1}(1-p_B)$$
 
 
-Now suppose $F_{|t|}(.,\delta)$ denotes the distribution function of an absolute value of $t$ distribution with non-centrality parameter $\delta$. Thus the distribution function of $p-value$ be  
-\begin{eqnarray*}\label{dist_p}
-F{p_B}(p) &=& Pr(p_B \le p)=1-Pr(1-p_B \le 1-p)\\
-  &=& 1-Pr(F_{|t|}^{-1}(1-p_B) \le F_{|t|}^{-1}(1-p) )\\
-  &=& 1-Pr(t_{obs} \le F_{|t|}^{-1}(1-p))\\
+Now suppose $F_{|t|}(.;\delta)$ denotes the distribution function of an absolute value of $t$ distribution with non-centrality parameter $\delta$. Thus the distribution function of $p-value$ be  
+\begin{eqnarray}\label{dist_p}
+F{p_B}(p) &=& Pr(p_B \le p)=1-Pr(1-p_B \le 1-p) \nonumber \\
+  &=& 1-Pr(F_{|t|}^{-1}(1-p_B) \le F_{|t|}^{-1}(1-p) ) \nonumber \\
+  &=& 1-Pr(t_{obs} \le F_{|t|}^{-1}(1-p)) \nonumber \\
   &=&\left\{ \begin{array}{ll}
           1-F_{|t|}( F_{|t|}^{-1}(1-p))=p &\mbox{ ; under $H_0$} \\
-          1-F_{|t|}( F_{|t|}^{-1}(1-p),\delta) &\mbox{ ; under $H_1$} 
+          1-F_{|t|}( F_{|t|}^{-1}(1-p); \delta) &\mbox{ ; under $H_1$} 
        \end{array} \right.     
-\end{eqnarray*}
+\end{eqnarray}
 
-As noted by \cite{Ruppert:2007} $F_{p_B}(.)$ is a right skewed distribution under $H_1$ and uniform under $H_0$.  In a lineup plot we simulate $m-1$ residual data sets from null model where each of these $m-1$ null data sets produces a corresponding $p$-value $p_{0,i}$ and $p_{0,i} \sim \text{Uniform}(0,1)$ for $i = 1, ..., m-1$. Suppose  $p_0=\min_i(p_{0,i})$. Thus $p_0 \sim \text{Beta}(1,m-1)$. 
+Thus the density of $p_B$ is Uniform(0,1)  under $H_0$. As noted by \cite{Ruppert:2007} the density $f_{p_B}(.)$ derived from equation \ref{dist_p}  is a right skewed distribution under $H_1$.  In a lineup plot we simulate $m-1$ residual data sets from null model where each of these $m-1$ null data sets produces a corresponding $p$-value $p_{0,i}$ and $p_{0,i} \sim \text{Uniform}(0,1)$ for $i = 1, ..., m-1$. Suppose  $p_0=\min_i(p_{0,i})$. Thus $p_0 \sim \text{Beta}(1,m-1)$. 
 
 Now assume that individuals pick the plot that has the smallest $p$-value in the lineup plot. This leads to the decision to reject $H_0$ when $p_{B} < p_0$. Thus we have the expected power as 
 
@@ -222,7 +222,7 @@ Now assume that individuals pick the plot that has the smallest $p$-value in the
 Figure \ref{fig:power_expected} shows the power of UMP test and expected power of visual test obtained from equation \eqref{power_exp}. Notice that the expected power of visual test is almost as good as the power of UMP test. In fact, the only loss we experience stems from comparing the test statistic to only a discrete number $m-1$ samples of the null distribution. For infinitely many null plots we have the following theorem.
 
 \begin{thm}
- For $m \rightarrow \infty $,  Power($\beta$) in equation \ref{power_exp} approaches to $F_{p_B}(0)$.
+ Equation \ref{power_exp}  yields expected power of visual inference as Power($\beta$) = $E(1-p_B)^{m-1}$ .
 \end{thm}
  
 { \em proof}
@@ -239,8 +239,9 @@ Thus expected power in equation \ref{power_exp} be
 \begin{eqnarray*}
  Pr(p_{B} < p_0) &=& 1- Pr( p_0 \le p_{B} ) \\
   &=& 1- \int_{0}^{1}{Pr( p_0 \le p_{B} |p_{B} =t) f_{p_{B} }(t)dt } \\
-  &=& 1-  \int_{0}^{1}{F{p_0}(t) f_{p_{B} }(t)dt }    \\
-  & \rightarrow &1-  \int_{0}^{1}{ f_{p_{B} }(t)dt }  = F_{p_B}(0) \quad \text{as} \quad m \rightarrow \infty
+  &=& 1-  \int_{0}^{1}{F{p_0}(t) f_{p_{B} }(t)dt } \\
+  &=& E(1-p_B)^{m-1}   \\
+%  & \rightarrow &1-  \int_{0}^{1}{ f_{p_{B} }(t)dt }  = F_{p_B}(0) \quad \text{as} \quad m \rightarrow \infty
 \end{eqnarray*}
 
 
