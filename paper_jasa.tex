@@ -193,7 +193,7 @@ F{p_B}(p) &=& Pr(p_B \le p)=1-Pr(1-p_B \le 1-p) \nonumber \\
        \end{array} \right.     
 \end{eqnarray}
 
-Thus the density of $p_B$ is Uniform(0,1)  under $H_0$. As noted by \cite{Ruppert:2007} the density $f_{p_B}(.)$ derived from equation \ref{dist_p}  is a right skewed distribution under $H_1$.  In a lineup plot we simulate $m-1$ residual data sets from null model where each of these $m-1$ null data sets produces a corresponding $p$-value $p_{0,i}$ and $p_{0,i} \sim \text{Uniform}(0,1)$ for $i = 1, ..., m-1$. Suppose  $p_0=\min_i(p_{0,i})$. Thus $p_0 \sim \text{Beta}(1,m-1)$. 
+Thus the density of $p_B$ is Uniform(0,1)  under $H_0$. As noted by \cite{Ruppert:2007} the density $$f_{P_B}(p_B; \delta)= \frac{f_{|t|}(F_{|t|}^{-1}(1-p_B);\delta)}{f_{|t|}(F_{|t|}^{-1}(1-p_B))}$$ derived from equation \ref{dist_p}  is a right skewed distribution under $H_1$.  In a lineup plot we simulate $m-1$ residual data sets from null model where each of these $m-1$ null data sets produces a corresponding $p$-value $p_{0,i}$ and $p_{0,i} \sim \text{Uniform}(0,1)$ for $i = 1, ..., m-1$. Suppose  $p_0=\min_i(p_{0,i})$. Thus $p_0 \sim \text{Beta}(1,m-1)$. 
 
 Now assume that individuals pick the plot that has the smallest $p$-value in the lineup plot. This leads to the decision to reject $H_0$ when $p_{B} < p_0$. Thus we have the expected power as 
 
