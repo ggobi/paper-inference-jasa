@@ -179,14 +179,14 @@ Case & Null Hypothesis & Statistic & Test Statistic & Description \\ [0.5ex] % i
 %Consider the hypothesis test $H_0: \beta_k=0$ against $H_1: \beta_k \ne 0$ in model \ref{multi}.
 Now consider estimating the power of the visual test. Suppose $F_{|t|}(.)$ be the distribution function of an absolute value of $t$. For the regression slope parameter $\beta$ suppose the associated test statistic in classical test be $t_{obs}$ with $p$-value $p_B$. By definition we have 
 
-$$p_B=Pr(|t| \ge t_{obs}| H_0)=1-F_{|t|}(t_{obs}) \Rightarrow t_{obs}=F_{|t|}^{-1}(1-p_B)$$
+$$p_B=Pr(|t| \ge t_{obs}| H_0)=1-F_{|t|}(t_{obs}) \Rightarrow |t_{obs}|=F_{|t|}^{-1}(1-p_B)$$
 
 
 Now suppose $F_{|t|}(.;\delta)$ denotes the distribution function of an absolute value of $t$ distribution with non-centrality parameter $\delta$. Thus the distribution function of $p-value$ be  
 \begin{eqnarray}\label{dist_p}
 F{p_B}(p) &=& Pr(p_B \le p)=1-Pr(1-p_B \le 1-p) \nonumber \\
   &=& 1-Pr(F_{|t|}^{-1}(1-p_B) \le F_{|t|}^{-1}(1-p) ) \nonumber \\
-  &=& 1-Pr(t_{obs} \le F_{|t|}^{-1}(1-p)) \nonumber \\
+  &=& 1-Pr(|t_{obs}| \le F_{|t|}^{-1}(1-p)) \nonumber \\
   &=&\left\{ \begin{array}{ll}
           1-F_{|t|}( F_{|t|}^{-1}(1-p))=p &\mbox{ ; under $H_0$} \\
           1-F_{|t|}( F_{|t|}^{-1}(1-p); \delta) &\mbox{ ; under $H_1$} 
