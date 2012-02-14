@@ -44,7 +44,7 @@ E[p_B] = 1 - E[X]/(m-1),
 \]
 i.e. by averaging over the number of plots with  a stronger signal than the data plot we can evaluate signal strength of the plot even in the case where the data plot is not being picked by the observer.
 
-Now assume that the same lineup plot is evaluated by $K$ independent observers. Wlog let the last plot be the data plot and plots 1 through $m-1$ the null plots. Let $n_i$ be the number of people who picked plot $i$ as the plot with the strongest expression of non-random structure, then $\sum_{k=1}^{m} n_k = K$
+Now assume that the same lineup plot is evaluated by $K$ independent observers. Wlog let the last plot be the data plot and plots 1 through $m-1$ the null plots. Let $n_i$ be the number of people who picked plot $i$ as the plot with the strongest expression of non-random structure, then $\sum_{k=1}^{m} n_k = K$, and $(n_1, n_2, ..., n_m) \sim$ Mult$_{\pi_1, ..., \pi_m}$ with $\sum_i \pi_i = 1$. We can estimate $\pi_i$ as $\widehat{\pi_i} = n_i/K$. 
 
 For the distribution of $n_m$, the number of times out of $K$ that observers picked the last plot to show the most non-random structure, we get
 \[
@@ -64,7 +64,13 @@ Even under $H_1$ we expect some observers to pick a nullplot with a probability 
    \caption{Comparison of probabilities to pick the data plot for different size lineups $m$ and different values for data plot strength $p_B$. The grey line shows probability of picking the data plot under $H_0$. We see that for a $p$ value $p_B$ of about 0.15 for the dataplot the signal in the plot is so weak, that we cannot distinguish the dataplot from nullplots in a lineup of size $m=20$. (Mahbub, is that what we see in practice?)}
    \label{power}
 \end{figure}
-
-
-
+Under $H_1$ we therefore get an estimate for the strength of the dataplot signal $p_B$ as
+\[
+\widehat{E[p_B]} = 1 - \left( \frac{n_m}{K} \right)^{1/(m-1)}.
+\]
+Similarly, we get an estimate for $E[X]$, the average number of null plots with a stronger signal strength than the data plot as the number of nullplots in the lineup with more than $n_m$ picks in their favor, which leads us to another estimate of $E[p_B]$ as 
+\[
+\widehat{E[p_B]}  = 1 - 1/(m-1) \cdot \sum_i I (n_i > n_m),
+\]
+where $I(x) = 1$ for $x$ is true and $I(x) = 0$ if $x$ is false.
 \end{document}  
