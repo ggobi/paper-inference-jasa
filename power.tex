@@ -64,13 +64,15 @@ Even under $H_1$ we expect some observers to pick a nullplot with a probability 
    \caption{Comparison of probabilities to pick the data plot for different size lineups $m$ and different values for data plot strength $p_B$. The grey line shows probability of picking the data plot under $H_0$. We see that for a $p$ value $p_B$ of about 0.15 for the dataplot the signal in the plot is so weak, that we cannot distinguish the dataplot from nullplots in a lineup of size $m=20$. (Mahbub, is that what we see in practice?)}
    \label{power}
 \end{figure}
+Based on $K$ observers, we can assume that $n_m$ votes for the dataplot represent support for the data over any of the nullplots, i.e. $\pi_m = P(X=0)$.
+
 Under $H_1$ we therefore get an estimate for the strength of the dataplot signal $p_B$ as
 \[
 \widehat{E[p_B]} = 1 - \left( \frac{n_m}{K} \right)^{1/(m-1)}.
 \]
-Similarly, we get an estimate for $E[X]$, the average number of null plots with a stronger signal strength than the data plot as the number of nullplots in the lineup with more than $n_m$ picks in their favor, which leads us to another estimate of $E[p_B]$ as 
-\[
-\widehat{E[p_B]}  = 1 - 1/(m-1) \cdot \sum_i I (n_i > n_m),
-\]
-where $I(x) = 1$ for $x$ is true and $I(x) = 0$ if $x$ is false.
+%Similarly, we get an estimate for $E[X]$, the average number of null plots with a stronger signal strength than the data plot as the number of nullplots in the lineup with more than $n_m$ picks in their favor, which leads us to another estimate of $E[p_B]$ as 
+%\[
+%\widehat{E[p_B]}  = 1 - 1/(m-1) \cdot \sum_i I (n_i > n_m),
+%\]
+%where $I(x) = 1$ for $x$ is true and $I(x) = 0$ if $x$ is false.
 \end{document}  
