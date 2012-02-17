@@ -35,12 +35,12 @@ where $p_0 = \min_{1 \le i \le m-1}  \ p_{0,i}$
 \section{Expected number of choices}
 Since $X$ has a binomial distribution, we can have a look at the number of plots among the null plots that we would expect to be picked over the data plot:
 \[
-E[X] = (m-1)(1-E[p_B]).
+E[X] = (m-1)E[p_B].
 \]
 With an increase of the lineup size $m$ the number of null plots with a potentially stronger signal than the data plot grows linearly.
 This should allow us to infer some of the signal strength $p_B$ as
 \[
-E[p_B] = 1 - E[X]/(m-1),
+E[p_B] = E[X]/(m-1),
 \]
 i.e. by averaging over the number of plots with  a stronger signal than the data plot we can evaluate signal strength of the plot even in the case where the data plot is not being picked by the observer.
 
