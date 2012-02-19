@@ -17,19 +17,19 @@
 %\maketitle
 \section{Some Power Considerations}
 
-Let us think of a lineup as a head-to-head comparison of the data plot and $m-1$ null plots. Let the data plot have a $p$ value of $p_B$, and the null plots $p$ values of $p_{0, i}$ with $1 \le i \le m-1$.
-We know that for each comparison the probability that the data plot has the smaller $p$ value is 
+Let us think of a lineup as a head-to-head comparison of the data plot and $m-1$ null plots. Let the data plot have a $p$-value of $p_B$, and the null plots $p$-values of $p_{0, i}$ with $1 \le i \le m-1$.
+We know that for each comparison the probability that the data plot has the smaller $p$-value is 
 \begin{eqnarray*}
 P(p_B < p_{0,i}) &=& 1 - P(p_{i,0} \le p_B) = 1- \int_0^1  P(p_{i,0} \le p_B \mid p_B=t) f_{p_B}(t) dt =  \\
 &=& 1 - \int_0^1 F_{p_{0,i}}(t) f_{p_B}(t) dt = 1 - \int_0^1 t f_{p_B}(t) dt = 1 - E[p_B],
 \end{eqnarray*}
 which, in particular, is independent of $p_{0,i}$ for all $i$.
 
-Let us now define $X$ as the number of null plots in a lineup, for which the $p$ value $p_{0,i}$ is smaller than $p_B$ (i.e. under the assumption that the onlooker is able to identify the chart with the smallest $p$ value, they would pick any of the $X$  null plots over the data plot). 
+Let us now define $X$ as the number of null plots in a lineup, for which the $p$-value $p_{0,i}$ is smaller than $p_B$ (i.e. under the assumption that the onlooker is able to identify the chart with the smallest $p$-value, they would pick any of the $X$  null plots over the data plot). 
 Then $X \sim B_{m-1, E[p_B]}$, and the probability that an onlooker will pick the data plot in a given lineup is 
-\[
+\begin{equation}\label{p0}
 P(X=0) = \left(1 - E[p_B] \right)^{m-1} = P(p_B \le p_0),
-\]
+\end{equation}
 where $p_0 = \min_{1 \le i \le m-1}  \ p_{0,i}$
 
 \section{Expected number of choices}
@@ -38,13 +38,34 @@ Since $X$ has a binomial distribution, we can have a look at the number of plots
 E[X] = (m-1)E[p_B].
 \]
 With an increase of the lineup size $m$ the number of null plots with a potentially stronger signal than the data plot grows linearly.
-This should allow us to infer some of the signal strength $p_B$ as
+This allows us to infer some of the signal strength $p_B$ as
 \[
 E[p_B] = E[X]/(m-1),
 \]
-i.e. by averaging over the number of plots with  a stronger signal than the data plot we can evaluate signal strength of the plot even in the case where the data plot is not being picked by the observer.
+i.e. by averaging over the number of plots with  a stronger signal than the data plot we can evaluate signal strength of the plot even in the case where the data plot is not being picked by the observer:
 
-Now assume that the same lineup plot is evaluated by $K$ independent observers. Wlog let the last plot be the data plot and plots 1 through $m-1$ the null plots. Let $n_i$ be the number of people who picked plot $i$ as the plot with the strongest expression of non-random structure, then $\sum_{k=1}^{m} n_k = K$, and $(n_1, n_2, ..., n_m) \sim$ Mult$_{\pi_1, ..., \pi_m}$ with $\sum_i \pi_i = 1$. We can estimate $\pi_i$ as $\widehat{\pi_i} = n_i/K$. 
+assume that the same lineup plot is evaluated by $K$ independent observers. Wlog let the last plot be the data plot and plots 1 through $m-1$ the null plots. Let $n_i$ be the number of people who picked plot $i$ as the plot with the strongest expression of non-random structure, then $\sum_{k=1}^{m} n_k = K$, and $(n_1, n_2, ..., n_m) \sim$ Mult$_{\pi_1, ..., \pi_m}$ with $\sum_i \pi_i = 1$. We can estimate $\pi_i$ as $\widehat{\pi_i} = n_i/K$. 
+
+We can then find an estimate for $X$, the number of null plots with a stronger signal than the data plot, as the number of null plots with more votes $n_i$ than the dataplot $n_m$. This gives an estimate for $X$ as
+\[
+\hat{X} = \sum_{i=0}^{m-1} I(n_i \ge n_m),
+\]
+where $I(x) = 1$ if $x$ is true and 0 otherwise.
+
+However, this is not a very precise estimator for $E[p_B]$, since the only possible values for the  estimates are multiples of $1/(m-1)$.
+
+As an alternative, we will make use of the fact that $\pi_m = P(X=0)$, since a vote for the dataplot implies that none of the other plots have a stronger signal.
+
+With $\widehat{\pi_m} = n_m/K$ as an estimate for $\pi_m$, we get an plugin estimate for $E[p_B]$ from eq (\ref{p0}) as
+\[
+\widehat{E[p_B]} = 1 - \left( \frac{n_m}{K} \right)^{1/(m-1)}.
+\]
+
+Since $n_m$ has a binomial distribution $n_m \sim B_{m-1, \pi_m}$, we can also derive a variance of the above estimate as
+\[
+Var \ \widehat{p_B} = K^{-2/(m-1)} Var \left[n_m^{1/(m-1)}\right]
+\]
+
 
 For the distribution of $n_m$, the number of times out of $K$ that observers picked the last plot to show the most non-random structure, we get
 \[
@@ -61,15 +82,15 @@ Even under $H_1$ we expect some observers to pick a nullplot with a probability 
 \begin{figure}[htbp] %  figure placement: here, top, bottom, or page
    \centering
    \includegraphics[width=2in]{images/powerplot.pdf} 
-   \caption{Comparison of probabilities to pick the data plot for different size lineups $m$ and different values for data plot strength $p_B$. The grey line shows probability of picking the data plot under $H_0$. We see that for a $p$ value $p_B$ of about 0.15 for the dataplot the signal in the plot is so weak, that we cannot distinguish the dataplot from nullplots in a lineup of size $m=20$. (Mahbub, is that what we see in practice?)}
+   \caption{Comparison of probabilities to pick the data plot for different size lineups $m$ and different values for data plot strength $p_B$. The grey line shows probability of picking the data plot under $H_0$. We see that for a $p$-value $p_B$ of about 0.15 for the dataplot the signal in the plot is so weak, that we cannot distinguish the dataplot from nullplots in a lineup of size $m=20$. }
    \label{power}
 \end{figure}
-Based on $K$ observers, we can assume that $n_m$ votes for the dataplot represent support for the data over any of the nullplots, i.e. $\pi_m = P(X=0)$.
-
-Under $H_1$ we therefore get an estimate for the strength of the dataplot signal $p_B$ as
-\[
-\widehat{E[p_B]} = 1 - \left( \frac{n_m}{K} \right)^{1/(m-1)}.
-\]
+%Based on $K$ observers, we can assume that $n_m$ votes for the dataplot represent support for the data over any of the nullplots, i.e. $\pi_m = P(X=0)$.
+%
+%Under $H_1$ we therefore get an estimate for the strength of the dataplot signal $p_B$ as
+%\[
+%\widehat{E[p_B]} = 1 - \left( \frac{n_m}{K} \right)^{1/(m-1)}.
+%\]
 %Similarly, we get an estimate for $E[X]$, the average number of null plots with a stronger signal strength than the data plot as the number of nullplots in the lineup with more than $n_m$ picks in their favor, which leads us to another estimate of $E[p_B]$ as 
 %\[
 %\widehat{E[p_B]}  = 1 - 1/(m-1) \cdot \sum_i I (n_i > n_m),
