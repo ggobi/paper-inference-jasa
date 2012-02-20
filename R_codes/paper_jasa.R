@@ -238,20 +238,34 @@ p
 ggsave(p,file="../images/p_val_percent_correct.pdf", height = 4.25, width = 10)
 
 
+
+# ----- p-value vs plot signal strength --------------------
+
+pdat <- NULL
+for (i in 1:3){
+   dati <- eval(parse(text=paste("dat",i,sep="")))
+   pdati <- ddply(dati, .(p_value, sample_size), summarize,
+	  attempted = sum(response==response),
+	  corrected = sum(response=="TRUE"),
+	  percent_correct = ifelse(sum(response=="TRUE")>0,sum(response=="TRUE")*100/sum(response==response),1*100/sum(response==response))
+	)
+   pdati$experiment=paste("experiment",i)
+   pdat <- rbind(pdat,pdati)
+}
+
+
 pdat$strength <- 1- (pdat$percent_correct/100)^(1/19)
-pdat$a <- 0
-pdat$b <- 1
 
 
 p <- ggplot(pdat) +
      geom_point(aes(p_value,strength),size=2) + 
      facet_grid(.~experiment) +
      xlab(expression(paste("p-value(",p[B],")"))) +
-     ylab("plot signal strength") + geom_abline(aes(intercept=0,slope=1))
+     ylab("plot signal strength") + 
+     geom_abline(aes(intercept=0,slope=1))
 p 
 
 
- ylim(-.3,.2) + xlim(0,.2) 
 
 # -------- Hieke's code for power vs m and p-value------------------
 
