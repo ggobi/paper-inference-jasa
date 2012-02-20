@@ -264,9 +264,9 @@ E[X] = (m-1)(1-E[p_B]).
 \]
 With an increase of the lineup size $m$ the number of null plots with a potentially stronger signal than the data plot grows linearly.
 This should allow us to infer some of the signal strength $p_B$ as
-\[
+\begin{equation} \label{plot_signal}
 E[p_B] = 1 - E[X]/(m-1),
-\]
+\end{equation}
 i.e. by averaging over the number of plots with  a stronger signal than the data plot we can evaluate signal strength of the plot even in the case where the data plot is not being picked by the observer.
 
 Now assume that the same lineup plot is evaluated by $K$ independent observers. Wlog let the last plot be the data plot and plots 1 through $m-1$ the null plots. Let $n_i$ be the number of people who picked plot $i$ as the plot with the strongest expression of non-random structure, then $\sum_{k=1}^{m} n_k = K$
@@ -448,6 +448,15 @@ For this experiment we generate five replications of observed data sets for each
        \caption{Percentage of correct responses decreases rapidly with the increase of p-value. After p-value exceeds 1.5 it is very unlikely to identify the observed plot. The theoretical justification of this is shown in figure \ref{fig:pval_power}}
        \label{fig:pval_pcorrect}
 \end{figure*}
+
+\begin{figure*}[hbtp]
+   \centering
+       \scalebox{0.6}{\includegraphics{p_val_plot_signal.pdf}}
+       \caption{p-value vs plot signal strength. The solid line represents 45 degree line which represents the equity shown in equation \eqref{plot_signal}}
+       \label{fig:pval_plot_signal}
+\end{figure*}
+
+
 
 
 Participants for all the experiments were recruited through \cite{turk} Amazon's Mechanical Turk. Each participant was shown a sequence of 10 lineup plots. Participants are asked to select the plot with the biggest vertical difference, give a reason for their choice, and determine a level of  confidence for their decision. Gender, age, education and geographic location of each participant are also collected.
