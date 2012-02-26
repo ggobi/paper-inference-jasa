@@ -18,10 +18,10 @@
 \section{Some Power Considerations}
 
 Let us think of a lineup as a head-to-head comparison of the data plot and $m-1$ null plots. Let the data plot have a $p$-value of $p_B$, and the null plots $p$-values of $p_{0, i}$ with $1 \le i \le m-1$.
-We know that for each comparison the probability that the data plot has the smaller $p$-value is 
+We know that for each comparison the probability that the null plot has the smaller $p$-value is 
 \begin{eqnarray*}
-P(p_B < p_{0,i}) &=& 1 - P(p_{i,0} \le p_B) = 1- \int_0^1  P(p_{i,0} \le p_B \mid p_B=t) f_{p_B}(t) dt =  \\
-&=& 1 - \int_0^1 F_{p_{0,i}}(t) f_{p_B}(t) dt = 1 - \int_0^1 t f_{p_B}(t) dt = 1 - E[p_B],
+P(p_{i,0} < p_B) &=& \int_0^1  P(p_{i,0} \le p_B \mid p_B=t) f_{p_B}(t) dt =  \\
+&=& \int_0^1 F_{p_{0,i}}(t) f_{p_B}(t) dt =  \int_0^1 t f_{p_B}(t) dt =  E[p_B],
 \end{eqnarray*}
 which, in particular, is independent of $p_{0,i}$ for all $i$.
 
@@ -57,14 +57,24 @@ However, this is not a very precise estimator for $E[p_B]$, since the only possi
 As an alternative, we will make use of the fact that $\pi_m = P(X=0)$, since a vote for the dataplot implies that none of the other plots have a stronger signal.
 
 With $\widehat{\pi_m} = n_m/K$ as an estimate for $\pi_m$, we get an plugin estimate for $E[p_B]$ from eq (\ref{p0}) as
-\[
+\begin{equation}\label{signal}
 \widehat{E[p_B]} = 1 - \left( \frac{n_m}{K} \right)^{1/(m-1)}.
-\]
+\end{equation}
 
 Since $n_m$ has a binomial distribution $n_m \sim B_{m-1, \pi_m}$, we can also derive a variance of the above estimate as
 \[
 Var \ \widehat{p_B} = K^{-2/(m-1)} Var \left[n_m^{1/(m-1)}\right]
 \]
+
+Figure \ref{fig:pval_plot_signal} shows a comparison of simulation based $p$-values resulting from model theory ($x$-axis) and graphical signal strength, defined in eq. (\ref{signal}) evaluated through experimentation.
+Up to about a $p$-value of 0.15 there is a linear dependency between the two measures. Beyond that, the graphical signal strength flattens out. This `flattening out' is due to a reduction of the signal to noise ratio and is driven by the size $m$ of the lineup.
+\begin{figure*}[hbtp]
+   \centering
+       \scalebox{0.6}{\includegraphics{images/p_val_plot_signal.pdf}}
+       \caption{p-value vs plot signal strength. The solid line represents 45 degree line which represents the equity shown in equation (\ref{plot_signal}).}
+       \label{fig:pval_plot_signal}
+\end{figure*}
+
 
 
 For the distribution of $n_m$, the number of times out of $K$ that observers picked the last plot to show the most non-random structure, we get
@@ -77,7 +87,6 @@ B_{K, 1/m} & \text { under } H_0
 \right .
 \]
 Figure \ref{power} gives an overview of the probability of picking the dataplot for lineups of different size (as $m$ increases we have an increased probability to observe a more highly structured nullplot by chance).
-Even under $H_1$ we expect some observers to pick a nullplot with a probability that depends on the strength of the signal in our dataplot, i.e. reversely, we should be able to make use of the number of people who do not pick the dataplot in a lineup, to infer the strength of the signal of the dataplot.
 
 \begin{figure}[htbp] %  figure placement: here, top, bottom, or page
    \centering
@@ -85,15 +94,9 @@ Even under $H_1$ we expect some observers to pick a nullplot with a probability 
    \caption{Comparison of probabilities to pick the data plot for different size lineups $m$ and different values for data plot strength $p_B$. The grey line shows probability of picking the data plot under $H_0$. We see that for a $p$-value $p_B$ of about 0.15 for the dataplot the signal in the plot is so weak, that we cannot distinguish the dataplot from nullplots in a lineup of size $m=20$. }
    \label{power}
 \end{figure}
-%Based on $K$ observers, we can assume that $n_m$ votes for the dataplot represent support for the data over any of the nullplots, i.e. $\pi_m = P(X=0)$.
-%
-%Under $H_1$ we therefore get an estimate for the strength of the dataplot signal $p_B$ as
-%\[
-%\widehat{E[p_B]} = 1 - \left( \frac{n_m}{K} \right)^{1/(m-1)}.
-%\]
-%Similarly, we get an estimate for $E[X]$, the average number of null plots with a stronger signal strength than the data plot as the number of nullplots in the lineup with more than $n_m$ picks in their favor, which leads us to another estimate of $E[p_B]$ as 
-%\[
-%\widehat{E[p_B]}  = 1 - 1/(m-1) \cdot \sum_i I (n_i > n_m),
-%\]
-%where $I(x) = 1$ for $x$ is true and $I(x) = 0$ if $x$ is false.
+
+\section{The Flattening out}
+The flattening out in figure \ref{fig:pval_plot_signal} happens, when the signal in the data plot becomes too low to make it distinguishable from a nullplot. 
+Under $H_0$ the $p$-value of the data plot $p_B \sim U[0,1]$. If we can assume that an observer is able to pick out the plot corresponding to the minimal $p$-value, we have a distribution of $Beta_{1, m}$ for the picked plot. 
+
 \end{document}  
