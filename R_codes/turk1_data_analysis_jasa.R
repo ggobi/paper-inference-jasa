@@ -1,7 +1,17 @@
 #Turk1 data analysis for jasa paper last modified on Feb 5, 2012 by Mahbub.
 
+library(ggplot2)
 
-dat <- read.csv("../data/feedback_data_turk1_50p.txt")
+raw.dat <- read.csv("../data/raw_data_turk1.csv")
+
+dp <- ddply(raw.dat,.(id),summarise,
+   attempted = sum(response==response),
+   corrected = sum(response==TRUE),
+   percent_correct = sum(response==TRUE)*100/sum(response==response)
+  )
+
+included_id <- subset(dp,percent_correct > 20)$id
+dat <- subset(raw.dat, id %in% included_id)
 
 # ---------------------  description of coded variables in the data -----------
 
@@ -98,10 +108,11 @@ get_ump_power <- function(dat,test="UMP"){
 dat_emp_pow <- get_smooth_power(dat)
 dat_ump_pow <- get_ump_power(dat)
 
-p <- ggplot(dat_emp_pow,aes(beta,pow)) + geom_line(aes(colour=test))
-p <- p + geom_line(aes(beta,pow, colour=test), data=dat_ump_pow)
-p <- p + facet_grid(sample_size~sigma)
-p + xlab(expression(beta))+ylab("Power")
+p <- ggplot(dat_emp_pow,aes(beta,pow)) + geom_line(aes(colour=test)) +
+     geom_line(aes(beta,pow, colour=test), data=dat_ump_pow) +
+     facet_grid(sample_size~sigma) +
+     xlab(expression(beta))+ylab("Power")
+p
 
 
 
@@ -221,7 +232,8 @@ ggsave(p, filename="../images/power_loess_exp1.pdf", height=5.5, width=8.5)
 
 # --------------- p_value vs %correct ----------------------------------
 
-pdat <- ddply(dat, .(p_value, sample_size), summarize,
+pdat <- ddply(dat, .(pic_name), summarize,
+   p_value = mean(p_value),
 	attempted = sum(response==response),
 	corrected = sum(response=="TRUE"),
 	percent_correct = sum(response=="TRUE")*100/sum(response==response)
@@ -229,14 +241,34 @@ pdat <- ddply(dat, .(p_value, sample_size), summarize,
 
 # pdat$percent_correct <- pdat$corrected*100/pdat$attempted
 
-p <- ggplot() +
-     geom_point(aes(p_value,percent_correct),data=pdat,size=2) + 
+p <- ggplot(pdat) +
+     geom_point(aes(p_value,percent_correct)) + 
      xlab(expression(paste("p-value(",p[B],")"))) +
-     ylab("Percentage of correct responses")
+     ylab("Percentage of correct responses") 
 p 
 
 ggsave("../images/p_val_percent_correct.pdf")
 
+pdat$lbl <-""
+indx <- with(pdat,(percent_correct>30 & p_value>.05) | (percent_correct>5 & p_value>.5))
+pdat$lbl[indx] <- as.character(pdat$pic_name[indx])
+pdat$angle <- 0
+pdat$angle[pdat$percent_correct>5 & pdat$p_value>.5] <- 90
+
+p <- ggplot(pdat,aes(p_value,percent_correct,label=lbl)) +
+     geom_point() + geom_text(hjust=-.05,vjust=0,aes(angle=angle)) +
+     xlab(expression(paste("p-value(",p[B],")"))) +
+     ylab("Percentage of correct responses") +
+     geom_vline(xintercept=0.05) + geom_hline(yintercept=5) +geom_smooth()
+p 
+
+
+subset(dat,pic_name=="plot_turk1_100_1_5_1.png")
+subset(dat,pic_name=="plot_turk1_100_0_5_1.png")
+subset(dat,pic_name=="plot_turk1_300_1_12_1.png")
+
+subset(dat,pic_name=="plot_turk1_100_1_5_3.png")
+subset(dat,pic_name=="plot_turk1_100_1_12_3.png")
 
 # ------------- observed and theorectical power curves ------------------------------
 
