@@ -1,19 +1,24 @@
-#Turk1 data analysis for jasa paper last modified on Feb 5, 2012 by Mahbub.
+#Turk1 data analysis for jasa paper last modified on Mar 1, 2012 by Mahbub.
 
 library(ggplot2)
 
 raw.dat <- read.csv("../data/raw_data_turk1.csv")
 
-dp <- ddply(raw.dat,.(id),summarise,
-   attempted = sum(response==response),
-   corrected = sum(response==TRUE),
-   percent_correct = sum(response==TRUE)*100/sum(response==response)
+# ========== policy for excluding bad data =========
+# Everyone is given at least one easy lineup. If a person can't correctly
+# evaluate 50% of those extremely easy lineups, all his responses are discarded.
+# A lineup with p_value < 0.0002 is considered easy
+
+
+dp <- ddply(subset(raw.dat, p_value < 0.0002),.(id),summarise,
+   percent_correct = sum(response==TRUE)*100/length(response)
   )
 
-included_id <- subset(dp,percent_correct > 20)$id
+included_id <- dp$id[ dp$percent_correct > 49]
 dat <- subset(raw.dat, id %in% included_id)
 
-# ---------------------  description of coded variables in the data -----------
+
+# ------------ description of coded variables in the data -----------
 
 # gender 1 = male 
          2 = female
@@ -43,12 +48,9 @@ dat <- subset(raw.dat, id %in% included_id)
 # ------function to calculate UMP power -----------------------
 
 calculate_ump_power <- function (beta, n, sigma){
-	alpha <- 0.05
-	sigmasq <- sigma^2
-	beta_not <- 0
-	se_beta <- sqrt(sigmasq/(n*(.5^2)))    # refer to docs derivation of power
+	alpha <- 0.05/2
+	se_beta <- sigma/(0.5 * sqrt(n))    # refer to docs derivation of power
 	mu <- beta/se_beta
-	alpha <- alpha/2
 	t_n <- qt(p=1-alpha,df=n-3)
 	res <- pt(q=-t_n, df=n-3, ncp=mu)-pt(q=t_n, df=n-3, ncp=mu)+1
 	return(res)
@@ -218,7 +220,7 @@ p
 
 
 p <- ggplot() +
-     geom_point(aes(beta,as.numeric(response), size=responses), data=dat_obs_val) +
+     geom_point(aes(beta,as.numeric(response), size=responses), data=dat_obs_val, colour=alpha("black",.3)) +
      geom_ribbon(aes(x=beta,ymin=limit1,ymax=limit2), data=dat_boot_ribbon, fill=alpha("grey",.9)) +
      geom_line(aes(beta,pow, colour=test), data=dat_emp_pow) +
      geom_line(aes(beta,pow, colour=test), data=dat_ump_pow) +
