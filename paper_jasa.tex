@@ -100,33 +100,61 @@ A lineup plot is a layout of $m$ visual statistics, consisting of
 \end{itemize}
 \end{dfn}
 
-The $(m-1)$ null plots can be considered to be samples drawn from the sampling distribution of the the test statistic assuming that the null hypothesis is true. If $H_1$ is true, the most different plot is expected to be the test statistic, i.e, the plot of the data. {\em If the test statistic cannot be identified} in the lineup the conclusion is to {\em not reject the null hypothesis.}  A careful visual insfection follows, and the observer is asked to point out the plot most different from the lineup.
-
+The $(m-1)$ null plots can be considered to be samples drawn from the sampling distribution of the test statistic assuming that the null hypothesis is true.
+If $H_1$ is true, \blue{we expect this to be reflected as a feature in the test statistic, i.e. the plot of the data, that makes it visually distinguishable from the null plots.}
+{\em If the test statistic cannot be identified} in the lineup the conclusion is to {\em not reject the null hypothesis.}  A careful visual inspection follows, and the observer is asked to point out the plot most different from the lineup.
 
 Since the lineup plot consists of $m$ plots, the probability of choosing any one of them is $1/m$. Thus we have type-I error probability of $1/m$.
 
-The lineup plot can be evaluated by one or more individuals. When a single individual identifies the observed graph in the lineup plot we report a $p$-value of at most $1/m$, otherwise the $p$-value is at least $1-\frac 1m$. 
+%The lineup plot can be evaluated by one or more individuals. When a single individual identifies the observed graph in the lineup plot we report a $p$-value of at most $1/m$, otherwise the $p$-value is at least $1-\frac 1m$. 
 
-If $N$ individuals evaluate a lineup plot independently, the number of successful evaluations, $U \sim \text{Binom} (N,\frac{1}{m})$ and we report a  $p$-value of at most $Pr(U \ge u)= \sum_{k \ge u}^N {{N \choose k} (\frac{1}{m})^k(1-\frac 1m)^{(N-k)}}$ where $u$ is the observed number of successful evaluations. %Notice that when $N=1$, this $p$-value is $\frac1m$. 
+%If $N$ individuals evaluate a lineup plot independently, the number of successful evaluations, $U \sim \text{Binom} (N,\frac{1}{m})$ and we report a  $p$-value of at most $Pr(U \ge u)= \sum_{k \ge u}^N {{N \choose k} (\frac{1}{m})^k(1-\frac 1m)^{(N-k)}}$ where $u$ is the observed number of successful evaluations. %Notice that when $N=1$, this $p$-value is $\frac1m$. 
 
 %\subsection{Power}
 
-For two different visual test statistics of the same observed data, the one  is better, in which a specific pattern is more easily distinguishable visually. This should be reflected in the power of the test. We can assess power therefore both empirically based on experimental data and through theoretical considerations. Next, we will develop power theoretically and then relate it to the empirical results.
+For two different visual test statistics of the same observed data, the one  is better, in which a specific pattern is more easily distinguishable to the observer. This should be reflected in the power of the test. We can assess power therefore both empirically based on experimental data and through theoretical considerations. 
+\blue{
+
+\begin{dfn} \label{dfn:test}
+A \textit{visual test} $T_\theta$ is defined as the grammar \citep{wilkinson:1999} of the plot used in the lineup. The grammar consists of type and specification of aesthetics necessary for complete reproducibility.
+\end{dfn}
+}
+Next, we will develop power theoretically and then relate it to the empirical results.
 
 \begin{dfn} \label{dfn:power}
-For a lineup of $m$ plots the power of $\theta$ is defined as 
+\red{HH: I don't think power should be defined in terms of $\theta$ Usually power is considered a property of the test.  In our case that's the specifics of the plot used for the lineup. We might need an additional definition for that - maybe we can phrase that within the framework of the grammar of graphics? - that's what I've tried above}
+
+For a lineup of $m$ plots the power of \blue{a visual test}
+%$\theta$
+ is defined as 
     \begin{equation*}
-      \text{Power}(\theta)= 
+      \text{Power}(T_\theta)= 
         \begin{cases} 
               \text{Type-I error}=\frac1m & \text{if $\theta \in \Theta_0$,} \\
               Pr(\text{Reject } H_0) &\text{if $\theta \in \Theta^c_0$.}
         \end{cases}
     \end{equation*}
 \end{dfn}
+\red{this is a non-standard definition of power - usually power is just the prob to reject under $H_1$. could we back the non-standard definition up with some literature?}
 
-Power has a lower limit of $\frac1m$ since the probability that a person will randomly pick the test statistic under $H_0$ is $\frac1m$. In general,  $Pr(\text{Reject } H_0)$ is determined by the type of test being conducted. Theoretical power for the regression parameters is derived in the next section.
+\red{HH: let's try to keep the power discussion as general as possible, and only use regression as an example.}
+
+For any single observer, the power of a visual test has a lower limit of $\frac1m$ since the probability that an observer will randomly pick the test statistic under $H_0$ is $\frac1m$. 
+
+% HH: I think this is covered by making power a property of the test
+% In general,  $Pr(\text{Reject } H_0)$ is determined by the type of test being conducted. 
 
 
+\red{HH: We need to define p values corresponding to the data shown in plots. }
+\red{second step: the p-values under $H_0$ are uniform.}
+
+
+
+
+
+
+
+Theoretical power for the regression parameters is derived in the next section.
 \section{Inference for a Regression Model} \label{sec:regression}
 
 Consider a linear regression model 
@@ -136,9 +164,9 @@ where $\epsilon_i \stackrel{iid}{ \sim } N(0,\sigma^2)$, $i=1,2, .., n$. The cov
 
 Suppose $X_k$ is a categorical variable with two levels, and we test the hypothesis $H_0:\beta_k=0$ vs $H_1: \beta_k \ne 0$. If the responses for the two levels of the categorical variable $X_k$ in the model are significantly different and we fit the null model to the observed data, the resulting residual plot shows two groups of residuals. To test this we generate side-by-side boxplots of the residuals conditioned on the two levels of $X_k$, as the test statistic. If $\beta_k\ne 0$ the boxplots show a vertical displacement. 
 
-In a regression setting, there is a multitude of established graphics that help with the evaluation and diagnostics of a model (e.g. Cook \& ... ). Table \ref{tbl:stat_multiple} shows an overview of some commonly used charts and their corresponding hypothesis tests. Note that some charts can be associated with several different testing situations. In our paper, we pick the example fo situation 2 and 3 as candidates.
+In a regression setting, there is a multitude of established graphics that help with the evaluation and diagnostics of a model \citep{cook:99}. Table \ref{tbl:stat_multiple} shows an overview of some commonly used charts and their corresponding hypothesis tests. Note that some charts can be associated with several different testing situations. In our paper, we pick the examples for situation 2 and 3 as candidates.
 
-A lineup including this test statistic is shown in Figure \ref{fig:test_category}. The 19 null plots are generated  by simulating residuals from $N(0,\hat{\sigma^2})$. The test statistic, the plot containing the observed data, is randomly placed among these null plots. If the test statistic is identifiable the null hypothesis is rejected with a $p$-value of at most 0.05.
+A lineup including this test statistic is shown in Figure \ref{fig:test_category}. The 19 null plots are generated  by simulating residuals from $N(0,\hat{\sigma^2})$. The test statistic, the plot containing the observed data, is randomly placed among these null plots. If the test statistic is identifiable the null hypothesis is rejected. % with a $p$-value of at most 0.05.
 
 \begin{figure}[hbt]
 %\begin{figurehere}
@@ -177,7 +205,8 @@ Case & Null Hypothesis & Statistic & Test Statistic & Description \\ [0.5ex] % i
 
 % Di: This is specific for the regression model
 %Consider the hypothesis test $H_0: \beta_k=0$ against $H_1: \beta_k \ne 0$ in model \ref{multi}.
-Now consider estimating the power of the visual test. Suppose $F_{|t|}(.)$ be the distribution function of an absolute value of $t$. For the regression slope parameter $\beta$ suppose the associated test statistic in classical test be $t_{obs}$ with $p$-value $p_B$. By definition we have 
+Now consider estimating the power of the visual test. 
+Suppose $F_{|t|}(.)$ is the distribution function of an absolute value of $t$. For the regression slope parameter $\beta$ suppose the associated test statistic in classical test be $t_{obs}$ with $p$-value $p_B$. By definition we have 
 
 $$p_B=Pr(|t| \ge t_{obs}| H_0)=1-F_{|t|}(t_{obs}) \Rightarrow |t_{obs}|=F_{|t|}^{-1}(1-p_B)$$
 
