@@ -49,7 +49,7 @@ dat <- subset(raw.dat, id %in% included_id)
 
 calculate_ump_power <- function (beta, n, sigma){
 	alpha <- 0.05/2
-	se_beta <- sigma/(0.5 * sqrt(n))    # refer to docs derivation of power
+	se_beta <- sigma/(0.5 * sqrt(n))    # refer to docs for derivation of power
 	mu <- beta/se_beta
 	t_n <- qt(p=1-alpha,df=n-3)
 	res <- pt(q=-t_n, df=n-3, ncp=mu)-pt(q=t_n, df=n-3, ncp=mu)+1
@@ -209,6 +209,7 @@ dat_boot_ribbon <-  ddply(dat_boot_pow,.(beta,sample_size,sigma), summarize,
            limit2 = quantile(pow,.975, na.rm=T)
            )
 dat_boot_ribbon <- rbind(dat_boot_ribbon,cbind(beta= -dat_boot_ribbon[,1],dat_boot_ribbon[,-1]))
+
 p <- ggplot() +
      geom_point(aes(beta,as.numeric(response), size=responses), data=dat_obs_val, colour=alpha("red",.3)) +
      geom_ribbon(aes(x=beta,ymin=limit1,ymax=limit2), data=dat_boot_ribbon, fill=alpha("red",.2)) +
