@@ -342,7 +342,7 @@ Figure \ref{fig:power_expected} shows the power of the uniformly most powerful t
 %
 
 
-\subsection{Other methods to obtain power}
+\subsection{Estimating Power from Lineups}
 
 We estimate the empirical power from responses on a specific lineup plot  generated with known values of sample size ($n$), variance ($\sigma^2$) and regression parameter ($\beta$) in model \ref{multi}. Suppose, we have responses from $N$ independent observers with $u$ identifications of the observed plot. This gives an estimated power of
 \begin{equation}\label{power_est} Power(\beta)=\frac{u}{N} \hspace{1cm} 0 \le u \le N \end{equation}
@@ -355,7 +355,7 @@ g(\pi_{ij}) = X_{ij}B  + Z_{ij} \tau_j
 \label{mixed} 
 \end{equation}
 %
-where $\tau_j$ is random effects coefficient vector of length $q$ for subject $j$,  $\tau_j  \sim  MVN(0,\Sigma)$ with variance covariance matrix $\Sigma$, $Z_{ij}$ is the $i$th row vector of random effects covariates for subject $j$, $B$ is a vector of coefficient of length $p$, the number of fixed effect covariates being used, $X_{ij}$ is the $i$th row vector of the fixed effects covariates for subject $j$ and link function $g(\mu)=log(\frac{\mu}{1-\mu}); 0 \le \mu \le 1$. The covariates could be demographic information of people such as age, gender, education level etc. as well as sample size ($n$), regression parameter ($\beta$) and variance ($\sigma^2$) of model \ref{multi}. 
+where $\tau_j$ is random effects coefficient vector of length $q$ for subject $j$,  $\tau_j  \sim  MVN(0,\Sigma)$ with variance covariance matrix $\Sigma$, $Z_{ij}$ is the $i$th row vector of random effects covariates for subject $j$, $B$ is a vector of coefficient of length $p$, the number of fixed effect covariates being used, $X_{ij}$ is the $i$th row vector of the fixed effects covariates for subject $j$ and logit link function $g(\pi)=\log(\pi) - \log(1-\pi); 0 \le \pi \le 1$. The covariates could be demographic information of people such as age, gender, education level etc. as well as sample size ($n$), regression parameter ($\beta$) and variance ($\sigma^2$) of model \ref{multi}. 
 
 From model \ref{mixed} we obtain %$\pi=Pr(Y=1|X_1, X_2, ..., X_p)$, 
 the power of the underlying testing procedure as a population average %by ignoring the random effect part. 

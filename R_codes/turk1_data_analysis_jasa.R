@@ -10,6 +10,8 @@ raw.dat <- read.csv("../data/raw_data_turk1.csv")
 # evaluate 50% of those extremely easy lineups, all his responses are discarded.
 # A lineup with p_value < 0.0002 is considered easy
 
+raw.dat$id <- raw.dat$nick_name
+raw.dat$response <- raw.dat$response_no == raw.dat$plot_location
 
 dp <- ddply(subset(raw.dat, p_value < 0.0002),.(id),summarise,
    percent_correct = sum(response==TRUE)*100/length(response)
@@ -86,6 +88,9 @@ calculate_ump_power <- function (beta, n, sigma){
 }
 
 calculate_ump_power(3,100,5)
+calculate_ump_power(3,300,5)
+
+calculate_ump_power(3/5,300,1)
 
 
 
