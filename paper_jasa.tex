@@ -122,23 +122,22 @@ For two different visual test statistics of the same observed data, the one  is 
 A \textit{visual test} $T_\theta$ is defined as the grammar \citep{wilkinson:1999} of the plot used in the lineup. The grammar consists of type and specification of aesthetics necessary for complete reproducibility.
 \end{dfn}
 }
-Next, we will develop power theoretically and then relate it to the empirical results.
+%Next, we will develop power theoretically and then relate it to the empirical results.
+\blue{We will first theoretically define and  derive the power of  a visual test in the setting of a parametric hypothesis test, i.e. we assume a test  of $H_0: \theta = 0$ vs $H_1: \theta \neq 0$ for some real valued parameter vector $\theta$. In a next step we will then relate the theoretical results to our empirical findings.}
+
 
 \begin{dfn} \label{dfn:power}
-\red{HH: I don't think power should be defined in terms of $\theta$ Usually power is considered a property of the test.  In our case that's the specifics of the plot used for the lineup. We might need an additional definition for that - maybe we can phrase that within the framework of the grammar of graphics? - that's what I've tried above}
-
-For a lineup of $m$ plots the power of \blue{a visual test}
+For a lineup of $m$ plots the power of \blue{a visual test} $T$
 %$\theta$
  is defined as 
     \begin{equation*}
-      \text{Power}(T_\theta)= 
+      \text{Power}_T(\theta)= 
         \begin{cases} 
               \text{Type-I error}=\frac1m & \text{if $\theta \in \Theta_0$,} \\
               Pr(\text{Reject } H_0) &\text{if $\theta \in \Theta^c_0$.}
         \end{cases}
     \end{equation*}
 \end{dfn}
-\red{this is a non-standard definition of power - usually power is just the prob to reject under $H_1$. could we back the non-standard definition up with some literature?}
 
 \red{HH: let's try to keep the power discussion as general as possible, and only use regression as an example.}
 
@@ -149,11 +148,29 @@ For any single observer, the power of a visual test has a lower limit of $\frac1
 
 \red{HH: We need to define p values corresponding to the data shown in plots. }
 
-\blue{Let $D$ be a measure for the effect contained in a data set. We will assume that $D$ follow a distribution $F_D$. Let $p_D$ be the $p$-value associated with the data shown in the test statistic. 
+\red{HH: the following paragraph needs some adjustment in terms of t and $\theta$ - could you try to take of that, Mahbub?}
+Suppose $F_{|t|}(.)$ is the distribution function of an absolute value of $t$. For the regression slope parameter $\beta$ suppose the associated test statistic in classical test be $t_{obs}$ with $p$-value $p_B$. By definition we have 
 
-Similarly, we will assume that $p_{0,i}$, $i=1, ..., m-1$ are the $p$-values associated with data corresponding to the $m-1$ null plots. Since this data is generated consistently with the null hypothesis, the $p$-values follow a standard Uniform distribution, $p_{i,0} \sim U[0,1], i= 1, ..., m-1$. }
+$$p_B=Pr(|t| \ge t_{obs}| H_0)=1-F_{|t|}(t_{obs}) \Rightarrow |t_{obs}|=F_{|t|}^{-1}(1-p_B)$$
 
-\red{move power consideration up:}
+Now suppose $F_{|t|}(.;\delta)$ denotes the distribution function of an absolute value of $t$ distribution with non-centrality parameter $\delta$. Thus the distribution function of $p-value$ be  
+\begin{eqnarray}\label{dist_p}
+F{p_B}(p) &=& Pr(p_B \le p)=1-Pr(1-p_B \le 1-p) \nonumber \\
+  &=& 1-Pr(F_{|t|}^{-1}(1-p_B) \le F_{|t|}^{-1}(1-p) ) \nonumber \\
+  &=& 1-Pr(|t_{obs}| \le F_{|t|}^{-1}(1-p)) \nonumber \\
+  &=&\left\{ \begin{array}{ll}
+          1-F_{|t|}( F_{|t|}^{-1}(1-p))=p &\mbox{ ; under $H_0$} \\
+          1-F_{|t|}( F_{|t|}^{-1}(1-p); \delta) &\mbox{ ; under $H_1$} 
+       \end{array} \right.     
+\end{eqnarray}
+
+Thus the density of $p_B$ is Uniform(0,1)  under $H_0$. As noted by \cite{Ruppert:2007}, under $H_1$ the density $$f_{P_B}(p_B; \delta)= \frac{f_{|t|}(F_{|t|}^{-1}(1-p_B);\delta)}{f_{|t|}(F_{|t|}^{-1}(1-p_B))}$$ derived from equation \ref{dist_p}  is a right skewed distribution.  
+
+
+
+\blue{Similarly, we will assume that $p_{0,i}$, $i=1, ..., m-1$ are the $p$-values associated with data corresponding to the $m-1$ null plots. Since this data is generated consistently with the null hypothesis, the $p$-values follow a standard Uniform distribution, $p_{i,0} \sim U[0,1], i= 1, ..., m-1$. }
+
+\red{HH: $p_D$ isn't defined yet}
 
 Let us think of a lineup as a head-to-head comparison of the test statistic and $m-1$ null plots. 
 %Let the data plot have a $p$-value of $p_D$, and the null plots $p$ values of $p_{0, i}$ with $1 \le i \le m-1$.
@@ -202,11 +219,25 @@ B_{K, 1/m} & \text { under } H_0
 \]
 
 Under $H_1$ we therefore get an estimate for the strength of the signal in the test statistic based on a lineup evaluation as 
-\[
+\begin{equation}\label{eqn:power_estimate}
 \widehat{E[p_D]} = 1- \left(\frac{n_m}{K}\right)^{1/(m-1)}.
+\end{equation}
+
+\blue{Note that the right hand side of equation (\ref{eqn:power_estimate}) is independent of the parameter $\theta$, but just based on the lineup evaluation by independent observers. This allows us to compute this value independently of the parametric setting. We therefore define the {\it signal strength} of a  visual test as the following:
+
+\begin{dfn} \label{dfn:signal}
+The {\it signal strength} $\sigma_T$ of a visual test is defined as the probability to identify the data plot.
+\end{dfn}
+
+In a lineup of size $m$, evaluated by $K$ independent observers,  we can estimate the signal strength of the test as
+\[
+\sigma_T^{m-1} = \frac{n_m}{K}.
 \]
 
-\red{We need comment on how this ties in to the rest of the paper: this is a theoretical consideration based on the assumption that observers are able to spot the plot with the smallest/a small $p$-value.}
+In a parametric setting, signal strength of a test coincides with the power of the test.
+}
+
+\red{We need to comment on how this ties in to the rest of the paper: this is a theoretical consideration based on the assumption that observers are able to spot the plot with the smallest/a small $p$-value.}
 
 Theoretical power for the regression parameters is derived in the next section.
 \section{Inference for a Regression Model} \label{sec:regression}
@@ -259,24 +290,24 @@ Case & Null Hypothesis & Statistic & Test Statistic & Description \\ [0.5ex] % i
 
 % Di: This is specific for the regression model
 %Consider the hypothesis test $H_0: \beta_k=0$ against $H_1: \beta_k \ne 0$ in model \ref{multi}.
-Now consider estimating the power of the visual test. 
-Suppose $F_{|t|}(.)$ is the distribution function of an absolute value of $t$. For the regression slope parameter $\beta$ suppose the associated test statistic in classical test be $t_{obs}$ with $p$-value $p_B$. By definition we have 
-
-$$p_B=Pr(|t| \ge t_{obs}| H_0)=1-F_{|t|}(t_{obs}) \Rightarrow |t_{obs}|=F_{|t|}^{-1}(1-p_B)$$
-
-\red{HH: the following paragraph should probably move up, but I'm not sure how to change it appropriately. Mahbub, could you take care of that?}
-Now suppose $F_{|t|}(.;\delta)$ denotes the distribution function of an absolute value of $t$ distribution with non-centrality parameter $\delta$. Thus the distribution function of $p-value$ be  
-\begin{eqnarray}\label{dist_p}
-F{p_B}(p) &=& Pr(p_B \le p)=1-Pr(1-p_B \le 1-p) \nonumber \\
-  &=& 1-Pr(F_{|t|}^{-1}(1-p_B) \le F_{|t|}^{-1}(1-p) ) \nonumber \\
-  &=& 1-Pr(|t_{obs}| \le F_{|t|}^{-1}(1-p)) \nonumber \\
-  &=&\left\{ \begin{array}{ll}
-          1-F_{|t|}( F_{|t|}^{-1}(1-p))=p &\mbox{ ; under $H_0$} \\
-          1-F_{|t|}( F_{|t|}^{-1}(1-p); \delta) &\mbox{ ; under $H_1$} 
-       \end{array} \right.     
-\end{eqnarray}
-
-Thus the density of $p_B$ is Uniform(0,1)  under $H_0$. As noted by \cite{Ruppert:2007}, under $H_1$ the density $$f_{P_B}(p_B; \delta)= \frac{f_{|t|}(F_{|t|}^{-1}(1-p_B);\delta)}{f_{|t|}(F_{|t|}^{-1}(1-p_B))}$$ derived from equation \ref{dist_p}  is a right skewed distribution.  
+%%Now consider estimating the power of the visual test. 
+%%Suppose $F_{|t|}(.)$ is the distribution function of an absolute value of $t$. For the regression slope parameter $\beta$ suppose the associated test statistic in classical test be $t_{obs}$ with $p$-value $p_B$. By definition we have 
+%%
+%%$$p_B=Pr(|t| \ge t_{obs}| H_0)=1-F_{|t|}(t_{obs}) \Rightarrow |t_{obs}|=F_{|t|}^{-1}(1-p_B)$$
+%%
+%%\red{HH: the following paragraph should probably move up, but I'm not sure how to change it appropriately. Mahbub, could you take care of that?}
+%%Now suppose $F_{|t|}(.;\delta)$ denotes the distribution function of an absolute value of $t$ distribution with non-centrality parameter $\delta$. Thus the distribution function of $p-value$ be  
+%%\begin{eqnarray}\label{dist_p}
+%%F{p_B}(p) &=& Pr(p_B \le p)=1-Pr(1-p_B \le 1-p) \nonumber \\
+%%  &=& 1-Pr(F_{|t|}^{-1}(1-p_B) \le F_{|t|}^{-1}(1-p) ) \nonumber \\
+%%  &=& 1-Pr(|t_{obs}| \le F_{|t|}^{-1}(1-p)) \nonumber \\
+%%  &=&\left\{ \begin{array}{ll}
+%%          1-F_{|t|}( F_{|t|}^{-1}(1-p))=p &\mbox{ ; under $H_0$} \\
+%%          1-F_{|t|}( F_{|t|}^{-1}(1-p); \delta) &\mbox{ ; under $H_1$} 
+%%       \end{array} \right.     
+%%\end{eqnarray}
+%%
+%%Thus the density of $p_B$ is Uniform(0,1)  under $H_0$. As noted by \cite{Ruppert:2007}, under $H_1$ the density $$f_{P_B}(p_B; \delta)= \frac{f_{|t|}(F_{|t|}^{-1}(1-p_B);\delta)}{f_{|t|}(F_{|t|}^{-1}(1-p_B))}$$ derived from equation \ref{dist_p}  is a right skewed distribution.  
 %In a lineup plot we simulate $m-1$ residual data sets from null model where each of these $m-1$ null data sets produces a corresponding $p$-value $p_{0,i}$ and $p_{0,i} \sim \text{Uniform}(0,1)$ for $i = 1, ..., m-1$. Suppose  $p_0=\min_i(p_{0,i})$. Thus $p_0 \sim \text{Beta}(1,m-1)$. 
 
 Under the assumption that an observer is able to pick the plot with the smallest $p$-value from a lineup plot,  this leads to the decision to reject $H_0$ when $p_{B} < p_0$. Thus we have the expected power as 
