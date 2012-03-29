@@ -211,14 +211,6 @@ dat_boot_ribbon <-  ddply(dat_boot_pow,.(abs(beta),sample_size,sigma), summarize
 colnames(dat_boot_ribbon) <- c("beta",colnames(dat_boot_ribbon)[-1])           
 dat_boot_ribbon <- rbind(dat_boot_ribbon,cbind(beta= -dat_boot_ribbon[,1],dat_boot_ribbon[,-1]))
 
-p <- ggplot() +
-     geom_point(aes(beta,as.numeric(response), size=responses), data=dat_obs_val, colour=alpha("black",.3)) +
-     geom_ribbon(aes(x=beta,ymin=limit1,ymax=limit2), data=dat_boot_ribbon, fill=alpha("black",.3)) +
-     geom_line(aes(beta,pow, colour=test), data=dat_emp_pow) +
-     geom_line(aes(beta,pow, colour=test), data=dat_ump_pow) +
-     facet_grid(sample_size~sigma) + scale_color_brewer(palette=6) +
-     xlab(expression(beta))+ylab("Power") 
-p
 
 
 p <- ggplot() +
@@ -229,13 +221,17 @@ p <- ggplot() +
      facet_grid(sample_size~sigma) + scale_color_brewer(palette=6) +
      xlab(expression(beta))+ylab("Power") 
 p
+
+p <- ggplot() +
+     geom_point(aes(beta,as.numeric(response), size=responses), data=dat_obs_val, colour=alpha("black",.3)) +
+     geom_ribbon(aes(x=beta,ymin=limit1,ymax=limit2), data=dat_boot_ribbon, fill=alpha("black",.3)) +
+     geom_line(aes(beta,pow, colour=test), data=dat_emp_pow) +
+     geom_line(aes(beta,pow, colour=test), data=dat_ump_pow) +
+     facet_grid(sample_size~sigma) + scale_color_brewer(palette=6) +
+     xlab(expression(beta))+ylab("Power") 
+p
          
 ggsave(p, filename="../images/power_loess_exp2.pdf", height=5.5, width=8.5)
-
-
-# ggsave(p, filename="../images/power_loess_exp2.pdf")
-
-
 
 
 
@@ -255,36 +251,36 @@ exact <- function(yy, nn, alpha=0.05) {
 	return(data.frame(pL, pU))
 }
 
-param <- dat1$param
-beta <- dat1$beta
+#param <- dat1$param
+#beta <- dat1$beta
 #table(beta)
 
-dat_pi <- ddply(dat1,.(beta), summarize, 
-              yy=sum(response=="TRUE"),
+dat_pi <- ddply(dat,.(abs(beta)), summarize, 
+              yy=sum(response),
               nn = length(response))
+colnames(dat_pi) <- c("beta","yy","nn")
 
+#yy <- dat_pi$yy
+#nn <-dat_pi$nn
 
-yy <- dat_pi$yy
-nn <-dat_pi$nn
-
-pw <- yy/nn
+pw <- with(dat_pi,yy/nn)
 Power_graphical <- c(pw,pw)
-beta_g <- c(dat_pi$beta,-dat_pi$beta)
+beta_g <- with(dat_pi,c(beta,-beta))
 #qplot(beta_g,Power_graphical, geom=c("point","line"), shape=3,xlab=expression(beta))  # symmetric power curve
 
-cl <- exact(yy,nn, alpha=.05) # fisher's exact confidence interval
+cl <- with(dat_pi,exact(yy,nn, alpha=.05)) # fisher's exact confidence interval
 conf_limit <- c(cl$pL,cl$pL,cl$pU,cl$pU)
 
 
 n <- 100
 sigma <- 12
 beta_t1 <- seq(-1.4,1.4, length=125)
-Power_theoretical1 <- sapply(beta_t1, mypow, n=n, sigma=sigma)
+Power_theoretical1 <- sapply(beta_t1, calculate_ump_power, n=n, sigma=sigma)
 qplot(beta_t1,Power_theoretical1, geom="line")
 
 sigma <-5
 beta_t2 <- seq(-.65,.65, length=125)
-Power_theoretical2 <- sapply(beta_t2, mypow, n=n, sigma=sigma)
+Power_theoretical2 <- sapply(beta_t2, calculate_ump_power, n=n, sigma=sigma)
 qplot(beta_t2,Power_theoretical2, geom="line")
 
 xl <- expression(beta)
@@ -293,14 +289,14 @@ n <- 300
 sigma <- 12
 beta_t3 <- seq(-4,4, length=125)
 #beta_t3 = c(-c(0, 0.8, 2, 3, 4),c(0, 0.8, 2, 3, 4))
-Power_theoretical3 <- sapply(beta_t3, mypow, n=n, sigma=sigma)
-Rsq_theoretical3 <- sapply(beta_t3, Rsqr, n=n, sigma=sigma)
+Power_theoretical3 <- sapply(beta_t3, calculate_ump_power, n=n, sigma=sigma)
+#Rsq_theoretical3 <- sapply(beta_t3, Rsqr, n=n, sigma=sigma)
 qplot(beta_t3,Power_theoretical3, geom="line",xlab=xl, ylab="Power")
 qplot(beta_t3,Rsq_theoretical3, geom="line",xlab=xl, ylab="Power")
 
 sigma <-5
 beta_t4 <- seq(-1.7,1.7, length=125)
-Power_theoretical4 <- sapply(beta_t4, mypow, n=n, sigma=sigma)
+Power_theoretical4 <- sapply(beta_t4, calculate_ump_power, n=n, sigma=sigma)
 qplot(beta_t4,Power_theoretical4, geom="line",xlab=xl, ylab="Power")
 
 sample.size <- c(rep(100,250),rep(300,250))
@@ -316,57 +312,57 @@ Power <- c(Power_theoretical,Power_graphical,conf_limit)
 betas <- c(beta_t,rep(beta_g,3))
 #qplot(betas,Power, geom=c("line"), linetype=power_curve,size=I(1),shape=8,colour=power_curve,xlab=expression(beta))  # symmetric power curve
 plot_dat <- data.frame(betas,Power,power_curve)
-return(plot_dat)
-}
+
 
 
 # ---------------------- some exploratory data analysis ------------
 
 pdat <- ddply(dat, .(sample_size,sigma,beta), summarize,
-	attempted = sum(response==response),
-	corrected = sum(response==TRUE),
-	percent_correct = round(sum(response==TRUE)*100/sum(response==response),2)
+	attempted = length(response),
+	corrected = sum(response),
+	percent_correct = round(mean(response)*100,2)
     )
 
 pdat <- ddply(dat, .(pic), summarize,
-	attempted = sum(response==response),
-	corrected = sum(response==TRUE),
-	percent_correct = round(sum(response==TRUE)*100/sum(response==response),2)
+	attempted = length(response),
+	corrected = sum(response),
+	percent_correct = round(mean(response)*100,2)
     )
     
 pdat <- ddply(dat, .(gender), summarize,
 	avg.time = round(mean(time_taken),2),
-	attempted = sum(response==response),
+	attempted = length(response),
 	corrected = sum(response),
-	percent_correct = round(sum(response)*100/sum(response==response),2),
+	percent_correct = round(mean(response)*100,2),
 	participants = length(unique(id))
     )    
 pdat
 
 pdat <- ddply(dat, .(academic_study), summarize,
 	avg.time = round(mean(time_taken),2),
-	attempted = sum(response==response),
+	attempted = length(response),
 	corrected = sum(response),
-	percent_correct = round(sum(response)*100/sum(response==response),2),	participants = length(unique(id))
-    )
+	percent_correct = round(mean(response)*100,2),
+	participants = length(unique(id))
+    )    
 pdat   
 
 pdat <- ddply(dat, .(conf_level), summarize,
 	avg.time = round(mean(time_taken),2),
-	attempted = sum(response==response),
+	attempted = length(response),
 	corrected = sum(response),
-	percent_correct = round(sum(response)*100/sum(response==response),2),
+	percent_correct = round(mean(response)*100,2),
 	participants = length(unique(id))
-    )
+    )    
 pdat   
 
 pdat <- ddply(dat, .(age), summarize,
 	avg.time = round(mean(time_taken),2),
-	attempted = sum(response==response),
+	attempted = length(response),
 	corrected = sum(response),
-	percent_correct = round(sum(response)*100/sum(response==response),2),
+	percent_correct = round(mean(response)*100,2),
 	participants = length(unique(id))
-    )
+    )    
 pdat   
 
 
