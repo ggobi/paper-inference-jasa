@@ -3,7 +3,25 @@
 
 library(ggplot2)
 
-dat <- read.csv("../data/feedback_data_turk2_30p.txt")
+
+raw.dat <- read.csv("../data/raw_data_turk2.csv")
+
+
+# ========== policy for excluding bad data =========
+# Everyone is given at least one easy lineup. If a person can't correctly
+# evaluate 50% of those extremely easy lineups, all his responses are discarded.
+# A lineup with p_value < 0.0002 is considered easy
+
+
+dp <- ddply(subset(raw.dat, p_value < 0.0002),.(id),summarise,
+   cnt_easy = length(response),
+   percent_correct = mean(response)*100
+  )
+
+included_id <- dp$id[ dp$percent_correct > 49]
+dat <- subset(raw.dat, id %in% included_id)
+
+
 
 # ------------- ump power function --------------------------- 
 
@@ -59,6 +77,26 @@ get_smooth_power <- function(dat.n,test="Empirical"){
 }
 
 
+	#	get_smooth_power <- function(dat.n,test="Empirical"){
+	#	 betas <- seq(0.01,6.5, by=.2)
+	#	 betas <- c(-betas,betas)
+	#	 dat_smooth <- NULL
+	#	 for (s in c(5,12)){
+	#	for (n in c(100,300)){
+	#	dats <- subset(dat.n,sigma==s & sample_size==n)
+	#	dats$y <- as.numeric(dats$response)
+	#	fit <- loess(c(y,y) ~ c(-abs(beta),abs(beta)),data=dats,span=1+(n==100)*.3)
+	#	dat_smooth <- rbind(dat_smooth,cbind(betas,predict(fit,betas),n,s))
+	#	}
+	#	}
+	#	 colnames(dat_smooth) <- c("beta","pow","sample_size","sigma")
+	#	 dat_empirical <- data.frame(rbind(dat_smooth,cbind(-dat_smooth[,1],dat_smooth[,-1])))
+	#	 dat_empirical$test <- test
+	#	 return(dat_empirical)
+	#	}
+
+
+
 get_ump_power <- function(dat,test="UMP"){
  beta <- seq(0.01,6.5, by=.2)
  dat_pow <- NULL
@@ -80,11 +118,12 @@ get_ump_power <- function(dat,test="UMP"){
 dat_emp_pow <- get_smooth_power(dat)
 dat_ump_pow <- get_ump_power(dat)
 
-p <- ggplot(dat_emp_pow,aes(beta,pow)) + geom_line(aes(colour=test))
-p <- p + geom_line(aes(beta,pow, colour=test), data=dat_ump_pow)
-p <- p + facet_grid(sample_size~sigma)
-p + xlab(expression(beta))+ylab("Power")
-
+p <- ggplot(dat_emp_pow,aes(beta,pow)) + geom_line(aes(colour=test)) +
+     geom_line(aes(beta,pow, colour=test), data=dat_ump_pow) +
+     facet_grid(sample_size~sigma) +
+     scale_color_brewer(palette=6) +
+     xlab(expression(beta))+ylab("Power")
+p
 
 
 
@@ -107,8 +146,9 @@ dat_boot_pow <- rbind(dat_boot_pow,get_smooth_power(dat.b,test=paste("smooth",i,
 #dat_boot_pow <- read.csv("../data/dat_bootstrap_power2.txt")
 
 
-p <- ggplot(dat_boot_pow, aes(beta,pow,colour=grey)) + geom_line(aes(group=test),alpha=I(0.1))
-p + facet_grid(sample_size~sigma)
+ggplot(dat_boot_pow, aes(beta,pow,colour=grey)) + 
+     geom_line(aes(group=test),alpha=I(0.1)) + 
+     facet_grid(sample_size~sigma)
 
 
 p <- ggplot() +
@@ -172,11 +212,11 @@ colnames(dat_boot_ribbon) <- c("beta",colnames(dat_boot_ribbon)[-1])
 dat_boot_ribbon <- rbind(dat_boot_ribbon,cbind(beta= -dat_boot_ribbon[,1],dat_boot_ribbon[,-1]))
 
 p <- ggplot() +
-     geom_point(aes(beta,as.numeric(response), size=responses), data=dat_obs_val, colour=alpha("red",.3)) +
-     geom_ribbon(aes(x=beta,ymin=limit1,ymax=limit2), data=dat_boot_ribbon, fill=alpha("red",.2)) +
+     geom_point(aes(beta,as.numeric(response), size=responses), data=dat_obs_val, colour=alpha("black",.3)) +
+     geom_ribbon(aes(x=beta,ymin=limit1,ymax=limit2), data=dat_boot_ribbon, fill=alpha("black",.3)) +
      geom_line(aes(beta,pow, colour=test), data=dat_emp_pow) +
      geom_line(aes(beta,pow, colour=test), data=dat_ump_pow) +
-     facet_grid(sample_size~sigma) +
+     facet_grid(sample_size~sigma) + scale_color_brewer(palette=6) +
      xlab(expression(beta))+ylab("Power") 
 p
 
@@ -186,7 +226,7 @@ p <- ggplot() +
      geom_ribbon(aes(x=beta,ymin=limit1,ymax=limit2), data=dat_boot_ribbon) +
      geom_line(aes(beta,pow, colour=test), data=dat_emp_pow) +
      geom_line(aes(beta,pow, colour=test), data=dat_ump_pow) +
-     facet_grid(sample_size~sigma) +
+     facet_grid(sample_size~sigma) + scale_color_brewer(palette=6) +
      xlab(expression(beta))+ylab("Power") 
 p
          
@@ -278,11 +318,6 @@ betas <- c(beta_t,rep(beta_g,3))
 plot_dat <- data.frame(betas,Power,power_curve)
 return(plot_dat)
 }
-
-
-# ======================== Turk 2 data analysis ============================
-
-dat <- read.csv("../data/feedback_data_turk2_30p.txt")
 
 
 # ---------------------- some exploratory data analysis ------------
@@ -394,7 +429,7 @@ ddply(subset(dat, substr(pic_name,1,12)=='plot_100_3_5'), .(gender), summarize,
 pdat <- ddply(dat, .(p_value, sample_size), summarize,
 	attempted = sum(response==response),
 	corrected = sum(response),
-	percent_correct = sum(response)*100/sum(response==response)
+	percent_correct = mean(response)*100
     )
 
 # pdat$percent_correct <- pdat$corrected*100/pdat$attempted
@@ -421,9 +456,9 @@ ggplot(dat, aes(time_taken))+geom_histogram(binwidth=2)+xlim(0,500)
 # --------------- p_value vs %correct by male female ----------------------------------
 
 pdat <- ddply(dat, .(p_value, gender, sample_size), summarize,
-	attempted = sum(response==response),
+	attempted = length(response),
 	corrected = sum(response),
-	percent_correct = sum(response)*100/sum(response==response)
+	percent_correct = mean(response)*100
     )
 
 # pdat$percent_correct <- pdat$corrected*100/pdat$attempted
@@ -450,9 +485,9 @@ dat$attempt_no <- unlist(tapply(dat$start_time, dat$nick_name,
       function(x){return(as.integer(factor(x)))}), use.names=F)
 
 adat <- ddply(dat, .(attempt_no, gender), summarize,
-	attempted = sum(response==response),
+	attempted = length(response),
 	corrected = sum(response),
-      percent_correct = sum(response)*100/sum(response==response)
+      percent_correct = mean(response)*100
     )
 
 p <- ggplot(subset(adat, attempt_no <= 12), aes(attempt_no,percent_correct, color=factor(gender), shape=gender))
