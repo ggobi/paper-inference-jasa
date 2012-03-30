@@ -1,20 +1,18 @@
-#Turk1 data analysis for jasa paper last modified on Mar 1, 2012 by Mahbub.
+#Turk1 data analysis for jasa paper last modified on Mar 30, 2012 by Mahbub.
 
 library(ggplot2)
 
 
 raw.dat <- read.csv("../data/raw_data_turk1.csv")
 
-# ========== policy for excluding bad data =========
+# ========== policy for cleaning data =========
 # Everyone is given at least one easy lineup. If a person can't correctly
 # evaluate 50% of those extremely easy lineups, all his responses are discarded.
 # A lineup with p_value < 0.0002 is considered easy
 
-raw.dat$id <- raw.dat$nick_name
-raw.dat$response <- raw.dat$response_no == raw.dat$plot_location
-
 dp <- ddply(subset(raw.dat, p_value < 0.0002),.(id),summarise,
-   percent_correct = sum(response==TRUE)*100/length(response)
+   easy_cnt = length(response),
+   percent_correct = mean(response)*100
   )
 
 included_id <- dp$id[ dp$percent_correct > 49]
@@ -22,67 +20,45 @@ dat <- subset(raw.dat, id %in% included_id)
 
 
 
-
 # ------------ description of coded variables in the data -----------
 
-
-
-# gender 1 = male 
-
-         2 = female
-
-# age 1 = below 18 
-
-      2 = 18-25 
-
-      3 = 26-30 
-
-      4 = 31-35 
-
-      5 = 36-40
-
-      6 = 41-45
-
-      7 = 46-50
-
-      8 = 51-55
-
-      9 = 56-60
-
-     10 = above 60
-
-# academic_study 1 = High school or less
-
-                 2 = Some under graduate courses 
-
-                 3 = Under graduate degree
-
-                 4 = Some graduate courses
-
-                 5 = Graduate degree
-
-# conf_level 1 = most, 5 = least
-
-# choice_reason 1 = Big vertical difference 
-
-                2 = Medians are different
-
-                3 = Outliers
-
-                4 = others
-
-# unit(time_taken) = second 
-
-
+## gender 1 = male 
+#         2 = female
+#
+## age 1 = below 18 
+#      2 = 18-25 
+#      3 = 26-30 
+#      4 = 31-35 
+#      5 = 36-40
+#      6 = 41-45
+#      7 = 46-50
+#      8 = 51-55
+#      9 = 56-60
+#     10 = above 60
+#
+## academic_study 1 = High school or less
+#                 2 = Some under graduate courses 
+#                 3 = Under graduate degree
+#                 4 = Some graduate courses
+#                 5 = Graduate degree
+#
+## conf_level 1 = most, 5 = least
+#
+## choice_reason 1 = Big vertical difference 
+#                2 = Medians are different
+#                3 = Outliers
+#                4 = others
+#
+## unit(time_taken) = second 
 
 
 # ------function to calculate UMP power -----------------------
 
 calculate_ump_power <- function (beta, n, sigma){
-	alpha <- 0.05/2
+	alpha <- 0.05
 	se_beta <- sigma/(0.5 * sqrt(n))    # refer to docs for derivation of power
 	mu <- beta/se_beta
-	t_n <- qt(p=1-alpha,df=n-3)
+	t_n <- qt(p=1-alpha/2,df=n-3)
 	res <- pt(q=-t_n, df=n-3, ncp=mu)-pt(q=t_n, df=n-3, ncp=mu)+1
 	return(res)
 }
@@ -100,7 +76,6 @@ calculate_ump_power(3/5,300,1)
 fit <- loess(as.numeric(response) ~ beta,data=subset(dat,sigma==5 & sample_size==100),span=1.2)
 betas <- seq(0,9,by=.1)
 with(subset(dat,sigma==5 & sample_size==100),qplot(betas,predict(fit,data.frame(beta=betas))))
-
 
 
 fit <- loess(as.numeric(response) ~ beta,data=subset(dat,sigma==5 & sample_size==300),span=.75)
@@ -158,6 +133,9 @@ p
 
 # ---------- bootstrap band for empirical power -----------------------
 
+# WARNIG: This code may take 30 min to run. please use the saved one.
+# the link is at the end of this junk of codes.
+
 dat_boot_pow <- NULL
 for (i in 1:1000){
 dat.b <- ddply(dat,.(beta,sample_size,sigma), summarize,
@@ -166,13 +144,10 @@ dat.b <- ddply(dat,.(beta,sample_size,sigma), summarize,
 dat_boot_pow <- rbind(dat_boot_pow,get_smooth_power(dat.b,test=paste("smooth",i,sep="")))
 }
 
-#write.csv(dat_boot_pow,file="../data/dat_bootstrap_power.txt",row.names=F)
-#dat_boot_pow <- read.csv("../data/dat_bootstrap_power.txt")
+#write.csv(dat_boot_pow,file="../data/dat_bootstrap_power1.txt",row.names=F)
+#dat_boot_pow <- read.csv("../data/dat_bootstrap_power1.txt")
 
-
-p <- ggplot(dat_boot_pow, aes(beta,pow,colour=grey)) + geom_line(aes(group=test),alpha=I(0.1))
-p + facet_grid(sample_size~sigma)
-
+# END WARNIG -----------
 
 p <- ggplot() +
      geom_line(aes(beta,pow, group =test), data=dat_boot_pow,alpha=I(0.3)) +
@@ -180,7 +155,6 @@ p <- ggplot() +
      geom_line(aes(beta,pow, colour=test), data=dat_ump_pow) +
      facet_grid(sample_size~sigma) +
      xlab(expression(beta))+ylab("Power") 
-p
 
 
 dat_boot_limit <-  ddply(dat_boot_pow,.(beta,sample_size,sigma), summarize,
@@ -198,7 +172,6 @@ p <- ggplot() +
      geom_line(aes(beta,pow, colour=test), data=dat_ump_pow) +
      facet_grid(sample_size~sigma) +
      xlab(expression(beta))+ylab("Power") 
-p
 
 
 p <- ggplot() +
@@ -208,7 +181,6 @@ p <- ggplot() +
      geom_point(aes(beta,as.numeric(response)), data=dat) +
      facet_grid(sample_size~sigma) +
      xlab(expression(beta))+ylab("Power") 
-p
 
 
 dat_obs_val <- ddply(dat,.(beta,sample_size,sigma,response), summarize,
@@ -223,10 +195,10 @@ p <- ggplot() +
      geom_point(aes(beta,as.numeric(response), size=responses), data=dat_obs_val) +
      facet_grid(sample_size~sigma) +
      xlab(expression(beta))+ylab("Power") 
-p
 
+# Empirical success ratio vs bootstrap band with ump power
 dat_obs_pow <- ddply(dat,.(beta,sample_size,sigma,replica), summarize,
-           pow = sum(response=="TRUE")/sum(response==response)
+           pow = sum(response)/length(response)
            )
 dat_obs_pow <- rbind(dat_obs_pow,cbind(beta= - dat_obs_pow[,1],dat_obs_pow[,-1]))           
            
@@ -238,9 +210,8 @@ p <- ggplot() +
      geom_point(aes(beta,pow), data=dat_obs_pow, colour=alpha("red",.3)) +
      facet_grid(sample_size~sigma) +
      xlab(expression(beta))+ylab("Power") 
-p  
 
-         
+# bootstrap ribon showing confidence band         
 dat_boot_ribbon <-  ddply(dat_boot_pow,.(beta,sample_size,sigma), summarize,
            limit1 = quantile(pow,.025, na.rm=T),
            limit2 = quantile(pow,.975, na.rm=T)
@@ -254,11 +225,10 @@ p <- ggplot() +
      geom_line(aes(beta,pow, colour=test), data=dat_ump_pow) +
      facet_grid(sample_size~sigma) +
      xlab(expression(beta))+ylab("Power") 
-p
 
 
 p <- ggplot() +
-     geom_point(aes(beta,as.numeric(response), size=responses), data=dat_obs_val, colour=alpha("black",.3)) +
+     geom_point(aes(beta,as.numeric(response), size=responses), data=dat_obs_val, alpha=I(0.3)) +
      geom_ribbon(aes(x=beta,ymin=limit1,ymax=limit2), data=dat_boot_ribbon, fill=alpha("grey",.9)) +
      geom_line(aes(beta,pow, colour=test), data=dat_emp_pow) +
      geom_line(aes(beta,pow, colour=test), data=dat_ump_pow) +
@@ -274,12 +244,11 @@ ggsave(p, filename="../images/power_loess_exp1.pdf", height=5.5, width=8.5)
 
 pdat <- ddply(dat, .(pic_name), summarize,
    p_value = mean(p_value),
-	attempted = sum(response==response),
-	corrected = sum(response=="TRUE"),
-	percent_correct = sum(response=="TRUE")*100/sum(response==response)
+	attempted = length(response),
+	corrected = sum(response),
+	percent_correct = mean(response)*100
 	)
 
-# pdat$percent_correct <- pdat$corrected*100/pdat$attempted
 
 p <- ggplot(pdat) +
      geom_point(aes(p_value,percent_correct)) + 
