@@ -148,7 +148,8 @@ For any single observer, the power of a visual test has a lower limit of $\frac1
 
 \red{HH: We need to define p values corresponding to the data shown in plots. }
 
-\red{HH: the following paragraph needs some adjustment in terms of t and $\theta$ - could you try to take of that, Mahbub?}
+\red{HH: the following paragraph needs some adjustment in terms of t and $\theta$ - could you try to take of that, Mahbub?}\\
+\red{MM: This $t$ comes from the idea that a classical $T-test$ is available for which we are describing the visual test. Generalizing it is a little bit technical since for all visual test, we may not have a classical $T-test$. Thus the concept of $F(.)$ is little confusing too. I don't know how deal with this situation here.}\\
 Suppose $F_{|t|}(.)$ is the distribution function of an absolute value of $t$. For the regression slope parameter $\beta$ suppose the associated test statistic in classical test be $t_{obs}$ with $p$-value $p_B$. By definition we have 
 
 $$p_B=Pr(|t| \ge t_{obs}| H_0)=1-F_{|t|}(t_{obs}) \Rightarrow |t_{obs}|=F_{|t|}^{-1}(1-p_B)$$
@@ -170,7 +171,8 @@ Thus the density of $p_B$ is Uniform(0,1)  under $H_0$. As noted by \cite{Rupper
 
 \blue{Similarly, we will assume that $p_{0,i}$, $i=1, ..., m-1$ are the $p$-values associated with data corresponding to the $m-1$ null plots. Since this data is generated consistently with the null hypothesis, the $p$-values follow a standard Uniform distribution, $p_{i,0} \sim U[0,1], i= 1, ..., m-1$. }
 
-\red{HH: $p_D$ isn't defined yet}
+\red{HH: $p_D$ isn't defined yet} \\
+\red{MM: $p_D$ and $p_B$ are same, right?}
 
 Let us think of a lineup as a head-to-head comparison of the test statistic and $m-1$ null plots. 
 %Let the data plot have a $p$-value of $p_D$, and the null plots $p$ values of $p_{0, i}$ with $1 \le i \le m-1$.
