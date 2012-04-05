@@ -70,7 +70,7 @@ Section \ref{sec:visual_test} describes the basic ideas of visual inference, Sec
   Hypothesis & $H_0: \beta=0$ vs $H_1: \beta \ne 0$& $H_0: \beta=0$ vs $H_1: \beta \ne 0$\\
  & \begin{minipage}[h]{2.5cm} \begin{center} \scalebox{0.2}{\includegraphics{down_arrow.pdf}} \end{center} \end{minipage} & \begin{minipage}[h]{2.5cm} \begin{center} \scalebox{0.2}{\includegraphics{down_arrow.pdf}} \end{center} \end{minipage} \\
 				  
- Test statistic & $T(y)=\frac{\hat{\beta}}{se(\hat{\beta})}$ & $T(y)=$ \begin{minipage}[h]{1cm} \begin{center} \scalebox{0.15}{\includegraphics{stat_category.pdf}} \end{center} \end{minipage} \\
+ Test statistic & $T(y)=\frac{\hat{\beta}}{se(\hat{\beta})}$ & $T(y)=$ \begin{minipage}[h]{1cm} \begin{center} \scalebox{0.45}{\includegraphics{stat_category.pdf}} \end{center} \end{minipage} \\
 				 
  & \begin{minipage}[h]{2.5cm} \begin{center} \scalebox{0.2}{\includegraphics{down_arrow.pdf}} \end{center} \end{minipage} & \begin{minipage}[h]{2.5cm} \begin{center} \scalebox{0.2}{\includegraphics{down_arrow.pdf}} \end{center} \end{minipage} \\
 				 
@@ -273,7 +273,7 @@ Case & Null Hypothesis & Statistic & Test Statistic & Description \\ [0.5ex] % i
 \hline 
 1 & $H_0: \beta_0=0$ & Scatter plot & \begin{minipage}[t]{2cm}\begin{center}  	\scalebox{0.1}{\includegraphics{stat_intercept.pdf}} \end{center} \end{minipage} & Scatter plot with least square line overlaid. For lineup plot, we simulate data from fitted null model. \\ 
 2 & $H_0: \beta_k=0$ & Residual plot & \begin{minipage}[t]{2cm}\begin{center}  	\scalebox{0.1}{\includegraphics{stat_bet_p.pdf}} \end{center} \end{minipage} & Residual vs $X_k$ plots. For lineup plot, we simulate data from normal with mean 0 variance $\hat{\sigma}^2$. \\ 
-3 & $H_0: \beta_k=0$ (for categorical $X_k$) & Box plots of residuals & \begin{minipage}[t]{2cm}\begin{center}  	\scalebox{0.18}{\includegraphics{stat_category.pdf}} \end{center} \end{minipage} & Box plot of residuals grouped by category of $X_k$. For lineup plot, we simulate data from normal with mean 0 variance $\hat{\sigma}^2$. \\
+3 & $H_0: \beta_k=0$ (for categorical $X_k$) & Box plots of residuals & \begin{minipage}[t]{2cm}\begin{center}  	\scalebox{0.45}{\includegraphics{stat_category.pdf}} \end{center} \end{minipage} & Box plot of residuals grouped by category of $X_k$. For lineup plot, we simulate data from normal with mean 0 variance $\hat{\sigma}^2$. \\
 4 & $H_0: \beta_k=0$ (interaction with categorical $X_k$) & Scatter plot & \begin{minipage}[t]{2cm}\begin{center}  \scalebox{0.11}{\includegraphics{stat_interection.pdf}} \end{center} \end{minipage} & Scatter plot with least square lines of each category overlaid. For lineup plot, we simulate data from fitted null model.\\[1ex] % [1ex] adds vertical space 
 5 & $H_0: X$ Linear & Residual Plot & \begin{minipage}[t]{2cm}\begin{center}  	\scalebox{0.1}{\includegraphics{stat_nonlinear.pdf}} \end{center} \end{minipage} & Residual vs predictor plots with loess smoother overlaid. For lineup plot, we simulate residual data from normal with mean 0 variance $\hat{\sigma}^2$. \\ 
 6 & $H_0: \sigma^2=\sigma^2_0$ & Box plot & \begin{minipage}[t]{2cm}\begin{center}  \scalebox{0.15}{\includegraphics{stat_sigma_box.pdf}} \end{center} \end{minipage} & Box plot of standardized residual divided by  $\sigma^2_0$. For lineup plot, we simulate data from standard normal. \\ 				

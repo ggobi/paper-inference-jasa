@@ -1,5 +1,5 @@
 # The complete R codes for JASA Paper
-# Last modified by Mahbub on Feb 10, 2012.
+# Last modified by Mahbub on April 5, 2012.
 
 library(ggplot2)
 
@@ -10,6 +10,48 @@ t <- seq(-4, 4, by = 0.1)
 density_t <- dt(t, df = 15)
 qplot(t, density_t, geom = "line") + geom_vline(xintercept = 2.5) + ylab("Density")
 ggsave("../images/stat_mathematical_test.pdf",height=2,width=2.2)
+
+
+# === plotting test stat and lineup for categorical variable
+
+# generating data
+set.seed(29)
+n <- 300
+beta <- 15
+sigma <- 12	
+x1 <- rpois(n,lambda=20)
+x2 <- factor(sample(c("A","B"), size=n, replace=T))
+cnd <- sample(c("A","B"), size=1)
+y <- round(5 + 1.5 * x1 + beta * (x2==cnd) + rnorm(n=n, mean=0, sd=sigma))
+#qplot(x1,y, colour=factor(x2)) + geom_smooth(method="lm", se=F, size=1)
+
+
+# plotting test stat for testing b2=0
+fit <- lm(y~x1 )
+fit.stat <- summary(fit)
+sigma_hat <- fit.stat$sigma
+obs.residuals <- as.vector(resid(fit)) 
+
+qplot(x2, obs.residuals,colour=x2,geom="boxplot", ylab="Residual") + 
+      xlab(expression(X[2]))
+ggsave("../images/stat_category.pdf",height=2,width=2.5)
+
+
+
+# plotting lineup for testing b2=0
+loc <- sample(1:20, size=1)  # location of observed plot
+simdat <- matrix(rnorm(n=20*n,mean=0, sd=sigma_hat),ncol=20)
+simdat[,loc] <- obs.residuals
+pdat <- data.frame(simdat,x2)
+names(pdat) <- c(1:20,"Xk")
+pdat.m <- melt(pdat,id="Xk")
+
+qplot(Xk, value, data=pdat.m ,colour=Xk,,geom="boxplot", ylab="Residual") + 
+     facet_wrap(~variable)+ xlab(expression(X[k]))
+ggsave("../images/test_category.pdf",height=5,width=5)
+
+
+
 
 # =================== Turk1 data analysis  ================================
 
