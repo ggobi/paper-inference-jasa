@@ -1,11 +1,15 @@
 # The complete R codes for JASA Paper
 # Last modified by Mahbub on Feb 10, 2012.
 
+library(ggplot2)
+
+
 # =================== mathematical test t distribution  ===================
 
 t <- seq(-4, 4, by = 0.1)
 density_t <- dt(t, df = 15)
-qplot(t, density_t, geom = "line") + geom_vline(xintercept = 2.5)
+qplot(t, density_t, geom = "line") + geom_vline(xintercept = 2.5) + ylab("Density")
+ggsave("../images/stat_mathematical_test.pdf",height=2,width=2.2)
 
 # =================== Turk1 data analysis  ================================
 
@@ -265,7 +269,7 @@ p <- ggplot(pdat) +
      geom_abline(aes(intercept=0,slope=1))
 p 
 
-
+ggsave(p,file="../images/p_val_plot_signal.pdf", height = 4.25, width = 10)
 
 # -------- Hieke's code for power vs m and p-value------------------
 
