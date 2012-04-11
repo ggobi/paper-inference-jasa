@@ -1063,3 +1063,36 @@ p <- ggplot(subset(adat1, attempt_no <= 12), aes(attempt_no,avg_p_value, color=g
 p <- p + geom_point(size=3) 
 p + stat_smooth(aes(group=gender, linetype=gender), se=F)
 
+
+# ----------- glm with effect as covariate ---------------
+
+dat$effect <-  with(dat,beta/sigma*sqrt(sample_size))
+
+effect.d <- ddply(dat,.(effect, replica), summarize, 
+   power = mean(response),
+   ump_power = calculate_ump_power(beta[1],sample_size[1],sigma[1]))
+
+ggplot(data=effect.d,aes(x=effect,y=power)) + 
+   geom_point() + 
+   geom_smooth(method="loess", span=0.8)
+
+ggplot(data=effect.d,aes(x=effect,y=power)) + 
+   geom_point(aes(colour=factor(replica))) + 
+   geom_smooth(method="loess", span=0.8,aes(colour=factor(replica)))
+   
+ggplot(data=effect.d,aes(x=effect,y=power)) + 
+   geom_point(aes(colour=factor(replica))) + 
+   geom_smooth(method="lm", span=0.8,aes(colour=factor(replica)))
+   
+ggplot(data=effect.d,aes(x=effect,y=power)) + 
+   geom_point() + 
+   geom_smooth(method="loess", span=0.8) +
+   geom_line(aes(x=effect,y=ump_power))  
+
+
+
+# and then fit the following model:
+       response ~ effect + (effect | id)
+
+
+
