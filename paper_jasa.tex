@@ -111,7 +111,7 @@ Since the lineup plot consists of $m$ plots, the probability of choosing any one
 
 %The lineup plot can be evaluated by one or more individuals. When a single individual identifies the observed graph in the lineup plot we report a $p$-value of at most $1/m$, otherwise the $p$-value is at least $1-\frac 1m$. 
 
-%If $N$ individuals evaluate a lineup plot independently, the number of successful evaluations, $U \sim \text{Binom} (N,\frac{1}{m})$ and we report a  $p$-value of at most $Pr(U \ge u)= \sum_{k \ge u}^N {{N \choose k} (\frac{1}{m})^k(1-\frac 1m)^{(N-k)}}$ where $u$ is the observed number of successful evaluations. %Notice that when $N=1$, this $p$-value is $\frac1m$. 
+ %Notice that when $N=1$, this $p$-value is $\frac1m$. 
 
 %\subsection{Power}
 
@@ -143,6 +143,10 @@ For a lineup of $m$ plots the power of \blue{a visual test} $T$
 
 For any single observer, the power of a visual test has a lower limit of $\frac1m$ since the probability that an observer will randomly pick the test statistic under $H_0$ is $\frac1m$. 
 
+When $K$ individuals evaluate a lineup plot independently, the number of successful evaluations, $U \sim \text{Binom} (K,1/m)$  under $H_0$. Thus we define $p$-value for visual test $T_{\theta}$ as in definition \ref{dfn:pval}.
+\begin{dfn} \label{dfn:pval}
+The $p$-value of A visual test $T_{\theta}$ is at most $Pr(U \ge u)= \sum_{k \ge u}^K {{K \choose k} (\frac{1}{m})^k(1-\frac 1m)^{(K-k)}}$ where $u$ is the observed number of successful evaluations.
+\end{dfn}
 % HH: I think this is covered by making power a property of the test
 % In general,  $Pr(\text{Reject } H_0)$ is determined by the type of test being conducted. 
 
