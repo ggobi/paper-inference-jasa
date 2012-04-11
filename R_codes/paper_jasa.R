@@ -20,10 +20,10 @@ n <- 300
 beta <- 15
 sigma <- 12	
 x1 <- rpois(n,lambda=20)
-x2 <- factor(sample(c("A","B"), size=n, replace=T))
+Xk <- factor(sample(c("A","B"), size=n, replace=T))
 cnd <- sample(c("A","B"), size=1)
-y <- round(5 + 1.5 * x1 + beta * (x2==cnd) + rnorm(n=n, mean=0, sd=sigma))
-#qplot(x1,y, colour=factor(x2)) + geom_smooth(method="lm", se=F, size=1)
+y <- round(5 + 1.5 * x1 + beta * (Xk==cnd) + rnorm(n=n, mean=0, sd=sigma))
+#qplot(x1,y, colour=factor(xk)) + geom_smooth(method="lm", se=F, size=1)
 
 
 # plotting test stat for testing b2=0
@@ -32,8 +32,8 @@ fit.stat <- summary(fit)
 sigma_hat <- fit.stat$sigma
 obs.residuals <- as.vector(resid(fit)) 
 
-qplot(x2, obs.residuals,colour=x2,geom="boxplot", ylab="Residual") + 
-      xlab(expression(X[2]))
+qplot(Xk, obs.residuals,colour=Xk,geom="boxplot", ylab="Residual") + 
+      xlab(expression(X[k]))
 ggsave("../images/stat_category.pdf",height=2,width=2.5)
 
 
