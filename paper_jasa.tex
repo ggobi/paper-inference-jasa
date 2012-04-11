@@ -156,18 +156,18 @@ The $p$-value associated with the decision of a visual test $T_{\theta}$ is give
 % HH: I think this is covered by making power a property of the test
 % In general,  $Pr(\text{Reject } H_0)$ is determined by the type of test being conducted. 
 
-\red{HH: We need to define p values corresponding to the data shown in plots. }
+\red{HH: We need to define p values corresponding to the data shown in plots.  MM: $p_D$ is what we use for this, right?}
 
-\red{HH: the following paragraph needs some adjustment in terms of t and $\theta$ - could you try to take of that, Mahbub?}\\
-\red{MM: This $t$ comes from the idea that a classical $T-test$ is available for which we are describing the visual test. Generalizing it is a little bit technical since for all visual test, we may not have a classical $T-test$. Thus the concept of $F(.)$ is little confusing too. I don't know how deal with this situation here.}\\
-Suppose $F_{|t|}(.)$ is the distribution function of an absolute value of $t$. For the regression slope parameter $\beta$ suppose the associated test statistic in classical test be $t_{obs}$ with $p$-value $p_B$. By definition we have 
+%\red{HH: the following paragraph needs some adjustment in terms of t and $\theta$ - could you try to take of that, Mahbub?}\\
 
-$$p_B=Pr(|t| \ge t_{obs}| H_0)=1-F_{|t|}(t_{obs}) \Rightarrow |t_{obs}|=F_{|t|}^{-1}(1-p_B)$$
+Suppose $F_{|t|}(.)$ is the distribution function of an absolute value of $t$, the classical test statistic. Suppose the associated test statistic in classical test is observed as  $t_{obs}$ with $p$-value $p_D$. By definition we have 
+
+$$p_D=Pr(|t| \ge t_{obs}| H_0)=1-F_{|t|}(t_{obs}) \Rightarrow |t_{obs}|=F_{|t|}^{-1}(1-p_D)$$
 
 Now suppose $F_{|t|}(.;\delta)$ denotes the distribution function of an absolute value of $t$ distribution with non-centrality parameter $\delta$. Thus the distribution function of $p-value$ be  
 \begin{eqnarray}\label{dist_p}
-F{p_B}(p) &=& Pr(p_B \le p)=1-Pr(1-p_B \le 1-p) \nonumber \\
-  &=& 1-Pr(F_{|t|}^{-1}(1-p_B) \le F_{|t|}^{-1}(1-p) ) \nonumber \\
+F{p_D}(p) &=& Pr(p_D \le p)=1-Pr(1-p_D \le 1-p) \nonumber \\
+  &=& 1-Pr(F_{|t|}^{-1}(1-p_D) \le F_{|t|}^{-1}(1-p) ) \nonumber \\
   &=& 1-Pr(|t_{obs}| \le F_{|t|}^{-1}(1-p)) \nonumber \\
   &=&\left\{ \begin{array}{ll}
           1-F_{|t|}( F_{|t|}^{-1}(1-p))=p &\mbox{ ; under $H_0$} \\
@@ -175,14 +175,14 @@ F{p_B}(p) &=& Pr(p_B \le p)=1-Pr(1-p_B \le 1-p) \nonumber \\
        \end{array} \right.     
 \end{eqnarray}
 
-Thus the density of $p_B$ is Uniform(0,1)  under $H_0$. As noted by \cite{Ruppert:2007}, under $H_1$ the density $$f_{P_B}(p_B; \delta)= \frac{f_{|t|}(F_{|t|}^{-1}(1-p_B);\delta)}{f_{|t|}(F_{|t|}^{-1}(1-p_B))}$$ derived from equation \ref{dist_p}  is a right skewed distribution.  
+Thus the density of $p_D$ is Uniform(0,1)  under $H_0$. As noted by \cite{Ruppert:2007}, under $H_1$ the density $$f_{p_D}(p_D; \delta)= \frac{f_{|t|}(F_{|t|}^{-1}(1-p_D);\delta)}{f_{|t|}(F_{|t|}^{-1}(1-p_D))}$$ derived from equation \ref{dist_p}  is a right skewed distribution.  
 
 
 
 \blue{Similarly, we will assume that $p_{0,i}$, $i=1, ..., m-1$ are the $p$-values associated with data corresponding to the $m-1$ null plots. Since this data is generated consistently with the null hypothesis, the $p$-values follow a standard Uniform distribution, $p_{i,0} \sim U[0,1], i= 1, ..., m-1$. }
 
-\red{HH: $p_D$ isn't defined yet} \\
-\red{MM: $p_D$ and $p_B$ are same, right?}
+%\red{HH: $p_D$ isn't defined yet} \\
+%\red{MM: $p_D$ and $p_D$ are same, right?}
 
 Let us think of a lineup as a head-to-head comparison of the test statistic and $m-1$ null plots. 
 %Let the data plot have a $p$-value of $p_D$, and the null plots $p$ values of $p_{0, i}$ with $1 \le i \le m-1$.
@@ -202,7 +202,7 @@ P(X=0) = \left(1 - E[p_D] \right)^{m-1} = P(p_D \le p_0), \ \ \ \text{ where } p
 \]
 
 
-%\red{pull the results for $P(p_B < p_{i,0})$ and $P(p_B < p_0)$ to the front, including the figure on $1/m$ versus power. These results are independent of the regression setting - they don't make any assumptions in terms of regression.}
+%\red{pull the results for $P(p_D < p_{i,0})$ and $P(p_D < p_0)$ to the front, including the figure on $1/m$ versus power. These results are independent of the regression setting - they don't make any assumptions in terms of regression.}
 
 
 Figure \ref{fig:pval_power} gives an overview of the probability of picking the data plot for lineups of different size: as $m$ increases we have an increased probability to observe a more highly structured null plot by chance. We see that for a $p$-value $p_D$ of about 0.15 for the data plot the signal in the plot is so weak, that we cannot distinguish the data plot from null plots in a lineup of size $m=20$. This pattern is also seen in our experiments as shown in figure \ref{fig:pval_pcorrect}.
@@ -303,15 +303,15 @@ Case & Null Hypothesis & Statistic & Test Statistic & Description \\ [0.5ex] % i
 % Di: This is specific for the regression model
 %Consider the hypothesis test $H_0: \beta_k=0$ against $H_1: \beta_k \ne 0$ in model \ref{multi}.
 %%Now consider estimating the power of the visual test. 
-%%Suppose $F_{|t|}(.)$ is the distribution function of an absolute value of $t$. For the regression slope parameter $\beta$ suppose the associated test statistic in classical test be $t_{obs}$ with $p$-value $p_B$. By definition we have 
+%%Suppose $F_{|t|}(.)$ is the distribution function of an absolute value of $t$. For the regression slope parameter $\beta$ suppose the associated test statistic in classical test be $t_{obs}$ with $p$-value $p_D$. By definition we have 
 %%
-%%$$p_B=Pr(|t| \ge t_{obs}| H_0)=1-F_{|t|}(t_{obs}) \Rightarrow |t_{obs}|=F_{|t|}^{-1}(1-p_B)$$
+%%$$p_D=Pr(|t| \ge t_{obs}| H_0)=1-F_{|t|}(t_{obs}) \Rightarrow |t_{obs}|=F_{|t|}^{-1}(1-p_D)$$
 %%
 %%\red{HH: the following paragraph should probably move up, but I'm not sure how to change it appropriately. Mahbub, could you take care of that?}
 %%Now suppose $F_{|t|}(.;\delta)$ denotes the distribution function of an absolute value of $t$ distribution with non-centrality parameter $\delta$. Thus the distribution function of $p-value$ be  
 %%\begin{eqnarray}\label{dist_p}
-%%F{p_B}(p) &=& Pr(p_B \le p)=1-Pr(1-p_B \le 1-p) \nonumber \\
-%%  &=& 1-Pr(F_{|t|}^{-1}(1-p_B) \le F_{|t|}^{-1}(1-p) ) \nonumber \\
+%%F{p_D}(p) &=& Pr(p_D \le p)=1-Pr(1-p_D \le 1-p) \nonumber \\
+%%  &=& 1-Pr(F_{|t|}^{-1}(1-p_D) \le F_{|t|}^{-1}(1-p) ) \nonumber \\
 %%  &=& 1-Pr(|t_{obs}| \le F_{|t|}^{-1}(1-p)) \nonumber \\
 %%  &=&\left\{ \begin{array}{ll}
 %%          1-F_{|t|}( F_{|t|}^{-1}(1-p))=p &\mbox{ ; under $H_0$} \\
@@ -319,7 +319,7 @@ Case & Null Hypothesis & Statistic & Test Statistic & Description \\ [0.5ex] % i
 %%       \end{array} \right.     
 %%\end{eqnarray}
 %%
-%%Thus the density of $p_B$ is Uniform(0,1)  under $H_0$. As noted by \cite{Ruppert:2007}, under $H_1$ the density $$f_{P_B}(p_B; \delta)= \frac{f_{|t|}(F_{|t|}^{-1}(1-p_B);\delta)}{f_{|t|}(F_{|t|}^{-1}(1-p_B))}$$ derived from equation \ref{dist_p}  is a right skewed distribution.  
+%%Thus the density of $p_D$ is Uniform(0,1)  under $H_0$. As noted by \cite{Ruppert:2007}, under $H_1$ the density $$f_{p_D}(p_D; \delta)= \frac{f_{|t|}(F_{|t|}^{-1}(1-p_D);\delta)}{f_{|t|}(F_{|t|}^{-1}(1-p_D))}$$ derived from equation \ref{dist_p}  is a right skewed distribution.  
 %In a lineup plot we simulate $m-1$ residual data sets from null model where each of these $m-1$ null data sets produces a corresponding $p$-value $p_{0,i}$ and $p_{0,i} \sim \text{Uniform}(0,1)$ for $i = 1, ..., m-1$. Suppose  $p_0=\min_i(p_{0,i})$. Thus $p_0 \sim \text{Beta}(1,m-1)$. 
 
 Under the assumption that an observer is able to pick the plot with the smallest $p$-value from a lineup plot,  this leads to the decision to reject $H_0$ when $p_{B} < p_0$. Thus we have the expected power as 
@@ -332,7 +332,7 @@ Figure \ref{fig:power_expected} shows the power of the uniformly most powerful t
 
 %Theorem \ref{thm:power} helps to compute the expected power of visual inference.
 %\begin{thm}\label{thm:power}
-% Equation \ref{power_exp}  yields expected power of visual inference as Power($\beta$) = $E(1-p_B)^{m-1}$ .
+% Equation \ref{power_exp}  yields expected power of visual inference as Power($\beta$) = $E(1-p_D)^{m-1}$ .
 %\end{thm}
 % 
 %{ \em proof}
@@ -352,8 +352,8 @@ Figure \ref{fig:power_expected} shows the power of the uniformly most powerful t
 % Pr(p_{B} < p_0) &=& 1- Pr( p_0 \le p_{B} ) \\
 %  &=& 1- \int_{0}^{1}{Pr( p_0 \le p_{B} |p_{B} =t) f_{p_{B} }(t)dt } \\
 %  &=& 1-  \int_{0}^{1}{F{p_0}(t) f_{p_{B} }(t)dt } \\
-%  &=& E(1-p_B)^{m-1}   \\
-%%  & \rightarrow &1-  \int_{0}^{1}{ f_{p_{B} }(t)dt }  = F_{p_B}(0) \quad \text{as} \quad m \rightarrow \infty
+%  &=& E(1-p_D)^{m-1}   \\
+%%  & \rightarrow &1-  \int_{0}^{1}{ f_{p_{B} }(t)dt }  = F_{p_D}(0) \quad \text{as} \quad m \rightarrow \infty
 %\end{eqnarray*}
 %
 %
@@ -374,12 +374,12 @@ Figure \ref{fig:power_expected} shows the power of the uniformly most powerful t
 %\subsection{Expected number of choices}
 %Since $X$ has a binomial distribution, we can have a look at the number of plots among the null plots that we would expect to be picked over the data plot:
 %\[
-%E[X] = (m-1)(1-E[p_B]).
+%E[X] = (m-1)(1-E[p_D]).
 %\]
 %With an increase of the lineup size $m$ the number of null plots with a potentially stronger signal than the data plot grows linearly.
-%This should allow us to infer some of the signal strength $p_B$ as
+%This should allow us to infer some of the signal strength $p_D$ as
 %\begin{equation} \label{plot_signal}
-%E[p_B] = 1 - E[X]/(m-1),
+%E[p_D] = 1 - E[X]/(m-1),
 %\end{equation}
 %i.e. by averaging over the number of plots with  a stronger signal than the data plot we can evaluate signal strength of the plot even in the case where the data plot is not being picked by the observer.
 %
