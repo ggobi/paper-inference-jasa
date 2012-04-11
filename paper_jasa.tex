@@ -143,9 +143,15 @@ For a lineup of $m$ plots the power of \blue{a visual test} $T$
 
 For any single observer, the power of a visual test has a lower limit of $\frac1m$ since the probability that an observer will randomly pick the test statistic under $H_0$ is $\frac1m$. 
 
-When $K$ individuals evaluate a lineup plot independently, the number of successful evaluations, $U \sim \text{Binom} (K,1/m)$  under $H_0$. Thus we define $p$-value for visual test $T_{\theta}$ as in definition \ref{dfn:pval}.
+When $K$ individuals evaluate a lineup plot independently, the number of successful evaluations, $U \sim \text{Binom} (K,1/m)$  under $H_0$. This leads us to obtain the probability $$Pr(U \ge u)= \sum_{k \ge u}^K {{K \choose k} (\frac{1}{m})^k(1-\frac 1m)^{(K-k)}}$$ where $u$ is the observed number of successful evaluations. We use this probability to  define $p$-value for visual test $T_{\theta}$ as in definition \ref{dfn:pval}.
 \begin{dfn} \label{dfn:pval}
-The $p$-value of A visual test $T_{\theta}$ is at most $Pr(U \ge u)= \sum_{k \ge u}^K {{K \choose k} (\frac{1}{m})^k(1-\frac 1m)^{(K-k)}}$ where $u$ is the observed number of successful evaluations.
+The $p$-value associated with the decision of a visual test $T_{\theta}$ is given by 
+    \begin{equation*}
+        \begin{cases} 
+              p-value \le Pr(U \ge u)    & \text{when reject $H_0$,} \\
+              p-value > 1-Pr(U \ge u)  & \text{when fail to reject $H_0$}
+        \end{cases}
+    \end{equation*}
 \end{dfn}
 % HH: I think this is covered by making power a property of the test
 % In general,  $Pr(\text{Reject } H_0)$ is determined by the type of test being conducted. 
