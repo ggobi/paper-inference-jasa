@@ -90,10 +90,17 @@ This section outlines the concepts of visual inference in comparison to the proc
 Let $\theta$ be a population parameter of interest, with $\theta \in \Theta$, the parameter space. 
 Any null hypothesis $H_0$ then partitions the parameter space into $\Theta_0$ and $\Theta_0^c$, with $H_0: \theta \in \Theta_0$ versus $H_1: \theta \in \Theta_0^c$. 
 
-
+\blue{Similarly, for any test, we have a rejection region $R$ and, complementary to that, $R^c$,  that partition the space of the test statistic, which is usually a subspace of the real numbers.}
 %\subsection{Visual Statistic} 
 
-Unlike classical hypothesis testing the statistic in visual inference is not a single value, but a plot that is appropriately chosen to describe the parameter of interest, $\theta$. When the alternative hypothesis is true, it is expected that the plot of the observed data, the test statistic, will have visible feature(s) consistent with $\theta \in \Theta_0^c$, and that visual artifacts will not distinguish the test statistic as different when $H_1$ is not true. We will call a plot with this property a {\it visual statistic} for $\theta$.
+For visual inference, the statistic is -- unlike in the classical hypothesis test -- not a single value, but a graphical representation of the data chosen to display the strength of the parameter of interest, $\theta$. When the alternative hypothesis is true, it is expected that the plot of the observed data, the test statistic, will have visible feature(s) consistent with $\theta \in \Theta_0^c$, and that visual artifacts will not distinguish the test statistic as different when $H_1$ is not true. We will call a plot with this property a {\it visual statistic} for $\theta$. More formally, 
+
+\blue{
+
+\begin{dfn} \label{dfn:test}
+A \textit{visual test (statistic)} $T_\theta$ is defined as the grammar \citep{wilkinson:1999} of the plot,  consisting of type and specification of aesthetics necessary for complete reproducibility.
+\end{dfn}
+}
 
 \begin{dfn}\label{dfn:lplot}
 A lineup plot is a layout of $m$ visual statistics, consisting of 
@@ -116,12 +123,7 @@ Since the lineup plot consists of $m$ plots, the probability of choosing any one
 %\subsection{Power}
 
 For two different visual test statistics of the same observed data, the one  is better, in which a specific pattern is more easily distinguishable to the observer. This should be reflected in the power of the test. We can assess power therefore both empirically based on experimental data and through theoretical considerations. 
-\blue{
 
-\begin{dfn} \label{dfn:test}
-A \textit{visual test} $T_\theta$ is defined as the grammar \citep{wilkinson:1999} of the plot used in the lineup. The grammar consists of type and specification of aesthetics necessary for complete reproducibility.
-\end{dfn}
-}
 %Next, we will develop power theoretically and then relate it to the empirical results.
 \blue{We will first theoretically define and  derive the power of  a visual test in the setting of a parametric hypothesis test, i.e. we assume a test  of $H_0: \theta = 0$ vs $H_1: \theta \neq 0$ for some real valued parameter vector $\theta$. In a next step we will then relate the theoretical results to our empirical findings.}
 
