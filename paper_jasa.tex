@@ -129,9 +129,7 @@ For two different visual test statistics of the same observed data, the one  is 
 
 
 \begin{dfn} \label{dfn:power}
-For a lineup of $m$ plots the power of \blue{a visual test} $T$
-%$\theta$
- is defined as 
+For a lineup of $m$ plots the power of \blue{a visual test} $T$ is defined as the probability to reject the null hypothesis for a given parameter value $\theta$:
     \begin{equation*}
       \text{Power}_T(\theta)= 
         \begin{cases} 
@@ -141,26 +139,25 @@ For a lineup of $m$ plots the power of \blue{a visual test} $T$
     \end{equation*}
 \end{dfn}
 
-\red{HH: let's try to keep the power discussion as general as possible, and only use regression as an example.}
 
 For any single observer, the power of a visual test has a lower limit of $\frac1m$ since the probability that an observer will randomly pick the test statistic under $H_0$ is $\frac1m$. 
 
-When $K$ individuals evaluate a lineup plot independently, the number of successful evaluations, $U \sim \text{Binom} (K,1/m)$  under $H_0$. This leads us to obtain the probability $$Pr(U \ge u)= \sum_{k \ge u}^K {{K \choose k} (\frac{1}{m})^k(1-\frac 1m)^{(K-k)}}$$ where $u$ is the observed number of successful evaluations. We use this probability to  define $p$-value for visual test $T_{\theta}$ as in definition \ref{dfn:pval}.
+When $K$ individuals evaluate a lineup plot independently, the number of successful evaluations, $U \sim \text{Binom} (K,1/m)$  under $H_0$. This leads us to obtain the probability $$Pr(U \ge u)= \sum_{k \ge u}^K {{K \choose k} \left(\frac{1}{m}\right)^k\left(1-\frac 1m\right)^{(K-k)}}$$ where $u$ is the observed number of successful evaluations. We use this probability to  define the $p$-value for visual test $T_{\theta}$ as follows:
 \begin{dfn} \label{dfn:pval}
 The $p$-value associated with the decision of a visual test $T_{\theta}$ is given by 
+\red{HH: Why is the $p$ value not just $Pr(U \ge u)$ ? (We need to modify this a bit with respect to the rejection region $R$, but there should not be a difference in terms of whether we reject or accept. }
+
     \begin{equation*}
         \begin{cases} 
-              p-value \le Pr(U \ge u)    & \text{when reject $H_0$,} \\
-              p-value > 1-Pr(U \ge u)  & \text{when fail to reject $H_0$}
+              p\text{-value} \le Pr(U \ge u)    & \text{when reject $H_0$,} \\
+              p\text{-value} > 1-Pr(U \ge u)  & \text{when fail to reject $H_0$}
         \end{cases}
     \end{equation*}
 \end{dfn}
-% HH: I think this is covered by making power a property of the test
-% In general,  $Pr(\text{Reject } H_0)$ is determined by the type of test being conducted. 
 
-\red{HH: We need to define p values corresponding to the data shown in plots.  MM: $p_D$ is what we use for this, right?}
 
 %\red{HH: the following paragraph needs some adjustment in terms of t and $\theta$ - could you try to take of that, Mahbub?}\\
+\red{For the following paragraph, we wanted to get rid of the absolute value of $t$ and instead look at $t \in R$ and $t \in R^c$.}
 
 Suppose $F_{|t|}(.)$ is the distribution function of an absolute value of $t$, the classical test statistic. Suppose the associated test statistic in classical test is observed as  $t_{obs}$ with $p$-value $p_D$. By definition we have 
 
