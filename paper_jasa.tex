@@ -144,8 +144,18 @@ For any single observer, the power of a visual test has a lower limit of $\frac1
 
 When $K$ individuals evaluate a lineup plot independently, the number of successful evaluations, $U \sim \text{Binom} (K,1/m)$  under $H_0$. This leads us to obtain the probability $$Pr(U \ge u)= \sum_{k \ge u}^K {{K \choose k} \left(\frac{1}{m}\right)^k\left(1-\frac 1m\right)^{(K-k)}}$$ where $u$ is the observed number of successful evaluations. We use this probability to  define the $p$-value for visual test $T_{\theta}$ as follows:
 \begin{dfn} \label{dfn:pval}
-The $p$-value associated with the decision of a visual test $T_{\theta}$ is given by 
-\red{HH: Why is the $p$ value not just $Pr(U \ge u)$ ? (We need to modify this a bit with respect to the rejection region $R$, but there should not be a difference in terms of whether we reject or accept. }
+The $p$-value associated with the decision of a visual test $T_{\theta}$ is given \blue{as the probability to observe a value at least as extreme as the test statistic $u$, 
+where $u$ is the number of successful evaluations of the lineup, which leads us to a $p$-value of $P(U \ge u)$. Since $u$ is a discrete value with boundaries 0 and $K$,
+ we can also re-formulate the $p$-value in terms of upper and lower boundaries:
+ \begin{equation*}
+ \begin{array}{rcll}
+ P(U \ge u+1) \le &p\text{-value}& (\le 1), & \text{if }u < K, \text{and in particular for } u=1\\
+( 0 \le) &p\text{-value}& \le P(U \ge u-1), & \text{if }u > 1, \text{and in particular for } u=K.\\ 
+ \end{array}
+ \end{equation*}
+ }
+\red{HH: Tried to re-write it to answer the question below.
+Why is the $p$ value not just $Pr(U \ge u)$ ? (We need to modify this a bit with respect to the rejection region $R$, but there should not be a difference in terms of whether we reject or accept. }
 
     \begin{equation*}
         \begin{cases} 
@@ -161,39 +171,39 @@ The $p$-value associated with the decision of a visual test $T_{\theta}$ is give
 
 Suppose $F_{|t|}(.)$ is the distribution function of an absolute value of $t$, the classical test statistic. Suppose the associated test statistic in classical test is observed as  $t_{obs}$ with $p$-value $p_D$. By definition we have 
 
-$$p_D=Pr(|t| \ge t_{obs}| H_0)=1-F_{|t|}(t_{obs}) \Rightarrow |t_{obs}|=F_{|t|}^{-1}(1-p_D)$$
+$$p_D=Pr\left(|t| \ge t_{obs} \mid H_0\right)=1-F_{|t|}(t_{obs}) \ \ \Rightarrow \ \  |t_{obs}|=F_{|t|}^{-1}(1-p_D)$$
 
-Now suppose $F_{|t|}(.;\delta)$ denotes the distribution function of an absolute value of $t$, the classical test statistic, with non-centrality parameter $\delta$. Thus the distribution function of $p-value$ be  
+%Now suppose $F_{|t|}(.;\delta)$ denotes the distribution function of an absolute value of $t$, the classical test statistic.
+%, with non-centrality parameter $\delta$. 
+Then the distribution function of $p$-value $p_D$ under $H_0$ is uniform, since:  
 \begin{eqnarray}\label{dist_p}
 F{p_D}(p) &=& Pr(p_D \le p)=1-Pr(1-p_D \le 1-p) \nonumber \\
-  &=& 1-Pr(F_{|t|}^{-1}(1-p_D) \le F_{|t|}^{-1}(1-p) ) \nonumber \\
-  &=& 1-Pr(|t_{obs}| \le F_{|t|}^{-1}(1-p)) \nonumber \\
-  &=&\left\{ \begin{array}{ll}
-          1-F_{|t|}( F_{|t|}^{-1}(1-p))=p &\mbox{ ; under $H_0$} \\
-          1-F_{|t|}( F_{|t|}^{-1}(1-p); \delta) &\mbox{ ; under $H_1$} 
-       \end{array} \right.     
+  &=& 1-Pr\left(F_{|t|}^{-1}(1-p_D) \le F_{|t|}^{-1}(1-p) \right) \nonumber \\
+  &=& 1-Pr\left(|t_{obs}| \le F_{|t|}^{-1}(1-p)\right) \nonumber \\
+  &=&%\left\{ \begin{array}{ll}
+          1-F_{|t|}\left( F_{|t|}^{-1}(1-p)\right)=p \mbox{ ; under $H_0$} 
+ %         1-F_{|t|}( F_{|t|}^{-1}(1-p); \delta) &\mbox{ ; under $H_1$} 
+%       \end{array} \right.     
 \end{eqnarray}
 
-Thus the density of $p_D$ is Uniform(0,1)  under $H_0$. As noted by \cite{Ruppert:2007}, under $H_1$ the density of $p_D$ $$f_{p_D}(p_D; \delta)= \frac{f_{|t|}(F_{|t|}^{-1}(1-p_D);\delta)}{f_{|t|}(F_{|t|}^{-1}(1-p_D))}$$ derived from equation \ref{dist_p}  is a right skewed distribution.  
+%Thus the density of $p_D$ is Uniform(0,1)  under $H_0$. As noted by \cite{Ruppert:2007}, under $H_1$ the density of $p_D$ $$f_{p_D}(p_D; \delta)= \frac{f_{|t|}(F_{|t|}^{-1}(1-p_D);\delta)}{f_{|t|}(F_{|t|}^{-1}(1-p_D))}$$ derived from equation \ref{dist_p}  is a right skewed distribution.  
 
 
 
-\blue{Similarly, we will assume that $p_{0,i}$, $i=1, ..., m-1$ are the $p$-values associated with data corresponding to the $m-1$ null plots. Since this data is generated consistently with the null hypothesis, by equation \ref{dist_p}, the $p$-values follow a standard Uniform distribution, $p_{i,0} \sim U[0,1], i= 1, ..., m-1$. }
-
-%\red{HH: $p_D$ isn't defined yet} \\
-%\red{MM: $p_D$ and $p_D$ are same, right?}
+\blue{Similarly, we will assume that $p_{0,i}$, $i=1, ..., m-1$ are the $p$-values associated with data corresponding to the $m-1$ null plots. Since this data is generated consistently with the null hypothesis,  the $p$-values follow a standard Uniform distribution, $p_{i,0} \sim U[0,1], i= 1, ..., m-1$ (by equation \ref{dist_p}). }
 
 Let us think of a lineup as a head-to-head comparison of the test statistic and $m-1$ null plots. 
 %Let the data plot have a $p$-value of $p_D$, and the null plots $p$ values of $p_{0, i}$ with $1 \le i \le m-1$.
-We know that for each comparison the probability that the data plot has the smaller $p$ value is 
+We know that for each comparison the probability that the data, on which the plot is based, has the smaller $p$ value is 
 \begin{eqnarray*}
 P(p_D < p_{0,i}) &=& 1 - P(p_{i,0} \le p_D) = 1- \int_0^1  P(p_{i,0} \le p_D \mid p_D=t) f_{p_D}(t) dt =  \\
 &=& 1 - \int_0^1 F_{p_{0,i}}(t) f_{p_D}(t) dt = 1 - \int_0^1 t f_{p_D}(t) dt = 1 - E[p_D],
 \end{eqnarray*}
 which, in particular, is independent of $p_{0,i}$ for all $i$.
 
-Let us now define $X$ as the number of null plots in a lineup, for which the $p$-value $p_{0,i}$ is smaller than $p_D$ (i.e. under the assumption that the onlooker is able to identify the chart with the smallest $p$-value, they would pick any of the $X$  null plots over the data plot). 
-\red{HH: we need to make this assumption a bit more obvious - this is a crucial assumption, and we need to back it up later in the evaluation section.}
+Let us make the assumption that an onlooker is able to identify  the chart corresponding to the data with the smallest $p$-value. Further we will assume that all onlookers  have the same ability in identifying the data plot.
+
+With that, we define $X$  as the number of null plots in a lineup, for which the $p$-value $p_{0,i}$ is smaller than $p_D$.  
 
 Then $X \sim B_{m-1, E[p_D]}$, and the probability that an onlooker will pick the data plot in a given lineup is 
 \[
@@ -204,7 +214,7 @@ P(X=0) = \left(1 - E[p_D] \right)^{m-1} = P(p_D \le p_0), \ \ \ \text{ where } p
 %\red{pull the results for $P(p_D < p_{i,0})$ and $P(p_D < p_0)$ to the front, including the figure on $1/m$ versus power. These results are independent of the regression setting - they don't make any assumptions in terms of regression.}
 
 
-Figure \ref{fig:pval_power} gives an overview of the probability of picking the data plot for lineups of different size: as $m$ increases we have an increased probability to observe a more highly structured null plot by chance. We see that for a $p$-value $p_D$ of about 0.15 for the data plot the signal in the plot is so weak, that we cannot distinguish the data plot from null plots in a lineup of size $m=20$. This pattern is also seen in our experiments as shown in figure \ref{fig:pval_pcorrect}.
+Figure \ref{fig:pval_power} gives an overview of the probability of picking the data plot for lineups of different size: as $m$ increases we have an increased probability to observe a more highly structured null plot by chance. We see that for a $p$-value $p_D$ of about 0.15 for the data plot the signal in the plot is so weak, that we cannot distinguish the data plot from null plots in a lineup of size $m=20$. \red{The following sentence should be moved back} This pattern is also seen in our experiments as shown in figure \ref{fig:pval_pcorrect}.
 
 Even under $H_1$ we expect some observers to pick a null plot with a probability that depends on the strength of the signal in our data plot. 
 Reversely, we will now make use of the number of observers who do not pick the data plot in a lineup to infer the strength of the signal in the test statistic.
