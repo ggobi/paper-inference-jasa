@@ -50,7 +50,7 @@ Statistical graphics play a crucial role in exploratory data analysis, model che
 
 Any statistical analysis must include some statistical graphics. For exploratory data analysis, statistical graphics play an invaluable role in model checking and diagnostics. Even though we have established mathematical procedures to obtain various statistics, we need to support the results by also producing the relevant plots. 
 
-The scientific foundation of graphical methods for data analysis is well established by \cite{cleveland:1984}. In recent years we have seen several major advances in statistical graphics. Modern computing systems like R and SAS tease the production of high quality statistical plots. A grammar of graphics introduced by \cite{wilkinson:1999} presents a structured way to generate specific graphics from data and define connections between disparate types of plots.  \cite{hadley:2009} has implemented a revised version of the grammar of graphics in R, in the package {\tt ggplot2}.   \blue {Graham Wills has implemented the grammar in SPSS, but I'm not sure how to cite this.}
+The scientific foundation of graphical methods for data analysis is well established by \cite{cleveland:1984}. In recent years we have seen several major advances in statistical graphics. Modern computing systems like R and SAS ease the production of high quality statistical plots. A grammar of graphics introduced by \cite{wilkinson:1999} presents a structured way to generate specific graphics from data and define connections between disparate types of plots.  \cite{hadley:2009} has implemented a revised version of the grammar of graphics in R, in the package {\tt ggplot2}.   \blue {Graham Wills has implemented the grammar in SPSS, but I'm not sure how to cite this.}
 
 
 \citet{buja:2009}, following from \cite{gelman:2004}, proposed two protocols that allow the testing of discoveries made from statistical graphics. This work represents a major advance for graphics, because it bridges the gulf between classical statistical inference procedures and exploratory data analysis.
@@ -83,6 +83,14 @@ Section \ref{sec:visual_test} describes the basic ideas of visual inference, Sec
 \end{table*}	
 
 \section{Visual Statistical Inference} \label{sec:visual_test} 
+Visual tests are non-parametric tests of the form $H_0$: the data plot is visually not distinguishable from a null plot vs $H_1$: the data plot is visually distinguishable from a plot generated consistently with $H_0$.
+
+Power of a plot and $p$-value have been derived in Buja and Wickham as ...
+
+
+
+for this paper, we want to place the parametric inference of a regression setting into the framework of visual testing:
+
 
 
 This section outlines the concepts of visual inference in comparison to the procedures of classical statistical inference. Table \ref{tbl:compare} (derived from \citet{buja:2009}) gives a summarized overview of this comparison.
@@ -142,14 +150,18 @@ For a lineup of $m$ plots the power of \blue{a visual test} $T$ is defined as th
 
 For any single observer, the power of a visual test has a lower limit of $\frac1m$ since the probability that an observer will randomly pick the test statistic under $H_0$ is $\frac1m$. 
 
-When $K$ individuals evaluate a lineup plot independently, the number of successful evaluations, $U \sim \text{Binom} (K,1/m)$  under $H_0$. This leads us to obtain the probability $$Pr(U \ge u)= \sum_{k \ge u}^K {{K \choose k} \left(\frac{1}{m}\right)^k\left(1-\frac 1m\right)^{(K-k)}}$$ where $u$ is the observed number of successful evaluations. We use this probability to  define the $p$-value for visual test $T_{\theta}$ as follows:
+When $K$ individuals evaluate a lineup plot independently, the number of successful evaluations, $U \sim \text{Binom} (K,1/m)$  under $H_0$. This leads us to obtain the probability 
+\begin{equation}\label{eqn:pvalue}
+Pr(U \ge u)= \sum_{k \ge u}^K {{K \choose k} \left(\frac{1}{m}\right)^k\left(1-\frac 1m\right)^{(K-k)}}
+\end{equation}
+where $u$ is the observed number of successful evaluations. We use this probability to  define the $p$-value for visual test $T_{\theta}$ as follows:
 \begin{dfn} \label{dfn:pval}
 The $p$-value associated with the decision of a visual test $T_{\theta}$ is given \blue{as the probability to observe a value at least as extreme as the test statistic $u$, 
-where $u$ is the number of successful evaluations of the lineup, which leads us to a $p$-value of $P(U \ge u)$. Since $u$ is a discrete value with boundaries 0 and $K$,
+where $u$ is the number of successful evaluations of the lineup, which leads us to a $p$-value of $P(U \ge u)$ as given in eqn (\ref{eqn:pvalue}). Since $u$ is a discrete value with boundaries 0 and $K$,
  we can also re-formulate the $p$-value in terms of upper and lower boundaries:
  \begin{equation*}
  \begin{array}{rcll}
- P(U \ge u+1) \le &p\text{-value}& (\le 1), & \text{if }u < K, \text{and in particular for } u=1\\
+ P(U \ge u+1) \le &p\text{-value}& (\le 1), & \text{if }u < K, \text{and in particular for } u=0\\
 ( 0 \le) &p\text{-value}& \le P(U \ge u-1), & \text{if }u > 1, \text{and in particular for } u=K.\\ 
  \end{array}
  \end{equation*}
@@ -221,17 +233,17 @@ Reversely, we will now make use of the number of observers who do not pick the d
 
 \begin{figure}[htbp] %  figure placement: here, top, bottom, or page
    \centering
-   \includegraphics[width=3.5in]{images/p_val_power_m.pdf} 
+   \includegraphics[width=3.5in]{images/powerplot.pdf} 
    \caption{Comparison of probabilities to pick the data plot for different size lineups $m$ and different values for data plot strength $p_D$. The grey line shows probability of picking the data plot under $H_0$. }
    \label{fig:pval_power}
 \end{figure}
 
-Now assume that the same lineup plot is evaluated by $K$ independent observers. W.l.o.g. let the last plot be the data plot and plots 1 through $m-1$ the null plots. Let $n_i$ be the number of observers who picked plot $i$ as the plot with the structure least consistent with the null hypothesis, then $\sum_{k=1}^{m} n_k = K$, and $(n_1, n_2, ..., n_m) \sim$ Mult$_{\pi_1, ..., \pi_m}$ with $\sum_i \pi_i = 1$. We can estimate $\pi_i$ as $\widehat{\pi_i} = n_i/K$. 
+Now assume that the same lineup plot is evaluated by $K$ independent observers. W.l.o.g. let the last plot be the data plot and plots 1 through $m-1$ the null plots. Let $n_i$ be the number of observers who picked plot $i$ as the plot with the structure least consistent with the null hypothesis, corresponding to random variable $N_i$.  Then  $(N_1, N_2, ..., N_m) \sim$ Mult$_{\pi_1, ..., \pi_m}$ with $\sum_i \pi_i = 1$ and $\sum_{k=1}^{m} n_k = K$. We can estimate $\pi_i$ as $\widehat{\pi_i} = n_i/K$. 
 
-For the distribution of $n_m$, %the number of times out of $K$ that observers picked the last plot to show the structure least consistent with the null hypothesis, 
+For the distribution of $N_m$, %the number of times out of $K$ that observers picked the last plot to show the structure least consistent with the null hypothesis, 
 we get
 \[
-n_m\sim \left \{ 
+N_m\sim \left \{ 
 \begin{array}{ll}
 B_{K, (1-E[p_D])^{m-1}} & \text { under } H_1\\
 B_{K, 1/m} & \text { under } H_0
@@ -239,26 +251,45 @@ B_{K, 1/m} & \text { under } H_0
 \right .
 \]
 
-Under $H_1$ we therefore get an estimate for the strength of the signal in the test statistic based on a lineup evaluation as 
+By matching the expected values, we therefore get an expression for the $p$-value in the data under $H_1$  as:
 \begin{equation}\label{eqn:power_estimate}
-\widehat{E[p_D]} = 1- \left(\frac{n_m}{K}\right)^{1/(m-1)}.
+{E[p_D]} = 1- \left(\frac{E[N_m]}{K}\right)^{1/(m-1)}.
 \end{equation}
 
-\blue{Note that the right hand side of equation (\ref{eqn:power_estimate}) is independent of the parameter $\theta$, but just based on the lineup evaluation by independent observers. This allows us to compute this value independently of the parametric setting. We therefore define the {\it signal strength} of a  visual test as the following:
+\blue{Note that the right hand side of equation (\ref{eqn:power_estimate}) is independent of the parameter $\theta$, but just based on the lineup evaluation by independent observers. While this allows us to compute this value independently of the parametric setting, it also means that onlookers might pick out the data plot for a reason not related to the value of $\theta$. 
 
-\begin{dfn} \label{dfn:signal}
-The {\it signal strength} $\sigma_T$ of a visual test is defined as the probability to identify the data plot.
-\end{dfn}
+%Picking out the data plot is still a measure of how different the data plot is compared to the null plots, and therefore is a test statistic of the visual test.
 
-In a lineup of size $m$, evaluated by $K$ independent observers,  we can estimate the signal strength of the test as
-\[
-\sigma_T^{m-1} = \frac{n_m}{K}.
-\]
-
-In a parametric setting, signal strength of a test coincides with the power of the test.
+%This allows us to compute this value independently of the parametric setting. We therefore define the {\it signal strength} of a  visual test as the following:
+%
+%\begin{dfn} \label{dfn:signal}
+%The {\it signal strength} $\sigma_T$ of a visual test is defined as the probability to identify the data plot.
+%\end{dfn}
+%
+%In a lineup of size $m$, evaluated by $K$ independent observers,  we can estimate the signal strength of the test as
+%\[
+%\sigma_T^{m-1} = \frac{n_m}{K}.
+%\]
+%
+%In a parametric setting, signal strength of a test coincides with the power of the test.
 }
 
-\red{We need to comment on how this ties in to the rest of the paper: this is a theoretical consideration based on the assumption that observers are able to spot the plot with the smallest/a small $p$-value.}
+\red{We need to comment on how this ties in to the rest of the paper: this is a theoretical consideration based on the assumption that observers are able to spot the plot with the smallest/a small $p$-value. $p$ value of data plot and $p$ values from null are negatively correlated (if one is low, the other has to be higher. We need to address this.}
+\red{HH: should we re-run some of the lineups with different null plots?}
+
+\blue{
+\paragraph{Subject-specific Power}
+Probability to reject null hypothesis is power. This is intricately related to the probability to identify the data plot from the lineup. We need to address the problematic of individual specific abilities in identifying the data plot
+}. 
+\red{HH: need to cite some literature from cognitive science here}
+
+\blue{Let $X_{j\ell} \sim B_{1, \pi_{j\ell}}$ be the random variable, with $X_{j\ell}= 1$, if  subject $j$ correctly identifies the data plot from lineup $\ell$, and 0 otherwise.
+We can model $\pi_{j\ell}$ with a logistic regression with subject specific random effects as:
+\[
+\text{logit } \pi_{j\ell} = X_\ell \beta + Z u_j,  
+\]
+where $X_\ell$ is a matrix of fixed effects with parameter vector $\beta$ corresponding to lineup $\ell$ and $u \sim MVN(0, \sigma_u I)$  is a vector of random variables $j = 1, ..., J$.
+}
 
 Theoretical power for the regression parameters is derived in the next section.
 \section{Inference for a Regression Model} \label{sec:regression}
