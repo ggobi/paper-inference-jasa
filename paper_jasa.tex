@@ -278,7 +278,7 @@ By matching the expected values, we therefore get an expression for the $p$-valu
 \red{HH: should we re-run some of the lineups with different null plots?}
 
 \blue{
-\paragraph{Subject-specific Power}
+\paragraph{Subject-specific power}
 Probability to reject null hypothesis is power. This is intricately related to the probability to identify the data plot from the lineup. We need to address the problematic of individual specific abilities in identifying the data plot
 }. 
 \red{HH: need to cite some literature from cognitive science here}
@@ -288,7 +288,7 @@ We can model $\pi_{j\ell}$ with a logistic regression with subject specific rand
 \[
 \text{logit } \pi_{j\ell} = X_\ell \beta + Z u_j,  
 \]
-where $X_\ell$ is a matrix of fixed effects with parameter vector $\beta$ corresponding to lineup $\ell$ and $u \sim MVN(0, \sigma_u I)$  is a vector of random variables $j = 1, ..., J$.
+where $X_\ell$ is a matrix of fixed effects with parameter vector $\beta$ corresponding to lineup $\ell$ and $u \sim MVN(0, \sigma_u I)$  is a vector of random variables $j = 1, ..., N_\ell$ for each of $N_\ell$ subjects presented with lineup $\ell$.
 }
 
 Theoretical power for the regression parameters is derived in the next section.
