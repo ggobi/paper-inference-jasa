@@ -17,7 +17,8 @@
 \setlength{\textwidth}{6.5in}
 \setlength{\topmargin}{-0.4in}
 \setlength{\textheight}{9in}
-\evensidemargin \oddsidemargin
+\evensidemargin 
+\oddsidemargin
 
 \newtheorem{thm}{Theorem}[section]
 \newtheorem{dfn}{Definition}[section]
@@ -28,7 +29,7 @@
 %\topmargin -0.10in   % when making pdf
 %\textheight 9.15in  % when making pdf
 
-\setlength\parindent{0pt}
+%\setlength\parindent{0pt}
 
 \begin{document}
 
@@ -40,7 +41,7 @@
 \maketitle
 
 \begin {abstract} 
-Statistical graphics play a crucial role in exploratory data analysis, model checking and diagnosis. Until recently there were no formal visual methods in place for determining statistical significance of findings. This changed, when \citet{buja:2009} conceptually introduced two protocols for formal tests of visual findings. In this paper we take this a step further by comparing the lineup protocol \citep{buja:2009} against classical statistical testing  of the significance of regression model parameters. A human subjects experiment is conducted using simulated data to provide controlled conditions. Results suggest that the lineup protocol provides results equivalent to the uniformly most powerful (UMP) test and for some scenarios yields better power than the UMP test.
+Statistical graphics play a crucial role in exploratory data analysis, model checking and diagnosis. Until recently there were no formal visual methods in place for determining statistical significance of findings. This changed, when \citet{buja:2009} conceptually introduced two protocols for formal tests of visual findings. In this paper we take this a step further by comparing the lineup protocol \citep{buja:2009} against classical statistical testing  of the significance of regression model parameters. A human subjects experiment is conducted using simulated data to provide controlled conditions. Results suggest that the lineup protocol provides results comparable to the uniformly most powerful (UMP) test, out-performs the UMP when data is contaminated, and, there may be some super-individuals who yield better power than the UMP test even in the most difficult trials.
 \end {abstract}
 
 %\begin{multicols}{2}
@@ -48,14 +49,20 @@ Statistical graphics play a crucial role in exploratory data analysis, model che
 
 \section{Introduction} 
 
-Any statistical analysis must include some statistical graphics. For exploratory data analysis, statistical graphics play an invaluable role in model checking and diagnostics. Even though we have established mathematical procedures to obtain various statistics, we need to support the results by also producing the relevant plots. 
+Statistical graphics plays a vital role in discovery. Finding the unexpected in data, structure that was not previously anticipated or covered by the original hypotheses is one of the strengths of visual analysis. This was an area pioneered by \cite{tukey:eda} and is particularly pertinent in today's data-rich world where data mining has become an important activity. Graphics are also used in many places where numerical summaries simply do not suffice: model checking, diagnosis, and in the communication of findings. 
 
-The scientific foundation of graphical methods for data analysis is well established by \cite{cleveland:1984}. In recent years we have seen several major advances in statistical graphics. Modern computing systems like R and SAS ease the production of high quality statistical plots. A grammar of graphics introduced by \cite{wilkinson:1999} presents a structured way to generate specific graphics from data and define connections between disparate types of plots.  \cite{hadley:2009} has implemented a revised version of the grammar of graphics in R, in the package {\tt ggplot2}.   \blue {Graham Wills has implemented the grammar in SPSS, but I'm not sure how to cite this.}
+The foundation of statistical graphics is well-established. Work by \cite{cleveland:1984}, repeated and expanded by \cite{heer:2010} provides a framework for evaluating human perception of statistical graphics.  \cite{wilkinson:1999} has developed a grammar of graphics which has been enhanced by \cite{hadley:2009} that formalizes statistics graphics helping to describes how different plots are related. The availability of software systems enabling beautiful data graphics to be tightly coupled with modeling, such as R \citep{R}.
+
+But the strength of the patterns revealed by plots or individual differences among the audience members is something difficult to quantify. \citet{buja:2009}, following from \cite{gelman:2004}, proposed two protocols that allow the testing of discoveries made from statistical graphics. This work represents a major advance for graphics, because it bridges the gulf between classical statistical inference procedures and exploratory data analysis.
+
+%, analysis requires plots of data. For exploratory data analysis, statistical graphics play an invaluable role in model checking and diagnostics. Even though we have established mathematical procedures to obtain various statistics, we need to support the results by also producing the relevant plots. 
+
+%The scientific foundation of graphical methods for data analysis is well established by \cite{cleveland:1984}. In recent years we have seen several major advances in statistical graphics. Modern computing systems like R and SAS ease the production of high quality statistical plots. A grammar of graphics introduced by \cite{wilkinson:1999} presents a structured way to generate specific graphics from data and define connections between disparate types of plots.  \cite{hadley:2009} has implemented a revised version of the grammar of graphics in R, in the package {\tt ggplot2}.   \blue {Graham Wills has implemented the grammar in SPSS, but I'm not sure how to cite this.}
 
 
-\citet{buja:2009}, following from \cite{gelman:2004}, proposed two protocols that allow the testing of discoveries made from statistical graphics. This work represents a major advance for graphics, because it bridges the gulf between classical statistical inference procedures and exploratory data analysis.
+%\citet{buja:2009}, following from \cite{gelman:2004}, proposed two protocols that allow the testing of discoveries made from statistical graphics. This work represents a major advance for graphics, because it bridges the gulf between classical statistical inference procedures and exploratory data analysis.
 
-In this paper we compare graphical inference to classical statistical inference for a set of regression type example. We also present results of a human-subject study assessing the performance of individuals on lineup plots \citep{buja:2009} for testing significance of regression parameters. 
+In this paper we compare the lineup protocol to classical statistical inference, specifically applied to the regression framework. We also present results of a human-subject study assessing the performance of individuals on lineup plots \citep{buja:2009} for testing significance of regression parameters. 
 
 Section \ref{sec:visual_test} describes the basic ideas of visual inference, Section \ref{sec:regression} applies these ideas to the case of inference for regression analysis. In Section \ref{sec:simulation} we outline the setup for the human-subject study and  and present results. 
 
