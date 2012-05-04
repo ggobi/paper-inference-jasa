@@ -1,0 +1,72 @@
+\documentclass[11pt]{article}
+\usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+%\geometry{landscape}                % Activate for for rotated page geometry
+%\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{amstext}
+\usepackage{epstopdf}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+\title{Brief Article}
+\author{The Author}
+%\date{}                                           % Activate to display a given date or no date
+
+\begin{document}
+%\maketitle
+\section{Notation and Definitions for Visual Inference}
+
+
+\begin{tabular}{lp{4in}}
+$H_0$ & the data plot is consistent with the null distribution \\
+$H_a$ & \\
+test statistic & data plot inserted into a lineup of $m-1$ null plots, that are created consistently with the null hypothesis.\\
+sampling distribution & \\
+Significance level $\alpha$ & $\alpha \in (0,1)$ is the threshold at which we will reject the null hypothesis, should the $p$-value fall under it, usually $\alpha=0.05$.\\
+test procedure & a set of $K$ independent judges evaluates a lineup of size $m$ to come to a conclusion whether to reject $H_0$.\\
+$p$-value & probability that $x$ or more of $K$ observers pick the data plot  under $H_0$. \\
+Power & probability to reject the null hypothesis\\
+Type I error & probability to reject the null hypothesis if it is true\\
+Type II error & probability to fail to reject the null hypothesis if it is false\\
+\end{tabular}
+
+\section{Calculations}
+\paragraph{Significance Level}
+Setting a significance level $\alpha$ imposes restrictions on the size of the lineup $m$ and the number of judges $K$. Since we want our test to be able to reject the null hypothesis, if there is evidence against it. Practical considerations therefore put limits on the significance level that we can impose: a lineup of size $m > 20$ is only feasible in very special circumstances, which implies, that for a significance level below 0.05 we will need at least two judges to be able to reject. Generally, with a lineup of size $m$ and $K$ independent judges we will be able to reject at a significance level at or above $\alpha = m^{-K}$.
+
+\paragraph{$p$-value}
+Assuming that we are dealing with $K$ independent judges, we can model the number of times that the data plot is being selected under $H_0$ as $X$, where $X \sim B_{K, 1/m}$. Given that $x$ out of the $K$ judges picked the data plot, then  the $p$-value is the probability to observe at least $x$ picks or more:
+\[
+p\text{-value}  =  P(X \ge x) = 1 - B_{K, 1/m} (x-1)
+\]
+for $x \ge 1$.
+Since the above formula does not lead to informative $p$-values for  $x=0$ we will be reporting a lower boundary in this situation, i.e:
+\begin{eqnarray*}
+p\text{-value} &\ge& P(X \ge 1) \text{ for } x= 0.\\
+\end{eqnarray*}
+
+\paragraph{Power}
+We define the power of a lineup as the probability to reject the null hypothesis. Let $X_i$ be the random variable that observer $i$ picks out the data plot. Then $X_i \sim B_{1, p_i}$ and $P(X_i = 1) = p_i$. Let $X = \sum_{i=1}^K X_i$, i.e. $X$ has a Poisson-Binomial distribution.
+We can then express the power of the lineup as $P(X \ge x)$ with $x = 0, ..., K$.
+
+$P(X \ge x)$ can be approximated by $Po_\lambda$ with $\lambda= \sum_i p_i$. (Le Cam Inequality, but error is too big: $\sum_i p_i^2$, since $p_i$ are not small). Closed form density (Closed-Form Expression for the Poisson-Binomial Probability Density Function, Martin Lockheed et al, 2010) might be a way out, but simulation should work. 
+
+Computing power  is intricately linked with our ability to accurately model an individual's ability to pick the data plot $p_i$.
+
+Under the assumption, that every person has the same ability $p_D$ to pick the data plot from a lineup, we know that the distribution for $X$, the number of participants identifying the data plot given $H_1$  simplifies to  Binomial distribution $B_{K, p}$, and we can estimate $p$ as
+\[
+\hat{p} = x/K.
+\] 
+
+
+In the situation, that we have multiple evaluations of lineups by the same participants, we can estimate and subject-specific abilities of identifying the data plot, and emply a subject-specific random effects to more accurately estimate $p_{ij}$ as: 
+
+\begin{equation}
+g(p_{ij}) = X_{ij}B  + Z_{ij} \tau_j 
+\label{mixed} 
+\end{equation}
+%
+%where $\tau_j$ is a vector of random effects for subject $j$,  $\tau_j  \sim  MVN(0,\Sigma)$ with variance covariance matrix $\Sigma$, $Z_{ij}$ is the $i$th row vector of random effects covariates for subject $j$, $B$ is a vector of coefficient of length $p$, the number of fixed effect covariates being used, $X_{ij}$ is the $i$th row vector of the fixed effects covariates for subject $j$ and logit link function $g(\pi)=\log(\pi) - \log(1-\pi); 0 \le \pi \le 1$. \end{document}  
+
+\end{document}
