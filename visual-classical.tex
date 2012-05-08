@@ -18,18 +18,19 @@
 \section{Notation and Definitions for Visual Inference}
 
 
-\begin{tabular}{lp{4in}}
-$H_o$ & Null hypothesis, of the essence that there is nothing interesting to see in this data. \\
-$H_a$ & Alternative hypothesis, of the essence that the patterns seen in the data are inconsistent with randomness, without a need to be very specific. \\
-Test statistic & Plot of the data data, designed to be able to detect interesting as defined by the null and alternative hypotheses\\
+\begin{tabular}{lp{4.5in}}
+$H_o$ & Null hypothesis, of the essence that there is nothing interesting in the population, or population is consistent with randomness. \\
+$H_a$ & Alternative hypothesis, of the essence that the patterns are inconsistent with randomness, without a need to be very specific. \\
+Statistic & Mapping from the random variables to the sample statistic, plot, ideally using a grammar of graphics language, designed to be able to detect interesting as defined by the null and alternative hypotheses. \\
+Test statistic & Plot of the observed data.\\
 Null plot & Plot of data that is generated in a manner consistent with the null hypothesis. Sometimes the distribution that this data is drawn from is considered to be the null distribution. \\
-Sampling distribution & Distribution of the test statistic, assuming that the null hypothesis is true. When a lineup is used to test the null hypothesis a small, finite number of samples is drawn from the null distribution, and plotted in the same manner as the test statistic. This forms the sampling distribution upon which the test is made.  \\
-Significance level, $\alpha$ & $\alpha \in (0,1)$, usually $\alpha=0.05$, is the threshold value at which we will reject the null hypothesis. Because a small finite number of null plots are shown along with the data, the significance level will be 1/(\# of plots in the lineup) for one observer. For multiple observers, $\alpha$ might be set to be lower than 0.05. \\
+Sampling distribution & Distribution of the test statistic, assuming that the null hypothesis is true. When a lineup is used to test the null hypothesis a small, finite number of samples is drawn from the null distribution, and plotted in the same manner as the test statistic. This forms the sampling distribution upon which the test is made. Sometimes this is referred to as the null distribution, but it leads to ambiguous language. \\
+Significance level, $\alpha$ & $\alpha \in (0,1)$, usually $\alpha=0.05$, is the threshold value at which we will reject the null hypothesis. This is the rate at which we are willing to be wrong in rejecting the null hypothesis. Because a small finite number of null plots are shown along with the data, the significance level might commonly be decided to be 1/(\# of plots in the lineup). \\
 %test procedure & a set of $K$ independent judges evaluates a lineup of size $m$ to come to a conclusion whether to reject $H_0$.\\
-$p$-value & By definition, the $p$-value is the probability the data plot is recognizable as different from the null plots, assuming that the null hypothesis is true. For multiple observers, this can be estimated by assuming that the chance that the data plot is chosen by one observer is $p=0.05$ (typically), and accounting for the mulitple picks using a Beta distribution. \\
-Power & Defined as the probability of rejecting the null hypothesis, when the null hypothesis is not true. This is estimated from the trials as the proportion, number of observers who pick the data plot/total number of observers. \\
-Type I error & The probability of rejecting the null hypothesis if it is actually true. This is typically controlled at the value $\alpha$. \\
-Type II error & The probability of failing to reject the null hypothesis if it is not true.\\
+$P$-value & The $p$-value is the probability that one or more of the null plots is more recognizable as different than the test statistic. Or, another way to say this is that if the test statistic is chosen that none of the null plots was more recognizable.\\%, so the $p$-value is 1/(\# of plots shown). \\% is chosen, assuming that the null hypothesis is true. That is, the chance that the data plot is recognizable as different from the null plots. \\
+Power & Defined as the probability of rejecting the null hypothesis, often considered in the context of the alternative hypothesis. \\%This is estimated from the trials as the proportion, number of observers who pick the data plot/total number of observers. \\
+Type I error & The probability of rejecting the null hypothesis if it is actually true. This is typically controlled at the value $\alpha$. This is the probability that the test statistic is chosen, if the null hypothesis is true.\\
+Type II error & The probability of failing to reject the null hypothesis if it is not true. This is the probability that the test statistic is not chosen, even though the null hypothesis is not true.\\
 \end{tabular}
 
 \section{Calculations}
