@@ -53,7 +53,19 @@ Statistical graphics nourishes the discovery process in data analysis: revealing
 
 Statistical graphics research and development is agreeably established now, and has been cemented by several new developments in recent years. Early studies on evaluating how well statistical plots are perceived and read by the human eye \citep{cleveland:1984}, have been repeated and expanded \citep{heer:2010} with findings supporting the original results. This body of work provides a framework for evaluating new statistical graphics.  In a complementary direction, new research on formalizing statistical graphics with language characteristics makes it easier to abstractly define, compare and contrast data plots. \cite{wilkinson:1999} developed a grammar of graphics that is enhanced by \cite{hadley:2009}. These methods provide a mechanism to abstract the way data is mapped to graphical form. Finally, technology advances make it simple and easy for everyone to draw plots of data, and particularly the existence of software systems, such as R \citep{R}, enable making beautiful data graphics that can be tightly coupled with statistical modeling.
 
-But the strength of the patterns revealed by plots or individual differences among the audience members is something difficult to quantify. \citet{buja:2009}, following from \cite{gelman:2004}, proposed two protocols that allow the testing of discoveries made from statistical graphics. This work represents a major advance for graphics, because it bridges the gulf between classical statistical inference procedures and exploratory data analysis.
+However, measuring the strength of patterns seen in plots, and differences in individual perceptual ability, is something that is difficult and perhaps handicaps graphics  use among statisticians, where measuring probabilities is of primary importance. This has also been addressed in recent research. \citet{buja:2009} proposes a protocol that allow the testing of discoveries made from statistical graphics. This work represents a major advance for graphics, because it bridges the gulf between classical statistical inference procedures and exploratory data analysis. One of the protocols, the lineup, places the data plot among  a page of plots of null data, and asks a human judge to pick the plot that is different. Figure \ref{fig:test_category} shows an example lineup. Which plot do you think is the most different from the others? Wrapped in a process that mirrors classical inference, where there is an explicit, a priori, null hypothesis, picking the plot of the data from the null plots represents a rejection of that null hypothesis. The null hypothesis typically derives from the task at hand, or the type of plot being made. The alternative encompasses all possible antitheses, all types of patterns that might be detected in the data plot, accounting for all possible deviations from the null without the requirement to specify these ahead of time. The probability of rejection can be quantified, along with Type I, and Type II error, and power can be defined and estimated. 
+
+
+\begin{figure}[htp]
+%\begin{figurehere}
+   \centering
+       \includegraphics[width=0.95\textwidth]{test_category.pdf}
+       \caption{Lineup plot ($m=20$) for testing $H_0: \beta_k=0$. When the alternative hypothesis is true the plot of the observed data should show a vertical displacement between box plots. Which plot has the biggest vertical displacement between the boxplots?}
+       \label{fig:test_category}
+\end{figure}
+%\end{figurehere}
+
+The protocol has only been informally tested until now. This paper describes research where the lineup protocol is compared head to head with the relevant classical test. Specifically, the lineup is examined in the context of a linear model setting, where we are determining the importance of including a variable in the model. This is not the envisioned environment for the use of the lineup -- actually it is likely the worst case scenario. The intended use of lineups is where there is no existing test, and unlikely to be ever any numerical test. The thought is though, that the classical setting provides a benchmark for how well the lineup protocol works. 
 
 %, analysis requires plots of data. For exploratory data analysis, statistical graphics play an invaluable role in model checking and diagnostics. Even though we have established mathematical procedures to obtain various statistics, we need to support the results by also producing the relevant plots. 
 
@@ -65,7 +77,6 @@ But the strength of the patterns revealed by plots or individual differences amo
 In this paper we compare the lineup protocol to classical statistical inference, specifically applied to the regression framework. We also present results of a human-subject study assessing the performance of individuals on lineup plots \citep{buja:2009} for testing significance of regression parameters. 
 
 Section \ref{sec:visual_test} describes the basic ideas of visual inference, Section \ref{sec:regression} applies these ideas to the case of inference for regression analysis. In Section \ref{sec:simulation} we outline the setup for the human-subject study and  and present results. 
-
 
 \begin{table*}[hbtp]
 \caption{Comparison of visual inference with existing inference technique}
@@ -88,6 +99,7 @@ Section \ref{sec:visual_test} describes the basic ideas of visual inference, Sec
 \end{tabular}
 \label{tbl:compare}
 \end{table*}	
+
 
 \section{Visual Statistical Inference} \label{sec:visual_test} 
 Visual tests are non-parametric tests of the form $H_0$: the data plot is visually not distinguishable from a null plot vs $H_1$: the data plot is visually distinguishable from a plot generated consistently with $H_0$.
@@ -312,14 +324,6 @@ In a regression setting, there is a multitude of established graphics that help 
 
 A lineup including the test statistic  for a binary $X_k$ is shown in Figure \ref{fig:test_category}. The 19 null plots are generated  by simulating residuals from $N(0,\hat{\sigma}^2)$. The test statistic, the plot containing the observed data, is randomly placed among these null plots. If the test statistic is identifiable the null hypothesis is rejected. % with a $p$-value of at most 0.05.
 
-\begin{figure}[hbt]
-%\begin{figurehere}
-   \centering
-       \scalebox{0.95}{\includegraphics{test_category.pdf}}
-       \caption{Lineup plot ($m=20$) for testing $H_0: \beta_k=0$. When the alternative hypothesis is true the plot of the observed data should show a vertical displacement between box plots. Which plot has the biggest vertical displacement between the boxplots?}
-       \label{fig:test_category}
-\end{figure}
-%\end{figurehere}
 
 \begin{table*}[hbtp] 
 \caption{Test Statistics for Testing Hypothesis Related to Model $Y_i = \beta_0 + \beta_1 X_{i1} + \beta_1 X_{i2} + \beta_3 X_{i1}X_{i2} + ... + \epsilon_i  $ } 
