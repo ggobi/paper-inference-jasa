@@ -53,7 +53,7 @@ Statistical graphics nourishes the discovery process in data analysis: revealing
 
 Statistical graphics research and development is agreeably established now, and has been cemented by several new developments in recent years. Early studies on evaluating how well statistical plots are perceived and read by the human eye \citep{cleveland:1984}, have been repeated and expanded \citep{heer:2010} with findings supporting the original results. This body of work provides a framework for evaluating new statistical graphics.  In a complementary direction, new research on formalizing statistical graphics with language characteristics makes it easier to abstractly define, compare and contrast data plots. \cite{wilkinson:1999} developed a grammar of graphics that is enhanced by \cite{hadley:2009}. These methods provide a mechanism to abstract the way data is mapped to graphical form. Finally, technology advances make it simple and easy for everyone to draw plots of data, and particularly the existence of software systems, such as R \citep{R}, enable making beautiful data graphics that can be tightly coupled with statistical modeling.
 
-However, measuring the strength of patterns seen in plots, and differences in individual perceptual ability, is something that is difficult and perhaps handicaps graphics  use among statisticians, where measuring probabilities is of primary importance. This has also been addressed in recent research. \citet{buja:2009} proposes a protocol that allow the testing of discoveries made from statistical graphics. This work represents a major advance for graphics, because it bridges the gulf between classical statistical inference procedures and exploratory data analysis. One of the protocols, the lineup, places the data plot among  a page of plots of null data, and asks a human judge to pick the plot that is different. Figure \ref{fig:test_category} shows an example lineup. Which plot do you think is the most different from the others? Wrapped in a process that mirrors classical inference, where there is an explicit, a priori, null hypothesis, picking the plot of the data from the null plots represents a rejection of that null hypothesis. The null hypothesis typically derives from the task at hand, or the type of plot being made. The alternative encompasses all possible antitheses, all types of patterns that might be detected in the data plot, accounting for all possible deviations from the null without the requirement to specify these ahead of time. The probability of rejection can be quantified, along with Type I, and Type II error, and power can be defined and estimated. 
+However, measuring the strength of patterns seen in plots, and differences in individual perceptual ability, is something that is difficult and perhaps handicaps graphics  use among statisticians, where measuring probabilities is of primary importance. This has also been addressed in recent research. \citet{buja:2009} proposes a protocol that allow the testing of discoveries made from statistical graphics. This work represents a major advance for graphics, because it bridges the gulf between classical statistical inference procedures and exploratory data analysis. One of the protocols, the lineup, places the data plot among  a page of plots of null data, and asks a human judge to pick the plot that is different. Figure \ref{fig:test_category} shows an example lineup. Which plot do you think is the most different from the others? Wrapped in a process that mirrors classical inference, where there is an explicit, a priori, null hypothesis, picking the plot of the data from the null plots represents a rejection of that null hypothesis. The null hypothesis typically derives from the task at hand, or the type of plot being made. The alternative encompasses all possible antitheses, all types of patterns that might be detected in the data plot, accounting for all possible deviations from the null without the requirement to specify these ahead of time. The probability of rejection can be quantified, along with Type I, and Type II error, and $p$-value and power can be defined and estimated. 
 
 
 \begin{figure}[htp]
@@ -65,7 +65,7 @@ However, measuring the strength of patterns seen in plots, and differences in in
 \end{figure}
 %\end{figurehere}
 
-The protocol has only been informally tested until now. This paper describes research where the lineup protocol is compared head to head with the relevant classical test. Specifically, the lineup is examined in the context of a linear model setting, where we are determining the importance of including a variable in the model. This is not the envisioned environment for the use of the lineup -- actually it is likely the worst case scenario. The intended use of lineups is where there is no existing test, and unlikely to be ever any numerical test. The thought is though, that the classical setting provides a benchmark for how well the lineup protocol works. 
+The protocol has only been informally tested until now. In the work described in this paper, the lineup protocol is compared head to head with the relevant classical test. Specifically, the lineup is examined in the context of a linear model setting, where we are determining the importance of including a variable in the model. This is not the envisioned environment for the use of the lineup -- actually it is likely the worst case scenario for visual inference. The intended use of lineups is where there is no existing test, and unlikely to be ever any numerical test. The thought is though, that the classical setting provides a benchmark for how well the lineup protocol works under controlled conditions, and will provide some assurance that they will work in scenarios where there is no benchmark. Testing is done using a human-subjects experiment using Amazon's Mechanical Turk \citep{turk}, using simulation to provide controlled conditions for assessing lineups. The results are compared with those of the classical test. 
 
 %, analysis requires plots of data. For exploratory data analysis, statistical graphics play an invaluable role in model checking and diagnostics. Even though we have established mathematical procedures to obtain various statistics, we need to support the results by also producing the relevant plots. 
 
@@ -74,9 +74,29 @@ The protocol has only been informally tested until now. This paper describes res
 
 %\citet{buja:2009}, following from \cite{gelman:2004}, proposed two protocols that allow the testing of discoveries made from statistical graphics. This work represents a major advance for graphics, because it bridges the gulf between classical statistical inference procedures and exploratory data analysis.
 
-In this paper we compare the lineup protocol to classical statistical inference, specifically applied to the regression framework. We also present results of a human-subject study assessing the performance of individuals on lineup plots \citep{buja:2009} for testing significance of regression parameters. 
+%In this paper we compare the lineup protocol to classical statistical inference, specifically applied to the regression framework. We also present results of a human-subject study assessing the performance of individuals on lineup plots \citep{buja:2009} for testing significance of regression parameters. 
 
-Section \ref{sec:visual_test} describes the basic ideas of visual inference, Section \ref{sec:regression} applies these ideas to the case of inference for regression analysis. In Section \ref{sec:simulation} we outline the setup for the human-subject study and  and present results. 
+The paper is organized as follows. Section \ref{sec:visual_test} defines terms as used in visual inference, and describes how to estimate the important quantities from experimental data. Section \ref{sec:regression} focuses on the application of  visual inference to linear models.  Section \ref{sec:simulation} describes the results of the three simulation experiments conducted to compare the power of the lineup protocol with the equivalent uniformly most powerful (UMP) and an analysis of the resulting data. The last section describes the next steps in this research.
+
+
+\section{Definitions and Explanations for Visual Statistical Inference} \label{sec:visual_test} 
+Visual tests are non-parametric tests of the form $H_0$: the data plot is visually not distinguishable from a null plot vs $H_1$: the data plot is visually distinguishable from a plot generated consistently with $H_0$.
+
+Power of a plot and $p$-value have been derived in Buja and Wickham as ...
+
+
+
+for this paper, we want to place the parametric inference of a regression setting into the framework of visual testing:
+
+
+
+This section outlines the concepts of visual inference in comparison to the procedures of classical statistical inference. Table \ref{tbl:compare} (derived from \citet{buja:2009}) gives a summarized overview of this comparison.
+
+Let $\theta$ be a population parameter of interest, with $\theta \in \Theta$, the parameter space. 
+Any null hypothesis $H_0$ then partitions the parameter space into $\Theta_0$ and $\Theta_0^c$, with $H_0: \theta \in \Theta_0$ versus $H_1: \theta \in \Theta_0^c$. 
+
+\blue{Similarly, for any test, we have a rejection region $R$ and, complementary to that, $R^c$,  that partition the space of the test statistic, which is usually a subspace of the real numbers.}
+%\subsection{Visual Statistic} 
 
 \begin{table*}[hbtp]
 \caption{Comparison of visual inference with existing inference technique}
@@ -100,25 +120,6 @@ Section \ref{sec:visual_test} describes the basic ideas of visual inference, Sec
 \label{tbl:compare}
 \end{table*}	
 
-
-\section{Visual Statistical Inference} \label{sec:visual_test} 
-Visual tests are non-parametric tests of the form $H_0$: the data plot is visually not distinguishable from a null plot vs $H_1$: the data plot is visually distinguishable from a plot generated consistently with $H_0$.
-
-Power of a plot and $p$-value have been derived in Buja and Wickham as ...
-
-
-
-for this paper, we want to place the parametric inference of a regression setting into the framework of visual testing:
-
-
-
-This section outlines the concepts of visual inference in comparison to the procedures of classical statistical inference. Table \ref{tbl:compare} (derived from \citet{buja:2009}) gives a summarized overview of this comparison.
-
-Let $\theta$ be a population parameter of interest, with $\theta \in \Theta$, the parameter space. 
-Any null hypothesis $H_0$ then partitions the parameter space into $\Theta_0$ and $\Theta_0^c$, with $H_0: \theta \in \Theta_0$ versus $H_1: \theta \in \Theta_0^c$. 
-
-\blue{Similarly, for any test, we have a rejection region $R$ and, complementary to that, $R^c$,  that partition the space of the test statistic, which is usually a subspace of the real numbers.}
-%\subsection{Visual Statistic} 
 
 For visual inference, the statistic is -- unlike in the classical hypothesis test -- not a single value, but a graphical representation of the data chosen to display the strength of the parameter of interest, $\theta$. When the alternative hypothesis is true, it is expected that the plot of the observed data, the test statistic, will have visible feature(s) consistent with $\theta \in \Theta_0^c$, and that visual artifacts will not distinguish the test statistic as different when $H_1$ is not true. We will call a plot with this property a {\it visual statistic} for $\theta$. More formally, 
 
@@ -311,7 +312,8 @@ where $X_\ell$ is a matrix of fixed effects with parameter vector $\beta$ corres
 }
 
 Theoretical power for the regression parameters is derived in the next section.
-\section{Inference for a Regression Model} \label{sec:regression}
+
+\section{Application of Visual Inference in Linear Models} \label{sec:regression}
 
 Consider a linear regression model 
 \begin{equation}\label{multi} Y_i = \beta_0 + \beta_1 X_{i1} + \beta_1 X_{i2} + \beta_3 X_{i1}X_{i2} + ... + \epsilon_i 
@@ -461,7 +463,7 @@ Power(\beta) = \pi=Pr(Y=1|\beta, n, \sigma)
 \end{equation}
 
 
-\section{Simulation Experiment} \label{sec:simulation}
+\section{Results of Simulation Experiments} \label{sec:simulation}
 
 \subsection{Experiment with a discrete covariate}
 
