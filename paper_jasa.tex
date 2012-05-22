@@ -85,7 +85,7 @@ The paper is organized as follows. Section \ref{sec:visual_test} defines terms a
 
 \section{Definitions and Explanations for Visual Statistical Inference} \label{sec:visual_test} 
 
-Table \ref{tbl:compare} illustrates the lineup protocol in relation to traditional hypothesis testing. Both start from the same place, the same null hypothesis. The classical test statistic is the $t$-statistic, where the parameter estimate is divided by its standard error. In the lineup protocol, the test statistic is a plot of the data, here side-by-side boxplots are used, because the variable of interest is categorical and takes just two values. In traditional hypothesis testing the value of the test statistic is compared with all possible values of the sampling distribution, the distribution of the statistic if the null hypothesis is true. If it is extreme on this scale then the null hypothesis is rejected. In constrast in visual inference, the plot of the data is compared with plots of a finite number of samples drawn from the null distribution. If the data plot is selected as the most different, then this results in rejection of the null hypothesis.
+Table \ref{tbl:compare} illustrates the lineup protocol in relation to traditional hypothesis testing. Both start from the same place, the same null hypothesis. The classical test statistic is the $t$-statistic, where the parameter estimate is divided by its standard error. In the lineup protocol, the test statistic is a plot of the data, here side-by-side boxplots are used, because the variable of interest is categorical and takes just two values. In traditional hypothesis testing the value of the test statistic is compared with all possible values of the sampling distribution, the distribution of the statistic if the null hypothesis is true. If it is extreme on this scale then the null hypothesis is rejected. In contrast in visual inference, the plot of the data is compared with plots of a finite number of samples drawn from the null distribution. If the data plot is selected as the most different, then this results in rejection of the null hypothesis.
 
 \begin{table*}[hbtp]
 \caption{Comparison of visual inference with existing inference technique. *** The plot for the traditional test is wrong, for two sided, p-value is area to the right and left of $|T(y|$.}
@@ -94,7 +94,7 @@ Table \ref{tbl:compare} illustrates the lineup protocol in relation to tradition
 \hline
   & Traditional Inference &  Lineup Protocol \\ %[0.5ex] % inserts table %heading 
 \hline
-  Hypothesis & $H_0: \beta=0$ vs $H_1: \beta \ne 0$& $H_0: \beta=0$ vs $H_1: \beta \ne 0$\\
+  Hypothesis & $H_0: \beta=0$ vs $H_1: \beta > 0$& $H_0: \beta=0$ vs $H_1: \beta > 0$\\
  & \begin{minipage}[h]{2.5cm} \begin{center} \scalebox{0.2}{\includegraphics{down_arrow.pdf}} \end{center} \end{minipage} & \begin{minipage}[h]{2.5cm} \begin{center} \scalebox{0.2}{\includegraphics{down_arrow.pdf}} \end{center} \end{minipage} \\
 				  
  Test statistic & $T(y)=\frac{\hat{\beta}}{se(\hat{\beta})}$ & $T(y)=$ \begin{minipage}[h]{1cm} \begin{center} \scalebox{0.45}{\includegraphics{stat_category.pdf}} \end{center} \end{minipage} \\
@@ -110,38 +110,30 @@ Table \ref{tbl:compare} illustrates the lineup protocol in relation to tradition
 \end{table*}	
 
 
-Visual tests are non-parametric tests of the form $H_0$: the data plot is visually not distinguishable from a null plot vs $H_1$: the data plot is visually distinguishable from a plot generated consistently with $H_0$.
+%Visual tests are non-parametric tests of the form $H_0$: the data plot is visually not distinguishable from a null plot vs $H_1$: the data plot is visually distinguishable from a plot generated consistently with $H_0$.
 
-Power of a plot and $p$-value have been derived in Buja and Wickham as ...
-
-
-
-for this paper, we want to place the parametric inference of a regression setting into the framework of visual testing:
+%Power of a plot and $p$-value have been derived in Buja and Wickham as ...
 
 
 
-This section outlines the concepts of visual inference in comparison to the procedures of classical statistical inference. Table \ref{tbl:compare} (derived from \citet{buja:2009}) gives a summarized overview of this comparison.
-
-Let $\theta$ be a population parameter of interest, with $\theta \in \Theta$, the parameter space. 
-Any null hypothesis $H_0$ then partitions the parameter space into $\Theta_0$ and $\Theta_0^c$, with $H_0: \theta \in \Theta_0$ versus $H_1: \theta \in \Theta_0^c$. 
-
-\blue{Similarly, for any test, we have a rejection region $R$ and, complementary to that, $R^c$,  that partition the space of the test statistic, which is usually a subspace of the real numbers.}
-%\subsection{Visual Statistic} 
+%for this paper, we want to place the parametric inference of a regression setting into the framework of visual testing:
 
 
-For visual inference, the statistic is -- unlike in the classical hypothesis test -- not a single value, but a graphical representation of the data chosen to display the strength of the parameter of interest, $\theta$. When the alternative hypothesis is true, it is expected that the plot of the observed data, the test statistic, will have visible feature(s) consistent with $\theta \in \Theta_0^c$, and that visual artifacts will not distinguish the test statistic as different when $H_1$ is not true. We will call a plot with this property a {\it visual statistic} for $\theta$. More formally, 
 
-\blue{
+%This section outlines the concepts of visual inference in comparison to the procedures of classical statistical inference. Table \ref{tbl:compare} (derived from \citet{buja:2009}) gives a summarized overview of this comparison.
+
+In general, let $\theta$ be a population parameter of interest, with $\theta \in \Theta$, the parameter space. Any null hypothesis $H_0$ then partitions the parameter space into $\Theta_0$ and $\Theta_0^c$, with $H_0: \theta \in \Theta_0$ versus $H_1: \theta \in \Theta_0^c$. Similarly, for any test, we have a rejection region $R$ and, complementary to that, $R^c$,  that partition the space of the test statistic, which is usually a subspace of the real numbers. For visual inference, the statistic is -- unlike in the classical hypothesis test -- not a single value, but a graphical representation of the data chosen to display the strength of the parameter of interest, $\theta$. When the alternative hypothesis is true, it is expected that the plot of the observed data, the test statistic, will have visible feature(s) consistent with $\theta \in \Theta_0^c$, and that visual artifacts will not distinguish the test statistic as different when $H_1$ is not true. We will call a plot with this property a {\it visual statistic} for $\theta$. More formally, 
 
 \begin{dfn} \label{dfn:test}
-A \textit{visual test (statistic)} $T_\theta$ is defined as the grammar \citep{wilkinson:1999} of the plot,  consisting of type and specification of aesthetics necessary for complete reproducibility.
+A \textbf{visual test (statistic)} $T_\theta$ is defined as the grammar \citep{wilkinson:1999} of the plot,  consisting of type and specification of aesthetics necessary for complete reproducibility.
 \end{dfn}
-}
+
+The visual test statistic is compared with values $ \theta \in \Theta_0$ using a lineup, which is defined as:
 
 \begin{dfn}\label{dfn:lplot}
-A lineup plot is a layout of $m$ visual statistics, consisting of 
+A \textbf{lineup}  is a layout of $m$ visual statistics, consisting of 
 \begin{itemize}\itemsep-3pt
-\item $m-1$ plots simulated from the model specified by $H_0$  (null plots) and 
+\item $m-1$ statistics simulated from the model specified by $H_0$  (null plots) and 
 \item the test statistic produced by plotting the observed data, possibly arising from $H_1$.
 \end{itemize}
 \end{dfn}
