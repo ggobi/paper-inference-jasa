@@ -2,6 +2,8 @@
 # Last modified by Mahbub on April 5, 2012.
 
 library(ggplot2)
+library(plyr)
+library(reshape)
 
 
 # =================== mathematical test t distribution  ===================
@@ -23,7 +25,7 @@ x1 <- rpois(n,lambda=20)
 Xk <- factor(sample(c("A","B"), size=n, replace=T))
 cnd <- sample(c("A","B"), size=1)
 y <- round(5 + 1.5 * x1 + beta * (Xk==cnd) + rnorm(n=n, mean=0, sd=sigma))
-#qplot(x1,y, colour=factor(xk)) + geom_smooth(method="lm", se=F, size=1)
+#qplot(x1,y, colour=factor(Xk)) + geom_smooth(method="lm", se=F, size=1)
 
 
 # plotting test stat for testing b2=0
@@ -33,8 +35,8 @@ sigma_hat <- fit.stat$sigma
 obs.residuals <- as.vector(resid(fit)) 
 
 qplot(Xk, obs.residuals,colour=Xk,geom="boxplot", ylab="Residual") + 
-      xlab(expression(X[k]))
-ggsave("../images/stat_category.pdf",height=2,width=2.5)
+      xlab(expression(X[k])) + labs(colour=expression(X[k]))
+ggsave("../images/stat_category.pdf",height=2,width=3)
 
 
 
@@ -42,13 +44,15 @@ ggsave("../images/stat_category.pdf",height=2,width=2.5)
 loc <- sample(1:20, size=1)  # location of observed plot
 simdat <- matrix(rnorm(n=20*n,mean=0, sd=sigma_hat),ncol=20)
 simdat[,loc] <- obs.residuals
-pdat <- data.frame(simdat,x2)
+pdat <- data.frame(simdat,Xk)
 names(pdat) <- c(1:20,"Xk")
 pdat.m <- melt(pdat,id="Xk")
 
 qplot(Xk, value, data=pdat.m ,colour=Xk,,geom="boxplot", ylab="Residual") + 
-     facet_wrap(~variable)+ xlab(expression(X[k]))
-ggsave("../images/test_category.pdf",height=5,width=5)
+     facet_wrap(~variable)+ xlab(expression(X[k])) + 
+     labs(colour=expression(X[k]))
+ggsave("../images/test_category.pdf",height=7,width=7.5)
+ggsave("../images/test_category_small.pdf",height=4.5,width=5) # for comparizon table
 
 
 
