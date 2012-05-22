@@ -60,7 +60,7 @@ However, measuring the strength of patterns seen in plots, and differences in in
 %\begin{figurehere}
    \centering
        \includegraphics[width=0.95\textwidth]{test_category.pdf}
-       \caption{Lineup plot ($m=20$) for testing $H_0: \beta_k=0$. When the alternative hypothesis is true the plot of the observed data should show a vertical displacement between box plots. Which plot has the biggest vertical displacement between the boxplots?}
+       \caption{Lineup plot ($m=20$) using side-by-side boxplots for testing $H_0: \beta_k=0$. One of these plots is the plot of the actual data, and the remaining are null plots, produced by simulating data from a null model that assumes $H_0$ is true. Which plot is the most different from the others, in the sense that there is the the largest shift or location difference between the boxplots? *** Make the legend text use a subscript}
        \label{fig:test_category}
 \end{figure}
 %\end{figurehere}
@@ -80,6 +80,32 @@ The paper is organized as follows. Section \ref{sec:visual_test} defines terms a
 
 
 \section{Definitions and Explanations for Visual Statistical Inference} \label{sec:visual_test} 
+
+Table \ref{tbl:compare} illustrates the lineup protocol in relation to traditional hypothesis testing. Both start from the same place, the same null hypothesis. The classical test statistic is the $t$-statistic, where the parameter estimate is divided by its standard error. In the lineup, the test statistic is a plot of the data, here side-by-side boxplots are used, because the variable of interest is categorical and takes just two values. In traditional hypothesis testing the value of the test statistic is compared with all possible values of the sampling distribution, the distribution of the statistic if the null hypothesis is true. If it is extreme on this scale then the null hypothesis is rejected. In constrast in visual inference, the plot of the data is compared with plots of a finite number of samples drawn from the null distribution. If the data plot is selected as the most different, then this results in rejection of the null hypothesis.
+
+\begin{table*}[hbtp]
+\caption{Comparison of visual inference with existing inference technique. *** The plot for the traditional test is wrong, for two sided, p-value is area to the right and left of $|T(y|$.}
+\centering 
+\begin{tabular}{llll} 
+\hline
+  & Traditional Inference &  Lineup Protocol \\ %[0.5ex] % inserts table %heading 
+\hline
+  Hypothesis & $H_0: \beta=0$ vs $H_1: \beta \ne 0$& $H_0: \beta=0$ vs $H_1: \beta \ne 0$\\
+ & \begin{minipage}[h]{2.5cm} \begin{center} \scalebox{0.2}{\includegraphics{down_arrow.pdf}} \end{center} \end{minipage} & \begin{minipage}[h]{2.5cm} \begin{center} \scalebox{0.2}{\includegraphics{down_arrow.pdf}} \end{center} \end{minipage} \\
+				  
+ Test statistic & $T(y)=\frac{\hat{\beta}}{se(\hat{\beta})}$ & $T(y)=$ \begin{minipage}[h]{1cm} \begin{center} \scalebox{0.45}{\includegraphics{stat_category.pdf}} \end{center} \end{minipage} \\
+				 
+ & \begin{minipage}[h]{2.5cm} \begin{center} \scalebox{0.2}{\includegraphics{down_arrow.pdf}} \end{center} \end{minipage} & \begin{minipage}[h]{2.5cm} \begin{center} \scalebox{0.2}{\includegraphics{down_arrow.pdf}} \end{center} \end{minipage} \\
+				 
+ Sampling Distribution & $f_{T(y)}(t); $\begin{minipage}[h]{2.5cm} \begin{center} \scalebox{0.55}{\includegraphics{stat_mathematical_test.pdf}} \end{center} \end{minipage} & $f_{T(y)}(t); $ \begin{minipage}[h]{2.5cm} \begin{center} \scalebox{0.19}{\includegraphics{test_category.pdf}} \end{center} \end{minipage} \\
+ & \begin{minipage}[h]{2.5cm} \begin{center} \scalebox{0.2}{\includegraphics{down_arrow.pdf}} \end{center} \end{minipage} & \begin{minipage}[h]{2.5cm} \begin{center} \scalebox{0.2}{\includegraphics{down_arrow.pdf}} \end{center} \end{minipage} \\
+ Reject $H_0$ if & observed $T$ is extreme & observed plot is identifiable \\
+\hline 
+\end{tabular}
+\label{tbl:compare}
+\end{table*}	
+
+
 Visual tests are non-parametric tests of the form $H_0$: the data plot is visually not distinguishable from a null plot vs $H_1$: the data plot is visually distinguishable from a plot generated consistently with $H_0$.
 
 Power of a plot and $p$-value have been derived in Buja and Wickham as ...
@@ -97,28 +123,6 @@ Any null hypothesis $H_0$ then partitions the parameter space into $\Theta_0$ an
 
 \blue{Similarly, for any test, we have a rejection region $R$ and, complementary to that, $R^c$,  that partition the space of the test statistic, which is usually a subspace of the real numbers.}
 %\subsection{Visual Statistic} 
-
-\begin{table*}[hbtp]
-\caption{Comparison of visual inference with existing inference technique}
-\centering 
-\begin{tabular}{llll} 
-\hline
-  & Mathematical Inference &  Visual Inference \\ %[0.5ex] % inserts table %heading 
-\hline
-  Hypothesis & $H_0: \beta=0$ vs $H_1: \beta \ne 0$& $H_0: \beta=0$ vs $H_1: \beta \ne 0$\\
- & \begin{minipage}[h]{2.5cm} \begin{center} \scalebox{0.2}{\includegraphics{down_arrow.pdf}} \end{center} \end{minipage} & \begin{minipage}[h]{2.5cm} \begin{center} \scalebox{0.2}{\includegraphics{down_arrow.pdf}} \end{center} \end{minipage} \\
-				  
- Test statistic & $T(y)=\frac{\hat{\beta}}{se(\hat{\beta})}$ & $T(y)=$ \begin{minipage}[h]{1cm} \begin{center} \scalebox{0.45}{\includegraphics{stat_category.pdf}} \end{center} \end{minipage} \\
-				 
- & \begin{minipage}[h]{2.5cm} \begin{center} \scalebox{0.2}{\includegraphics{down_arrow.pdf}} \end{center} \end{minipage} & \begin{minipage}[h]{2.5cm} \begin{center} \scalebox{0.2}{\includegraphics{down_arrow.pdf}} \end{center} \end{minipage} \\
-				 
- Null Distribution & $f_{T(y)}(t); $\begin{minipage}[h]{2.5cm} \begin{center} \scalebox{0.55}{\includegraphics{stat_mathematical_test.pdf}} \end{center} \end{minipage} & $f_{T(y)}(t); $ \begin{minipage}[h]{2.5cm} \begin{center} \scalebox{0.19}{\includegraphics{test_category.pdf}} \end{center} \end{minipage} \\
- & \begin{minipage}[h]{2.5cm} \begin{center} \scalebox{0.2}{\includegraphics{down_arrow.pdf}} \end{center} \end{minipage} & \begin{minipage}[h]{2.5cm} \begin{center} \scalebox{0.2}{\includegraphics{down_arrow.pdf}} \end{center} \end{minipage} \\
- Reject $H_0$ if & observed $T$ is extreme & observed plot is identifiable \\
-\hline 
-\end{tabular}
-\label{tbl:compare}
-\end{table*}	
 
 
 For visual inference, the statistic is -- unlike in the classical hypothesis test -- not a single value, but a graphical representation of the data chosen to display the strength of the parameter of interest, $\theta$. When the alternative hypothesis is true, it is expected that the plot of the observed data, the test statistic, will have visible feature(s) consistent with $\theta \in \Theta_0^c$, and that visual artifacts will not distinguish the test statistic as different when $H_1$ is not true. We will call a plot with this property a {\it visual statistic} for $\theta$. More formally, 
