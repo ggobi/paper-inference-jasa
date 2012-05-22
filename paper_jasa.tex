@@ -12,6 +12,8 @@
 \newcommand{\blue}[1]{{\color{blue} #1}}
 \newcommand{\red}[1]{{\color{red} #1}}
 
+% \usepackage{pifont} % this package is used to print check mark \checkmark
+
 \setlength{\oddsidemargin}{0in}
 \setlength{\evensidemargin}{0in}
 \setlength{\textwidth}{6.5in}
@@ -40,7 +42,7 @@
 %\date{\today}  %\today is replaced with the current date
 \maketitle
 
-\begin {abstract} 
+\begin {abstract}  
 Statistical graphics play a crucial role in exploratory data analysis, model checking and diagnosis. Until recently there were no formal visual methods in place for determining statistical significance of findings. This changed, when \citet{buja:2009} conceptually introduced two protocols for formal tests of visual findings. In this paper we take this a step further by comparing the lineup protocol \citep{buja:2009} against classical statistical testing  of the significance of regression model parameters. A human subjects experiment is conducted using simulated data to provide controlled conditions. Results suggest that the lineup protocol provides results comparable to the uniformly most powerful (UMP) test, out-performs the UMP when data is contaminated, and, there may be some super-individuals who yield better power than the UMP test even in the most difficult trials.
 \end {abstract}
 
@@ -48,6 +50,8 @@ Statistical graphics play a crucial role in exploratory data analysis, model che
 %\twocolumn
 
 \section{Introduction} 
+
+%\checkmark
 
 Statistical graphics nourishes the discovery process in data analysis: revealing unexpected things,  finding structure that was not previously anticipated,  or orthogonally contrasting prevailing hypotheses. It is often associated with exploratory data analysis, which was pioneered by \cite{tukey:eda} and, is particularly pertinent in today's data-rich world where discovery during data mining has become an important activity. Graphics are also used in many places where numerical summaries simply do not suffice: model checking, diagnosis, and in the communication of findings. 
 
