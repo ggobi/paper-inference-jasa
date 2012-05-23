@@ -126,7 +126,8 @@ In general, we define $\theta$ to be a population parameter of interest, with $\
 For visual inference, unlike in the classical hypothesis test, the statistic is not a single value, but a graphical representation of the data chosen to display the strength of the parameter of interest, $\theta$. When the alternative hypothesis is true, it is expected that the plot of the observed data, the test statistic, will have visible feature(s) consistent with $\theta \in \Theta_0^c$, and that visual artifacts will not distinguish the test statistic as different when $H_1$ is not true. We will call a plot with this property a {\it visual statistic} for $\theta$. More formally, 
 
 \begin{dfn} \label{dfn:test}
-A \textbf{visual test (statistic)} $T(y)$ is as a plot of the sample, and $T_0$ are plots of null data.
+A \textbf{visual test (statistic)} $T(y)$ is as a plot of the sample, and $T_0$ are plots of null data. \red{MM: I was thinking, visual test statistic $T(.)$ is a function that maps (using the grammar of graphics) data into a statistical plot. For observed data ($y$) we have observed test statistic (plot) $T(y)$ and for null data $y_0$ we have $T(y_0)$ which could be denoted by $T_0$.}
+
 \end{dfn}
 
 Ideally, the visual test statistic is defined using the grammar of graphics\citep{wilkinson:1999,hadley:2009}, consisting of type and specification of aesthetics necessary for complete reproducibility. The visual test statistic is compared with values $T_0$ using a lineup, which is defined as:
