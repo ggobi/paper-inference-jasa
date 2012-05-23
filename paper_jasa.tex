@@ -129,7 +129,7 @@ For visual inference, unlike in the classical hypothesis test, the statistic is 
 A \textbf{visual test statistic}, $T(.)$, is a function of a sample that makes a plot. $T(y)$ maps the observed data to the plot, and we call this the \textbf{observed data plot}, and $T(y_0)$ maps samples drawn from the null distribution into the same plot form, and these are called \textbf{null plots}. 
 \end{dfn}
 
-\noindent Ideally, the visual test statistic is defined using the grammar of graphics \citep{wilkinson:1999,hadley:2009}, consisting of type, and specification of aesthetics, necessary for complete reproducibility. The visual test statistic is compared with values $T(y_0)$ using a lineup, which is defined as:
+\noindent Ideally, the visual test statistic is defined (\red{should it be constructed/plotted/drawn?}) using the grammar of graphics \citep{wilkinson:1999,hadley:2009}, consisting of type, and specification of aesthetics, necessary for complete reproducibility. The visual test statistic is compared with values $T(y_0)$ using a lineup, which is defined as:
 
 \begin{dfn}\label{dfn:lplot}
 A \textbf{lineup}  is a layout of $m$ visual statistics, consisting of 
@@ -142,14 +142,14 @@ A \textbf{lineup}  is a layout of $m$ visual statistics, consisting of
 \noindent The $(m-1)$ null plots can be members of the sampling distribution of the test statistic assuming that the null hypothesis is true. If $H_1$ is true, we expect this to be reflected as a feature in the test statistic, i.e. the plot of the data, that makes it visually distinguishable from the null plots. A careful visual inspection of the lineup by an independent observer follows, and the observer is asked to point out the plot most different from the lineup. If the test statistic is identified in the lineup, the conclusion is to reject the null hypothesis. If it is not identified the conclusion is to not reject the null hypothesis. 
 
 \begin{dfn}\label{dfn:test}
-The \textbf{test} is defined to be 
+The \textbf{(\red{Visual}) test} is defined to be 
 \begin{itemize}\itemsep-3pt
 \item \textbf{Reject} $H_0$ if the observer selects the observed data plot, and
 \item \textbf{Fail to reject} $H_0$ if the observer selects a null plot.
 \end{itemize}
 \end{dfn}
 
-The number of plots in the lineup, $m$, controls the Type I error. The probability of choosing any one of the plots is $1/m$, so the chance of making a wrong decision by chance is $1/m$. Classically, Type II error is the probability of failing to reject $H_0$ when it is not true, which is more difficult to quantify. 
+The number of plots in the lineup, $m$, controls the Type I error. The probability of choosing any one of the plots is $1/m$, so the probability of making a wrong decision by chance is $1/m$. Classically, Type II error is the probability of failing to reject $H_0$ when it is not true, which is more difficult to quantify. 
 
 \begin{dfn}\label{dfn:error}
 The \textbf{Type I error} is the probability of identifying the observed data plot, when $H_0$ is true, which is $1/m$, and is thus controlled by the number of null plots. \textbf{Type II error} is the probability of failing to identify the observed data plot, when $H_0$ is not true.
