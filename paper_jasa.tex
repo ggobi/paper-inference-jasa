@@ -64,7 +64,7 @@ However, measuring the strength of patterns seen in plots, and differences in in
 %\begin{figurehere}
    \centering
        \includegraphics[width=0.95\textwidth]{test_category.pdf}
-       \caption{Lineup plot ($m=20$) using side-by-side boxplots for testing $H_0: \beta_k=0$. One of these plots is the plot of the actual data, and the remaining are null plots, produced by simulating data from a null model that assumes $H_0$ is true. Which plot is the most different from the others, in the sense that there is the the largest shift or location difference between the boxplots? *** Make the legend text use a subscript (MM: is it ok now?)}
+       \caption{Lineup plot ($m=20$) using side-by-side boxplots for testing $H_0: \beta_k=0$. One of these plots is the plot of the actual data, and the remaining are null plots, produced by simulating data from a null model that assumes $H_0$ is true. Which plot is the most different from the others, in the sense that there is the the largest shift or location difference between the boxplots?}
        \label{fig:test_category}
 \end{figure}
 %\end{figurehere}
@@ -88,7 +88,7 @@ The paper is organized as follows. Section \ref{sec:visual_test} defines terms a
 Table \ref{tbl:compare} illustrates the lineup protocol in relation to traditional hypothesis testing. Both start from the same place, the same null hypothesis. The classical test statistic is the $t$-statistic, where the parameter estimate is divided by its standard error. In the lineup protocol, the test statistic is a plot of the data, here side-by-side boxplots are used, because the variable of interest is categorical and takes just two values. In traditional hypothesis testing the value of the test statistic is compared with all possible values of the sampling distribution, the distribution of the statistic if the null hypothesis is true. If it is extreme on this scale then the null hypothesis is rejected. In contrast in visual inference, the plot of the data is compared with plots of a finite number of samples drawn from the null distribution. If the data plot is selected as the most different, then this results in rejection of the null hypothesis.
 
 \begin{table*}[hbtp]
-\caption{Comparison of visual inference with existing inference technique. *** The plot for the traditional test is wrong, for two sided, p-value is area to the right and left of $|T(y|$. (MM: the vertical bar is showing the observed $T$ location not p-value.) }
+\caption{Comparison of visual inference with existing inference technique.  }
 \centering 
 \begin{tabular}{llll} 
 \hline
@@ -122,27 +122,27 @@ Table \ref{tbl:compare} illustrates the lineup protocol in relation to tradition
 
 %This section outlines the concepts of visual inference in comparison to the procedures of classical statistical inference. Table \ref{tbl:compare} (derived from \citet{buja:2009}) gives a summarized overview of this comparison.
 
-In general, let $\theta$ be a population parameter of interest, with $\theta \in \Theta$, the parameter space. Any null hypothesis $H_0$ then partitions the parameter space into $\Theta_0$ and $\Theta_0^c$, with $H_0: \theta \in \Theta_0$ versus $H_1: \theta \in \Theta_0^c$. Similarly, for any test, we have a rejection region $R$ and, complementary to that, $R^c$,  that partition the space of the test statistic, which is usually a subspace of the real numbers. For visual inference, the statistic is -- unlike in the classical hypothesis test -- not a single value, but a graphical representation of the data chosen to display the strength of the parameter of interest, $\theta$. When the alternative hypothesis is true, it is expected that the plot of the observed data, the test statistic, will have visible feature(s) consistent with $\theta \in \Theta_0^c$, and that visual artifacts will not distinguish the test statistic as different when $H_1$ is not true. We will call a plot with this property a {\it visual statistic} for $\theta$. More formally, 
+In general, we define $\theta$ to be a population parameter of interest, with $\theta \in \Theta$, the parameter space. Any null hypothesis $H_0$ then partitions the parameter space into $\Theta_0$ and $\Theta_0^c$, with $H_0: \theta \in \Theta_0$ versus $H_1: \theta \in \Theta_0^c$. A test statistic, $T(y)$, is a function that mapss the sample into a numerical summary, that can be used to test the null hypothesis. The hypothesis test maps the test statistic into \{0, 1\}, based on whether $T(y)$ falls into the acceptance region, or the rejection region, respectively. $T(y)$ is assessed relative to null values of this statistic $T_0$ which would be possible values if $H_0$ was true.  %Similarly, for any test statistic, we have a rejection region $R$ and, complementary to that, $R^c$,  that partitions the space of the test statistic, which is usually a subspace of the real numbers. 
+For visual inference, unlike in the classical hypothesis test, the statistic is not a single value, but a graphical representation of the data chosen to display the strength of the parameter of interest, $\theta$. When the alternative hypothesis is true, it is expected that the plot of the observed data, the test statistic, will have visible feature(s) consistent with $\theta \in \Theta_0^c$, and that visual artifacts will not distinguish the test statistic as different when $H_1$ is not true. We will call a plot with this property a {\it visual statistic} for $\theta$. More formally, 
 
 \begin{dfn} \label{dfn:test}
-A \textbf{visual test (statistic)} $T_\theta$ is defined as the grammar \citep{wilkinson:1999} of the plot,  consisting of type and specification of aesthetics necessary for complete reproducibility.
+A \textbf{visual test (statistic)} $T(y)$ is as a plot of the sample, and $T_0$ are plots of null data.
 \end{dfn}
 
-The visual test statistic is compared with values $ \theta \in \Theta_0$ using a lineup, which is defined as:
+Ideally, the visual test statistic is defined using the grammar of graphics\citep{wilkinson:1999,hadley:2009}, consisting of type and specification of aesthetics necessary for complete reproducibility. The visual test statistic is compared with values $T_0$ using a lineup, which is defined as:
 
 \begin{dfn}\label{dfn:lplot}
 A \textbf{lineup}  is a layout of $m$ visual statistics, consisting of 
 \begin{itemize}\itemsep-3pt
-\item $m-1$ statistics simulated from the model specified by $H_0$  (null plots) and 
-\item the test statistic produced by plotting the observed data, possibly arising from $H_1$.
+\item $m-1$ statistics, $T_0$ simulated from the model specified by $H_0$  (null plots) and 
+\item the test statistic, $T(y)$ produced by plotting the observed data, possibly arising from $H_1$.
 \end{itemize}
 \end{dfn}
 
-The $(m-1)$ null plots can be considered to be samples drawn from the sampling distribution of the test statistic assuming that the null hypothesis is true.
-If $H_1$ is true, \blue{we expect this to be reflected as a feature in the test statistic, i.e. the plot of the data, that makes it visually distinguishable from the null plots.}
-{\em If the test statistic cannot be identified} in the lineup the conclusion is to {\em not reject the null hypothesis.}  A careful visual inspection follows, and the observer is asked to point out the plot most different from the lineup.
+\noindent The $(m-1)$ null plots can be considered to be samples drawn from the sampling distribution of the test statistic assuming that the null hypothesis is true.
+If $H_1$ is true, we expect this to be reflected as a feature in the test statistic, i.e. the plot of the data, that makes it visually distinguishable from the null plots. {\em If the test statistic cannot be identified} in the lineup the conclusion is to {\em not reject the null hypothesis.}  
 
-Since the lineup plot consists of $m$ plots, the probability of choosing any one of them is $1/m$. Thus we have type-I error probability of $1/m$.
+A careful visual inspection of the lineup by an independent observer follows, and the observer is asked to point out the plot most different from the lineup.  Since the lineup plot consists of $m$ plots, the probability of choosing any one of them is $1/m$. Thus we have type-I error probability of $1/m$.
 
 %The lineup plot can be evaluated by one or more individuals. When a single individual identifies the observed graph in the lineup plot we report a $p$-value of at most $1/m$, otherwise the $p$-value is at least $1-\frac 1m$. 
 
