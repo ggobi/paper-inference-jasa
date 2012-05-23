@@ -122,28 +122,38 @@ Table \ref{tbl:compare} illustrates the lineup protocol in relation to tradition
 
 %This section outlines the concepts of visual inference in comparison to the procedures of classical statistical inference. Table \ref{tbl:compare} (derived from \citet{buja:2009}) gives a summarized overview of this comparison.
 
-In general, we define $\theta$ to be a population parameter of interest, with $\theta \in \Theta$, the parameter space. Any null hypothesis $H_0$ then partitions the parameter space into $\Theta_0$ and $\Theta_0^c$, with $H_0: \theta \in \Theta_0$ versus $H_1: \theta \in \Theta_0^c$. A test statistic, $T(y)$, is a function that mapss the sample into a numerical summary, that can be used to test the null hypothesis. The hypothesis test maps the test statistic into \{0, 1\}, based on whether $T(y)$ falls into the acceptance region, or the rejection region, respectively. $T(y)$ is assessed relative to null values of this statistic $T_0$ which would be possible values of $T$ if $\theta \in \Theta$.  %Similarly, for any test statistic, we have a rejection region $R$ and, complementary to that, $R^c$,  that partitions the space of the test statistic, which is usually a subspace of the real numbers. 
+In general, we define $\theta$ to be a population parameter of interest, with $\theta \in \Theta$, the parameter space. Any null hypothesis $H_0$ then partitions the parameter space into $\Theta_0$ and $\Theta_0^c$, with $H_0: \theta \in \Theta_0$ versus $H_1: \theta \in \Theta_0^c$. A test statistic, $T(y)$, is a function that maps the sample into a numerical summary, that can be used to test the null hypothesis. The hypothesis test maps the test statistic into \{0, 1\}, based on whether $T(y)$ falls into the acceptance region, or the rejection region, respectively. $T(y)$ is assessed relative to null values of this statistic $T(y_0)$ which would be possible values of $T$ if $\theta \in \Theta$.  %Similarly, for any test statistic, we have a rejection region $R$ and, complementary to that, $R^c$,  that partitions the space of the test statistic, which is usually a subspace of the real numbers. 
 For visual inference, unlike in the classical hypothesis test, the statistic is not a single value, but a graphical representation of the data chosen to display the strength of the parameter of interest, $\theta$. When the alternative hypothesis is true, it is expected that the plot of the observed data, the test statistic, will have visible feature(s) consistent with $\theta \in \Theta_0^c$, and that visual artifacts will not distinguish the test statistic as different when $H_1$ is not true. We will call a plot with this property a {\it visual statistic} for $\theta$. More formally, 
 
 \begin{dfn} \label{dfn:test}
-A \textbf{visual test (statistic)} $T(y)$ is as a plot of the sample, and $T_0$ are plots of null data. \red{MM: I was thinking, visual test statistic $T(.)$ is a function that maps (using the grammar of graphics) data into a statistical plot. For observed data ($y$) we have observed test statistic (plot) $T(y)$ and for null data $y_0$ we have $T(y_0)$ which could be denoted by $T_0$.}
-
+A \textbf{visual test statistic}, $T(.)$, is a function of a sample that makes a plot. $T(y)$ maps the observed data to the plot, and we call this the \textbf{observed data plot}, and $T(y_0)$ maps samples drawn from the null distribution into the same plot form, and these are called \textbf{null plots}. 
 \end{dfn}
 
-Ideally, the visual test statistic is defined using the grammar of graphics\citep{wilkinson:1999,hadley:2009}, consisting of type and specification of aesthetics necessary for complete reproducibility. The visual test statistic is compared with values $T_0$ using a lineup, which is defined as:
+\noindent Ideally, the visual test statistic is defined using the grammar of graphics \citep{wilkinson:1999,hadley:2009}, consisting of type, and specification of aesthetics, necessary for complete reproducibility. The visual test statistic is compared with values $T(y_0)$ using a lineup, which is defined as:
 
 \begin{dfn}\label{dfn:lplot}
 A \textbf{lineup}  is a layout of $m$ visual statistics, consisting of 
 \begin{itemize}\itemsep-3pt
-\item $m-1$ statistics, $T_0$, simulated from the model specified by $H_0$  (null plots) and 
+\item $m-1$ statistics, $T(y_0)$, simulated from the model specified by $H_0$  (null plots) and 
 \item the test statistic, $T(y)$, produced by plotting the observed data, possibly arising from $H_1$.
 \end{itemize}
 \end{dfn}
 
-\noindent The $(m-1)$ null plots can be considered to be samples drawn from the sampling distribution of the test statistic assuming that the null hypothesis is true.
-If $H_1$ is true, we expect this to be reflected as a feature in the test statistic, i.e. the plot of the data, that makes it visually distinguishable from the null plots. {\em If the test statistic cannot be identified} in the lineup the conclusion is to {\em not reject the null hypothesis.}  
+\noindent The $(m-1)$ null plots can be members of the sampling distribution of the test statistic assuming that the null hypothesis is true. If $H_1$ is true, we expect this to be reflected as a feature in the test statistic, i.e. the plot of the data, that makes it visually distinguishable from the null plots. A careful visual inspection of the lineup by an independent observer follows, and the observer is asked to point out the plot most different from the lineup. If the test statistic is identified in the lineup, the conclusion is to reject the null hypothesis. If it is not identified the conclusion is to not reject the null hypothesis. 
 
-A careful visual inspection of the lineup by an independent observer follows, and the observer is asked to point out the plot most different from the lineup.  Since the lineup plot consists of $m$ plots, the probability of choosing any one of them is $1/m$. Thus we have Type I error probability of $1/m$.
+\begin{dfn}\label{dfn:test}
+The \textbf{test} is defined to be 
+\begin{itemize}\itemsep-3pt
+\item \textbf{Reject} $H_0$ if the observer selects the observed data plot, and
+\item \textbf{Fail to reject} $H_0$ if the observer selects a null plot.
+\end{itemize}
+\end{dfn}
+
+The number of plots in the lineup, $m$, controls the Type I error. The probability of choosing any one of the plots is $1/m$, so the chance of making a wrong decision by chance is $1/m$. Classically, Type II error is the probability of failing to reject $H_0$ when it is not true, which is more difficult to quantify. 
+
+\begin{dfn}\label{dfn:error}
+The \textbf{Type I error} is the probability of identifying the observed data plot, when $H_0$ is true, which is $1/m$, and is thus controlled by the number of null plots. \textbf{Type II error} is the probability of failing to identify the observed data plot, when $H_0$ is not true.
+\end{dfn}
 
 %The lineup plot can be evaluated by one or more individuals. When a single individual identifies the observed graph in the lineup plot we report a $p$-value of at most $1/m$, otherwise the $p$-value is at least $1-\frac 1m$. 
 
@@ -151,14 +161,15 @@ A careful visual inspection of the lineup by an independent observer follows, an
 
 %\subsection{Power}
 
-For two different visual test statistics of the same observed data, the one  is better, in which a specific pattern is more easily distinguishable to the observer. This should be reflected in the power of the test. We can assess power therefore both empirically based on experimental data and through theoretical considerations. 
+\noindent 
+
+Analysts typically have a choice of plots to make, and a myriad of possible options such as reference grids, for any particular purpose. This is akin to different choices of statistics in classical hypothesis testing, for example, mean, median, or trimmed mean. One is typically better than another. For two different visual test statistics of the same observed data, the one is considered to be better, if $T(y)$ is more easily distinguishable to the observer. Power is typically used to measure this characteristic of a test. Power is the probability of rejecting $H_0$ when it is not true.  We can assess power therefore both empirically based on experimental data and through theoretical considerations. 
 
 %Next, we will develop power theoretically and then relate it to the empirical results.
-\blue{We will first theoretically define and  derive the power of  a visual test in the setting of a parametric hypothesis test, i.e. we assume a test  of $H_0: \theta = 0$ vs $H_1: \theta \neq 0$ for some real valued parameter vector $\theta$. In a next step we will then relate the theoretical results to our empirical findings.}
-
+%We will first theoretically define and  derive the power of  a visual test in the setting of a parametric hypothesis test, i.e. we assume a test  of $H_0: \theta = 0$ vs $H_1: \theta \neq 0$ for some real valued parameter vector $\theta$. In a next step we will then relate the theoretical results to our empirical findings.
 
 \begin{dfn} \label{dfn:power}
-For a lineup of $m$ plots the power of \blue{a visual test} $T$ is defined as the probability to reject the null hypothesis for a given parameter value $\theta$:
+For a lineup of $m$ plots the \textbf{power} of a visual test $T$ is defined as the probability to reject the null hypothesis for a given parameter value $\theta$:
     \begin{equation*}
       \text{Power}_T(\theta)= 
         \begin{cases} 
