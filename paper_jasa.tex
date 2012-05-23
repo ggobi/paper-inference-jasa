@@ -134,15 +134,15 @@ Ideally, the visual test statistic is defined using the grammar of graphics\cite
 \begin{dfn}\label{dfn:lplot}
 A \textbf{lineup}  is a layout of $m$ visual statistics, consisting of 
 \begin{itemize}\itemsep-3pt
-\item $m-1$ statistics, $T_0$ simulated from the model specified by $H_0$  (null plots) and 
-\item the test statistic, $T(y)$ produced by plotting the observed data, possibly arising from $H_1$.
+\item $m-1$ statistics, $T_0$, simulated from the model specified by $H_0$  (null plots) and 
+\item the test statistic, $T(y)$, produced by plotting the observed data, possibly arising from $H_1$.
 \end{itemize}
 \end{dfn}
 
 \noindent The $(m-1)$ null plots can be considered to be samples drawn from the sampling distribution of the test statistic assuming that the null hypothesis is true.
 If $H_1$ is true, we expect this to be reflected as a feature in the test statistic, i.e. the plot of the data, that makes it visually distinguishable from the null plots. {\em If the test statistic cannot be identified} in the lineup the conclusion is to {\em not reject the null hypothesis.}  
 
-A careful visual inspection of the lineup by an independent observer follows, and the observer is asked to point out the plot most different from the lineup.  Since the lineup plot consists of $m$ plots, the probability of choosing any one of them is $1/m$. Thus we have type-I error probability of $1/m$.
+A careful visual inspection of the lineup by an independent observer follows, and the observer is asked to point out the plot most different from the lineup.  Since the lineup plot consists of $m$ plots, the probability of choosing any one of them is $1/m$. Thus we have Type I error probability of $1/m$.
 
 %The lineup plot can be evaluated by one or more individuals. When a single individual identifies the observed graph in the lineup plot we report a $p$-value of at most $1/m$, otherwise the $p$-value is at least $1-\frac 1m$. 
 
@@ -161,7 +161,7 @@ For a lineup of $m$ plots the power of \blue{a visual test} $T$ is defined as th
     \begin{equation*}
       \text{Power}_T(\theta)= 
         \begin{cases} 
-              \text{Type-I error}=\frac1m & \text{if $\theta \in \Theta_0$,} \\
+              \text{Type I error}=\frac1m & \text{if $\theta \in \Theta_0$,} \\
               Pr(\text{Reject } H_0) &\text{if $\theta \in \Theta^c_0$.}
         \end{cases}
     \end{equation*}
