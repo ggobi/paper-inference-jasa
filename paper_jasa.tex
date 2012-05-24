@@ -148,7 +148,7 @@ The $p$-value of a lineup of size $m$ is given as
 \[
 P(X \ge x) = 1 - B_{K, 1/m} (x-1) = 1- \sum_{i=0}^{x-1} {K \choose i} \left(\frac{1}{m}\right)^{i} \left(\frac{m-1}{m}\right)^{K-i},
 \]
-for $x > 0$, with $X$ defined as above.
+for $x > 0$, with $X$ defined as above. \red{why not $x \ge 0$? Are we assuming that at least one person would get the plot? But in reality there may be the case when none could pick the right plot. in that case x=0. if we use the expression in equation \ref{eqn:pvalue}, can we avoid this situation? Is there any reason why we are writing this in the complement form}.
 \end{dfn}
 \noindent When $K=1, m=20$ the $p$-value can only be $1/20=0.05$. When $K=2, m=20$ and if $x=2$ the $p$-value is $0.0025$, but if $x=1$ the $p$-value is$0.905$. When $K=3, m=20$
 
