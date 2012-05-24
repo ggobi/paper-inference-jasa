@@ -27,7 +27,7 @@
 \newtheorem{dfn}{Definition}[section]
 \newtheorem{cor}{Corollary}[thm]
 \newtheorem{con}{Conjecture}[thm]
-%\setlength{\parindent}{0in}   % for no indent
+\setlength{\parindent}{0in}   % for no indent
 
 %\topmargin -0.10in   % when making pdf
 %\textheight 9.15in  % when making pdf
@@ -133,28 +133,53 @@ A \textbf{visual test statistic}, $T(.)$, is a function of a sample that makes a
 \noindent Ideally, the visual test statistic is defined and constructed using the grammar of graphics \citep{wilkinson:1999,hadley:2009}, consisting of type, and specification of aesthetics, necessary for complete reproducibility. The visual test statistic is compared with values $T(y_0)$ using a lineup, which is defined as:
 
 \begin{dfn}\label{dfn:lplot}
-A \textbf{lineup} is a layout of $m$ \red{randomly placed} visual statistics, consisting of 
+A \textbf{lineup} is a layout of $m$ randomly placed visual statistics, consisting of 
 \begin{itemize}\itemsep-3pt
 \item $m-1$ statistics, $T(y_0)$, simulated from the model specified by $H_0$  (null plots) and 
 \item the test statistic, $T(y)$, produced by plotting the observed data, possibly arising from $H_1$.
 \end{itemize}
 \end{dfn}
 
-\noindent The $(m-1)$ null plots can be members of the sampling distribution of the test statistic assuming that the null hypothesis is true. If $H_1$ is true, we expect this to be reflected as a feature in the test statistic, i.e. the plot of the data, that makes it visually distinguishable from the null plots. A careful visual inspection of the lineup by an independent observer follows, and the observer is asked to point out the plot most different from the lineup. If the test statistic is identified in the lineup, the conclusion is to reject the null hypothesis. If it is not identified the conclusion is to not reject the null hypothesis. 
+\noindent The $(m-1)$ null plots can be members of the sampling distribution of the test statistic assuming that the null hypothesis is true. If $H_1$ is true, we expect this to be reflected as a feature in the test statistic, i.e. the plot of the data, that makes it visually distinguishable from the null plots. A careful visual inspection of the lineup by %\strikethrough{an} 
+independent observer\red{s} follows;  observers are asked to point out the plot most different from the lineup. If the test statistic is identified in the lineup, \red{this is considered as evidence against}
+% conclusion is to reject 
+the null hypothesis. 
+%If it is not identified the conclusion is to not reject the null hypothesis. 
+
+\red{This leads us to a definition for the $p$-value of a lineup: under the null hypothesis, each observer has a $1/m$ chance of picking the test statistic from the lineup.  For $K$ independent observers, let $X$ be  the number of observers picking the test statistic from the lineup. Under the null hypothesis $X \sim B_{K, 1/m}$, therefore:
+
+\begin{dfn}\label{dfn:pvalue}
+The $p$-value of a lineup of size $m$ is given as 
+\[
+P(X \ge x) = 1 - B_{K, 1/m} (x-1),
+\]
+for $x > 0$, with $X$ defined as above.
+\end{dfn}
+
+
+}
 
 \begin{dfn}\label{dfn:test}
 The \textbf{visual test}, $V_{\theta}$, is defined to be 
 \begin{itemize}\itemsep-3pt
-\item \textbf{Reject} $H_0$ if the observer selects the observed data plot in the lineup of $m$ plots, and
-\item \textbf{Fail to reject} $H_0$ if the observer selects a null plot.
+\item \textbf{Reject} $H_0$ if \red{`enough'} observers select the observed data plot in the lineup of $m$ plots, and
+\item \textbf{Fail to reject} $H_0$  \red {otherwise}. %if the observer selects a null plot.
 \end{itemize}
+\red{Here, `enough' observers is defined as some threshold $x_{1-\alpha}$, for which $P(X \ge x_{1-\alpha}) < \alpha$, the level of significance.}
 \end{dfn}
 
-The number of plots in the lineup, $m$, controls the Type I error. The probability of choosing any one of the plots is $1/m$, so the probability of making a wrong decision by chance is $1/m$. Classically, Type II error is the probability of failing to reject $H_0$ when it is not true, which is more difficult to quantify. 
+\red{The Type I error is controlled by both $m$, the size of the lineup, and $K$, the number of observers. $(1/m)^K$ is the minimal value, at which we can control the test.}
+
+%The number of plots in the lineup, $m$, controls the Type I error. The probability of choosing any one of the plots is $1/m$, so the probability of making a wrong decision by chance is $1/m$. 
+Classically, Type II error is the probability of failing to reject $H_0$ when it is not true, which is more difficult to quantify. 
 
 \begin{dfn}\label{dfn:error}
-The \textbf{Type I error} is the probability of identifying the observed data plot, when $H_0$ is true, which is $1/m$, and is thus controlled by the number of null plots. \textbf{Type II error} is the probability of failing to identify the observed data plot, when $H_0$ is not true.
+The \textbf{Type I error} is the probability of \red{rejecting $H_0$ when it is true, the probability for that is $P(X \ge x_{1-\alpha})$, which is controlled by $\alpha$. Note that due to the discrete nature of $X$ we can not always control exactly for $\alpha$. }
+% identifying the observed data plot, when $H_0$ is true, which is $1/m$, and is thus controlled by the number of null plots. 
+\textbf{Type II error} is the probability of failing to identify the observed data plot, when $H_0$ is not true, \red{i.e. $P( X \le x_{1-\alpha$}), where $x_{1 - \alpha}$ is the (approximate) $1-\alpha$ quantile of  $B_{K, 1/m}$, the distribution of $X$ under the null hypothesis.}
+\red{Under the alternative hypothesis, we have to account for different visual abilities of  individuals: let $X_i$ be a binary random variable with $X_i = 1$, if individual $i$ identifies the data plot from the lineup, and $X_i = 0$ otherwise.  Then $X_i \sim B_{1, p_i}$ and $X = \sum_i X_i$ has  a Poisson-Binomial distribution.}
 \end{dfn}
+
 
 %The lineup plot can be evaluated by one or more individuals. When a single individual identifies the observed graph in the lineup plot we report a $p$-value of at most $1/m$, otherwise the $p$-value is at least $1-\frac 1m$. 
 
