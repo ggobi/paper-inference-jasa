@@ -27,12 +27,9 @@
 \newtheorem{dfn}{Definition}[section]
 \newtheorem{cor}{Corollary}[thm]
 \newtheorem{con}{Conjecture}[thm]
-%\setlength{\parindent}{0in}   % for no indent
 
 %\topmargin -0.10in   % when making pdf
 %\textheight 9.15in  % when making pdf
-
-%\setlength\parindent{0pt}
 
 \begin{document}
 
@@ -141,35 +138,43 @@ A \textbf{lineup} is a layout of $m$ randomly placed visual statistics, consisti
 \end{dfn}
 
 \noindent The $(m-1)$ null plots can be members of the sampling distribution of the test statistic assuming that the null hypothesis is true. If $H_1$ is true, we expect this to be reflected as a feature in the test statistic, i.e. the plot of the data, that makes it visually distinguishable from the null plots. A careful visual inspection of the lineup by %\strikethrough{an} 
-independent observer\red{s} follows;  observers are asked to point out the plot most different from the lineup. If the test statistic is identified in the lineup, \red{this is considered as evidence against}
-% conclusion is to reject 
-the null hypothesis. 
+independent observers follows;  observers are asked to point out the plot most different from the lineup. If the test statistic is identified in the lineup, this is considered as evidence against the null hypothesis. 
 %If it is not identified the conclusion is to not reject the null hypothesis. 
 
-\red{This leads us to a definition for the $p$-value of a lineup: under the null hypothesis, each observer has a $1/m$ chance of picking the test statistic from the lineup.  For $K$ independent observers, let $X$ be  the number of observers picking the test statistic from the lineup. Under the null hypothesis $X \sim B_{K, 1/m}$, therefore:
+This leads us to a definition for the $p$-value of a lineup: under the null hypothesis, each observer has a $1/m$ chance of picking the test statistic from the lineup.  For $K$ independent observers, let $X$ be  the number of observers picking the test statistic from the lineup. Under the null hypothesis $X \sim B_{K, 1/m}$, where $B$ is a binomial distribution, therefore: 
 
 \begin{dfn}\label{dfn:pvalue}
 The $p$-value of a lineup of size $m$ is given as 
 \[
-P(X \ge x) = 1 - B_{K, 1/m} (x-1),
+P(X \ge x) = 1 - B_{K, 1/m} (x-1) = 1- \sum_{i=0}^{x-1} {K \choose i} \left(\frac{1}{m}\right)^{i} \left(\frac{m-1}{m}\right)^{K-i},
 \]
 for $x > 0$, with $X$ defined as above.
 \end{dfn}
+\noindent When $K=1, m=20$ the $p$-value can only be $1/20=0.05$. When $K=2, m=20$ and if $x=2$ the $p$-value is $0.0025$, but if $x=1$ the $p$-value is$0.905$. When $K=3, m=20$
 
-
-}
+\begin{table}[htp]
+\begin{center}
+\begin{tabular}{rrrr}
+K & m & x & $p$-value \\\hline
+1 & 20 & 1 & 0.0500 \\\hline
+2 & 20 & 1 & 0.9050 \\
+2 & 20 & 2 & 0.0025 \\\hline
+\end{tabular}
+\end{center}
+\caption{}
+\label{pvalue}
+\end{table}
 
 \begin{dfn}\label{dfn:test}
 The \textbf{visual test}, $V_{\theta}$, is defined to be 
 \begin{itemize}\itemsep-3pt
-\item \textbf{Reject} $H_0$ if \red{`enough'} observers select the observed data plot in the lineup of $m$ plots, and
-\item \textbf{Fail to reject} $H_0$  \red {otherwise}. %if the observer selects a null plot.
+\item \textbf{Reject} $H_0$ if `enough' observers select the observed data plot in the lineup of $m$ plots, and
+\item \textbf{Fail to reject} $H_0$  otherwise. %if the observer selects a null plot.
 \end{itemize}
-\red{Here, `enough' observers is defined as some threshold $x_{1-\alpha}$, for which $P(X \ge x_{1-\alpha}) < \alpha$, the level of significance.}
+where `enough' observers is defined as some threshold $x_{1-\alpha}$, for which $P(X \ge x_{1-\alpha}) < \alpha$, the level of significance.
 \end{dfn}
 
-\red{The Type I error is controlled by both $m$, the size of the lineup, and $K$, the number of observers. $(1/m)^K$ is the minimal value, at which we can control the test.}
-
+The resolution of the Type I error is controlled by both $m$, the size of the lineup, and $K$, the number of observers, with $(1/m)^K$ being the minimal value at which we can control the test. 
 %The number of plots in the lineup, $m$, controls the Type I error. The probability of choosing any one of the plots is $1/m$, so the probability of making a wrong decision by chance is $1/m$. 
 Classically, Type II error is the probability of failing to reject $H_0$ when it is not true, which is more difficult to quantify. 
 
