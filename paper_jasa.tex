@@ -9,8 +9,9 @@
 
 \graphicspath{{images/}}
 \usepackage{color}
-\newcommand{\blue}[1]{{\color{blue} #1}}
-\newcommand{\red}[1]{{\color{red} #1}}
+\newcommand{\blue}[1]{{\color{blue} #1}} %MM
+\newcommand{\red}[1]{{\color{red} #1}} %HH
+\newcommand{\green}[1]{{\color{green} #1}} %DC
 
 % \usepackage{pifont} % this package is used to print check mark \checkmark
 
@@ -129,10 +130,10 @@ For visual inference, unlike in the classical hypothesis test, the statistic is 
 A \textbf{visual test statistic}, $T(.)$, is a function of a sample that makes a plot. $T(y)$ maps the observed data to the plot, and we call this the \textbf{observed data plot}, and $T(y_0)$ maps samples drawn from the null distribution into the same plot form, and these are called \textbf{null plots}. 
 \end{dfn}
 
-\noindent Ideally, the visual test statistic is defined (\red{should it be constructed/plotted/drawn?}) using the grammar of graphics \citep{wilkinson:1999,hadley:2009}, consisting of type, and specification of aesthetics, necessary for complete reproducibility. The visual test statistic is compared with values $T(y_0)$ using a lineup, which is defined as:
+\noindent Ideally, the visual test statistic is defined and constructed using the grammar of graphics \citep{wilkinson:1999,hadley:2009}, consisting of type, and specification of aesthetics, necessary for complete reproducibility. The visual test statistic is compared with values $T(y_0)$ using a lineup, which is defined as:
 
 \begin{dfn}\label{dfn:lplot}
-A \textbf{lineup}  is a layout of $m$ visual statistics, consisting of 
+A \textbf{lineup} is a layout of $m$ visual statistics, consisting of 
 \begin{itemize}\itemsep-3pt
 \item $m-1$ statistics, $T(y_0)$, simulated from the model specified by $H_0$  (null plots) and 
 \item the test statistic, $T(y)$, produced by plotting the observed data, possibly arising from $H_1$.
@@ -142,9 +143,9 @@ A \textbf{lineup}  is a layout of $m$ visual statistics, consisting of
 \noindent The $(m-1)$ null plots can be members of the sampling distribution of the test statistic assuming that the null hypothesis is true. If $H_1$ is true, we expect this to be reflected as a feature in the test statistic, i.e. the plot of the data, that makes it visually distinguishable from the null plots. A careful visual inspection of the lineup by an independent observer follows, and the observer is asked to point out the plot most different from the lineup. If the test statistic is identified in the lineup, the conclusion is to reject the null hypothesis. If it is not identified the conclusion is to not reject the null hypothesis. 
 
 \begin{dfn}\label{dfn:test}
-The \textbf{(\red{Visual}) test} is defined to be 
+The \textbf{visual test}, $V_{\theta}$, is defined to be 
 \begin{itemize}\itemsep-3pt
-\item \textbf{Reject} $H_0$ if the observer selects the observed data plot, and
+\item \textbf{Reject} $H_0$ if the observer selects the observed data plot in the lineup of $m$ plots, and
 \item \textbf{Fail to reject} $H_0$ if the observer selects a null plot.
 \end{itemize}
 \end{dfn}
@@ -161,34 +162,33 @@ The \textbf{Type I error} is the probability of identifying the observed data pl
 
 %\subsection{Power}
 
-\noindent 
+\green{Ok, I'm really getting confused now. I think that it might be better to define p-value, and significance level next, and then talk about power. Power and p-value are confounded in the discussion below.}
 
+\noindent 
 Analysts typically have a choice of plots to make, and a myriad of possible options such as reference grids, for any particular purpose. This is akin to different choices of statistics in classical hypothesis testing, for example, mean, median, or trimmed mean. One is typically better than another. For two different visual test statistics of the same observed data, the one is considered to be better, if $T(y)$ is more easily distinguishable to the observer. Power is typically used to measure this characteristic of a test. Power is the probability of rejecting $H_0$ when it is not true.  We can assess power therefore both empirically based on experimental data and through theoretical considerations. 
 
 %Next, we will develop power theoretically and then relate it to the empirical results.
 %We will first theoretically define and  derive the power of  a visual test in the setting of a parametric hypothesis test, i.e. we assume a test  of $H_0: \theta = 0$ vs $H_1: \theta \neq 0$ for some real valued parameter vector $\theta$. In a next step we will then relate the theoretical results to our empirical findings.
 
 \begin{dfn} \label{dfn:power}
-For a lineup of $m$ plots the \textbf{power} of a visual test $T$ is defined as the probability to reject the null hypothesis for a given parameter value $\theta$:
+The \textbf{power} of a visual test $V_{\theta}$ is defined as the probability to reject the null hypothesis for a given parameter value $\theta$:
     \begin{equation*}
-      \text{Power}_T(\theta)= 
+      \text{Power}_V(\theta)= 
         \begin{cases} 
-              \text{Type I error}=\frac1m & \text{if $\theta \in \Theta_0$,} \\
+              \frac1m & \text{if $\theta \in \Theta_0$,} \\
               Pr(\text{Reject } H_0) &\text{if $\theta \in \Theta^c_0$.}
         \end{cases}
     \end{equation*}
 \end{dfn}
 
 
-For any single observer, the power of a visual test has a lower limit of $\frac1m$ since the probability that an observer will randomly pick the test statistic under $H_0$ is $\frac1m$. 
-
-When $K$ individuals evaluate a lineup plot independently, the number of successful evaluations, $U \sim \text{Binom} (K,1/m)$  under $H_0$. This leads us to obtain the probability 
+\noindent For any single observer, the power of a visual test has a lower limit of $\frac1m$ since the probability that an observer will randomly pick the test statistic under $H_0$ is $\frac1m$. When $K$ individuals evaluate a lineup plot independently, the number of successful evaluations, $U \sim \text{Binom} (K,1/m)$  under $H_0$. This leads us to obtain the probability 
 \begin{equation}\label{eqn:pvalue}
 Pr(U \ge u)= \sum_{k \ge u}^K {{K \choose k} \left(\frac{1}{m}\right)^k\left(1-\frac 1m\right)^{(K-k)}}
 \end{equation}
-where $u$ is the observed number of successful evaluations. We use this probability to  define the $p$-value for visual test $T_{\theta}$ as follows:
+where $u$ is the observed number of successful evaluations. We use this probability to  define the $p$-value for visual test $V_{\theta}$ as follows:
 \begin{dfn} \label{dfn:pval}
-The $p$-value associated with the decision of a visual test $T_{\theta}$ is given \blue{as the probability to observe a value at least as extreme as the test statistic $u$, 
+The $p$-value associated with the decision of a visual test $V_{\theta}$ is given \blue{as the probability to observe a value at least as extreme as the test statistic $u$, 
 where $u$ is the number of successful evaluations of the lineup, which leads us to a $p$-value of $P(U \ge u)$ as given in eqn (\ref{eqn:pvalue}). Since $u$ is a discrete value with boundaries 0 and $K$,
  we can also re-formulate the $p$-value in terms of upper and lower boundaries:
  \begin{equation*}
