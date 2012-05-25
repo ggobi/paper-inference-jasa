@@ -179,6 +179,25 @@ The \textbf{visual test}, $V_{\theta}$, is defined to be
 where `enough' observers is defined as some threshold $x_{1-\alpha}$, for which $P(X \ge x_{1-\alpha}) < \alpha$, the level of significance.
 \end{dfn}
 
+\blue{To avoid confusion with one tailed $(1-\alpha)$ vs two tailed $(1-\alpha/2)$ notation, can we just use $x_{\alpha}$? }
+
+
+\red{alternative definition of visual test where $type-I$ error $\alpha$ is attached.
+
+\begin{dfn}\label{dfn:test}
+The \textbf{visual test}, $V_{\theta}$  of size $\alpha$, is defined to be 
+\begin{itemize}\itemsep-3pt
+\item \textbf{Reject} $H_0$ if out of $K$ observers $x_{\alpha}$ of them correctly identify the observed data plot in the lineup, and
+\item \textbf{Fail to reject} $H_0$  otherwise. %if the observer selects a null plot.
+\end{itemize}
+where $x_{\alpha}$ is such that $P(X \ge x_{\alpha}) < \alpha$. 
+\end{dfn}
+
+Notice that now we can fix $type-I$ error to some values even less than $1/m$ by increasing $K$. $type-I$ error is $1/m$ only when $K=1$.
+}
+
+
+
 Associated with any test is the risk of making a Type I error, or Type II error, which for visual inference are defined as follows: 
 
 \begin{dfn}\label{dfn:error}
