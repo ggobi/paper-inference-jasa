@@ -218,7 +218,7 @@ Analysts typically have a choice of plots to make, and a myriad of possible opti
 %Next, we will develop power theoretically and then relate it to the empirical results.
 %We will first theoretically define and  derive the power of  a visual test in the setting of a parametric hypothesis test, i.e. we assume a test  of $H_0: \theta = 0$ vs $H_1: \theta \neq 0$ for some real valued parameter vector $\theta$. In a next step we will then relate the theoretical results to our empirical findings.
 
-\red{How are $\Theta_0$ and $\Theta^c_0$ defined? - why do we need them? wouldn't it be better to re-formulate power in terms of acceptance region, not in terms of the parameter space?}
+\red{How are $\Theta_0$ and $\Theta^c_0$ defined? - why do we need them? wouldn't it be better to re-formulate power in terms of acceptance region, not in terms of the parameter space? - $1/m$ also doesn't look right for the power - I think that's just looking at one observer.}
 \begin{dfn} \label{dfn:power}
 The \textbf{power} of a visual test $V_{\theta}$ is defined as the probability to reject the null hypothesis for a given parameter value $\theta$:
     \begin{equation*}
@@ -231,36 +231,53 @@ The \textbf{power} of a visual test $V_{\theta}$ is defined as the probability t
 \end{dfn}
 
 
-\noindent For any single observer, the power of a visual test has a lower limit of $\frac1m$ since the probability that an observer will randomly pick the test statistic under $H_0$ is $\frac1m$. When $K$ individuals evaluate a lineup plot independently, the number of successful evaluations, $U \sim \text{Binom} (K,1/m)$  under $H_0$. This leads us to obtain the probability 
-\begin{equation}\label{eqn:pvalue}
-Pr(U \ge u)= \sum_{k \ge u}^K {{K \choose k} \left(\frac{1}{m}\right)^k\left(1-\frac 1m\right)^{(K-k)}}
-\end{equation}
-where $u$ is the observed number of successful evaluations. We use this probability to  define the $p$-value for visual test $V_{\theta}$ as follows:
-\begin{dfn} \label{dfn:pval}
-The $p$-value associated with the decision of a visual test $V_{\theta}$ is given \blue{as the probability to observe a value at least as extreme as the test statistic $u$, 
-where $u$ is the number of successful evaluations of the lineup, which leads us to a $p$-value of $P(U \ge u)$ as given in eqn (\ref{eqn:pvalue}). Since $u$ is a discrete value with boundaries 0 and $K$,
- we can also re-formulate the $p$-value in terms of upper and lower boundaries:
- \begin{equation*}
- \begin{array}{rcll}
- P(U \ge u+1) \le &p\text{-value}& (\le 1), & \text{if }u < K, \text{and in particular for } u=0\\
-( 0 \le) &p\text{-value}& \le P(U \ge u-1), & \text{if }u > 1, \text{and in particular for } u=K.\\ 
- \end{array}
- \end{equation*}
- }
-\red{HH: Tried to re-write it to answer the question below.
-Why is the $p$ value not just $Pr(U \ge u)$ ? (We need to modify this a bit with respect to the rejection region $R$, but there should not be a difference in terms of whether we reject or accept. }
-
+\red{Alternative Power definition:}
+\begin{dfn} \label{dfn:power}
+The \textbf{power} of a visual test $V_{\theta}$ is defined as the probability to reject the null hypothesis for a given parameter value $\theta$:
     \begin{equation*}
+      \text{Power}_V(\theta)= Pr(\text{Reject } H_0) = P(X \ge x_{1-\alpha}) = 
         \begin{cases} 
-              p\text{-value} \le Pr(U \ge u)    & \text{when reject $H_0$,} \\
-              p\text{-value} > 1-Pr(U \ge u)  & \text{when fail to reject $H_0$}
+               1 - \text{Binom}_{K, 1/m}(x_{1-\alpha} - 1) & \text{ if } H_0 \text{ is true }.\\
+              1 - F_{X, \theta} (x_{1-\alpha} - 1) & \text{ if } H_1 \text{ is true}.
         \end{cases}
     \end{equation*}
 \end{dfn}
 
+\red{Note that $F_{X, \theta}$ is the distribution of $X$ under the alternative with given parameter value $\theta$.}
+
+%\noindent For any single observer, the power of a visual test has a lower limit of $\frac1m$ since the probability that an observer will randomly pick the test statistic under $H_0$ is $\frac1m$. When $K$ individuals evaluate a lineup plot independently, the number of successful evaluations, $U \sim \text{Binom} (K,1/m)$  under $H_0$. This leads us to obtain the probability 
+%\begin{equation}\label{eqn:pvalue}
+%Pr(U \ge u)= \sum_{k \ge u}^K {{K \choose k} \left(\frac{1}{m}\right)^k\left(1-\frac 1m\right)^{(K-k)}}
+%\end{equation}
+%where $u$ is the observed number of successful evaluations. We use this probability to  define the $p$-value for visual test $V_{\theta}$ as follows:
+%\begin{dfn} \label{dfn:pval}
+%The $p$-value associated with the decision of a visual test $V_{\theta}$ is given \blue{as the probability to observe a value at least as extreme as the test statistic $u$, 
+%where $u$ is the number of successful evaluations of the lineup, which leads us to a $p$-value of $P(U \ge u)$ as given in eqn (\ref{eqn:pvalue}). Since $u$ is a discrete value with boundaries 0 and $K$,
+% we can also re-formulate the $p$-value in terms of upper and lower boundaries:
+% \begin{equation*}
+% \begin{array}{rcll}
+% P(U \ge u+1) \le &p\text{-value}& (\le 1), & \text{if }u < K, \text{and in particular for } u=0\\
+%( 0 \le) &p\text{-value}& \le P(U \ge u-1), & \text{if }u > 1, \text{and in particular for } u=K.\\ 
+% \end{array}
+% \end{equation*}
+% }
+ 
+%\red{HH: Tried to re-write it to answer the question below.
+%Why is the $p$ value not just $Pr(U \ge u)$ ? (We need to modify this a bit with respect to the rejection region $R$, but there should not be a difference in terms of whether we reject or accept. }
+%
+%    \begin{equation*}
+%        \begin{cases} 
+%              p\text{-value} \le Pr(U \ge u)    & \text{when reject $H_0$,} \\
+%              p\text{-value} > 1-Pr(U \ge u)  & \text{when fail to reject $H_0$}
+%        \end{cases}
+%    \end{equation*}
+%\end{dfn}
+
 
 %\red{HH: the following paragraph needs some adjustment in terms of t and $\theta$ - could you try to take of that, Mahbub?}\\
-\red{For the following paragraph, we wanted to get rid of the absolute value of $t$ and instead look at $t \in R$ and $t \in R^c$.}
+%\red{For the following paragraph, we wanted to get rid of the absolute value of $t$ and instead look at $t \in R$ and $t \in R^c$.}
+
+\red{The following considerations deal with assessing the `difficulty' of  a lineup of size $m$. I think it's very relevant, but I don't see a natural equivalent in the classical testing situation.}
 
 Suppose $F_{|t|}(.)$ is the distribution function of an absolute value of $t$, the classical test statistic. Suppose the associated test statistic in classical test is observed as  $t_{obs}$ with $p$-value $p_D$. By definition we have 
 
