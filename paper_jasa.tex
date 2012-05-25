@@ -141,16 +141,19 @@ A \textbf{lineup} is a layout of $m$ randomly placed visual statistics, consisti
 independent observers follows;  observers are asked to point out the plot most different from the lineup. If the test statistic is identified in the lineup, this is considered as evidence against the null hypothesis. 
 %If it is not identified the conclusion is to not reject the null hypothesis. 
 
-This leads us to a definition for the $p$-value of a lineup: under the null hypothesis, each observer has a $1/m$ chance of picking the test statistic from the lineup.  For $K$ independent observers, let $X$ be  the number of observers picking the test statistic from the lineup. Under the null hypothesis $X \sim B_{K, 1/m}$, where $B$ is a binomial distribution, therefore: 
+This leads us to a definition for the $p$-value of a lineup: under the null hypothesis, each observer has a $1/m$ chance of picking the test statistic from the lineup.  For $K$ independent observers, let $X$ be  the number of observers picking the test statistic from the lineup. Under the null hypothesis $X \sim \text{Binom}({K, 1/m})$,  therefore: 
 
 \begin{dfn}\label{dfn:pvalue}
 The $p$-value of a lineup of size $m$ is given as 
 \[
-P(X \ge x) = 1 - \sum_{i=0}^{x-1} B_{K, 1/m} (i) = 1- \sum_{i=0}^{x-1} {K \choose i} \left(\frac{1}{m}\right)^{i} \left(\frac{m-1}{m}\right)^{K-i},
+P(X \ge x) = 1 - \text{Binom}({K, 1/m}) (x-1) = \sum_{i=x}^{K} {K \choose i} \left(\frac{1}{m}\right)^{i} \left(\frac{m-1}{m}\right)^{K-i},
 \]
-for $x > 0$, with $X$ defined as above. \red{why not $x \ge 0$? Are we assuming that at least one person would get the plot? But in reality there may be the case when none could pick the right plot. in that case x=0. if we use the expression in equation \ref{eqn:pvalue}, can we avoid this situation? Is there any reason why we are writing this in the complement form}.
+with $X$ defined as above. 
 \end{dfn}
-\noindent Table \ref{pvalue} shows $p$-values for different numbers of observers for lineups of size $m$. It can be seen that, if the null hypothesis is true, it is unlikely that multiple observers would pick the observed data plot.
+Note that for $x=0$ the $p$-value becomes --mathematically-- equal to 1. It might make more sense from a practical point of view to think of the $p$-value as
+being larger than $P(X \ge 1)$ in this situation. If we increase either $m$ or $K$, we would be able to determine the value at a higher precision.
+
+\noindent Table \ref{pvalue} shows $p$-values for different numbers of observers for lineups of size $m = 20$. It can be seen that, if the null hypothesis is true, it is unlikely that multiple observers would pick the observed data plot.
 
 \begin{table}[htp]
 \begin{center}
@@ -162,7 +165,7 @@ $K$ &  $x$ & $p$-value & $K$ &  $x$ & $p$-value & $K$ &  $x$ & $p$-value & $K$  
 &&&  &    &        &   &   &        & 4 & 4 & 0.0000 & 5 & 4 & 0.0000 \\\hline
 \end{tabular}
 \end{center}
-\caption{Possible $p$-values for different numbers of observers, $K$, for fixed size $m$ lineups.}
+\caption{Possible $p$-values for different numbers of observers, $K$, for fixed size $m = 20$ lineups.}
 \label{pvalue}
 \end{table}
 
@@ -180,10 +183,11 @@ Associated with any test is the risk of making a Type I error, or Type II error,
 \begin{dfn}\label{dfn:error}
 The \textbf{Type I error} is the probability of rejecting $H_0$ when it is true, the probability for that is $P(X \ge x_{1-\alpha})$, which is controlled by $\alpha$.
 % identifying the observed data plot, when $H_0$ is true, which is $1/m$, and is thus controlled by the number of null plots. 
-\textbf{Type II error} is the probability of failing to identify the observed data plot, when $H_0$ is not true, $P( X \le x_{1-\alpha})$, where $x_{1 - \alpha}$ is the (approximate) $1-\alpha$ quantile of  $B_{K, 1/m}$.
+\textbf{Type II error} is the probability of failing to identify the observed data plot, when $H_0$ is not true, $P( X <  x_{1-\alpha})$, where $x_{1 - \alpha}$ is the (approximate) $1-\alpha$ quantile of  $B_{K, 1/m}$.
 \end{dfn}
 
 \green{Why are we including $x_{1-\alpha}$ in both sides?}
+\red{fixed  now-- $X < x_{1 - \alpha}$ is the acceptance region, $X \ge x_{1-\alpha}$ is rejection region.}
 
 \noindent Because $X$ takes only discrete values we can not always control exactly for $\alpha$, finding an exact $x_{1-\alpha}$. For example, when there is only one observer, $1/m$ is the minimal value at which we can set $\alpha$.
 
