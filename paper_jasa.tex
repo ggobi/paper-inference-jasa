@@ -163,7 +163,7 @@ $K$ &  $x$ & $p$-value & $K$ &  $x$ & $p$-value & $K$ &  $x$ & $p$-value & $K$  
 1 &  1 & 0.0500 & 2 &  1 & 0.0975 & 3 & 1 & 0.1426 & 4 & 1 & 0.1855 & 5 & 1 & 0.2262 \\%\cline{1-3}
 &&& 2 &  2 & 0.0025 & 3 & 2 & 0.0073 & 4 & 2 & 0.0140 & 5 & 2 & 0.0226 \\
 &&& &&& 3 & 3 & 0.0001 & 4 & 3 & 0.0005 & 5 & 3 & 0.0012 \\%\cline{1-6}
-&&&  &    &        &   &   &        & 4 & 4 & 0.0000 & 5 & 4 & 0.0000 \\\hline
+&&&  &    &        &   &   &        & 4 & 4 & $< 0.0001$ & 5 & 4 & $< 0.0001$ \\\hline
 \end{tabular}
 \end{center}
 \label{pvalue}
@@ -243,6 +243,7 @@ The \textbf{power} of a visual test $V_{\theta}$ is defined as the probability t
     \end{equation*}
 \end{dfn}
 
+\noindent
 \red{Note that $F_{X, \theta}$ is the distribution of $X$ under the alternative with given parameter value $\theta$.}
 
 %\noindent For any single observer, the power of a visual test has a lower limit of $\frac1m$ since the probability that an observer will randomly pick the test statistic under $H_0$ is $\frac1m$. When $K$ individuals evaluate a lineup plot independently, the number of successful evaluations, $U \sim \text{Binom} (K,1/m)$  under $H_0$. This leads us to obtain the probability 
@@ -277,15 +278,28 @@ The \textbf{power} of a visual test $V_{\theta}$ is defined as the probability t
 %\red{HH: the following paragraph needs some adjustment in terms of t and $\theta$ - could you try to take of that, Mahbub?}\\
 %\red{For the following paragraph, we wanted to get rid of the absolute value of $t$ and instead look at $t \in R$ and $t \in R^c$.}
 
-\red{The following considerations deal with assessing the `difficulty' of  a lineup of size $m$. I think it's very relevant, but I don't see a natural equivalent in the classical testing situation.}
+\subsection*{Lineup size $m$}
+\noindent
+One of the big differences between visual inference and the classical testing situation is the use of a finite number $m-1$ of representatives of the null distribution as comparison against the test statistic. The choice of $m$ has an obvious impact on the test, and we will discuss this in the following paragraph.
 
-Suppose $F_{|t|}(.)$ is the distribution function of an absolute value of $t$, the classical test statistic. Suppose the associated test statistic in classical test is observed as  $t_{obs}$ with $p$-value $p_D$. By definition we have 
+The following properties are only derived for the situation of a  fully parameterized  simulation study. This allows us to directly compare lineup tests against their classical counterparts and also identify  properties relevant for a quality assessment of  lineups, which are typically used  in non-parametric situations.
+
+We need to make two crucial assumptions:
+\begin{enumerate}
+\item  the plot setup is structured in a way that makes it possible for observer to identify a deviation from the null hypothesis,
+\item an observer is able to identify the plot with the strongest `signal' (or deviation from $H_0$)  from a lineup.
+\end{enumerate}
+We will be able to show evidence for the second assumption with the help of the study discussed in section~\ref{sec:simulation}, the first assumption well be reflected by the power of a lineup. The better suited a design is for a particular task, the higher its power will be.
+
+We will now make use of properties of the data going into the lineup and assume that the properties are reflected in the lineup display:
+
+suppose $F_{|t|}(.)$ is the distribution function of an absolute value of $t$, the classical test statistic. Suppose the associated test statistic in a classical test is observed as  $t_{obs}$ with $p$-value $p_D$. By definition we have 
 
 $$p_D=Pr\left(|t| \ge t_{obs} \mid H_0\right)=1-F_{|t|}(t_{obs}) \ \ \Rightarrow \ \  |t_{obs}|=F_{|t|}^{-1}(1-p_D)$$
 
 %Now suppose $F_{|t|}(.;\delta)$ denotes the distribution function of an absolute value of $t$, the classical test statistic.
 %, with non-centrality parameter $\delta$. 
-Then the distribution function of $p$-value $p_D$ under $H_0$ is uniform, since:  
+Then the distribution function of the $p$-value $p_D$ under $H_0$ is uniform, since:  
 \begin{eqnarray}\label{dist_p}
 F{p_D}(p) &=& Pr(p_D \le p)=1-Pr(1-p_D \le 1-p) \nonumber \\
   &=& 1-Pr\left(F_{|t|}^{-1}(1-p_D) \le F_{|t|}^{-1}(1-p) \right) \nonumber \\
@@ -300,7 +314,7 @@ F{p_D}(p) &=& Pr(p_D \le p)=1-Pr(1-p_D \le 1-p) \nonumber \\
 
 
 
-\blue{Similarly, we will assume that $p_{0,i}$, $i=1, ..., m-1$ are the $p$-values associated with data corresponding to the $m-1$ null plots. Since this data is generated consistently with the null hypothesis,  the $p$-values follow a standard Uniform distribution, $p_{i,0} \sim U[0,1], i= 1, ..., m-1$ (by equation \ref{dist_p}). }
+Let $p_{0,i}$, $i=1, ..., m-1$ denote the  $p$-values associated with data corresponding to the $m-1$ null plots. Since this data is generated consistently with the null hypothesis,  the $p$-values are independent and  follow a standard Uniform distribution, $p_{i,0} \sim U[0,1], i= 1, ..., m-1$.
 
 Let us think of a lineup as a head-to-head comparison of the test statistic and $m-1$ null plots. 
 %Let the data plot have a $p$-value of $p_D$, and the null plots $p$ values of $p_{0, i}$ with $1 \le i \le m-1$.
@@ -313,18 +327,22 @@ which, in particular, is independent of $p_{0,i}$ for all $i$.
 
 Let us make the assumption that an onlooker is able to identify  the chart corresponding to the data with the smallest $p$-value. Further we will assume that all onlookers  have the same ability in identifying the data plot.
 
-With that, we define $X$  as the number of null plots in a lineup, for which the $p$-value $p_{0,i}$ is smaller than $p_D$.  
+With that, we define $Z$  as the number of null plots in a lineup, for which the $p$-value $p_{0,i}$ is smaller than $p_D$.  
 
-Then $X \sim B_{m-1, E[p_D]}$, and the probability that an onlooker will pick the data plot in a given lineup is 
+Then $Z \sim B_{m-1, E[p_D]}$, and the probability that an onlooker will pick the data plot in a given lineup is 
 \[
-P(X=0) = \left(1 - E[p_D] \right)^{m-1} = P(p_D \le p_0), \ \ \ \text{ where } p_0 = \min_{1 \le i \le m-1}  \ p_{0,i}.
+P(Z=0) = \left(1 - E[p_D] \right)^{m-1} = P(p_D \le p_0), \ \ \ \text{ where } p_0 = \min_{1 \le i \le m-1}  \ p_{0,i}.
 \]
 
 
 %\red{pull the results for $P(p_D < p_{i,0})$ and $P(p_D < p_0)$ to the front, including the figure on $1/m$ versus power. These results are independent of the regression setting - they don't make any assumptions in terms of regression.}
 
 
-Figure \ref{fig:pval_power} gives an overview of the probability of picking the data plot for lineups of different size: as $m$ increases we have an increased probability to observe a more highly structured null plot by chance. We see that for a $p$-value $p_D$ of about 0.15 for the data plot the signal in the plot is so weak, that we cannot distinguish the data plot from null plots in a lineup of size $m=20$. \red{The following sentence should be moved back} This pattern is also seen in our experiments as shown in figure \ref{fig:pval_pcorrect}.
+Figure \ref{fig:pval_power} gives an overview of the probability of picking the data plot for lineups of different size: as $m$ increases we have an increased probability to observe a more highly structured null plot by chance. We see that for a $p$-value $p_D$ of about 0.15 for the data plot the signal in the plot is so weak, that we cannot distinguish the data plot from null plots in a lineup of size $m=20$.  This pattern is confirmed by our findings described in section~ref{sec:simulation}
+%also seen in our experiments as shown in figure \ref{fig:pval_pcorrect}.
+
+
+\red{\#\#\# re-done up to here, HH}
 
 Even under $H_1$ we expect some observers to pick a null plot with a probability that depends on the strength of the signal in our data plot. 
 Reversely, we will now make use of the number of observers who do not pick the data plot in a lineup to infer the strength of the signal in the test statistic.
