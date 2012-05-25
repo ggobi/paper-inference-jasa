@@ -146,22 +146,23 @@ This leads us to a definition for the $p$-value of a lineup: under the null hypo
 \begin{dfn}\label{dfn:pvalue}
 The $p$-value of a lineup of size $m$ is given as 
 \[
-P(X \ge x) = 1 - B_{K, 1/m} (x-1) = 1- \sum_{i=0}^{x-1} {K \choose i} \left(\frac{1}{m}\right)^{i} \left(\frac{m-1}{m}\right)^{K-i},
+P(X \ge x) = 1 - \sum_{i=0}^{x-1} B_{K, 1/m} (i) = 1- \sum_{i=0}^{x-1} {K \choose i} \left(\frac{1}{m}\right)^{i} \left(\frac{m-1}{m}\right)^{K-i},
 \]
 for $x > 0$, with $X$ defined as above.
 \end{dfn}
-\noindent When $K=1, m=20$ the $p$-value can only be $1/20=0.05$. When $K=2, m=20$ and if $x=2$ the $p$-value is $0.0025$, but if $x=1$ the $p$-value is$0.905$. When $K=3, m=20$
+\noindent Table \ref{pvalue} shows $p$-values for different numbers of observers for lineups of size $m$. It can be seen that, if the null hypothesis is true, it is unlikely that multiple observers would pick the observed data plot.
 
 \begin{table}[htp]
 \begin{center}
-\begin{tabular}{rrrr}
-K & m & x & $p$-value \\\hline
-1 & 20 & 1 & 0.0500 \\\hline
-2 & 20 & 1 & 0.9050 \\
-2 & 20 & 2 & 0.0025 \\\hline
+\begin{tabular}{|rrr|rrr|rrr|rrr|rrr|}\hline
+$K$ &  $x$ & $p$-value & $K$ &  $x$ & $p$-value & $K$ &  $x$ & $p$-value & $K$  & $x$ & $p$-value & $K$  & $x$ & $p$-value\\\hline
+1 &  1 & 0.0500 & 2 &  1 & 0.9050 & 3 & 1 & 0.1426 & 4 & 1 & 0.1855 & 5 & 1 & 0.2262 \\%\cline{1-3}
+&&& 2 &  2 & 0.0025 & 3 & 2 & 0.0073 & 4 & 2 & 0.0140 & 5 & 2 & 0.0226 \\
+&&& &&& 3 & 3 & 0.0049 & 4 & 3 & 0.0005 & 5 & 3 & 0.0012 \\%\cline{1-6}
+&&&  &    &        &   &   &        & 4 & 4 & 0.0000 & 5 & 4 & 0.0000 \\\hline
 \end{tabular}
 \end{center}
-\caption{}
+\caption{Possible $p$-values for different numbers of observers, $K$, for fixed size $m$ lineups.}
 \label{pvalue}
 \end{table}
 
@@ -174,25 +175,30 @@ The \textbf{visual test}, $V_{\theta}$, is defined to be
 where `enough' observers is defined as some threshold $x_{1-\alpha}$, for which $P(X \ge x_{1-\alpha}) < \alpha$, the level of significance.
 \end{dfn}
 
-The resolution of the Type I error is controlled by both $m$, the size of the lineup, and $K$, the number of observers, with $(1/m)^K$ being the minimal value at which we can control the test. 
-%The number of plots in the lineup, $m$, controls the Type I error. The probability of choosing any one of the plots is $1/m$, so the probability of making a wrong decision by chance is $1/m$. 
-Classically, Type II error is the probability of failing to reject $H_0$ when it is not true, which is more difficult to quantify. 
+Associated with any test is the risk of making a Type I error, or Type II error, which for visual inference are defined as follows: 
 
 \begin{dfn}\label{dfn:error}
-The \textbf{Type I error} is the probability of \red{rejecting $H_0$ when it is true, the probability for that is $P(X \ge x_{1-\alpha})$, which is controlled by $\alpha$. Note that due to the discrete nature of $X$ we can not always control exactly for $\alpha$. }
+The \textbf{Type I error} is the probability of rejecting $H_0$ when it is true, the probability for that is $P(X \ge x_{1-\alpha})$, which is controlled by $\alpha$.
 % identifying the observed data plot, when $H_0$ is true, which is $1/m$, and is thus controlled by the number of null plots. 
-\textbf{Type II error} is the probability of failing to identify the observed data plot, when $H_0$ is not true, \red{i.e. $P( X \le x_{1-\alpha})$, where $x_{1 - \alpha}$ is the (approximate) $1-\alpha$ quantile of  $B_{K, 1/m}$, the distribution of $X$ under the null hypothesis.}
-\red{Under the alternative hypothesis, we have to account for different visual abilities of  individuals: let $X_i$ be a binary random variable with $X_i = 1$, if individual $i$ identifies the data plot from the lineup, and $X_i = 0$ otherwise.  Then $X_i \sim B_{1, p_i}$ and $X = \sum_i X_i$ has  a Poisson-Binomial distribution.}
+\textbf{Type II error} is the probability of failing to identify the observed data plot, when $H_0$ is not true, $P( X \le x_{1-\alpha})$, where $x_{1 - \alpha}$ is the (approximate) $1-\alpha$ quantile of  $B_{K, 1/m}$.
 \end{dfn}
 
+\green{Why are we including $x_{1-\alpha}$ in both sides?}
+
+\noindent Because $X$ takes only discrete values we can not always control exactly for $\alpha$, finding an exact $x_{1-\alpha}$. For example, when there is only one observer, $1/m$ is the minimal value at which we can set $\alpha$.
+
+\green{check that we consistently use $1/m$, or $\frac{1}{m}$ in the text}.
+
+ 
+%The number of plots in the lineup, $m$, controls the Type I error. The probability of choosing any one of the plots is $1/m$, so the probability of making a wrong decision by chance is $1/m$. 
+
+\green{Why???? Under the alternative hypothesis, we have to account for different visual abilities of  individuals:} let $X_i$ be a binary random variable with $X_i = 1$, if individual $i$ identifies the data plot from the lineup, and $X_i = 0$ otherwise.  Then $X_i \sim B_{1, p_i}$ and $X = \sum_i X_i$ has  a Poisson-Binomial distribution.
 
 %The lineup plot can be evaluated by one or more individuals. When a single individual identifies the observed graph in the lineup plot we report a $p$-value of at most $1/m$, otherwise the $p$-value is at least $1-\frac 1m$. 
 
  %Notice that when $N=1$, this $p$-value is $\frac1m$. 
 
 %\subsection{Power}
-
-\green{Ok, I'm really getting confused now. I think that it might be better to define p-value, and significance level next, and then talk about power. Power and p-value are confounded in the discussion below.}
 
 \noindent 
 Analysts typically have a choice of plots to make, and a myriad of possible options such as reference grids, for any particular purpose. This is akin to different choices of statistics in classical hypothesis testing, for example, mean, median, or trimmed mean. One is typically better than another. For two different visual test statistics of the same observed data, the one is considered to be better, if $T(y)$ is more easily distinguishable to the observer. Power is typically used to measure this characteristic of a test. Power is the probability of rejecting $H_0$ when it is not true.  We can assess power therefore both empirically based on experimental data and through theoretical considerations. 
