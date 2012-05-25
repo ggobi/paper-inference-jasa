@@ -156,16 +156,16 @@ being larger than $P(X \ge 1)$ in this situation. If we increase either $m$ or $
 \noindent Table \ref{pvalue} shows $p$-values for different numbers of observers for lineups of size $m = 20$. It can be seen that, if the null hypothesis is true, it is unlikely that multiple observers would pick the observed data plot.
 
 \begin{table}[htp]
+\caption{Possible $p$-values for different numbers of observers, $K$, for fixed size $m = 20$ lineups.}
 \begin{center}
 \begin{tabular}{|rrr|rrr|rrr|rrr|rrr|}\hline
 $K$ &  $x$ & $p$-value & $K$ &  $x$ & $p$-value & $K$ &  $x$ & $p$-value & $K$  & $x$ & $p$-value & $K$  & $x$ & $p$-value\\\hline
-1 &  1 & 0.0500 & 2 &  1 & 0.9050 & 3 & 1 & 0.1426 & 4 & 1 & 0.1855 & 5 & 1 & 0.2262 \\%\cline{1-3}
+1 &  1 & 0.0500 & 2 &  1 & 0.0975 & 3 & 1 & 0.1426 & 4 & 1 & 0.1855 & 5 & 1 & 0.2262 \\%\cline{1-3}
 &&& 2 &  2 & 0.0025 & 3 & 2 & 0.0073 & 4 & 2 & 0.0140 & 5 & 2 & 0.0226 \\
 &&& &&& 3 & 3 & 0.0001 & 4 & 3 & 0.0005 & 5 & 3 & 0.0012 \\%\cline{1-6}
 &&&  &    &        &   &   &        & 4 & 4 & 0.0000 & 5 & 4 & 0.0000 \\\hline
 \end{tabular}
 \end{center}
-\caption{Possible $p$-values for different numbers of observers, $K$, for fixed size $m = 20$ lineups.}
 \label{pvalue}
 \end{table}
 
@@ -192,7 +192,7 @@ The \textbf{Type I error} is the probability of rejecting $H_0$ when it is true,
 
 \noindent Because $X$ takes only discrete values we can not always control exactly for $\alpha$, finding an exact $x_{1-\alpha}$. For example, when there is only one observer, $1/m$ is the minimal value at which we can set $\alpha$.
 
-\green{check that we consistently use $1/m$, or $\frac{1}{m}$ in the text}.
+\green{check that we consistently use $1/m$, or $\frac{1}{m}$ in the text.} \blue{its jasa guideline to use fraction like $1/m$ whenever possible to save space}.
 
  
 %The number of plots in the lineup, $m$, controls the Type I error. The probability of choosing any one of the plots is $1/m$, so the probability of making a wrong decision by chance is $1/m$. 
