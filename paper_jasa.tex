@@ -196,7 +196,14 @@ The \textbf{Type I error} is the probability of rejecting $H_0$ when it is true,
  
 %The number of plots in the lineup, $m$, controls the Type I error. The probability of choosing any one of the plots is $1/m$, so the probability of making a wrong decision by chance is $1/m$. 
 
-\green{Why???? Under the alternative hypothesis, we have to account for different visual abilities of  individuals:} let $X_i$ be a binary random variable with $X_i = 1$, if individual $i$ identifies the data plot from the lineup, and $X_i = 0$ otherwise.  Then $X_i \sim B_{1, p_i}$ and $X = \sum_i X_i$ has  a Poisson-Binomial distribution.
+\green{Why???? Under the alternative hypothesis, we have to account for different visual abilities of  individuals:} 
+\red{I think that's more a matter of writing it - sorry for the confusion - }
+
+let $X_i$ be a binary random variable with $X_i = 1$, if individual $i$ identifies the data plot from the lineup, and $X_i = 0$ otherwise, \red{where $p_i$ is the probability that individual $i$ picks out the data plot from the lineup. 
+If all individuals have the same probability $p$ for picking out the data plot, $X = \sum_i X_i$ has distribution $\text{Binom}(K, p)$, and we can estimate $p$ as $\hat{p} = x/K$, where $x$ is the number of observers (out of $K$), who pick out the data plot from the lineup. 
+
+If there is evidence for individual skills influencing the probability $p_i$ for picking out the data plot, 
+ $X = \sum_i X_i$ has  a Poisson-Binomial distribution.}
 
 %The lineup plot can be evaluated by one or more individuals. When a single individual identifies the observed graph in the lineup plot we report a $p$-value of at most $1/m$, otherwise the $p$-value is at least $1-\frac 1m$. 
 
