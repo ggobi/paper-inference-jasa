@@ -2,6 +2,8 @@
 # R script file last modified on Mar 29, 2012 by Mahbub
 
 library(ggplot2)
+library(plyr)
+library(reshape)
 
 
 raw.dat <- read.csv("../data/raw_data_turk2.csv")
@@ -513,13 +515,14 @@ p + xlab(expression(beta)) + ylab("Power")
 
 
 
+
 # ----------- glm with effect as covariate ---------------
 
-dat$effect <-  with(dat,beta/sigma*sqrt(sample_size))
+dat$effect <-  abs(with(dat,beta/sigma*sqrt(sample_size)))
 
 effect.d <- ddply(dat,.(effect, replica), summarize, 
    power = mean(response),
-   ump_power = calculate_ump_power(beta[1],sample_size[1],sigma[1]))
+   ump_power = calculate_ump_power(abs(beta[1]),sample_size[1],sigma[1]))
 
 ggplot(data=effect.d,aes(x=effect,y=power)) + 
    geom_point() + 
@@ -535,13 +538,77 @@ ggplot(data=effect.d,aes(x=effect,y=power)) +
    
 ggplot(data=effect.d,aes(x=effect,y=power)) + 
    geom_point() + 
-   geom_smooth(method="loess", span=0.8) +
-   geom_line(aes(x=effect,y=ump_power))  
+   geom_smooth(method="loess", span=0.8,aes(colour=factor(replica))) +
+   geom_line(aes(x=effect,y=ump_power)) +
+   scale_colour_discrete(name = "Replication")+
+   xlab(expression(Effect(E)))
+   
+ggsave(filename="../images/effect_power_exp2.pdf", height=7, width=7)   
+   
+ggplot(data=effect.d,aes(x=effect,y=power-ump_power)) + 
+   geom_point() + 
+   geom_smooth(method="loess", span=0.8,aes(colour=factor(replica))) +
+   scale_colour_discrete(name = "Replication")  
+   
+     
 
 
 
 # and then fit the following model:
        response ~ effect + (effect | id)
+
+# ------- subjectwise power curve with random slope  for covariate effect 
+library(lme4)
+fit.mixed <- lmer(response ~ effect + (1+effect|id)
+              , family="binomial"
+              , data=dat)
+res <- summary(fit.mixed)
+B <- res@coefs[,1]
+effect <- seq(0.01,7, by=.2)
+#res@frame
+ones <- rep(1,length(effect))
+#conf_level <- rep(1,length(beta))
+X <- cbind(ones,effect)
+dim(X)
+
+Z <- cbind(ones,effect)
+cov <- as.numeric(res@REmat[2,5])*as.numeric(res@REmat[1,4])*as.numeric(res@REmat[2,4])
+vv <- matrix(as.numeric(c(res@REmat[1,3],rep(cov,2),res@REmat[2,3])),ncol=2, byrow=F)
+
+
+# library(MASS) is needed for mvrnorm
+
+power=NULL
+M <- 20
+set.seed(7945)
+tau <- mvrnorm(n = M, mu=c(0,0),Sigma=vv)
+for (i in 1:M){
+xb <- X %*% B + Z %*%tau[i,]
+power <- cbind(power,exp(xb)/(1+exp(xb)))
+}
+colnames(power) <- 1:M
+
+ump_pow <- NULL
+for (i in effect)ump_pow <- c(ump_pow,calculate_ump_power(beta=i/10,n=100,sigma=1))
+
+
+pow.dat <- data.frame(effects = c(-effect, effect)
+                    , rbind(power,power)
+                    , UMP=rep(ump_pow,2))
+pow.dat.m <- melt(pow.dat, id="effects")
+head(pow.dat.m)
+tail(pow.dat.m)
+
+qplot(effects,value,group=variable,geom="line",alpha=I(.2), data=pow.dat.m) + 
+ xlab(expression(beta)) + ylab("Power") + 
+ geom_line(data=subset(pow.dat.m, variable=="UMP"),colour="hotpink", size=1) + 
+ xlab("Effect(E)")
+ 
+ggsave(filename="../images/effect_power_subject_exp2.pdf", height=5, width=7)   
+
+
+
+
 
 
 
