@@ -1,6 +1,7 @@
 #Turk1 data analysis for jasa paper last modified on Mar 30, 2012 by Mahbub.
 
 library(ggplot2)
+library(plyr)
 
 
 raw.dat <- read.csv("../data/raw_data_turk1.csv")
@@ -1086,8 +1087,19 @@ ggplot(data=effect.d,aes(x=effect,y=power)) +
    
 ggplot(data=effect.d,aes(x=effect,y=power)) + 
    geom_point() + 
-   geom_smooth(method="loess", span=0.8) +
-   geom_line(aes(x=effect,y=ump_power))  
+   geom_smooth(method="loess", span=0.8,aes(colour=factor(replica))) +
+   geom_line(aes(x=effect,y=ump_power)) +
+   scale_colour_discrete(name = "Replication")+
+   xlab(expression(Effect(E)))
+   
+ggsave(filename="../images/effect_power_exp1.pdf", height=7, width=7)   
+   
+ggplot(data=effect.d,aes(x=effect,y=power-ump_power)) + 
+   geom_point() + 
+   geom_smooth(method="loess", span=0.8,aes(colour=factor(replica))) +
+   scale_colour_discrete(name = "Replication")  
+   
+     
 
 
 

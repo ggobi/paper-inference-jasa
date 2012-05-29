@@ -14,6 +14,26 @@ qplot(t, density_t, geom = "line") + geom_vline(xintercept = 2.5) + ylab("Densit
 ggsave("../images/stat_mathematical_test.pdf",height=2,width=2.2)
 
 
+# ===== computation of p-values =============
+
+get_pval <- function(m,K,x){
+	p <- pbinom(size=K,prob=1/m,q=x)
+	px <- dbinom(size=K,prob=1/m,x=x)
+	pval <- 1-p + px
+	return(pval)
+}
+
+pvals <- NULL
+for (K in 1:5){
+	for (x in 0:K){
+		pval <- get_pval(m=20,K=K,x=x)
+		pvals <- rbind(pvals,c(m=20,K=K,x=x,pval=round(pval,4)))
+	}
+}
+
+
+
+
 # === plotting test stat and lineup for categorical variable
 
 # generating data

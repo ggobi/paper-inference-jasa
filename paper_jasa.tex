@@ -575,7 +575,7 @@ We estimate the empirical power from responses on a specific lineup plot  genera
 Suppose each of $N$ independent observers gives evaluations on multiple lineup plots and responses are associated with binary random variable $Y_{ij}$. Let $Y_{ij} = 1$, if subject $j$ correctly identifies the test statistic on lineup $i$, and 0 otherwise.
 We model $\pi_{ij} = E(Y_{ij})$ as  a mixed effects logistic regression
 
-\begin{equation}
+\begin{equation} 
 g(\pi_{ij}) = X_{ij}B  + Z_{ij} \tau_j 
 \label{mixed} 
 \end{equation}
@@ -590,6 +590,13 @@ for specified sample size ($n$) and  variance ($\sigma$)  as
 \begin{equation}\label{eqn:power} 
 Power(\beta) = \pi=Pr(Y=1|\beta, n, \sigma) 
 \end{equation}
+
+The main covariate factors that determine the power of the test are sample size ($n$), $\sigma$ and the parameter $\beta$. combining these we obtain one single covariate effect denoted by $E$ and defined as $E = \beta/ \sigma*\sqrt{n}$. Using equation \ref{mixed}, we then have the power as
+
+\begin{equation}\label{eqn:effect} 
+Power(E) = \pi=Pr(Y=1| E) 
+\end{equation}
+
 
 
 \section{Results of Simulation Experiments} \label{sec:simulation}
@@ -690,6 +697,13 @@ For this experiment we generate five replications of observed data sets for each
        \scalebox{0.7}{\includegraphics{power_loess_exp2.pdf}}
        \caption{Observed power shown by loess smoother with simultaneous bootstrap confidence band and the power of UMP test for sample size $n= 100,300$ and $\sigma = 12,5$ as per experiment 2.}
        \label{fig:power_loess2}
+\end{figure*}
+
+\begin{figure*}[hbtp]
+   \centering
+       \scalebox{0.7}{\includegraphics{effect_power_exp1.pdf}}
+       \caption{Observed power shown by loess smoother and the power of UMP test for different effect size $E$ as per experiment 1.}
+       \label{fig:power_loess1}
 \end{figure*}
 
 
