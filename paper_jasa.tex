@@ -170,20 +170,19 @@ $K$ &  $x$ & $p$-value & $K$ &  $x$ & $p$-value & $K$ &  $x$ & $p$-value & $K$  
 \label{pvalue}
 \end{table}
 
-\begin{dfn}\label{dfn:test}
-\red{why do we need the $\theta$? - it's not defined and not explained. usually we would assume that lineups are non-parametric}
-The \textbf{visual test}, $V_{\theta}$, is defined to be 
-\begin{itemize}\itemsep-3pt
-\item \textbf{Reject} $H_0$ if `enough' observers select the observed data plot in the lineup of $m$ plots, and
-\item \textbf{Fail to reject} $H_0$  otherwise. %if the observer selects a null plot.
-\end{itemize}
-where `enough' observers is defined as some threshold $x_{1-\alpha}$, for which $P(X \ge x_{1-\alpha}) < \alpha$, the level of significance.
-\end{dfn}
+%\begin{dfn}\label{dfn:test}
+%\red{why do we need the $\theta$? - it's not defined and not explained. usually we would assume that lineups are non-parametric}
+%The \textbf{visual test}, $V_{\theta}$, is defined to be 
+%\begin{itemize}\itemsep-3pt
+%\item \textbf{Reject} $H_0$ if `enough' observers select the observed data plot in the lineup of $m$ plots, and
+%\item \textbf{Fail to reject} $H_0$  otherwise. %if the observer selects a null plot.
+%\end{itemize}
+%where `enough' observers is defined as some threshold $x_{1-\alpha}$, for which $P(X \ge x_{1-\alpha}) < \alpha$, the level of significance.
+%\end{dfn}
 
-\blue{To avoid confusion with one tailed $(1-\alpha)$ vs two tailed $(1-\alpha/2)$ notation, can we just use $x_{\alpha}$? }
+%\blue{To avoid confusion with one tailed $(1-\alpha)$ vs two tailed $(1-\alpha/2)$ notation, can we just use $x_{\alpha}$? }
 
-
-\red{alternative definition of visual test where $type-I$ error $\alpha$ is attached.
+%\red{alternative definition of visual test where $type-I$ error $\alpha$ is attached.
 
 \begin{dfn}\label{dfn:test}
 The \textbf{visual test}, $V_{\theta}$  of size $\alpha$, is defined to be 
@@ -194,33 +193,22 @@ The \textbf{visual test}, $V_{\theta}$  of size $\alpha$, is defined to be
 where $x_{\alpha}$ is such that $P(X \ge x_{\alpha}) < \alpha$. 
 \end{dfn}
 
-Notice that now we can fix $type-I$ error to some values even less than $1/m$ by increasing $K$. $type-I$ error is $1/m$ only when $K=1$.
-}
-
-
-
 Associated with any test is the risk of making a Type I error, or Type II error, which for visual inference are defined as follows: 
 
 \begin{dfn}\label{dfn:error}
-The \textbf{Type I error} is the probability of rejecting $H_0$ when it is true, the probability for that is $P(X \ge x_{1-\alpha})$, which is controlled by $\alpha$.
+The \textbf{Type I error} is the probability of rejecting $H_0$ when it is true, the probability for that is $P(X \ge x_{\alpha})$, which is controlled by $\alpha$.
 % identifying the observed data plot, when $H_0$ is true, which is $1/m$, and is thus controlled by the number of null plots. 
-\textbf{Type II error} is the probability of failing to identify the observed data plot, when $H_0$ is not true, $P( X <  x_{1-\alpha})$, where $x_{1 - \alpha}$ is the (approximate) $1-\alpha$ quantile of  $B_{K, 1/m}$.
+\textbf{Type II error} is the probability of failing to identify the observed data plot, when $H_0$ is not true, $P( X <  x_{\alpha})$, where $x_{\alpha}$ is the (approximate) $\alpha$ quantile of  $B_{K, 1/m}$. \green{Is this Binom????}
 \end{dfn}
 
-\green{Why are we including $x_{1-\alpha}$ in both sides?}
-\red{fixed  now-- $X < x_{1 - \alpha}$ is the acceptance region, $X \ge x_{1-\alpha}$ is rejection region.}
+\noindent Because $X$ takes only discrete values we can not always control exactly for $\alpha$, finding an exact $x_{\alpha}$. For example, when there is only one observer, $1/m$ is the minimal value at which we can set $\alpha$. It can be set to be smaller, even arbitrarily small, by increasing $K$. 
 
-\noindent Because $X$ takes only discrete values we can not always control exactly for $\alpha$, finding an exact $x_{1-\alpha}$. For example, when there is only one observer, $1/m$ is the minimal value at which we can set $\alpha$.
-
-\green{check that we consistently use $1/m$, or $\frac{1}{m}$ in the text.} \blue{its jasa guideline to use fraction like $1/m$ whenever possible to save space}.
-
+\green{check that we consistently use $1/m$, or $\frac{1}{m}$ in the text.} \blue{its jasa guideline to use fraction like $1/m$ whenever possible to save space}. \green{so please make sure that they are all $1/m$.}
  
 %The number of plots in the lineup, $m$, controls the Type I error. The probability of choosing any one of the plots is $1/m$, so the probability of making a wrong decision by chance is $1/m$. 
 
-\green{Why???? Under the alternative hypothesis, we have to account for different visual abilities of  individuals:} 
-\red{I think that's more a matter of writing it - sorry for the confusion - }
 
-let $X_i$ be a binary random variable with $X_i = 1$, if individual $i$ identifies the data plot from the lineup, and $X_i = 0$ otherwise, \red{where $p_i$ is the probability that individual $i$ picks out the data plot from the lineup. 
+\green{What does this part apply to ???? power?}let $X_i$ be a binary random variable with $X_i = 1$, if individual $i$ identifies the data plot from the lineup, and $X_i = 0$ otherwise, \red{where $p_i$ is the probability that individual $i$ picks out the data plot from the lineup. 
 If all individuals have the same probability $p$ for picking out the data plot, $X = \sum_i X_i$ has distribution $\text{Binom}(K, p)$, and we can estimate $p$ as $\hat{p} = x/K$, where $x$ is the number of observers (out of $K$), who pick out the data plot from the lineup. 
 
 If there is evidence for individual skills influencing the probability $p_i$ for picking out the data plot, 
