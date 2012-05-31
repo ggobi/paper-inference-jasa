@@ -102,7 +102,7 @@ Table \ref{tbl:compare} illustrates the lineup protocol in relation to tradition
 				 
  Sampling Distribution & $f_{T(y)}(t); $\begin{minipage}[h]{2.5cm} \begin{center} \scalebox{0.55}{\includegraphics{stat_mathematical_test.pdf}} \end{center} \end{minipage} & $f_{T(y)}(t); $ \begin{minipage}[h]{2.5cm} \begin{center} \scalebox{0.32}{\includegraphics{test_category_small.pdf}} \end{center} \end{minipage} \\
  & \begin{minipage}[h]{2.5cm} \begin{center} \scalebox{0.2}{\includegraphics{down_arrow.pdf}} \end{center} \end{minipage} & \begin{minipage}[h]{2.5cm} \begin{center} \scalebox{0.2}{\includegraphics{down_arrow.pdf}} \end{center} \end{minipage} \\
- Reject $H_0$ if & observed $T$ is extreme & observed plot is identifiable \\
+ Reject $H_0$ if & actual $T$ is extreme & actual plot is identifiable \\
 \hline 
 \end{tabular}
 \label{tbl:compare}
@@ -122,10 +122,10 @@ Table \ref{tbl:compare} illustrates the lineup protocol in relation to tradition
 %This section outlines the concepts of visual inference in comparison to the procedures of classical statistical inference. Table \ref{tbl:compare} (derived from \citet{buja:2009}) gives a summarized overview of this comparison.
 
 In general, we define $\theta$ to be a population parameter of interest, with $\theta \in \Theta$, the parameter space. Any null hypothesis $H_0$ then partitions the parameter space into $\Theta_0$ and $\Theta_0^c$, with $H_0: \theta \in \Theta_0$ versus $H_1: \theta \in \Theta_0^c$. A test statistic, $T(y)$, is a function that maps the sample into a numerical summary, that can be used to test the null hypothesis. The hypothesis test maps the test statistic into \{0, 1\}, based on whether $T(y)$ falls into the acceptance region, or the rejection region, respectively. $T(y)$ is assessed relative to null values of this statistic $T(y_0)$ which would be possible values of $T$ if $\theta \in \Theta$.  %Similarly, for any test statistic, we have a rejection region $R$ and, complementary to that, $R^c$,  that partitions the space of the test statistic, which is usually a subspace of the real numbers. 
-For visual inference, unlike in the classical hypothesis test, the statistic is not a single value, but a graphical representation of the data chosen to display the strength of the parameter of interest, $\theta$. When the alternative hypothesis is true, it is expected that the plot of the observed data, the test statistic, will have visible feature(s) consistent with $\theta \in \Theta_0^c$, and that visual artifacts will not distinguish the test statistic as different when $H_1$ is not true. We will call a plot with this property a {\it visual statistic} for $\theta$. More formally, 
+For visual inference, unlike in the classical hypothesis test, the statistic is not a single value, but a graphical representation of the data chosen to display the strength of the parameter of interest, $\theta$. When the alternative hypothesis is true, it is expected that the plot of the actual data, the test statistic, will have visible feature(s) consistent with $\theta \in \Theta_0^c$, and that visual artifacts will not distinguish the test statistic as different when $H_1$ is not true. We will call a plot with this property a {\it visual statistic} for $\theta$. More formally, 
 
 \begin{dfn} \label{dfn:test}
-A \textbf{visual test statistic}, $T(.)$, is a function of a sample that makes a plot. $T(y)$ maps the observed data to the plot, and we call this the \textbf{observed data plot}, and $T(y_0)$ maps samples drawn from the null distribution into the same plot form, and these are called \textbf{null plots}. 
+A \textbf{visual test statistic}, $T(.)$, is a function of a sample that makes a plot. $T(y)$ maps the actual data to the plot, and we call this the \textbf{actual data plot}, and $T(y_0)$ maps samples drawn from the null distribution into the same plot form, and these are called \textbf{null plots}. 
 \end{dfn}
 
 \noindent Ideally, the visual test statistic is defined and constructed using the grammar of graphics \citep{wilkinson:1999,hadley:2009}, consisting of type, and specification of aesthetics, necessary for complete reproducibility. The visual test statistic is compared with values $T(y_0)$ using a lineup, which is defined as:
@@ -134,7 +134,7 @@ A \textbf{visual test statistic}, $T(.)$, is a function of a sample that makes a
 A \textbf{lineup} is a layout of $m$ randomly placed visual statistics, consisting of 
 \begin{itemize}\itemsep-3pt
 \item $m-1$ statistics, $T(y_0)$, simulated from the model specified by $H_0$  (null plots) and 
-\item the test statistic, $T(y)$, produced by plotting the observed data, possibly arising from $H_1$.
+\item the test statistic, $T(y)$, produced by plotting the actual data, possibly arising from $H_1$.
 \end{itemize}
 \end{dfn}
 
@@ -154,7 +154,7 @@ with $X$ defined as above.
 Note that for $x=0$ the $p$-value becomes --mathematically-- equal to 1. It might make more sense from a practical point of view to think of the $p$-value as
 being larger than $P(X \ge 1)$ in this situation. If we increase either $m$ or $K$, we would be able to determine the value at a higher precision.
 
-\noindent Table \ref{pvalue} shows $p$-values for different numbers of observers for lineups of size $m = 20$. It can be seen that, if the null hypothesis is true, it is unlikely that multiple observers would pick the observed data plot.
+\noindent Table \ref{pvalue} shows $p$-values for different numbers of observers for lineups of size $m = 20$. It can be seen that, if the null hypothesis is true, it is unlikely that multiple observers would pick the actual data plot.
 
 \begin{table}[htp]
 \caption{Possible $p$-values for different numbers of observers, $K$, for fixed size $m = 20$ lineups.}
@@ -174,7 +174,7 @@ $K$ &  $x$ & $p$-value & $K$ &  $x$ & $p$-value & $K$ &  $x$ & $p$-value & $K$  
 %\red{why do we need the $\theta$? - it's not defined and not explained. usually we would assume that lineups are non-parametric}
 %The \textbf{visual test}, $V_{\theta}$, is defined to be 
 %\begin{itemize}\itemsep-3pt
-%\item \textbf{Reject} $H_0$ if `enough' observers select the observed data plot in the lineup of $m$ plots, and
+%\item \textbf{Reject} $H_0$ if `enough' observers select the actual data plot in the lineup of $m$ plots, and
 %\item \textbf{Fail to reject} $H_0$  otherwise. %if the observer selects a null plot.
 %\end{itemize}
 %where `enough' observers is defined as some threshold $x_{1-\alpha}$, for which $P(X \ge x_{1-\alpha}) < \alpha$, the level of significance.
@@ -187,7 +187,7 @@ $K$ &  $x$ & $p$-value & $K$ &  $x$ & $p$-value & $K$ &  $x$ & $p$-value & $K$  
 \begin{dfn}\label{dfn:test}
 The \textbf{visual test}, $V_{\theta}$  of size $\alpha$, is defined to be 
 \begin{itemize}\itemsep-3pt
-\item \textbf{Reject} $H_0$ if out of $K$ observers $x_{\alpha}$ of them correctly identify the observed data plot in the lineup, and
+\item \textbf{Reject} $H_0$ if out of $K$ observers $x_{\alpha}$ of them correctly identify the actual data plot in the lineup, and
 \item \textbf{Fail to reject} $H_0$  otherwise. %if the observer selects a null plot.
 \end{itemize}
 where $x_{\alpha}$ is such that $P(X \ge x_{\alpha}) < \alpha$. 
@@ -197,22 +197,13 @@ Associated with any test is the risk of making a Type I error, or Type II error,
 
 \begin{dfn}\label{dfn:error}
 The \textbf{Type I error} is the probability of rejecting $H_0$ when it is true, the probability for that is $P(X \ge x_{\alpha})$, which is controlled by $\alpha$.
-% identifying the observed data plot, when $H_0$ is true, which is $1/m$, and is thus controlled by the number of null plots. 
-\textbf{Type II error} is the probability of failing to identify the observed data plot, when $H_0$ is not true, $P( X <  x_{\alpha})$, where $x_{\alpha}$ is the (approximate) $\alpha$ quantile of  $B_{K, 1/m}$. \green{Is this Binom????}
+% identifying the actual data plot, when $H_0$ is true, which is $1/m$, and is thus controlled by the number of null plots. 
+\textbf{Type II error} is the probability of failing to identify the actual data plot, when $H_0$ is not true, $P( X <  x_{\alpha})$.
 \end{dfn}
 
-\noindent Because $X$ takes only discrete values we can not always control exactly for $\alpha$, finding an exact $x_{\alpha}$. For example, when there is only one observer, $1/m$ is the minimal value at which we can set $\alpha$. It can be set to be smaller, even arbitrarily small, by increasing $K$. 
+\green{Oh, we are using observed and observer, which might be confusing. May need to change observed data plot to something else. Will think about this. Will use ``actual'' for now.}
 
-\green{check that we consistently use $1/m$, or $\frac{1}{m}$ in the text.} \blue{its jasa guideline to use fraction like $1/m$ whenever possible to save space}. \green{so please make sure that they are all $1/m$.}
- 
-%The number of plots in the lineup, $m$, controls the Type I error. The probability of choosing any one of the plots is $1/m$, so the probability of making a wrong decision by chance is $1/m$. 
-
-
-\green{What does this part apply to ???? power?}let $X_i$ be a binary random variable with $X_i = 1$, if individual $i$ identifies the data plot from the lineup, and $X_i = 0$ otherwise, \red{where $p_i$ is the probability that individual $i$ picks out the data plot from the lineup. 
-If all individuals have the same probability $p$ for picking out the data plot, $X = \sum_i X_i$ has distribution $\text{Binom}(K, p)$, and we can estimate $p$ as $\hat{p} = x/K$, where $x$ is the number of observers (out of $K$), who pick out the data plot from the lineup. 
-
-If there is evidence for individual skills influencing the probability $p_i$ for picking out the data plot, 
- $X = \sum_i X_i$ has  a Poisson-Binomial distribution.}
+\noindent Because $X$ takes only discrete values we can not always control exactly for $\alpha$, with an exact $x_{\alpha}$. For example, when there is only one observer, $1/m$ is the minimal value at which we can set $\alpha$. It can be set to be smaller, even arbitrarily small, by increasing $K$. Type II error is harder to calculate, as is usually the case. In visual inference, individual abilities need to be incorporated to calculate Type II error. This is not necessary for Type I error, because it is simply the chance that the observer picks the actual data plot, by chance. For Type II error, we need to calculate the chance that the observer sees that actual data plot as different, when it really is different. This involves understanding the individual's visual skills. Thus, let $X_i$ be a binary random variable with $X_i = 1$, if individual $i (=1, \dots , K)$ identifies the actual data plot from the lineup, and $X_i = 0$ otherwise, where $p_i$ is the probability that individual $i$ picks out the actual data plot from the lineup. If all individuals have the same ability, with the probability, $p$, for picking out the actual data plot, then $X = \sum_i X_i$ has distribution $\text{Binom}(K, p)$. Ee can estimate $p$ by $\hat{p} = x/K$, where $x$ is the number of observers (out of $K$), who pick out the actual data plot from the lineup. If there is evidence for individual skills influencing the probability $p_i$, then $X = \sum_i X_i$ will have a Poisson-Binomial distribution. This leads to the definition of the power of the visual test, as follows:
 
 %The lineup plot can be evaluated by one or more individuals. When a single individual identifies the observed graph in the lineup plot we report a $p$-value of at most $1/m$, otherwise the $p$-value is at least $1-\frac 1m$. 
 
@@ -220,8 +211,6 @@ If there is evidence for individual skills influencing the probability $p_i$ for
 
 %\subsection{Power}
 
-\noindent 
-Analysts typically have a choice of plots to make, and a myriad of possible options such as reference grids, for any particular purpose. This is akin to different choices of statistics in classical hypothesis testing, for example, mean, median, or trimmed mean. One is typically better than another. For two different visual test statistics of the same observed data, the one is considered to be better, if $T(y)$ is more easily distinguishable to the observer. Power is typically used to measure this characteristic of a test. Power is the probability of rejecting $H_0$ when it is not true.  We can assess power therefore both empirically based on experimental data and through theoretical considerations. 
 
 %Next, we will develop power theoretically and then relate it to the empirical results.
 %We will first theoretically define and  derive the power of  a visual test in the setting of a parametric hypothesis test, i.e. we assume a test  of $H_0: \theta = 0$ vs $H_1: \theta \neq 0$ for some real valued parameter vector $\theta$. In a next step we will then relate the theoretical results to our empirical findings.
@@ -251,8 +240,12 @@ The \textbf{power} of a visual test $V_{\theta}$ is defined as the probability t
     \end{equation*}
 \end{dfn}
 
-\noindent
-\red{Note that $F_{X, \theta}$ is the distribution of $X$ under the alternative with given parameter value $\theta$.}
+\noindent Note that $F_{X, \theta}$ is the distribution of $X$ under the alternative with given parameter value $\theta$.
+
+Power is an important consideration in deciding which test to use for solving a problem. %In classical testing, new test procedures are examined for their power under a variety of scenarios. 
+For visual inference, this corresponds to the choice of plot to use. Analysts typically have a choice of plots to make, and a myriad of possible options such as reference grids, for any particular purpose. This is akin to different choices of statistics in classical hypothesis testing, for example, mean, median, or trimmed mean. One is typically better than another. For two different visual test statistics of the same actual data, one is considered to be better, if $T(y)$ is more easily distinguishable to the observer. Power is typically used to measure this characteristic of a test. %Power is the probability of rejecting $H_0$ when it is not true.  We can assess power therefore both empirically based on experimental data and through theoretical considerations. 
+
+\green{Done to here - the next parts are pretty long!}
 
 \paragraph{Subject-specific abilities}
 Calculating the power  is intricately related to the probability to identify the data plot from the lineup. 
@@ -437,11 +430,11 @@ Consider a linear regression model
 \end{equation}
 where $\epsilon_i \stackrel{iid}{ \sim } N(0,\sigma^2)$, $i=1,2, .., n$. The covariates ($X_j, j=1,..,p$) can be continuous or discrete. 
 
-Suppose $X_k$ is a categorical variable with two levels, and we test the hypothesis $H_0:\beta_k=0$ vs $H_1: \beta_k \ne 0$. If the responses for the two levels of the categorical variable $X_k$ in the model are significantly different and we fit the null model to the observed data, the resulting residual plot shows two groups of residuals. To test this we generate side-by-side boxplots of the residuals conditioned on the two levels of $X_k$, as the test statistic. If $\beta_k\ne 0$ the boxplots show a vertical displacement. 
+Suppose $X_k$ is a categorical variable with two levels, and we test the hypothesis $H_0:\beta_k=0$ vs $H_1: \beta_k \ne 0$. If the responses for the two levels of the categorical variable $X_k$ in the model are significantly different and we fit the null model to the actual data, the resulting residual plot shows two groups of residuals. To test this we generate side-by-side boxplots of the residuals conditioned on the two levels of $X_k$, as the test statistic. If $\beta_k\ne 0$ the boxplots show a vertical displacement. 
 
 In a regression setting, there is a multitude of established graphics that help with the evaluation and diagnostics of a model \citep{cook:99}. Table \ref{tbl:stat_multiple} shows an overview of some commonly used charts and their corresponding hypothesis tests. Note that some charts can be associated with several different testing situations. In our paper, we pick the examples for situation 2 and 3 as candidates.
 
-A lineup including the test statistic  for a binary $X_k$ is shown in Figure \ref{fig:test_category}. The 19 null plots are generated  by simulating residuals from $N(0,\hat{\sigma}^2)$. The test statistic, the plot containing the observed data, is randomly placed among these null plots. If the test statistic is identifiable the null hypothesis is rejected. % with a $p$-value of at most 0.05.
+A lineup including the test statistic  for a binary $X_k$ is shown in Figure \ref{fig:test_category}. The 19 null plots are generated  by simulating residuals from $N(0,\hat{\sigma}^2)$. The test statistic, the plot containing the actual data, is randomly placed among these null plots. If the test statistic is identifiable the null hypothesis is rejected. % with a $p$-value of at most 0.05.
 
 
 \begin{table*}[hbtp] 
@@ -557,7 +550,7 @@ Figure \ref{fig:power_expected} shows the power of the uniformly most powerful t
 
 \subsection{Estimating Power from Lineups}
 
-We estimate the empirical power from responses on a specific lineup plot  generated with known values of sample size ($n$), variance ($\sigma^2$) and regression parameter ($\beta$) in model \ref{multi}. Suppose, we have responses from $N$ independent observers with $u$ identifications of the observed plot. This gives an estimated power of
+We estimate the empirical power from responses on a specific lineup plot  generated with known values of sample size ($n$), variance ($\sigma^2$) and regression parameter ($\beta$) in model \ref{multi}. Suppose, we have responses from $N$ independent observers with $u$ identifications of the actual plot. This gives an estimated power of
 \begin{equation}\label{power_est} Power(\beta)=\frac{u}{N} \hspace{1cm} 0 \le u \le N \end{equation}
 
 Suppose each of $N$ independent observers gives evaluations on multiple lineup plots and responses are associated with binary random variable $Y_{ij}$. Let $Y_{ij} = 1$, if subject $j$ correctly identifies the test statistic on lineup $i$, and 0 otherwise.
@@ -591,7 +584,7 @@ Power(E) = \pi=Pr(Y=1| E)
 
 \subsection{Experiment with a discrete covariate}
 
-The experiment is designed to study the ability of human observers to detect the effect of a single variable $X_2$ (corresponding to parameter $\beta_2$) in a two variable ($p=2$) regression model (Equation \eqref{multi}). Data is simulated for different values of $\beta_2 (=0, 1, 3, 5, 7, 8, 10, 16)$, with two sample sizes ($n=100, 300$) and two standard deviations of the error ($\sigma=5, 12$). The set of $\beta_2$ values was chosen so that estimates of the power should produce reasonable power curves, comparable to the theoretical UMP test. We fixed the values of $\beta_0 = 5$,  $\beta_1=15$ and values for $X_1$ were generated as a random sample from a Poisson(30) distribution. Data sets with different combinations of $\beta_2$,  $n$ and $\sigma$ were generated with frequencies shown in Table \ref{tbl:experiment_params}. Three replicates of each level were generated. These produced 60 different ``observed data sets''. 
+The experiment is designed to study the ability of human observers to detect the effect of a single variable $X_2$ (corresponding to parameter $\beta_2$) in a two variable ($p=2$) regression model (Equation \eqref{multi}). Data is simulated for different values of $\beta_2 (=0, 1, 3, 5, 7, 8, 10, 16)$, with two sample sizes ($n=100, 300$) and two standard deviations of the error ($\sigma=5, 12$). The set of $\beta_2$ values was chosen so that estimates of the power should produce reasonable power curves, comparable to the theoretical UMP test. We fixed the values of $\beta_0 = 5$,  $\beta_1=15$ and values for $X_1$ were generated as a random sample from a Poisson(30) distribution. Data sets with different combinations of $\beta_2$,  $n$ and $\sigma$ were generated with frequencies shown in Table \ref{tbl:experiment_params}. Three replicates of each level were generated. These produced 60 different ``actual data sets''. 
 
 
 
@@ -630,12 +623,12 @@ The experiment is designed to study the ability of human observers to detect the
 \end{table} 
 
 
-For added control, to ensure a signal in the simulated observed data a blocking structure was used to filter data sets. A 1000 sets were generated for each parameter combination and the traditional $t$-statistic and $p$-value associated with $H_0: \beta_2=0$ were calculated. The 3 replicates were drawn from each of three blocks of $p$-values: (0.0-$q_{33}$), ($q_{33}$-$q_{66}$), ($q_{66}$-1) where $q_i$ is the $i$th percentile in the distribution of the $p$-values. Additional control was applied to the 19 null plots. Because the distribution of these $p$-values should follow a Uniform(0,1) distribution, data sets were binned on this range by $p$-value, and a data set was randomly selected from each bin.
+For added control, to ensure a signal in the simulated actual data a blocking structure was used to filter data sets. A 1000 sets were generated for each parameter combination and the traditional $t$-statistic and $p$-value associated with $H_0: \beta_2=0$ were calculated. The 3 replicates were drawn from each of three blocks of $p$-values: (0.0-$q_{33}$), ($q_{33}$-$q_{66}$), ($q_{66}$-1) where $q_i$ is the $i$th percentile in the distribution of the $p$-values. Additional control was applied to the 19 null plots. Because the distribution of these $p$-values should follow a Uniform(0,1) distribution, data sets were binned on this range by $p$-value, and a data set was randomly selected from each bin.
   
 
 \subsection{Experiment with a continuous covariate} 
 
-This experiment is designed for the same regression model (Equation \eqref{multi}) with $p=1$ and covariate $X_1$ being continuous. Data is simulated with two sample sizes ($n=100, 300$) and two standard deviations of the error ($\sigma=5, 12$). The different values for slope parameter that are used to generate data are shown in Table \ref{tbl:experiment_params}. We arbitrarily fix $\beta_0 = 6$ while generating observed data. For each combination of parameter, we generate at least three different observed data sets constituting a total of 65 lineups. 
+This experiment is designed for the same regression model (Equation \eqref{multi}) with $p=1$ and covariate $X_1$ being continuous. Data is simulated with two sample sizes ($n=100, 300$) and two standard deviations of the error ($\sigma=5, 12$). The different values for slope parameter that are used to generate data are shown in Table \ref{tbl:experiment_params}. We arbitrarily fix $\beta_0 = 6$ while generating actual data. For each combination of parameter, we generate at least three different actual data sets constituting a total of 65 lineups. 
 
 
 \subsection{Experiment with contaminated data}
@@ -652,7 +645,7 @@ The first two simulation experiments are based on normal error model which satis
 \]
 where $\epsilon_i \stackrel{iid}\sim N(0,\sigma)$, $\eta_i \stackrel{iid}\sim N(0,\sigma/3)$ and $\mu = -1.75$. One such plot of the contaminated data for $\sigma$=5 and $\beta$=5 is shown in figure \ref{fig:cont_dat}. For this experiment we only consider sample size $n=100$ and error standard deviation $\sigma=5$.
 
-For this experiment we generate five replications of observed data sets for each slope value shown in table \ref{tbl:experiment_params}. This produces 30 lineups.
+For this experiment we generate five replications of actual data sets for each slope value shown in table \ref{tbl:experiment_params}. This produces 30 lineups.
 
 \begin{figure}[hbt]
 %\begin{figurehere}
@@ -731,7 +724,7 @@ For this experiment we generate five replications of observed data sets for each
 \begin{figure*}[hbtp]
    \centering
        \scalebox{0.6}{\includegraphics{p_val_percent_correct.pdf}}
-       \caption{Percentage of correct responses decreases rapidly with the increase of p-value. After p-value exceeds 1.5 it is very unlikely to identify the observed plot. The theoretical justification of this is shown in figure \ref{fig:pval_power}}
+       \caption{Percentage of correct responses decreases rapidly with the increase of p-value. After p-value exceeds 1.5 it is very unlikely to identify the actual plot. The theoretical justification of this is shown in figure \ref{fig:pval_power}}
        \label{fig:pval_pcorrect}
 \end{figure*}
 
