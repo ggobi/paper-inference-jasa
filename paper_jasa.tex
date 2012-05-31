@@ -249,18 +249,20 @@ For visual inference, this corresponds to the choice of plot to use. Analysts ty
 
 \green{Notation changes $i$ to $j$, and $p$ to $\pi$. Can someone please decide which to use, and make the appropriate changes? How does the ``Let $X_{j\ell} \sim B_{1, \pi_{j\ell}}$...'' below relate to the ``let $X_i$ be a binary random variable...'' above? It looks like this is a repeat. One needs to go once notation is clarified.}
 
+\red{Here is what my suggestion for notation \\  Use $B$ for logistic model and $\beta$ for linear model \\ Use $X$ to indicate logistic model covariate matrix and $Y$ to indicate binomial random variable since it is a kind of response. \\ Use $\pi_i$ instead of $p_i$ since $p_i$ is used for p-vaue.}
+
 \paragraph{Subject-specific abilities}
 Calculating the power  is intricately related to the probability to identify the data plot from the lineup. 
 
-In the case that observers are exposed to multiple lineups we can estimate the probability $p_i$ while accommodating both for different abilities of individuals as well as differences in the difficulty of lineups with the help of a logistic regression using random effects: 
+In the case that observer  $i = 1, ..., K$ is exposed to multiple lineups we can estimate the probability $p_{i \ell}$ for each lineup $\ell = 1, ..., L$, while accommodating both for different abilities of individuals as well as differences in the difficulty of lineups with the help of a logistic regression using random effects: 
 
 
-Let $X_{j\ell} \sim B_{1, \pi_{j\ell}}$ be the random variable, with $X_{j\ell}= 1$, if  subject $j$ correctly identifies the data plot from lineup $\ell$, and 0 otherwise.
-We can model $\pi_{j\ell}$ with a logistic regression with subject specific random effects as:
+Let $X_{i\ell} \sim Binom_{1, p_{i\ell}}$ be the random variable, with $X_{i\ell}= 1$, if  subject $i$ correctly identifies the data plot from lineup $\ell$, and 0 otherwise.
+We can model $p_{i\ell}$ with a logistic regression with subject specific random effects as:
 \[
-\text{logit } \pi_{j\ell} = X_\ell \beta + Z u_j,  
+\text{logit } p_{i\ell} = X_\ell B + Z u_i,  
 \]
-where $X_\ell$ is a matrix of fixed effects with parameter vector $\beta$ corresponding to lineup $\ell$ and $u \sim MVN(0, \sigma_u I)$  is a vector of random variables $j = 1, ..., J$.
+where $X_\ell$ is a matrix of fixed effects with parameter vector $B$ corresponding to lineup $\ell$ and $u \sim MVN(0, \sigma_u I)$  is a vector of random variables $i = 1, ..., K$.
 
 
 
