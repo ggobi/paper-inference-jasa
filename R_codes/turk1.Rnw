@@ -41,12 +41,17 @@ dat <- raw.dat
 suppressMessages(require(plyr))
 turker <- ddply(dat,.(id), summarise,
 	n = length(id),
-	correct = sum(response),
+	correct = sum(response[p_value < 0.0002]),
+  gotchance = sum(p_value < 0.0002),  
+  pvalue = mean(p_value),  
+  pcorrect = sum(response)/length(id),
   gender=gender[1]
 )
 
 ## if we include all correct percentages above 0.2 we get rid of any differences due to gender, age or schooling
-included <- unique(turker$id[with(turker, correct/n >= 0.1)])
+
+## Mahbub
+# included <- unique(turker$id[with(turker, correct/gotchance > 0.5)])
 
 ## if we exclude everybody with just a single lineup, we have the difference introduced by missing values show up massively
 #included <- unique(turker$id[turker$n > 1])
@@ -55,6 +60,7 @@ included <- unique(turker$id[with(turker, correct/n >= 0.1)])
 #included <- unique(turker$id[turker$gender != "unknown"])
 
 dat <- subset(raw.dat, id %in% included)
+
 
 lineups <- ddply(dat,.(pic_id), summarise,
 	n = length(id),
@@ -84,33 +90,28 @@ summary(ranef(m0)[[1]][,1])
 summary(ranef(m0)[[2]][,1])
 
 dat$offset <- log(0.05/.95)
-base <- lmer(response~ offset(offset) - 1 + effect + (effect|id) , data=dat, family=binomial())
-anova(m0, base)
-q11 <- qplot(ranef(base)[[1]][,1], binwidth=0.2)
-q12 <- qplot(ranef(base)[[2]][,1], binwidth=0.2)
-summary(base)
+base <- lmer(response~ offset(offset) - 1 + effect + (effect-1|id) , data=dat, family=binomial())
+
+qqnorm(ranef(base)[[1]][,1])
+q11 <- qplot(ranef(base)[[1]][,1], geom="histogram", binwidth=0.002)
+q11
+
+base.2 <- lmer(response~ offset(offset) - 1 + effect + (effect-1|id) , data=dat, family=binomial(link="probit"))
+base.3 <- lmer(response~ offset(offset) - 1 + effect + (effect-1|id) , data=dat, family=binomial(link="cloglog"))
+# 
+anova(base.2, base.3, base)
 
 
-base.1 <- lmer(response~ effect + (effect|id) , data=dat, family=binomial())
 
+m1a <- lmer(response~  offset(offset) - 1 + effect:mgender + (effect-1|id), data=dat, family=binomial())
+m1b <- lmer(response~ offset(offset) - 1 + effect:academic_study + (effect-1|id), data=dat, family=binomial())
+m1c <- lmer(response~ offset(offset) - 1 + effect:age + (effect-1|id), data=dat, family=binomial())
 
-m1 <- lmer(response~ effect + (1|id), data=dat, family=binomial())
-anova(base, m1)
+anova(base, m1a)
+anova(base, m1b)
+anova(base, m1c)
 
-m1a <- lmer(response~ effect + gender + (1|id), data=dat, family=binomial())
-m1b <- lmer(response~ effect + academic_study + (1|id), data=dat, family=binomial())
-m1c <- lmer(response~ effect + age + (1|id), data=dat, family=binomial())
-
-m2a <- lmer(response~ effect + mgender + (1|id), data=dat, family=binomial())
-
-anova(m0, base,  m2a, m1a)
-anova(base, m1,  m2a, m1b)
-anova(base, m2a, m1c)
-
-dat$alpha <- 0.05
-m3c <- lmer(response~ offset(alpha)+effect -1 + age + (effect|id), data=dat, family=binomial())
-anova(base, m2a, m1c, m3c)
-
+qplot(effect, fitted(m1a), data=dat, colour=factor(academic_study))
 # there's something in model m1c that's not explained by missingness alone - but it might be an artefact - there's nothing immediately visible in the estimates
 @
 
