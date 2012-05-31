@@ -203,7 +203,7 @@ The \textbf{Type I error} is the probability of rejecting $H_0$ when it is true,
 
 \green{Oh, we are using observed and observer, which might be confusing. May need to change observed data plot to something else. Will think about this. Will use ``actual'' for now.}
 
-\noindent Because $X$ takes only discrete values we can not always control exactly for $\alpha$, with an exact $x_{\alpha}$. For example, when there is only one observer, $1/m$ is the minimal value at which we can set $\alpha$. It can be set to be smaller, even arbitrarily small, by increasing $K$. Type II error is harder to calculate, as is usually the case. In visual inference, individual abilities need to be incorporated to calculate Type II error. This is not necessary for Type I error, because it is simply the chance that the observer picks the actual data plot, by chance. For Type II error, we need to calculate the chance that the observer sees that actual data plot as different, when it really is different. This involves understanding the individual's visual skills. Thus, let $X_i$ be a binary random variable with $X_i = 1$, if individual $i (=1, \dots , K)$ identifies the actual data plot from the lineup, and $X_i = 0$ otherwise, where $p_i$ is the probability that individual $i$ picks out the actual data plot from the lineup. If all individuals have the same ability, with the probability, $p$, for picking out the actual data plot, then $X = \sum_i X_i$ has distribution $\text{Binom}(K, p)$. Ee can estimate $p$ by $\hat{p} = x/K$, where $x$ is the number of observers (out of $K$), who pick out the actual data plot from the lineup. If there is evidence for individual skills influencing the probability $p_i$, then $X = \sum_i X_i$ will have a Poisson-Binomial distribution. This leads to the definition of the power of the visual test, as follows:
+\noindent Because $X$ takes only discrete values we can not always control exactly for $\alpha$, with an exact $x_{\alpha}$. For example, when there is only one observer, $1/m$ is the minimal value at which we can set $\alpha$. It can be set to be smaller, even arbitrarily small, by increasing $K$. Type II error is harder to calculate, as is usually the case. In visual inference, individual abilities need to be incorporated to calculate Type II error. This is not necessary for Type I error, because it is simply the chance that the observer picks the actual data plot, by chance. For Type II error, we need to calculate the chance that the observer sees that actual data plot as different, when it really is different. This involves understanding the individual's visual skills. Thus, let $X_i$ be a binary random variable with $X_i = 1$, if individual $i (=1, \dots , K)$ identifies the actual data plot from the lineup, and $X_i = 0$ otherwise, where $p_i$ is the probability that individual $i$ picks out the actual data plot from the lineup. If all individuals have the same ability, with the probability, $p$, for picking out the actual data plot, then $X = \sum_i X_i$ has distribution $\text{Binom}(K, p)$. We can estimate $p$ by $\hat{p} = x/K$, where $x$ is the number of observers (out of $K$), who pick out the actual data plot from the lineup. If there is evidence for individual skills influencing the probability $p_i$, then $X = \sum_i X_i$ will have a Poisson-Binomial distribution. \green{WHY??? And how does this relate to the logistic model below?} This leads to the definition of the power of the visual test, as follows:
 
 %The lineup plot can be evaluated by one or more individuals. When a single individual identifies the observed graph in the lineup plot we report a $p$-value of at most $1/m$, otherwise the $p$-value is at least $1-\frac 1m$. 
 
@@ -232,10 +232,10 @@ The \textbf{Type I error} is the probability of rejecting $H_0$ when it is true,
 \begin{dfn} \label{dfn:power}
 The \textbf{power} of a visual test $V_{\theta}$ is defined as the probability to reject the null hypothesis for a given parameter value $\theta$:
     \begin{equation*}
-      \text{Power}_V(\theta)= Pr(\text{Reject } H_0) = P(X \ge x_{1-\alpha}) = 
+      \text{Power}_V(\theta)= Pr(\text{Reject } H_0) = P(X \ge x_{\alpha}) = 
         \begin{cases} 
-               1 - \text{Binom}_{K, 1/m}(x_{1-\alpha} - 1) & \text{ if } H_0 \text{ is true }.\\
-              1 - F_{X, \theta} (x_{1-\alpha} - 1) & \text{ if } H_1 \text{ is true}.
+               1 - \text{Binom}_{K, 1/m}(x_{\alpha} - 1) & \text{ if } H_0 \text{ is true }.\\
+              1 - F_{X, \theta} (x_{\alpha} - 1) & \text{ if } H_1 \text{ is true}.
         \end{cases}
     \end{equation*}
 \end{dfn}
@@ -245,7 +245,9 @@ The \textbf{power} of a visual test $V_{\theta}$ is defined as the probability t
 Power is an important consideration in deciding which test to use for solving a problem. %In classical testing, new test procedures are examined for their power under a variety of scenarios. 
 For visual inference, this corresponds to the choice of plot to use. Analysts typically have a choice of plots to make, and a myriad of possible options such as reference grids, for any particular purpose. This is akin to different choices of statistics in classical hypothesis testing, for example, mean, median, or trimmed mean. One is typically better than another. For two different visual test statistics of the same actual data, one is considered to be better, if $T(y)$ is more easily distinguishable to the observer. Power is typically used to measure this characteristic of a test. %Power is the probability of rejecting $H_0$ when it is not true.  We can assess power therefore both empirically based on experimental data and through theoretical considerations. 
 
-\green{Done to here - the next parts are pretty long!}
+\section{Effect of Lineup Size and Number of Observers}
+
+\green{Notation changes $i$ to $j$, and $p$ to $\pi$. Can someone please decide which to use, and make the appropriate changes? How does the ``Let $X_{j\ell} \sim B_{1, \pi_{j\ell}}$...'' below relate to the ``let $X_i$ be a binary random variable...'' above? It looks like this is a repeat. One needs to go once notation is clarified.}
 
 \paragraph{Subject-specific abilities}
 Calculating the power  is intricately related to the probability to identify the data plot from the lineup. 
@@ -353,11 +355,11 @@ P(p_D < p_{0,i}) &=& 1 - P(p_{i,0} \le p_D) = 1- \int_0^1  P(p_{i,0} \le p_D \mi
 \end{eqnarray*}
 which, in particular, is independent of $p_{0,i}$ for all $i$.
 
-Let us make the assumption that an onlooker is able to identify  the chart corresponding to the data with the smallest $p$-value. Further we will assume that all onlookers  have the same ability in identifying the data plot.
+Let us make the assumption that an observer is able to identify  the chart corresponding to the data with the smallest $p$-value. Further we will assume that all observers  have the same ability in identifying the data plot.
 
 With that, we define $Z$  as the number of null plots in a lineup, for which the $p$-value $p_{0,i}$ is smaller than $p_D$.  
 
-Then $Z \sim B_{m-1, E[p_D]}$, and the probability that an onlooker will pick the data plot in a given lineup is 
+Then $Z \sim B_{m-1, E[p_D]}$, and the probability that an observer will pick the data plot in a given lineup is 
 \[
 P(Z=0) = \left(1 - E[p_D] \right)^{m-1} = P(p_D \le p_0), \ \ \ \text{ where } p_0 = \min_{1 \le i \le m-1}  \ p_{0,i}.
 \]
@@ -399,7 +401,7 @@ By matching the expected values, we therefore get an expression for the $p$-valu
 {E[p_D]} = 1- \left(\frac{E[N_m]}{K}\right)^{1/(m-1)}.
 \end{equation}
 
-\blue{Note that the right hand side of equation (\ref{eqn:power_estimate}) is independent of the parameter $\theta$, but just based on the lineup evaluation by independent observers. While this allows us to compute this value independently of the parametric setting, it also means that onlookers might pick out the data plot for a reason not related to the value of $\theta$. 
+\blue{Note that the right hand side of equation (\ref{eqn:power_estimate}) is independent of the parameter $\theta$, but just based on the lineup evaluation by independent observers. While this allows us to compute this value independently of the parametric setting, it also means that observers might pick out the data plot for a reason not related to the value of $\theta$. 
 
 %Picking out the data plot is still a measure of how different the data plot is compared to the null plots, and therefore is a test statistic of the visual test.
 
