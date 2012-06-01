@@ -256,17 +256,17 @@ For visual inference, this corresponds to the choice of plot to use. Analysts ty
 \paragraph{Subject-specific abilities}
 Calculating the power  is intricately related to the probability to identify the data plot from the lineup. 
 
-In the case that observer  $i = 1, ..., K$ is exposed to multiple lineups we can estimate the probability $p_{i \ell}$ for each lineup $\ell = 1, ..., L$, while accommodating both for different abilities of individuals as well as differences in the difficulty of lineups with the help of a logistic regression using random effects: 
+In the case that observer  $i = 1, ..., K$ is exposed to multiple lineups we can estimate the probability $p_{ \ell i}$ for each lineup $\ell = 1, ..., L$, while accommodating both for different abilities of individuals as well as differences in the difficulty of lineups with the help of a logistic regression using random effects: 
 
 
-Let $X_{i\ell} \sim Binom_{1, p_{i\ell}}$ be the random variable, with $X_{i\ell}= 1$, if  subject $i$ correctly identifies the data plot from lineup $\ell$, and 0 otherwise.
-We can model $p_{i\ell}$ with a logistic regression with subject specific random effects as:
+Let $X_{\ell i} \sim Binom_{1, p_{\ell i}}$ be the random variable, with $X_{ \ell i}= 1$, if  subject $i$ correctly identifies the data plot from lineup $\ell$, and 0 otherwise.
+We can model $p_{ \ell i}$ with a logistic regression with subject specific random effects as:
 \[
-\text{logit } p_{i\ell} = X_\ell B + Z u_i,  
+\text{logit } p_{\ell i} = X_{\ell i} B +  Z_{\ell i} \tau_i,  
 \]
-where $X_\ell$ is a matrix of fixed effects with parameter vector $B$ corresponding to lineup $\ell$ and $u \sim MVN(0, \sigma_u I)$  is a vector of random variables $i = 1, ..., K$.
+where $X_{\ell i}$ is a vector of fixed effects with parameter vector $B$ corresponding to lineup $\ell$ and $\tau \sim MVN(0, \sigma_{\tau} I)$  is a vector of random variables $i = 1, ..., K$.
 
-
+\red{This model is elaborately described in equation \ref{mixed}.}
 
 %\noindent For any single observer, the power of a visual test has a lower limit of $\frac1m$ since the probability that an observer will randomly pick the test statistic under $H_0$ is $\frac1m$. When $K$ individuals evaluate a lineup plot independently, the number of successful evaluations, $U \sim \text{Binom} (K,1/m)$  under $H_0$. This leads us to obtain the probability 
 %\begin{equation}\label{eqn:pvalue}
@@ -556,18 +556,18 @@ Figure \ref{fig:power_expected} shows the power of the uniformly most powerful t
 
 \subsection{Estimating Power from Lineups}
 
-We estimate the empirical power from responses on a specific lineup plot  generated with known values of sample size ($n$), variance ($\sigma^2$) and regression parameter ($\beta$) in model \ref{multi}. Suppose, we have responses from $N$ independent observers with $u$ identifications of the actual plot. This gives an estimated power of
-\begin{equation}\label{power_est} Power(\beta)=\frac{u}{N} \hspace{1cm} 0 \le u \le N \end{equation}
+We estimate the empirical power from responses on a specific lineup plot  generated with known values of sample size ($n$), variance ($\sigma^2$) and regression parameter ($\beta$) in model \ref{multi}. Suppose, we have responses from $K$ independent observers with $u$ identifications of the actual plot. This gives an estimated power of
+\begin{equation}\label{power_est} Power(\beta)=\frac{u}{K} \hspace{1cm} 0 \le u \le K \end{equation}
 
-Suppose each of $N$ independent observers gives evaluations on multiple lineup plots and responses are associated with binary random variable $Y_{ij}$. Let $Y_{ij} = 1$, if subject $j$ correctly identifies the test statistic on lineup $i$, and 0 otherwise.
-We model $\pi_{ij} = E(Y_{ij})$ as  a mixed effects logistic regression
+Suppose each of $K$ independent observers gives evaluations on multiple lineup plots and responses are associated with binary random variable $Y_{\ell i}$. Let $Y_{\ell i} = 1$, if subject $i$ correctly identifies the test statistic on lineup $\ell$, and 0 otherwise.
+We model $\pi_{\ell i} = E(Y_{\ell i})$ as  a mixed effects logistic regression
 
 \begin{equation} 
-g(\pi_{ij}) = X_{ij}B  + Z_{ij} \tau_j 
+g(\pi_{\ell i}) = X_{\ell i}B  + Z_{\ell i} \tau_i 
 \label{mixed} 
 \end{equation}
 %
-where $\tau_j$ is random effects coefficient vector of length $q$ for subject $j$,  $\tau_j  \sim  MVN(0,\Sigma)$ with variance covariance matrix $\Sigma$, $Z_{ij}$ is the $i$th row vector of random effects covariates for subject $j$, $B$ is a vector of coefficient of length $p$, the number of fixed effect covariates being used, $X_{ij}$ is the $i$th row vector of the fixed effects covariates for subject $j$ and logit link function $g(\pi)=\log(\pi) - \log(1-\pi); 0 \le \pi \le 1$. The covariates could be demographic information of people such as age, gender, education level etc. as well as sample size ($n$), regression parameter ($\beta$) and variance ($\sigma^2$) of model \ref{multi}. 
+where $\tau_i$ is random effects coefficient vector of length $q$ for subject $i$,  $\tau_i  \sim  MVN(0,\Sigma)$ with variance covariance matrix $\Sigma$, $Z_{\ell i}$ is the $\ell$th row vector of random effects covariates for subject $i$, $B$ is a vector of coefficient of length $p$, the number of fixed effect covariates being used, $X_{\ell i}$ is the $\ell$th row vector of the fixed effects covariates for subject $i$ and logit link function $g(\pi)=\log(\pi) - \log(1-\pi); 0 \le \pi \le 1$. The covariates could be demographic information of people such as age, gender, education level etc. as well as sample size ($n$), regression parameter ($\beta$) and variance ($\sigma^2$) of model \ref{multi}. 
 
 From model \ref{mixed} we obtain %$\pi=Pr(Y=1|X_1, X_2, ..., X_p)$, 
 the power of the underlying testing procedure as a population average %by ignoring the random effect part. 
