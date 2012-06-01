@@ -56,14 +56,14 @@ Statistical graphics nourishes the discovery process in data analysis: revealing
 
 Statistical graphics research and development is agreeably established now, and has been cemented by several new developments in recent years. Early studies on evaluating how well statistical plots are perceived and read by the human eye \citep{cleveland:1984}, have been repeated and expanded \citep{heer:2010} with findings supporting the original results. This body of work provides a framework for evaluating new statistical graphics.  In a complementary direction, new research on formalizing statistical graphics with language characteristics makes it easier to abstractly define, compare and contrast data plots. \cite{wilkinson:1999} developed a grammar of graphics that is enhanced by \cite{hadley:2009}. These methods provide a mechanism to abstract the way data is mapped to graphical form. Finally, technology advances make it simple and easy for everyone to draw plots of data, and particularly the existence of software systems, such as R \citep{R}, enable making beautiful data graphics that can be tightly coupled with statistical modeling.
 
-However, measuring the strength of patterns seen in plots, and differences in individual perceptual ability, is something that is difficult and perhaps handicaps graphics  use among statisticians, where measuring probabilities is of primary importance. This has also been addressed in recent research. \citet{buja:2009} proposes a protocol that allow the testing of discoveries made from statistical graphics. This work represents a major advance for graphics, because it bridges the gulf between classical statistical inference procedures and exploratory data analysis. One of the protocols, the lineup, places the data plot among  a page of plots of null data, and asks a human judge to pick the plot that is different. Figure \ref{fig:test_category} shows an example lineup. Which plot do you think is the most different from the others? Wrapped in a process that mirrors classical inference, where there is an explicit, a priori, null hypothesis, picking the plot of the data from the null plots represents a rejection of that null hypothesis. The null hypothesis typically derives from the task at hand, or the type of plot being made. The alternative encompasses all possible antitheses, all types of patterns that might be detected in the data plot, accounting for all possible deviations from the null without the requirement to specify these ahead of time. The probability of rejection can be quantified, along with Type I, and Type II error, and $p$-value and power can be defined and estimated. 
+However, measuring the strength of patterns seen in plots, and differences in individual perceptual ability, is something that is difficult and perhaps handicaps graphics  use among statisticians, where measuring probabilities is of primary importance. This has also been addressed in recent research. \citet{buja:2009} proposes a protocol that allow the testing of discoveries made from statistical graphics. This work represents a major advance for graphics, because it bridges the gulf between classical statistical inference procedures and exploratory data analysis. One of the protocols, the lineup, places the data plot among  a page of plots of null data, and asks a human judge to pick the plot that is different. Figure \ref{fig:test_category} shows an example lineup. Which plot do you think is the most different from the others? (The position of the actual data plot is provided in Section \ref{sec:category}.) Wrapped in a process that mirrors classical inference, where there is an explicit, a priori, null hypothesis, picking the plot of the data from the null plots represents a rejection of that null hypothesis. The null hypothesis typically derives from the task at hand, or the type of plot being made. The alternative encompasses all possible antitheses, all types of patterns that might be detected in the data plot, accounting for all possible deviations from the null without the requirement to specify these ahead of time. The probability of rejection can be quantified, along with Type I, and Type II error, and $p$-value and power can be defined and estimated. 
 
 
 \begin{figure}[htp]
 %\begin{figurehere}
    \centering
        \includegraphics[width=0.95\textwidth]{test_category.pdf}
-       \caption{Lineup plot ($m=20$) using side-by-side boxplots for testing $H_0: \beta_k=0$. One of these plots is the plot of the actual data, and the remaining are null plots, produced by simulating data from a null model that assumes $H_0$ is true. Which plot is the most different from the others, in the sense that there is the the largest shift or location difference between the boxplots?}
+       \caption{Lineup plot ($m=20$) using side-by-side boxplots for testing $H_0: \beta_k=0$. One of these plots is the plot of the actual data, and the remaining are null plots, produced by simulating data from a null model that assumes $H_0$ is true. Which plot is the most different from the others, in the sense that there is the the largest shift or location difference between the boxplots? (The position of the actual data plot is provided in Section \ref{sec:category}.)}
        \label{fig:test_category}
 \end{figure}
 %\end{figurehere}
@@ -234,7 +234,7 @@ The \textbf{power} of a visual test $V_{\theta}$ is defined as the probability t
     \begin{equation*}
       \text{Power}_V(\theta)= Pr(\text{Reject } H_0) = P(X \ge x_{\alpha}) = 
         \begin{cases} 
-               1 - \text{Binom}_{K, 1/m}(x_{\alpha} - 1) & \text{ if } H_0 \text{ is true }.\\
+               1 - \text{Binom}_{K, 1/m}(x_{\alpha} - 1) & \text{ if } H_0 \text{ is true}.\\
               1 - F_{X, \theta} (x_{\alpha} - 1) & \text{ if } H_1 \text{ is true}.
         \end{cases}
     \end{equation*}
@@ -429,7 +429,7 @@ By matching the expected values, we therefore get an expression for the $p$-valu
 
 Theoretical power for the regression parameters is derived in the next section.
 
-\section{Application of Visual Inference in Linear Models} \label{sec:regression}
+\section{Application to Linear Models} \label{sec:regression}
 
 Consider a linear regression model 
 \begin{equation}\label{multi} Y_i = \beta_0 + \beta_1 X_{i1} + \beta_1 X_{i2} + \beta_3 X_{i1}X_{i2} + ... + \epsilon_i 
@@ -586,30 +586,33 @@ Power(E) = \pi=Pr(Y=1| E)
 
 
 
-\section{Results of Simulation Experiments} \label{sec:simulation}
+\section{Simulation Experiments} \label{sec:simulation}
 
-Three experiments were conducted to evaluate the effectiveness of the lineup protocol relative to the equivalent test statistic used in the regression scenario. There are three experiments. The first two are classical settings where we would not expect the lineup protocol to do better than the traditional test, but we hope it to perform favorably. The third experiment is a scenario where assumptions required for the traditional test are violated, and we would expect the lineup protocol to outperform the traditional test.
+Three experiments were conducted to evaluate the effectiveness of the lineup protocol relative to the equivalent test statistic used in the regression scenario. There are three experiments. The first two are classical settings where we would not expect the lineup protocol to do better than the traditional test, but we hope it to perform favorably. The third experiment is a scenario where assumptions required for the traditional test are violated, and we would expect the lineup protocol to outperform the traditional test. (Data and lineups used in the experiments are available in the supplementary material.)
 
-\subsection{Discrete covariate}
+\subsection{Discrete covariate}\label{sec:category}
 
-The experiment is designed to study the ability of human observers to detect the effect of a single variable $X_2$ (corresponding to parameter $\beta_2$) in a two variable ($p=2$) regression model (Equation \eqref{multi}). Data is simulated for different values of $\beta_2 (=0, 1, 3, 5, 7, 8, 10, 16)$, with two sample sizes ($n=100, 300$) and two standard deviations of the error ($\sigma=5, 12$). The set of $\beta_2$ values was chosen so that estimates of the power should produce reasonable power curves, comparable to the theoretical UMP test. We fixed the values of $\beta_0 = 5$,  $\beta_1=15$ and values for $X_1$ were generated as a random sample from a Poisson(30) distribution. Data sets with different combinations of $\beta_2$,  $n$ and $\sigma$ were generated with frequencies shown in Table \ref{tbl:experiment_params}. Three replicates of each level were generated. These produced 60 different ``actual data sets''. 
+The experiment is designed to study the ability of human observers to detect the effect of a single variable $X_2$ (corresponding to parameter $\beta_2$) in a two variable ($p=2$) regression model (Equation \ref{multi}). Data is simulated a range of values of $\beta_2~ (=0, 1, 3, 5, 7, 8, 10, 16)$, two different sample sizes ($n=100, 300$) and two standard deviations of the error ($\sigma=5, 12$). The range of $\beta_2$ values was chosen so that estimates of the power would produce reasonably continuous power curves, comparable to that calculated for the theoretical UMP test. Values were fixed for other regression parameters, $\beta_0 = 5$,  $\beta_1=15$, and the values for $X_1$ were randomly generated from a Poisson(30) distribution. \green{Explain why this was used.} Data sets were generated with parameter values shown in Table \ref{tbl:experiment_params}. Three replicates at each level were generated. These produced 60 different ``actual data sets''. 
 
+Each subject viewed 10 lineups. Selection of lineups shown to each subject followed these rules .... \green{fill this in}. Figure \ref{fig:test_category} is an example of one of these lineups. The visual test statistic is a side-by-side boxplot.  
 
-
+\green{Did you in fact bin like this???} For added control, to ensure a signal in the simulated actual data a blocking structure was used to filter data sets. A 1000 sets were generated for each parameter combination and the traditional $t$-statistic and $p$-value associated with $H_0: \beta_2=0$ were calculated. The 3 replicates were drawn from each of three blocks of $p$-values: (0.0-$q_{33}$), ($q_{33}$-$q_{66}$), ($q_{66}$-1) where $q_i$ is the $i$th percentile in the distribution of the $p$-values. Additional control was applied to the 19 null plots. Because the distribution of these $p$-values should follow a Uniform(0,1) distribution, data sets were binned on this range by $p$-value, and a data set was randomly selected from each bin.
+  
 
 \begin{table}[hbtp]
-\caption{Values of parameters considered for three survey experiments} % title name of the table
+\caption{Combination of parameter values, $\beta_2$,  $n$ and $\sigma$, used for each of the simulation experiments.} % title name of the table
 \centering
 % centering table
-\begin{tabular}{c c l l l}
+\begin{tabular}{c c c c c}
 % creating 10 columns
 \hline\hline
 
 % inserting double-line
-& & \multicolumn{3}{c}{values for slope ($\beta$)} \\
+& & \multicolumn{3}{c}{Slope ($\beta$)} \\
  \cline{3-5}
 
-\raisebox{1.5ex}  {Sample size ($n$)} &   \raisebox{1.5ex} {$\sigma$} &  \multicolumn{1}{c} {Experiment 1}  & \multicolumn{1}{c} {Experiment 2}  & \multicolumn{1}{c} {Experiment 3}
+Sample size  & Error SD  &  \multicolumn{1}{c} {Experiment 1}  & \multicolumn{1}{c} {Experiment 2}  & \multicolumn{1}{c} {Experiment 3} \\
+ ($n$) &   ($\sigma$) & Discrete covariate & Continuous covariate & Contaminated data 
 \\ [0.5ex]
 \hline
 % inserts single-line
@@ -631,13 +634,11 @@ The experiment is designed to study the ability of human observers to detect the
 \end{table} 
 
 
-For added control, to ensure a signal in the simulated actual data a blocking structure was used to filter data sets. A 1000 sets were generated for each parameter combination and the traditional $t$-statistic and $p$-value associated with $H_0: \beta_2=0$ were calculated. The 3 replicates were drawn from each of three blocks of $p$-values: (0.0-$q_{33}$), ($q_{33}$-$q_{66}$), ($q_{66}$-1) where $q_i$ is the $i$th percentile in the distribution of the $p$-values. Additional control was applied to the 19 null plots. Because the distribution of these $p$-values should follow a Uniform(0,1) distribution, data sets were binned on this range by $p$-value, and a data set was randomly selected from each bin.
-  
-
 \subsection{Continuous covariate} 
 
-This experiment is designed for the same regression model (Equation \eqref{multi}) with $p=1$ and covariate $X_1$ being continuous. Data is simulated with two sample sizes ($n=100, 300$) and two standard deviations of the error ($\sigma=5, 12$). The different values for slope parameter that are used to generate data are shown in Table \ref{tbl:experiment_params}. We arbitrarily fix $\beta_0 = 6$ while generating actual data. For each combination of parameter, we generate at least three different actual data sets constituting a total of 65 lineups. 
+This experiment is designed for the same regression model (Equation \ref{multi}) with $p=1$ and covariate $X_1$ being continuous. Data is simulated with two sample sizes ($n=100, 300$) and two standard deviations of the error ($\sigma=5, 12$). The different values for slope parameter that are used to generate data are shown in Table \ref{tbl:experiment_params}. We arbitrarily fix $\beta_0 = 6$ while generating actual data. For each combination of parameter, we generate at least three different actual data sets constituting a total of 65 lineups. 
 
+\green{Fill in details of lineups, probably need a figure with an example lineup, and how lineups were assigned to subjects.}
 
 \subsection{Contaminated data}
 
@@ -654,6 +655,8 @@ The first two simulation experiments are based on normal error model which satis
 where $\epsilon_i \stackrel{iid}\sim N(0,\sigma)$, $\eta_i \stackrel{iid}\sim N(0,\sigma/3)$ and $\mu = -1.75$. One such plot of the contaminated data for $\sigma$=5 and $\beta$=5 is shown in figure \ref{fig:cont_dat}. For this experiment we only consider sample size $n=100$ and error standard deviation $\sigma=5$.
 
 For this experiment we generate five replications of actual data sets for each slope value shown in table \ref{tbl:experiment_params}. This produces 30 lineups.
+
+\green{Fill in details of lineups, probably need a figure with an example lineup, and how lineups were assigned to subjects. Show a sample lineup, probably the most difficult, instead of the single plot.}
 
 \begin{figure}[hbt]
 %\begin{figurehere}
@@ -743,8 +746,7 @@ For this experiment we generate five replications of actual data sets for each s
        \label{fig:pval_plot_signal}
 \end{figure*}
 
-
-
+\subsection{Results}
 
 Participants for all the experiments were recruited through \cite{turk} Amazon's Mechanical Turk. Each participant was shown a sequence of 10 lineup plots. Participants are asked to select the plot with the biggest vertical difference, give a reason for their choice, and determine a level of  confidence for their decision. Gender, age, education and geographic location of each participant are also collected.
  In total, 3629 lineups were evaluated by 324 people coming from many different locations across the globe.  The results of the experiment are summarized in Figure \ref{fig:power_observed} which shows the observed power from the survey data calculated using equation \eqref{power_est} along with 95\% confidence interval calculated using Fisher's exact method.
@@ -765,6 +767,8 @@ We fit model \eqref{mixed} to the survey data obtained from the simulation exper
        \label{fig:power_subject}
 \end{figure}
 
+
+\green{A lot more needs to be done here!!!}
 
 \section{Conclusions}
 
