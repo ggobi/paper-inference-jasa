@@ -588,7 +588,9 @@ Power(E) = \pi=Pr(Y=1| E)
 
 \section{Results of Simulation Experiments} \label{sec:simulation}
 
-\subsection{Experiment with a discrete covariate}
+Three experiments were conducted to evaluate the effectiveness of the lineup protocol relative to the equivalent test statistic used in the regression scenario. There are three experiments. The first two are classical settings where we would not expect the lineup protocol to do better than the traditional test, but we hope it to perform favorably. The third experiment is a scenario where assumptions required for the traditional test are violated, and we would expect the lineup protocol to outperform the traditional test.
+
+\subsection{Discrete covariate}
 
 The experiment is designed to study the ability of human observers to detect the effect of a single variable $X_2$ (corresponding to parameter $\beta_2$) in a two variable ($p=2$) regression model (Equation \eqref{multi}). Data is simulated for different values of $\beta_2 (=0, 1, 3, 5, 7, 8, 10, 16)$, with two sample sizes ($n=100, 300$) and two standard deviations of the error ($\sigma=5, 12$). The set of $\beta_2$ values was chosen so that estimates of the power should produce reasonable power curves, comparable to the theoretical UMP test. We fixed the values of $\beta_0 = 5$,  $\beta_1=15$ and values for $X_1$ were generated as a random sample from a Poisson(30) distribution. Data sets with different combinations of $\beta_2$,  $n$ and $\sigma$ were generated with frequencies shown in Table \ref{tbl:experiment_params}. Three replicates of each level were generated. These produced 60 different ``actual data sets''. 
 
@@ -632,12 +634,12 @@ The experiment is designed to study the ability of human observers to detect the
 For added control, to ensure a signal in the simulated actual data a blocking structure was used to filter data sets. A 1000 sets were generated for each parameter combination and the traditional $t$-statistic and $p$-value associated with $H_0: \beta_2=0$ were calculated. The 3 replicates were drawn from each of three blocks of $p$-values: (0.0-$q_{33}$), ($q_{33}$-$q_{66}$), ($q_{66}$-1) where $q_i$ is the $i$th percentile in the distribution of the $p$-values. Additional control was applied to the 19 null plots. Because the distribution of these $p$-values should follow a Uniform(0,1) distribution, data sets were binned on this range by $p$-value, and a data set was randomly selected from each bin.
   
 
-\subsection{Experiment with a continuous covariate} 
+\subsection{Continuous covariate} 
 
 This experiment is designed for the same regression model (Equation \eqref{multi}) with $p=1$ and covariate $X_1$ being continuous. Data is simulated with two sample sizes ($n=100, 300$) and two standard deviations of the error ($\sigma=5, 12$). The different values for slope parameter that are used to generate data are shown in Table \ref{tbl:experiment_params}. We arbitrarily fix $\beta_0 = 6$ while generating actual data. For each combination of parameter, we generate at least three different actual data sets constituting a total of 65 lineups. 
 
 
-\subsection{Experiment with contaminated data}
+\subsection{Contaminated data}
 
 The first two simulation experiments are based on normal error model which satisfies the conditions for uniformly most powerful (UMP) test. To study how the proposed visual inference work for a scenario where the data are not really coming from a normal model we design a contaminated data experiment. To generate the contaminated data set of size $n=100$ we used the following model
 
