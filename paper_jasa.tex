@@ -293,9 +293,9 @@ We model $p_{\ell i} = E(X_{\ell i})$ as  a mixed effects logistic regression
 
 Let $X_{\ell i} \sim Binom_{1, p_{\ell i}}$ be the random variable, with $X_{ \ell i}= 1$, if  subject $i$ correctly identifies the data plot from lineup $\ell$, and 0 otherwise.
 We can model $p_{ \ell i}$ with a logistic regression with subject specific random effects as:
-\[
+\begin{equation} \label{mixed}
 g( p_{\ell i} )= X_{\ell i} B +  Z_{\ell i}  \tau_{i\ell},  
-\]
+\end{equation}
 
 where $g(.)$ denotes the {\it logit} link function $g(\pi)=\log(\pi) - \log(1-\pi); 0 \le \pi \le 1$ and
 
@@ -561,7 +561,7 @@ Under the assumption that an observer is able to pick the plot with the smallest
    Power(\beta)=Pr(p_{B} < p_0)  \quad \text{for}  \quad \beta \ne 0
 \end{equation}
 
-Figure \ref{fig:power_expected} shows the power of the uniformly most powerful test (UMP) in comparison to the expected power of the visual test obtained from equation \eqref{power_exp}. \green{Give more details on what is the UMP test in this setting.} Notice that the expected power of the visual test is almost as good as the power of UMP test. In fact, the only loss we experience stems from comparing the test statistic to only a discrete number of  $m-1$ samples from the null distribution. 
+The classical uniformly most powerful (UMP) test rejects $H_0$ if the observed test statistic $T= \hat{\beta_k}/ se(\hat{\beta_k})$ takes an extreme value in the distribution of theoretical $t$ distribution with $n-p$ degrees of freedom. Figure \ref{fig:power_expected} shows the power of the UMP test in comparison to the expected power of the visual test obtained from equation \eqref{power_exp}. Notice that the expected power of the visual test is almost as good as the power of UMP test. In fact, the only loss we experience stems from comparing the test statistic to only a discrete number of  $m-1$ samples from the null distribution. 
 
 %Theorem \ref{thm:power} helps to compute the expected power of visual inference.
 %\begin{thm}\label{thm:power}
@@ -626,7 +626,7 @@ Three experiments were conducted to evaluate the effectiveness of the lineup pro
 
 \subsection{Discrete covariate}\label{sec:category}
 
-The experiment is designed to study the ability of human observers to detect the effect of a single variable $X_2$ (corresponding to parameter $\beta_2$) in a two variable ($p=2$) regression model (Equation \ref{multi}). Data is simulated a range of values of $\beta_2~ (=0, 1, 3, 5, 7, 8, 10, 16)$, two different sample sizes ($n=100, 300$) and two standard deviations of the error ($\sigma=5, 12$). The range of $\beta_2$ values was chosen so that estimates of the power would produce reasonably continuous power curves, comparable to that calculated for the theoretical UMP test. Values were fixed for other regression parameters, $\beta_0 = 5$,  $\beta_1=15$, and the values for $X_1$ were randomly generated from a Poisson(30) distribution. \green{Explain why this was used.} Data sets were generated with parameter values shown in Table \ref{tbl:experiment_params}. Three replicates at each level were generated. These produced 60 different ``actual data sets''. 
+The experiment is designed to study the ability of human observers to detect the effect of a single variable $X_2$ (corresponding to parameter $\beta_2$) in a two variable ($p=2$) regression model (Equation \ref{multi}). Data is simulated a range of values of $\beta_2~ (=0, 1, 3, 5, 7, 8, 10, 16)$, two different sample sizes ($n=100, 300$) and two standard deviations of the error ($\sigma=5, 12$). The range of $\beta_2$ values was chosen so that estimates of the power would produce reasonably continuous power curves, comparable to that calculated for the theoretical UMP test. Values were fixed for other regression parameters, $\beta_0 = 5$,  $\beta_1=15$, and the values for $X_1$ were randomly generated from a Poisson(30) distribution. \green{Explain why this was used.} \red{There was not any real reason for this. It was just arbitrarily chosen to generate some data. When I first started to think of applying visual inference in regression setting, I was thinking of a dataset (I found in a book) of weight of babies by their gestational age (in week) where author wanted to test the difference of mean weight for gender.   Thus for our experiment I generated values similar to a variable like age. the discrete variable was thought similar to gender.} Data sets were generated with parameter values shown in Table \ref{tbl:experiment_params}. Three replicates at each level were generated. These produced 60 different ``actual data sets''. 
 
 Each subject viewed 10 lineups. Selection of lineups shown to each subject followed these rules .... \green{fill this in}. Figure \ref{fig:test_category} is an example of one of these lineups. The visual test statistic is a side-by-side boxplot.  
 
