@@ -10,8 +10,11 @@
 \graphicspath{{images/}}
 \usepackage{color}
 \newcommand{\blue}[1]{{\color{blue} #1}} %MM
-\newcommand{\red}[1]{{\color{red} #1}} %HH
+\newcommand{\red}[1]{{\color{red} #1}} 
 \newcommand{\green}[1]{{\color{green} #1}} %DC
+
+\definecolor{orange}{rgb}{1,0.5,0}
+\newcommand{\hh}[1]{{\color{orange} #1}} %HH
 
 % \usepackage{pifont} % this package is used to print check mark \checkmark
 
@@ -182,7 +185,7 @@ $K$ &  $x$ & $p$-value & $K$ &  $x$ & $p$-value & $K$ &  $x$ & $p$-value & $K$  
 
 %\blue{To avoid confusion with one tailed $(1-\alpha)$ vs two tailed $(1-\alpha/2)$ notation, can we just use $x_{\alpha}$? }
 
-%\red{alternative definition of visual test where $type-I$ error $\alpha$ is attached.
+%\red{alternative definition of visual test where $type-I$ error $\alpha$ is attached.}
 
 \begin{dfn}\label{dfn:test}
 The \textbf{visual test}, $V_{\theta}$  of size $\alpha$, is defined to be 
@@ -203,7 +206,16 @@ The \textbf{Type I error} is the probability of rejecting $H_0$ when it is true,
 
 \green{Oh, we are using observed and observer, which might be confusing. May need to change observed data plot to something else. Will think about this. Will use ``actual'' for now.}
 
-\noindent Because $X$ takes only discrete values we can not always control exactly for $\alpha$, with an exact $x_{\alpha}$. For example, when there is only one observer, $1/m$ is the minimal value at which we can set $\alpha$. It can be set to be smaller, even arbitrarily small, by increasing $K$. Type II error is harder to calculate, as is usually the case. In visual inference, individual abilities need to be incorporated to calculate Type II error. This is not necessary for Type I error, because it is simply the chance that the observer picks the actual data plot, by chance. For Type II error, we need to calculate the chance that the observer sees that actual data plot as different, when it really is different. This involves understanding the individual's visual skills. Thus, let $X_i$ be a binary random variable with $X_i = 1$, if individual $i (=1, \dots , K)$ identifies the actual data plot from the lineup, and $X_i = 0$ otherwise, where $p_i$ is the probability that individual $i$ picks out the actual data plot from the lineup. If all individuals have the same ability, with the probability, $p$, for picking out the actual data plot, then $X = \sum_i X_i$ has distribution $\text{Binom}(K, p)$. We can estimate $p$ by $\hat{p} = x/K$, where $x$ is the number of observers (out of $K$), who pick out the actual data plot from the lineup. If there is evidence for individual skills influencing the probability $p_i$, then $X = \sum_i X_i$ will have a Poisson-Binomial distribution. \green{WHY??? And how does this relate to the logistic model below?} This leads to the definition of the power of the visual test, as follows:
+\noindent Because $X$ takes only discrete values we can not always control exactly for $\alpha$, with an exact $x_{\alpha}$. For example, when there is only one observer, $1/m$ is the minimal value at which we can set $\alpha$. It can be set to be smaller, even arbitrarily small, by increasing $K$. Type II error is harder to calculate, as is usually the case. In visual inference, individual abilities need to be incorporated to calculate Type II error. This is not necessary for Type I error, because it is simply the chance that the observer picks the actual data plot, by chance. For Type II error, we need to calculate the chance that the observer sees that actual data plot as different, when it really is different. This involves understanding the individual's visual skills. Thus, let $X_i$ be a binary random variable with $X_i = 1$, if individual $i (=1, \dots , K)$ identifies the actual data plot from the lineup, and $X_i = 0$ otherwise, where $p_i$ is the probability that individual $i$ picks out the actual data plot from the lineup. If all individuals have the same ability, with the probability, $p$, for picking out the actual data plot, then $X = \sum_i X_i$ has distribution $\text{Binom}(K, p)$. We can estimate $p$ by $\hat{p} = x/K$, where $x$ is the number of observers (out of $K$), who pick out the actual data plot from the lineup. 
+
+\hh{If there is evidence for individual skills influencing the probability $p_i$, then $X_i \sim Binom_{1, p+i}$ and $X$ is a sum of independent Bernoulli random variables with different success rates $p_i$. This makes the distribution of $X$ a Poisson-Binomial by definition, see XXX for details. estimating $p_i$ will be one of the main concerns for the remainder of the paper.}
+
+%\green{WHY??? And how does this relate to the logistic model below?} 
+%This leads to the definition of the power of the visual test, as follows:
+
+
+
+
 
 %The lineup plot can be evaluated by one or more individuals. When a single individual identifies the observed graph in the lineup plot we report a $p$-value of at most $1/m$, otherwise the $p$-value is at least $1-\frac 1m$. 
 
@@ -232,17 +244,33 @@ The \textbf{Type I error} is the probability of rejecting $H_0$ when it is true,
 \begin{dfn} \label{dfn:power}
 The \textbf{power} of a visual test $V_{\theta}$ is defined as the probability to reject the null hypothesis for a given parameter value $\theta$:
     \begin{equation*}
-      \text{Power}_V(\theta)= Pr(\text{Reject } H_0) = P(X \ge x_{\alpha}) = 
-        \begin{cases} 
-               1 - \text{Binom}_{K, 1/m}(x_{\alpha} - 1) & \text{ if } H_0 \text{ is true}.\\
-              1 - F_{X, \theta} (x_{\alpha} - 1) & \text{ if } H_1 \text{ is true}.
-        \end{cases}
+      \text{Power}_V(\theta)= Pr(\text{Reject } H_0 \mid \theta) 
+%      = P(X \ge x_{\alpha}) =
+%        \begin{cases} 
+%               1 - \text{Binom}_{K, 1/m}(x_{\alpha} - 1) & \text{ if } H_0 \text{ is true}.\\
+%              1 - F_{X, \theta} (x_{\alpha} - 1) & \text{ if } H_1 \text{ is true}.
+%        \end{cases}
     \end{equation*}
 \end{dfn}
 
-\noindent Note that $F_{X, \theta}$ is the distribution of $X$ under the alternative with given parameter value $\theta$.
+\hh{\noindent An important difference between classical testing and the lineup scenarios is that lineups always depend on observers -- this brings the number of people evaluating a particular lineup into the actual evaluation of power, i.e. we are assuming, again, that $X$ counts the number of observers (out of $K$) who identify the data plot from the lineup.
+Then power is calculated as
+\[
+\widehat{Power}_{V} (\theta) = {Power}_{V, K} (\theta) = 1 - F_{X, \theta} (x_{\alpha} - 1),
+\] 
+where $F_{X, \theta}$ is the distribution of $X$ -- this depends on which hypothesis is true:
 
-\red{there may be a flow in this definition. Due to the discrete nature of binomial (specially $x_{\alpha}$) this definition would only give a conservative lower limit of the actual power. I feel like we should not define power using binomial.}
+Under the null hypothesis $X \sim Binom_{K, 1/m}$, leading to a power of 
+\[
+\text{Power}_V(\theta)= 1 - Binom_{K, 11/m} (x_\alpha - 1),
+\]
+where $x_\alpha$ is defined as in (\ref{dfn:test}), as  $P(X \ge x_{\alpha}) < \alpha$.
+
+If the alternative hypothesis is true with a fixed parameter value $\theta$, we can assume that an individual's probability to identify the data plot depends on the parameter value, and $X_i \sim Binom_{1, p_i(\theta)}$. Again, assessing an individual's probability to identify the data plot  is central to the actual calculation .
+}
+%\noindent Note that $F_{X, \theta}$ is the distribution of $X$ under the alternative with given parameter value $\theta$.
+
+%\red{there may be a flow in this definition. Due to the discrete nature of binomial (specially $x_{\alpha}$) this definition would only give a conservative lower limit of the actual power. I feel like we should not define power using binomial.}
 
 Power is an important consideration in deciding which test to use for solving a problem. %In classical testing, new test procedures are examined for their power under a variety of scenarios. 
 For visual inference, this corresponds to the choice of plot to use. Analysts typically have a choice of plots to make, and a myriad of possible options such as reference grids, for any particular purpose. This is akin to different choices of statistics in classical hypothesis testing, for example, mean, median, or trimmed mean. One is typically better than another. For two different visual test statistics of the same actual data, one is considered to be better, if $T(y)$ is more easily distinguishable to the observer. Power is typically used to measure this characteristic of a test. %Power is the probability of rejecting $H_0$ when it is not true.  We can assess power therefore both empirically based on experimental data and through theoretical considerations. 
@@ -256,17 +284,33 @@ For visual inference, this corresponds to the choice of plot to use. Analysts ty
 \paragraph{Subject-specific abilities}
 Calculating the power  is intricately related to the probability to identify the data plot from the lineup. 
 
-In the case that observer  $i = 1, ..., K$ is exposed to multiple lineups we can estimate the probability $p_{ \ell i}$ for each lineup $\ell = 1, ..., L$, while accommodating both for different abilities of individuals as well as differences in the difficulty of lineups with the help of a logistic regression using random effects: 
+Suppose each of $K$ independent observers gives evaluations on multiple lineups and responses are associated with binary random variable $X_{\ell i}$, where  $X_{\ell i} = 1$, if subject $i$ correctly identifies the test statistic on lineup $\ell$,  $\ell = 1, ..., L$, and 0 otherwise.
+
+\hh{
+We model $p_{\ell i} = E(X_{\ell i})$ as  a mixed effects logistic regression
+ accommodating both for different abilities of individuals as well as differences in the difficulty of lineups: 
 
 
 Let $X_{\ell i} \sim Binom_{1, p_{\ell i}}$ be the random variable, with $X_{ \ell i}= 1$, if  subject $i$ correctly identifies the data plot from lineup $\ell$, and 0 otherwise.
 We can model $p_{ \ell i}$ with a logistic regression with subject specific random effects as:
 \[
-\text{logit } p_{\ell i} = X_{\ell i} B +  Z_{\ell i} \tau_i,  
+g( p_{\ell i} )= X_{\ell i} B +  Z_{\ell i}  \tau_{i\ell},  
 \]
-where $X_{\ell i}$ is a vector of fixed effects with parameter vector $B$ corresponding to lineup $\ell$ and $\tau \sim MVN(0, \sigma_{\tau} I)$  is a vector of random variables $i = 1, ..., K$.
 
-\red{This model is elaborately described in equation \ref{mixed}.}
+where $g(.)$ denotes the {\it logit} link function $g(\pi)=\log(\pi) - \log(1-\pi); 0 \le \pi \le 1$ and
+
+\begin{tabular}{lp{5.5in}}
+$X$  & is a design matrix of covariates corresponding to specifics of lineup $\ell$ and subject $i$. Covariates could include  demographic information of individuals, such as age, gender, education level etc. as well lineup-specific elements, e.g. difficulty level. \\
+$B$ & is a vector of parameters for fixed effects.\\
+$Z_{i\ell}$ & $1 \le i \le K$, $1 \le \ell \le L$  is a design matrix corresponding to random effects specific to individual $i$ and lineup $\ell$.  \\
+$\tau$ & is a vector of independent real-valued random variables $\tau_{i\ell}$,  $\tau  \sim  MVN(0,\sigma_\tau I_{KL \times KL})$. $\tau$ will usually include a component incorporating an individual's ability or skill to evaluate lineups.\\
+\end{tabular}
+
+}
+
+
+
+%\red{This model is  described in more detail in equation \ref{mixed}.}
 
 %\noindent For any single observer, the power of a visual test has a lower limit of $\frac1m$ since the probability that an observer will randomly pick the test statistic under $H_0$ is $\frac1m$. When $K$ individuals evaluate a lineup plot independently, the number of successful evaluations, $U \sim \text{Binom} (K,1/m)$  under $H_0$. This leads us to obtain the probability 
 %\begin{equation}\label{eqn:pvalue}
@@ -300,8 +344,8 @@ where $X_{\ell i}$ is a vector of fixed effects with parameter vector $B$ corres
 %\red{HH: the following paragraph needs some adjustment in terms of t and $\theta$ - could you try to take of that, Mahbub?}\\
 %\red{For the following paragraph, we wanted to get rid of the absolute value of $t$ and instead look at $t \in R$ and $t \in R^c$.}
 
-\subsection*{Lineup size $m$}
 \noindent
+\paragraph{Lineup size $m$}
 One of the big differences between visual inference and the classical testing situation is the use of a finite number $m-1$ of representatives of the null distribution as comparison against the test statistic. The choice of $m$ has an obvious impact on the test, and we will discuss this in the following paragraph.
 
 The following properties are only derived for the situation of a  fully parameterized  simulation study. This allows us to directly compare lineup tests against their classical counterparts and also identify  properties relevant for a quality assessment of  lineups, which are typically used  in non-parametric situations.
@@ -405,7 +449,7 @@ By matching the expected values, we therefore get an expression for the $p$-valu
 {E[p_D]} = 1- \left(\frac{E[N_m]}{K}\right)^{1/(m-1)}.
 \end{equation}
 
-\blue{Note that the right hand side of equation (\ref{eqn:power_estimate}) is independent of the parameter $\theta$, but just based on the lineup evaluation by independent observers. While this allows us to compute this value independently of the parametric setting, it also means that observers might pick out the data plot for a reason not related to the value of $\theta$. 
+Note that the right hand side of equation (\ref{eqn:power_estimate}) is independent of the parameter $\theta$, but just based on the lineup evaluation by independent observers. While this allows us to compute this value independently of the parametric setting, it also means that observers might pick out the data plot for a reason not related to the value of $\theta$. 
 
 %Picking out the data plot is still a measure of how different the data plot is compared to the null plots, and therefore is a test statistic of the visual test.
 
@@ -421,42 +465,30 @@ By matching the expected values, we therefore get an expression for the $p$-valu
 %\]
 %
 %In a parametric setting, signal strength of a test coincides with the power of the test.
-}
-
-\red{\#\#\# re-done up to here, HH}
 
 
 
-Theoretical power for the regression parameters is derived in the next section.
-\subsection{Estimating Power from Lineups}
-
-We estimate the empirical power from responses on a specific lineup plot  generated with known values of sample size ($n$), variance ($\sigma^2$) and regression parameter ($\beta$) in model \ref{multi}. Suppose, we have responses from $K$ independent observers with $u$ identifications of the actual plot. This gives an estimated power of
-\begin{equation}\label{power_est} Power(\beta)=\frac{u}{K} \hspace{1cm} 0 \le u \le K \end{equation}
-
-Suppose each of $K$ independent observers gives evaluations on multiple lineup plots and responses are associated with binary random variable $Y_{\ell i}$. Let $Y_{\ell i} = 1$, if subject $i$ correctly identifies the test statistic on lineup $\ell$, and 0 otherwise.
-We model $\pi_{\ell i} = E(Y_{\ell i})$ as  a mixed effects logistic regression
-
-\begin{equation} 
-g(\pi_{\ell i}) = X_{\ell i}B  + Z_{\ell i} \tau_i 
-\label{mixed} 
-\end{equation}
+%Theoretical power for the regression parameters is derived in the next section.
+%\subsection{Estimating Power from Lineups}
 %
-where $\tau_i$ is random effects coefficient vector of length $q$ for subject $i$,  $\tau_i  \sim  MVN(0,\Sigma)$ with variance covariance matrix $\Sigma$, $Z_{\ell i}$ is the $\ell$th row vector of random effects covariates for subject $i$, $B$ is a vector of coefficient of length $p$, the number of fixed effect covariates being used, $X_{\ell i}$ is the $\ell$th row vector of the fixed effects covariates for subject $i$ and logit link function $g(\pi)=\log(\pi) - \log(1-\pi); 0 \le \pi \le 1$. The covariates could be demographic information of people such as age, gender, education level etc. as well as sample size ($n$), regression parameter ($\beta$) and variance ($\sigma^2$) of model \ref{multi}. 
+%We estimate the empirical power from responses on a specific lineup plot  generated with known values of sample size ($n$), variance ($\sigma^2$) and regression parameter ($\beta$) in model \ref{multi}. Suppose, we have responses from $K$ independent observers with $u$ identifications of the actual plot. This gives an estimated power of
+%\begin{equation}\label{power_est} Power(\beta)=\frac{u}{K} \hspace{1cm} 0 \le u \le K \end{equation}
 
-From model \ref{mixed} we obtain %$\pi=Pr(Y=1|X_1, X_2, ..., X_p)$, 
-the power of the underlying testing procedure as a population average %by ignoring the random effect part. 
-%Thus we have the overall probability of success ($\pi$ or power) 
-for specified sample size ($n$) and  variance ($\sigma$)  as 
 
-\begin{equation}\label{eqn:power} 
-Power(\beta) = \pi=Pr(Y=1|\beta, n, \sigma) 
-\end{equation}
-
-The main covariate factors that determine the power of the test are sample size ($n$), $\sigma$ and the parameter $\beta$. combining these we obtain one single covariate effect denoted by $E$ and defined as $E = \beta/ \sigma*\sqrt{n}$. Using equation \ref{mixed}, we then have the power as
-
-\begin{equation}\label{eqn:effect} 
-Power(E) = \pi=Pr(Y=1| E) 
-\end{equation}
+%From model \ref{mixed} we obtain %$\pi=Pr(Y=1|X_1, X_2, ..., X_p)$, 
+%the power of the underlying testing procedure as a population average %by ignoring the random effect part. 
+%%Thus we have the overall probability of success ($\pi$ or power) 
+%for specified sample size ($n$) and  variance ($\sigma$)  as 
+%
+%\begin{equation}\label{eqn:power} 
+%Power(\beta) = \pi=Pr(Y=1|\beta, n, \sigma) 
+%\end{equation}
+%
+%The main covariate factors that determine the power of the test are sample size ($n$), $\sigma$ and the parameter $\beta$. combining these we obtain one single covariate effect denoted by $E$ and defined as $E = \beta/ \sigma*\sqrt{n}$. Using equation \ref{mixed}, we then have the power as
+%
+%\begin{equation}\label{eqn:effect} 
+%Power(E) = \pi=Pr(Y=1| E) 
+%\end{equation}
 
 \section{Application to Linear Models} \label{sec:regression}
 
