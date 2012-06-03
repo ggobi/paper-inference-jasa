@@ -65,7 +65,7 @@ However, measuring the strength of patterns seen in plots, and differences in in
 \begin{figure}[htp]
 %\begin{figurehere}
    \centering
-       \includegraphics[width=0.95\textwidth]{test_category.pdf}
+       \includegraphics[width=0.95\textwidth]{lineup_category.pdf}
        \caption{Lineup plot ($m=20$) using side-by-side boxplots for testing $H_0: \beta_k=0$. One of these plots is the plot of the actual data, and the remaining are null plots, produced by simulating data from a null model that assumes $H_0$ is true. Which plot is the most different from the others, in the sense that there is the the largest shift or location difference between the boxplots? (The position of the actual data plot is provided in Section \ref{sec:category}.)}
        \label{fig:test_category}
 \end{figure}
@@ -103,7 +103,7 @@ Table \ref{tbl:compare} illustrates the lineup protocol in relation to tradition
 				 
  & \begin{minipage}[h]{2.5cm} \begin{center} \scalebox{0.2}{\includegraphics{down_arrow.pdf}} \end{center} \end{minipage} & \begin{minipage}[h]{2.5cm} \begin{center} \scalebox{0.2}{\includegraphics{down_arrow.pdf}} \end{center} \end{minipage} \\
 				 
- Sampling Distribution & $f_{T(y)}(t); $\begin{minipage}[h]{2.5cm} \begin{center} \scalebox{0.55}{\includegraphics{stat_mathematical_test.pdf}} \end{center} \end{minipage} & $f_{T(y)}(t); $ \begin{minipage}[h]{2.5cm} \begin{center} \scalebox{0.32}{\includegraphics{test_category_small.pdf}} \end{center} \end{minipage} \\
+ Sampling Distribution & $f_{T(y)}(t); $\begin{minipage}[h]{2.5cm} \begin{center} \scalebox{0.55}{\includegraphics{stat_mathematical_test.pdf}} \end{center} \end{minipage} & $f_{T(y)}(t); $ \begin{minipage}[h]{2.5cm} \begin{center} \scalebox{0.32}{\includegraphics{lineup_category_small.pdf}} \end{center} \end{minipage} \\
  & \begin{minipage}[h]{2.5cm} \begin{center} \scalebox{0.2}{\includegraphics{down_arrow.pdf}} \end{center} \end{minipage} & \begin{minipage}[h]{2.5cm} \begin{center} \scalebox{0.2}{\includegraphics{down_arrow.pdf}} \end{center} \end{minipage} \\
  Reject $H_0$ if & actual $T$ is extreme & actual plot is identifiable \\
 \hline 
@@ -509,8 +509,8 @@ In this setting, there is a multitude of established graphics that help with the
 Case & Null Hypothesis & Statistic & Test Statistic & Description \\ [0.5ex] % inserts table %heading 
 \hline 
 1 & $H_0: \beta_0=0$ & Scatter plot & \begin{minipage}[t]{2cm}\begin{center}  	\scalebox{0.1}{\includegraphics{stat_intercept.pdf}} \end{center} \end{minipage} & Scatter plot with least square line overlaid. For lineup plot, we simulate data from fitted null model. \\ 
-2 & $H_0: \beta_k=0$ & Residual plot & \begin{minipage}[t]{2cm}\begin{center}  	\scalebox{0.1}{\includegraphics{stat_bet_p.pdf}} \end{center} \end{minipage} & Residual vs $X_k$ plots. For lineup plot, we simulate data from normal with mean 0 variance $\hat{\sigma}^2$. \\ 
-3 & $H_0: \beta_k=0$ (for categorical $X_k$) & Box plots of residuals & \begin{minipage}[t]{2cm}\begin{center}  	\scalebox{0.45}{\includegraphics{stat_category.pdf}} \end{center} \end{minipage} & Box plot of residuals grouped by category of $X_k$. For lineup plot, we simulate data from normal with mean 0 variance $\hat{\sigma}^2$. \\
+2 & $H_0: \beta_k=0$ & Scatter plot & \begin{minipage}[t]{2cm}\begin{center}  	\scalebox{0.45}{\includegraphics{stat_beta_k.pdf}} \end{center} \end{minipage} & Scatter plot with least square line overlaid. For lineup plot, we simulate data from fitted null model. \\ 
+3 & $H_0: \beta_k=0$ (for categorical $X_k$) & Box plot & \begin{minipage}[t]{2cm}\begin{center}  	\scalebox{0.45}{\includegraphics{stat_category.pdf}} \end{center} \end{minipage} & Box plot of residuals grouped by category of $X_k$. For lineup plot, we simulate data from normal with mean 0 variance $\hat{\sigma}^2$. \\
 4 & $H_0: \beta_k=0$ (interaction with categorical $X_k$) & Scatter plot & \begin{minipage}[t]{2cm}\begin{center}  \scalebox{0.11}{\includegraphics{stat_interection.pdf}} \end{center} \end{minipage} & Scatter plot with least square lines of each category overlaid. For lineup plot, we simulate data from fitted null model.\\[1ex] % [1ex] adds vertical space 
 5 & $H_0: X$ Linear & Residual Plot & \begin{minipage}[t]{2cm}\begin{center}  	\scalebox{0.1}{\includegraphics{stat_nonlinear.pdf}} \end{center} \end{minipage} & Residual vs predictor plots with loess smoother overlaid. For lineup plot, we simulate residual data from normal with mean 0 variance $\hat{\sigma}^2$. \\ 
 6 & $H_0: \sigma^2=\sigma^2_0$ & Box plot & \begin{minipage}[t]{2cm}\begin{center}  \scalebox{0.15}{\includegraphics{stat_sigma_box.pdf}} \end{center} \end{minipage} & Box plot of standardized residual divided by  $\sigma^2_0$. For lineup plot, we simulate data from standard normal. \\ 				
@@ -624,15 +624,30 @@ The classical uniformly most powerful (UMP) test rejects $H_0$ if the observed t
 
 Three experiments were conducted to evaluate the effectiveness of the lineup protocol relative to the equivalent test statistic used in the regression scenario. There are three experiments. The first two are classical settings where we would not expect the lineup protocol to do better than the traditional test, but we hope it to perform favorably. The third experiment is a scenario where assumptions required for the traditional test are violated, and we would expect the lineup protocol to outperform the traditional test. (Data and lineups used in the experiments are available in the supplementary material.)
 
+{\bf Plotting visual statistic:} For a given data set we fit the null model and obtain the residuals.  Using these residuals the visual statistics for each of the experiments were generated as described in table \ref{tbl:stat_multiple}. Actual data plot and null plots in a lineup are obtained from actual data set and null data set respectively. The procedure for obtaining actual data sets are described in the following sections.
+
+
+
 \subsection{Discrete covariate}\label{sec:category}
 
 The experiment is designed to study the ability of human observers to detect the effect of a single variable $X_2$ (corresponding to parameter $\beta_2$) in a two variable ($p=2$) regression model (Equation \ref{multi}). Data is simulated a range of values of $\beta_2~ (=0, 1, 3, 5, 7, 8, 10, 16)$, two different sample sizes ($n=100, 300$) and two standard deviations of the error ($\sigma=5, 12$). The range of $\beta_2$ values was chosen so that estimates of the power would produce reasonably continuous power curves, comparable to that calculated for the theoretical UMP test. Values were fixed for other regression parameters, $\beta_0 = 5$,  $\beta_1=15$, and the values for $X_1$ were randomly generated from a Poisson(30) distribution. \green{Explain why this was used.} \red{There was not any real reason for this. It was just arbitrarily chosen to generate some data. When I first started to think of applying visual inference in regression setting, I was thinking of a dataset (I found in a book) of weight of babies by their gestational age (in week) where author wanted to test the difference of mean weight for gender.   Thus for our experiment I generated values similar to a variable like age. the discrete variable was thought similar to gender.} Data sets were generated with parameter values shown in Table \ref{tbl:experiment_params}. Three replicates at each level were generated. These produced 60 different ``actual data sets''. 
+
+{\bf Steps to obtain lineup}
+\begin{enumerate}
+	\item For a given parameter setting obtain actual data set
+	\item Fit the null model to the actual data and obtain residuals and other parameter estimates ($\hat{\beta}$ and $\hat{\sigma}$)
+	\item Generate actual data plot using the procedure as described in table \ref{tbl:stat_multiple}
+	\item Generate 19 null (residual) data sets from $N(0, {\hat{\sigma}}^2$) and obtain 19 null plots
+	\item Finally randomly place 19 null plots and one actual plot in a layout (4X5) to get a lineup 
+\end{enumerate}
+
+ Figure \ref{fig:test_category} is an example of one of these lineups. The visual test statistic is a side-by-side boxplot. The actual data plot is number 13 which was generated for $n$=300, $\beta_2$=15 and $\sigma$=12.  
 
 {\bf Number of evaluations} required for each lineup is determined based on the precision level of the estimated power. Suppose $\gamma$ denotes the classical UMP test power for each parameter combination shown in table \ref{tbl:experiment_params}. Since expected power of visual inference is very close to the power of classical UMP test as in figure \ref{fig:power_expected} the proportion of successful evaluations of lineups should give a rough estimate for  $\gamma$. For a given proportion $\gamma$ we want to have margin of error (ME) to be 0.1. Thus we have $ME =1.96 \sqrt{ \frac 1 n_{\gamma} \gamma(1-\gamma)} \le 0.05$ which gives us the estimation of minimum number of evaluations $$n_{\gamma} \geq \frac{\gamma(1-\gamma)}{(0.05/1.96)^2}.$$  
 Each subject viewed at least 10 lineups and we allowed them to provide more evaluations if they wanted. Depending on the parameter combinations we group the lineups in different difficulty levels such as easy, medium, hard and mixed as shown in table \ref{tbl:dist_lineup1}. For each difficulty level a specific number of lineups were randomly picked to show for evaluation. This number is chosen so that total number of evaluations for each lineup for that group exceed the threshold $n_{\gamma}$. To satisfy this plan we needed to recruit at least 300 subjects. 
 
 %For a given proportion $p$ we want to have margin of error (ME) to be 0.1. Thus we have $ME =1.96 \sqrt{ \frac 1 n p(1-p)} \le 0.05$ which gives us the estimation of minimum number of evaluations $$n_p \geq \frac{p(1-p)}{(0.05/1.96)^2}.$$ Now from the theoretical (UMP) power curve for each parameter combinations shown in table \ref{tbl:experiment_params} we know the power(say $p$) and thus we can estimate the number of evaluations required for that specific combinations of parameter. We collect data such that each of the parameter combinations in the table \ref{tbl:experiment_params} has approximately the estimated sample size that we calculated here.
-  Figure \ref{fig:test_category} is an example of one of these lineups. The visual test statistic is a side-by-side boxplot.  
+ 
 
 \begin{table}[hbtp]
 \caption{Selection of 10 lineups for a person to evaluate in the simulation experiment with discrete covariate described in section \ref{sec:category}.} 
@@ -667,7 +682,7 @@ Total &&&&&60&10\\
 
 
 
-\green{Did you in fact bin like this???} For added control, to ensure a signal in the simulated actual data a blocking structure was used to filter data sets. A 1000 sets were generated for each parameter combination and the traditional $t$-statistic and $p$-value associated with $H_0: \beta_2=0$ were calculated. The 3 replicates were drawn from each of three blocks of $p$-values: (0.0-$q_{33}$), ($q_{33}$-$q_{66}$), ($q_{66}$-1) where $q_i$ is the $i$th percentile in the distribution of the $p$-values. Additional control was applied to the 19 null plots. Because the distribution of these $p$-values should follow a Uniform(0,1) distribution, data sets were binned on this range by $p$-value, and a data set was randomly selected from each bin.
+\green{Did you in fact bin like this???}\red{For each parameter combination a set of 1000 actual data are generated and their associated p-values were computed. This produces an empirical distribution of p-value under alternative hypothesis. Finally, three data sets that have 16th, 50th and 84th quantile of the p-values were taken. Similar procedure was used to generate 19 null plots based on the empirical distribution of p-value under null hypothesis}. For added control, to ensure a signal in the simulated actual data a blocking structure was used to filter data sets. A 1000 sets were generated for each parameter combination and the traditional $t$-statistic and $p$-value associated with $H_0: \beta_2=0$ were calculated. The 3 replicates were drawn from each of three blocks of $p$-values: (0.0-$q_{33}$), ($q_{33}$-$q_{66}$), ($q_{66}$-1) where $q_i$ is the $i$th percentile in the distribution of the $p$-values. Additional control was applied to the 19 null plots. Because the distribution of these $p$-values should follow a Uniform(0,1) distribution, data sets were binned on this range by $p$-value, and a data set was randomly selected from each bin.
   
 
 \begin{table}[hbtp]
@@ -707,9 +722,29 @@ Sample size  & Error SD  &  \multicolumn{1}{c} {Experiment 1}  & \multicolumn{1}
 
 \subsection{Continuous covariate} 
 
-This experiment is designed for the same regression model (Equation \ref{multi}) with $p=1$ and covariate $X_1$ being continuous. Data is simulated with two sample sizes ($n=100, 300$) and two standard deviations of the error ($\sigma=5, 12$). The different values for slope parameter that are used to generate data are shown in Table \ref{tbl:experiment_params}. We arbitrarily fix $\beta_0 = 6$ while generating actual data. For each combination of parameter, we generate at least three different actual data sets constituting a total of 65 lineups. 
+This experiment is designed for the same regression model (Equation \ref{multi}) with $p=1$ and covariate $X_1$ being continuous. $X_1$ is simulated from standard normal(0,1). Data is simulated with two sample sizes ($n=100, 300$) and two standard deviations of the error ($\sigma=5, 12$). The different values for slope parameter that are used to generate data are shown in Table \ref{tbl:experiment_params}. We arbitrarily fix $\beta_0 = 6$ while generating actual data. For each combination of parameter, we generate at least three different actual data sets constituting a total of 65 lineups. 
 
-\green{Fill in details of lineups, probably need a figure with an example lineup, and how lineups were assigned to subjects.}
+
+{\bf Steps to obtain lineup}
+\begin{enumerate}
+	\item For a given parameter setting obtain actual data set
+	\item Fit the null model to the actual data and obtain residuals and other parameter estimates ($\hat{\beta}$ and $\hat{\sigma}$)
+	\item Generate actual data plot (a scatter plot of $Y$ vs $X_1$ a least square line overlaid)
+	\item Generate 19 null data sets from $N(X \hat{\beta}, {\hat{\sigma}}^2$) and obtain 19 null plots
+	\item Finally randomly place 19 null plots and one actual plot in a layout (4X5) to get a lineup 
+\end{enumerate}
+
+%\green{Fill in details of lineups, probably need a figure with an example lineup, and how lineups were assigned to subjects.}
+
+
+\begin{figure}[htp]
+%\begin{figurehere}
+   \centering
+       \includegraphics[width=0.95\textwidth]{lineup_continuous.pdf}
+       \caption{Lineup plot ($m=20$) using scatter plots for testing $H_0: \beta_k=0$ where covariate $X_k$ is continuous. One of these plots is the plot of the actual data, and the remaining are null plots, produced by simulating data from a null model that assumes $H_0$ is true. Which plot is the most different from the others, in the sense that there is the steepest slope?}
+       \label{fig:test_continous}
+\end{figure}
+
 
 \subsection{Contaminated data}
 

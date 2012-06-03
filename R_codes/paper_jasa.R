@@ -38,13 +38,14 @@ for (K in 1:5){
 
 # generating data
 set.seed(29)
+
 n <- 300
-beta <- 15
+beta <- 10
 sigma <- 12	
 x1 <- rpois(n,lambda=20)
 Xk <- factor(sample(c("A","B"), size=n, replace=T))
 cnd <- sample(c("A","B"), size=1)
-y <- round(5 + 1.5 * x1 + beta * (Xk==cnd) + rnorm(n=n, mean=0, sd=sigma))
+y <- round(5 + 15 * x1 + beta * (Xk==cnd) + rnorm(n=n, mean=0, sd=sigma))
 #qplot(x1,y, colour=factor(Xk)) + geom_smooth(method="lm", se=F, size=1)
 
 
@@ -56,7 +57,7 @@ obs.residuals <- as.vector(resid(fit))
 
 qplot(Xk, obs.residuals,colour=Xk,geom="boxplot", ylab="Residual") + 
       xlab(expression(X[k])) + labs(colour=expression(X[k]))
-ggsave("../images/stat_category.pdf",height=2,width=3)
+ggsave("../images/stat_category.pdf",height=2,width=2.75)
 
 
 
@@ -71,8 +72,53 @@ pdat.m <- melt(pdat,id="Xk")
 qplot(Xk, value, data=pdat.m ,colour=Xk,,geom="boxplot", ylab="Residual") + 
      facet_wrap(~variable)+ xlab(expression(X[k])) + 
      labs(colour=expression(X[k]))
-ggsave("../images/test_category.pdf",height=7,width=7.5)
-ggsave("../images/test_category_small.pdf",height=4.5,width=5) # for comparizon table
+ggsave("../images/lineup_category.pdf",height=7,width=7.5)
+ggsave("../images/lineup_category_small.pdf",height=4.5,width=5) # for comparizon table
+
+# === plotting test stat and lineup for continuous variable variable (turk2)
+
+generate_turk2_stat <- function(n,beta,sigma){
+	#n <- 100; a <- 6; b <- 2; sigma <- 12
+	a <- 6
+	b <- beta*sign(rnorm(1,0,1))
+	x <- subset(read.csv("../data/Xdata.csv"),N==n)[,1]
+	y <- a + b*x + rnorm(n=n, mean=0, sd=sigma)
+	p <- qplot(x, y, xlab=expression(X[k]),geom="point", ylab="Y", alpha=I(.2))
+	p <- p + geom_smooth(method="lm", se=F, size=1)
+	return(p)
+}
+p <- generate_turk2_stat(n=100,beta=1.25,sigma=5)
+ggsave(plot=p, file="../images/stat_beta_k.pdf",height=2,width=2)
+
+
+generate_turk2_lineup <- function(n,beta,sigma){
+	#n <- 100; a <- 6; b <- 2; sigma <- 12
+	a <- 6
+	b <- beta*sign(rnorm(1,0,1))
+	x <- subset(read.csv("../data/Xdata.csv"),N==n)[,1]
+	y <- a + b*x + rnorm(n=n, mean=0, sd=sigma)
+
+	fit <- lm(y~1) # fitting model without slope
+	fit.stat <- summary(fit)
+
+	sim <- matrix(rnorm(n=n*20, mean = fit$coefficient[[1]], sd=fit.stat$sigma),ncol=20)
+	loc <- sample(1:20, size=1)
+	sim[,loc] <- y
+	sim <- data.frame(x,sim)
+	colnames(sim) <- c("X",1:20)
+	m.sim <- melt(sim,id=c("X"))
+	p <- qplot( X, value, data=m.sim, xlab=expression(X[k]),geom="point", ylab="Y", alpha=I(.2))
+	p <- p + geom_smooth(method="lm", se=F, size=1) + facet_wrap(~variable)
+
+	fit1 <- lm(y~x)
+      fit1.stat <- summary(fit1)
+      pval <-  fit1.stat$coefficients[2,4]
+	res <- list(result = data.frame(n,b,sigma,pval,loc),p=p,dat_used=sim)
+	return(res)
+}
+
+l2 <- generate_turk2_lineup(n=100,beta=1.25,sigma=5)
+ggsave(plot=l2$p, file="../images/lineup_continuous.pdf",height=7,width=7.5)
 
 
 
