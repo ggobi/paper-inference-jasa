@@ -541,7 +541,7 @@ ggplot(data=effect.d,aes(x=effect,y=power)) +
    geom_smooth(method="loess", span=0.8,aes(colour=factor(replica))) +
    geom_line(aes(x=effect,y=ump_power)) +
    scale_colour_discrete(name = "Replication")+
-   xlab(expression(Effect(E)))
+   xlab(expression(Effect(E))) 
    
 ggsave(filename="../images/effect_power_exp2.pdf", height=7, width=7)   
    
@@ -602,7 +602,7 @@ tail(pow.dat.m)
 qplot(effects,value,group=variable,geom="line",alpha=I(.2), data=pow.dat.m) + 
  xlab(expression(beta)) + ylab("Power") + 
  geom_line(data=subset(pow.dat.m, variable=="UMP"),colour="hotpink", size=1) + 
- xlab("Effect(E)")
+ xlab("Effect(E)") 
  
 ggsave(filename="../images/effect_power_subject_exp2.pdf", height=5, width=7)   
 

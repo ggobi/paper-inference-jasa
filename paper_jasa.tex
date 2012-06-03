@@ -504,19 +504,19 @@ In this setting, there is a multitude of established graphics that help with the
 \begin{table*}[hbtp] 
 \caption{Test Statistics for Testing Hypothesis Related to Model $Y_i = \beta_0 + \beta_1 X_{i1} + \beta_1 X_{i2} + \beta_3 X_{i1}X_{i2} + ... + \epsilon_i  $ } 
 \centering 
-\begin{tabular}{m{0.5cm}m{3cm}m{2.5cm}m{2.6cm}m{5.5cm}} 
+\begin{tabular}{m{0.5cm}m{3cm}m{2cm}m{3cm}m{5.5cm}} 
 \hline\hline 
 Case & Null Hypothesis & Statistic & Test Statistic & Description \\ [0.5ex] % inserts table %heading 
 \hline 
-1 & $H_0: \beta_0=0$ & Scatter plot & \begin{minipage}[t]{2cm}\begin{center}  	\scalebox{0.1}{\includegraphics{stat_intercept.pdf}} \end{center} \end{minipage} & Scatter plot with least square line overlaid. For lineup plot, we simulate data from fitted null model. \\ 
-2 & $H_0: \beta_k=0$ & Scatter plot & \begin{minipage}[t]{2cm}\begin{center}  	\scalebox{0.45}{\includegraphics{stat_beta_k.pdf}} \end{center} \end{minipage} & Scatter plot with least square line overlaid. For lineup plot, we simulate data from fitted null model. \\ 
-3 & $H_0: \beta_k=0$ (for categorical $X_k$) & Box plot & \begin{minipage}[t]{2cm}\begin{center}  	\scalebox{0.45}{\includegraphics{stat_category.pdf}} \end{center} \end{minipage} & Box plot of residuals grouped by category of $X_k$. For lineup plot, we simulate data from normal with mean 0 variance $\hat{\sigma}^2$. \\
-4 & $H_0: \beta_k=0$ (interaction with categorical $X_k$) & Scatter plot & \begin{minipage}[t]{2cm}\begin{center}  \scalebox{0.11}{\includegraphics{stat_interection.pdf}} \end{center} \end{minipage} & Scatter plot with least square lines of each category overlaid. For lineup plot, we simulate data from fitted null model.\\[1ex] % [1ex] adds vertical space 
-5 & $H_0: X$ Linear & Residual Plot & \begin{minipage}[t]{2cm}\begin{center}  	\scalebox{0.1}{\includegraphics{stat_nonlinear.pdf}} \end{center} \end{minipage} & Residual vs predictor plots with loess smoother overlaid. For lineup plot, we simulate residual data from normal with mean 0 variance $\hat{\sigma}^2$. \\ 
-6 & $H_0: \sigma^2=\sigma^2_0$ & Box plot & \begin{minipage}[t]{2cm}\begin{center}  \scalebox{0.15}{\includegraphics{stat_sigma_box.pdf}} \end{center} \end{minipage} & Box plot of standardized residual divided by  $\sigma^2_0$. For lineup plot, we simulate data from standard normal. \\ 				
-7 & $H_0: \rho_{X,Y|Z}=\rho$ & Scatter Plot & \begin{minipage}[t]{2cm}\begin{center}  	\scalebox{0.1}{\includegraphics{stat_intercept.pdf}} \end{center} \end{minipage} & Scatter plot of Residuals obtained by fitting partial regression. For lineup plot, we simulate data (mean 0 and variance 1) with specific correlation $\rho$. \\ 
-8 & $H_0:$ Model Fits & Histogram & \begin{minipage}[t]{2cm}\begin{center}  \scalebox{0.1}{\includegraphics{stat_goodness_simple.pdf}} \end{center} \end{minipage} & Histogram of the response data. For lineup plot, we simulate data from fitted model. \\[1ex] % [1ex] adds vertical space 
-9 & Special case $p=1$ $H_0: \rho_{X,Y} =\rho$ & Scatter plot & \begin{minipage}[t]{2cm}\begin{center}  \scalebox{0.1}{\includegraphics{stat_intercept.pdf}} \end{center} \end{minipage} & Scatter plot with least square line overlaid For lineup plot, we simulate data with correlation $\rho$.\\			
+1 & $H_0: \beta_0=0$ & Scatter plot & \begin{minipage}[t]{3cm}\begin{center}  	\scalebox{0.1}{\includegraphics{stat_intercept.pdf}} \end{center} \end{minipage} & Scatter plot with least square line overlaid. For lineup plot, we simulate data from fitted null model. \\ 
+2 & $H_0: \beta_k=0$ & Residual plot & \begin{minipage}[t]{3cm}   \scalebox{0.4}{\includegraphics{stat_beta_k.pdf}}\end{minipage} & Residual vs $X_k$ plots. For lineup plot, we simulate data from normal with mean 0 variance $\hat{\sigma}^2$. \\ 
+3 & $H_0: \beta_k=0$ (for categorical $X_k$) & Box plot & \begin{minipage}[t]{3cm}\begin{center}  	\scalebox{0.4}{\includegraphics{stat_category.pdf}} \end{center} \end{minipage} & Box plot of residuals grouped by category of $X_k$. For lineup plot, we simulate data from normal with mean 0 variance $\hat{\sigma}^2$. \\
+4 & $H_0: \beta_k=0$ (interaction with categorical $X_k$) & Scatter plot & \begin{minipage}[t]{3cm}\begin{center}  \scalebox{0.11}{\includegraphics{stat_interection.pdf}} \end{center} \end{minipage} & Scatter plot with least square lines of each category overlaid. For lineup plot, we simulate data from fitted null model.\\[1ex] % [1ex] adds vertical space 
+5 & $H_0: X$ Linear & Residual Plot & \begin{minipage}[t]{3cm}\begin{center}  	\scalebox{0.1}{\includegraphics{stat_nonlinear.pdf}} \end{center} \end{minipage} & Residual vs predictor plots with loess smoother overlaid. For lineup plot, we simulate residual data from normal with mean 0 variance $\hat{\sigma}^2$. \\ 
+6 & $H_0: \sigma^2=\sigma^2_0$ & Box plot & \begin{minipage}[t]{3cm}\begin{center}  \scalebox{0.15}{\includegraphics{stat_sigma_box.pdf}} \end{center} \end{minipage} & Box plot of standardized residual divided by  $\sigma^2_0$. For lineup plot, we simulate data from standard normal. \\ 				
+7 & $H_0: \rho_{X,Y|Z}=\rho$ & Scatter Plot & \begin{minipage}[t]{3cm}\begin{center}  	\scalebox{0.1}{\includegraphics{stat_intercept.pdf}} \end{center} \end{minipage} & Scatter plot of Residuals obtained by fitting partial regression. For lineup plot, we simulate data (mean 0 and variance 1) with specific correlation $\rho$. \\ 
+8 & $H_0:$ Model Fits & Histogram & \begin{minipage}[t]{3cm}\begin{center}  \scalebox{0.1}{\includegraphics{stat_goodness_simple.pdf}} \end{center} \end{minipage} & Histogram of the response data. For lineup plot, we simulate data from fitted model. \\[1ex] % [1ex] adds vertical space 
+9 & Special case $p=1$ $H_0: \rho_{X,Y} =\rho$ & Scatter plot & \begin{minipage}[t]{3cm}\begin{center}  \scalebox{0.1}{\includegraphics{stat_intercept.pdf}} \end{center} \end{minipage} & Scatter plot with least square line overlaid For lineup plot, we simulate data with correlation $\rho$.\\			
 \hline 
 \end{tabular} 
 \label{tbl:stat_multiple} 
@@ -722,7 +722,7 @@ Sample size  & Error SD  &  \multicolumn{1}{c} {Experiment 1}  & \multicolumn{1}
 
 \subsection{Continuous covariate} 
 
-This experiment is designed for the same regression model (Equation \ref{multi}) with $p=1$ and covariate $X_1$ being continuous. $X_1$ is simulated from standard normal(0,1). Data is simulated with two sample sizes ($n=100, 300$) and two standard deviations of the error ($\sigma=5, 12$). The different values for slope parameter that are used to generate data are shown in Table \ref{tbl:experiment_params}. We arbitrarily fix $\beta_0 = 6$ while generating actual data. For each combination of parameter, we generate at least three different actual data sets constituting a total of 65 lineups. 
+This experiment is designed for the same regression model (Equation \ref{multi}) with $p=1$ and covariate $X_1$ being continuous. $X_1$ is simulated from standard normal(0,1). Data is simulated with two sample sizes ($n=100, 300$) and two standard deviations of the error ($\sigma=5, 12$). The different values for slope parameter that are used to generate data are shown in Table \ref{tbl:experiment_params}. We arbitrarily fix $\beta_0 = 6$ while generating actual data. For each combination of parameter, we generate at least three different actual data sets constituting a total of 65 lineups. Unlike what we did in section \ref{sec:category} we did not use any blocking structure to simulate actual data and null plots.
 
 
 {\bf Steps to obtain lineup}
@@ -734,6 +734,8 @@ This experiment is designed for the same regression model (Equation \ref{multi})
 	\item Finally randomly place 19 null plots and one actual plot in a layout (4X5) to get a lineup 
 \end{enumerate}
 
+A lineup for this experiment is shown in figure \ref{fig:test_continuous}.  This lineup is generated using sample size ($n$)=100, slope($\beta$)=1.25 and and error SD($\sigma$)=5. The actual data plot location is 11. 
+
 %\green{Fill in details of lineups, probably need a figure with an example lineup, and how lineups were assigned to subjects.}
 
 
@@ -742,7 +744,7 @@ This experiment is designed for the same regression model (Equation \ref{multi})
    \centering
        \includegraphics[width=0.95\textwidth]{lineup_continuous.pdf}
        \caption{Lineup plot ($m=20$) using scatter plots for testing $H_0: \beta_k=0$ where covariate $X_k$ is continuous. One of these plots is the plot of the actual data, and the remaining are null plots, produced by simulating data from a null model that assumes $H_0$ is true. Which plot is the most different from the others, in the sense that there is the steepest slope?}
-       \label{fig:test_continous}
+       \label{fig:test_continuous}
 \end{figure}
 
 

@@ -75,21 +75,7 @@ qplot(Xk, value, data=pdat.m ,colour=Xk,,geom="boxplot", ylab="Residual") +
 ggsave("../images/lineup_category.pdf",height=7,width=7.5)
 ggsave("../images/lineup_category_small.pdf",height=4.5,width=5) # for comparizon table
 
-# === plotting test stat and lineup for continuous variable variable (turk2)
-
-generate_turk2_stat <- function(n,beta,sigma){
-	#n <- 100; a <- 6; b <- 2; sigma <- 12
-	a <- 6
-	b <- beta*sign(rnorm(1,0,1))
-	x <- subset(read.csv("../data/Xdata.csv"),N==n)[,1]
-	y <- a + b*x + rnorm(n=n, mean=0, sd=sigma)
-	p <- qplot(x, y, xlab=expression(X[k]),geom="point", ylab="Y", alpha=I(.2))
-	p <- p + geom_smooth(method="lm", se=F, size=1)
-	return(p)
-}
-p <- generate_turk2_stat(n=100,beta=1.25,sigma=5)
-ggsave(plot=p, file="../images/stat_beta_k.pdf",height=2,width=2)
-
+# === plotting lineup for continuous variable variable (turk2)
 
 generate_turk2_lineup <- function(n,beta,sigma){
 	#n <- 100; a <- 6; b <- 2; sigma <- 12
@@ -119,6 +105,21 @@ generate_turk2_lineup <- function(n,beta,sigma){
 
 l2 <- generate_turk2_lineup(n=100,beta=1.25,sigma=5)
 ggsave(plot=l2$p, file="../images/lineup_continuous.pdf",height=7,width=7.5)
+
+# ==== plotting test statistics --------
+
+generate_stat_slope <- function(n,beta,sigma){
+	#n <- 100; a <- 6; b <- 2; sigma <- 12
+	a <- 6
+	x <- rnorm(n=n, mean=0, sd=1)
+	y <- a + beta*x + rnorm(n=n, mean=0, sd=sigma)
+	fit <- lm(y~1)
+	p <- qplot(x, resid(fit), xlab=expression(X[k]),geom="point", ylab="Residual", alpha=I(.3))
+	p <- p + geom_smooth(method="lm", se=F, size=1)
+	return(p)
+}
+p <- generate_stat_slope(n=100,beta=2.5,sigma=5)
+ggsave(plot=p, file="../images/stat_beta_k.pdf",height=2,width=2.05)
 
 
 
