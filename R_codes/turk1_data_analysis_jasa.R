@@ -53,6 +53,8 @@ dat <- subset(raw.dat, id %in% included_id)
 #
 ## unit(time_taken) = second 
 
+      
+
 
 # ------function to calculate UMP power -----------------------
 
@@ -70,6 +72,21 @@ calculate_ump_power(3,300,5)
 
 calculate_ump_power(3/5,300,1)
 
+
+# ---- distribution of beta as the effect of algorithm for showing lineups ---
+
+params <- ddply(dat, .(difficulty, sample_size, sigma), summarise,
+   params_beta <- paste(unique(beta), collapse=",") )
+   
+sample_size <- function(g){
+	res <- g*(1-g)/((.05/1.96)^2)
+	return(round(res,0))
+} 
+
+params_comb <- ddply(dat, .(difficulty, sample_size, sigma), summarise,
+      params_beta <- unique(beta),
+      g <- calculate_ump_power(beta=unique(beta),n=sample_size[1],sigma=sigma[1]),
+      s.size <- sample_size(calculate_ump_power(beta=unique(beta),n=sample_size[1],sigma=sigma[1])) ) 
 
 
 # ---------------------- fitting loess smoother  ------------

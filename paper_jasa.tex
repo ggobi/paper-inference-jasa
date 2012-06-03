@@ -628,7 +628,44 @@ Three experiments were conducted to evaluate the effectiveness of the lineup pro
 
 The experiment is designed to study the ability of human observers to detect the effect of a single variable $X_2$ (corresponding to parameter $\beta_2$) in a two variable ($p=2$) regression model (Equation \ref{multi}). Data is simulated a range of values of $\beta_2~ (=0, 1, 3, 5, 7, 8, 10, 16)$, two different sample sizes ($n=100, 300$) and two standard deviations of the error ($\sigma=5, 12$). The range of $\beta_2$ values was chosen so that estimates of the power would produce reasonably continuous power curves, comparable to that calculated for the theoretical UMP test. Values were fixed for other regression parameters, $\beta_0 = 5$,  $\beta_1=15$, and the values for $X_1$ were randomly generated from a Poisson(30) distribution. \green{Explain why this was used.} \red{There was not any real reason for this. It was just arbitrarily chosen to generate some data. When I first started to think of applying visual inference in regression setting, I was thinking of a dataset (I found in a book) of weight of babies by their gestational age (in week) where author wanted to test the difference of mean weight for gender.   Thus for our experiment I generated values similar to a variable like age. the discrete variable was thought similar to gender.} Data sets were generated with parameter values shown in Table \ref{tbl:experiment_params}. Three replicates at each level were generated. These produced 60 different ``actual data sets''. 
 
-Each subject viewed 10 lineups. Selection of lineups shown to each subject followed these rules .... \green{fill this in}. Figure \ref{fig:test_category} is an example of one of these lineups. The visual test statistic is a side-by-side boxplot.  
+{\bf Number of evaluations} required for each lineup is determined based on the precision level of the estimated power. Suppose $\gamma$ denotes the classical UMP test power for each parameter combination shown in table \ref{tbl:experiment_params}. Since expected power of visual inference is very close to the power of classical UMP test as in figure \ref{fig:power_expected} the proportion of successful evaluations of lineups should give a rough estimate for  $\gamma$. For a given proportion $\gamma$ we want to have margin of error (ME) to be 0.1. Thus we have $ME =1.96 \sqrt{ \frac 1 n_{\gamma} \gamma(1-\gamma)} \le 0.05$ which gives us the estimation of minimum number of evaluations $$n_{\gamma} \geq \frac{\gamma(1-\gamma)}{(0.05/1.96)^2}.$$  
+Each subject viewed at least 10 lineups and we allowed them to provide more evaluations if they wanted. Depending on the parameter combinations we group the lineups in different difficulty levels such as easy, medium, hard and mixed as shown in table \ref{tbl:dist_lineup1}. For each difficulty level a specific number of lineups were randomly picked to show for evaluation. This number is chosen so that total number of evaluations for each lineup for that group exceed the threshold $n_{\gamma}$. To satisfy this plan we needed to recruit at least 300 subjects. 
+
+%For a given proportion $p$ we want to have margin of error (ME) to be 0.1. Thus we have $ME =1.96 \sqrt{ \frac 1 n p(1-p)} \le 0.05$ which gives us the estimation of minimum number of evaluations $$n_p \geq \frac{p(1-p)}{(0.05/1.96)^2}.$$ Now from the theoretical (UMP) power curve for each parameter combinations shown in table \ref{tbl:experiment_params} we know the power(say $p$) and thus we can estimate the number of evaluations required for that specific combinations of parameter. We collect data such that each of the parameter combinations in the table \ref{tbl:experiment_params} has approximately the estimated sample size that we calculated here.
+  Figure \ref{fig:test_category} is an example of one of these lineups. The visual test statistic is a side-by-side boxplot.  
+
+\begin{table}[hbtp]
+\caption{Selection of 10 lineups for a person to evaluate in the simulation experiment with discrete covariate described in section \ref{sec:category}.} 
+\centering
+\begin{tabular}{c c c c  c c c}
+\hline\hline
+Difficulty& \multicolumn{3}{c}{parameter combination}& Number of evaluations &Total number  & number of lineups\\
+level & $n$ & $\sigma$ & $\beta$ &required($n_{\gamma}$) & of lineups & randomly shown \\
+\hline
+easy&100& 5&8 & 1& 12 & 1\\
+&100&12&16 &1&&\\
+&300& 5&5 &1&&\\
+&300&12&10 &1 &&\\
+\hline
+medium&100& 5&3 &203 & 9 &2\\
+&300& 5&2,3 & 97, 1&&\\
+\hline
+hard&100&12&3,8,10 & 277, 126, 23& 18 &6\\
+&300& 5&1 & 371 &&\\
+&300&12&3,5& 375,74 &&\\
+\hline
+mixed&100& 5&1,5,0& 214, 2,73 & 21 &1\\
+&100&12&1& 100& &\\
+&300& 5&0 & 73&&\\
+&300&12&7,1& 2, 152&&\\
+\hline
+Total &&&&&60&10\\
+\hline
+\end{tabular}
+\label{tbl:dist_lineup1}
+\end{table} 
+
+
 
 \green{Did you in fact bin like this???} For added control, to ensure a signal in the simulated actual data a blocking structure was used to filter data sets. A 1000 sets were generated for each parameter combination and the traditional $t$-statistic and $p$-value associated with $H_0: \beta_2=0$ were calculated. The 3 replicates were drawn from each of three blocks of $p$-values: (0.0-$q_{33}$), ($q_{33}$-$q_{66}$), ($q_{66}$-1) where $q_i$ is the $i$th percentile in the distribution of the $p$-values. Additional control was applied to the 19 null plots. Because the distribution of these $p$-values should follow a Uniform(0,1) distribution, data sets were binned on this range by $p$-value, and a data set was randomly selected from each bin.
   
