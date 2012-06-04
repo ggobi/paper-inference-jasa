@@ -167,8 +167,8 @@ get_summary <- function(dat){
   male <- g[1,2]
   female <- g[2,2]
   total <- length(unique(dat$id))
-  evaluations <- nrow(dat)
-  return(data.frame(total,male,female, evaluations))
+  feedbacks <- nrow(dat)
+  return(data.frame(total,male,female, feedbacks))
 }
 
 get_sceering_index <- function(dat){
@@ -195,7 +195,15 @@ get_screened_summary <- function(dat){
   return(s)
 }
 
+dat1 <- read.csv("../data/raw_data_turk1.csv")
+dat2 <- read.csv("../data/raw_data_turk1.csv")
+dat3 <- read.csv("../data/raw_data_turk1.csv")
 
+sm <- cbind(get_screened_summary(dat1),
+      get_screened_summary(dat2),
+      get_screened_summary(dat3))
+library(xtable)
+xtable(sm)
 
 # =================== Turk1 data analysis  ================================
 
