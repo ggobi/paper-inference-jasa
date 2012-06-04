@@ -160,11 +160,46 @@ p <- generate_stat_slope(n=100,beta=2.5,sigma=5)
 ggsave(plot=p, file="../images/stat_beta_k.pdf",height=2,width=2.05)
 
 
+# ==== summary of the data =====
+
+get_summary <- function(dat){
+  g <- ddply(dat,.(gender),summarise, length(unique(id)))
+  male <- g[1,2]
+  female <- g[2,2]
+  total <- length(unique(dat$id))
+  evaluations <- nrow(dat)
+  return(data.frame(total,male,female, evaluations))
+}
+
+get_sceering_index <- function(dat){
+  indx1 <- dat$id==dat$id
+  indx2 <- !is.na(dat$gender)
+  d34 <- ddply(dat,.(id), summarise, percent_correct=mean(response)*100)
+  included_id3 <- d34$id[ d34$percent_correct > 0]
+  indx3 <- dat$id %in% included_id3
+  included_id4 <- d34$id[ d34$percent_correct >= 20 ]
+  indx4 <- dat$id %in% included_id4
+  d4 <- ddply(subset(dat, p_value < 0.0002),.(id),summarise,
+              easy_cnt = length(response),
+              percent_correct = mean(response)*100
+              )
+  included_id5 <- d4$id[ d4$percent_correct > 49]
+  indx5 <- dat$id %in% included_id5
+  return(data.frame(indx1,indx2,indx3,indx4,indx5))
+}
+
+get_screened_summary <- function(dat){
+  indx <- get_sceering_index(dat)
+  s <- NULL
+  for (i in 1:5) s <-  rbind(s,get_summary(subset(dat,indx[,i])))
+  return(s)
+}
+
 
 
 # =================== Turk1 data analysis  ================================
 
-dat <- read.csv("../data/feedback_data_turk1_50p.txt")
+dat <- read.csv("../data/raw_data_turk1.csv")
 
 # ------function to calculate UMP power -----------------------
 
