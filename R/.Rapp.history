@@ -1,0 +1,1221 @@
+lmer
+?lmer
+res
+vv
+library(ggplot2)#
+library(plyr)#
+library(reshape)#
+raw.dat <- read.csv("../data/raw_data_turk1.csv")
+dp <- ddply(subset(raw.dat, p_value < 0.0002),.(id),summarise,#
+   easy_cnt = length(response),#
+   percent_correct = mean(response)*100#
+  )#
+#
+included_id <- dp$id[ dp$percent_correct > 49]#
+dat <- subset(raw.dat, id %in% included_id)
+calculate_ump_power <- function (beta, n, sigma){#
+	alpha <- 0.05#
+	se_beta <- sigma/(0.5 * sqrt(n))    # refer to docs for derivation of power#
+	mu <- beta/se_beta#
+	t_n <- qt(p=1-alpha/2,df=n-3)#
+	res <- pt(q=-t_n, df=n-3, ncp=mu)-pt(q=t_n, df=n-3, ncp=mu)+1#
+	return(res)#
+}#
+#
+calculate_ump_power(3,100,5)
+dat$effect <-  with(dat,beta/sigma*sqrt(sample_size))
+library(lme4)#
+fit.mixed <- lmer(response ~ effect + (1+effect|id)#
+              , family="binomial"#
+              , data=dat)#
+res <- summary(fit.mixed)#
+B <- res@coefs[,1]#
+effect <- seq(0.01,16, by=.2)#
+#res@frame#
+ones <- rep(1,length(effect))#
+#conf_level <- rep(1,length(beta))#
+X <- cbind(ones,effect)#
+dim(X)#
+#
+Z <- cbind(ones,effect)#
+cov <- as.numeric(res@REmat[2,5])*as.numeric(res@REmat[1,4])*as.numeric(res@REmat[2,4])#
+vv <- matrix(as.numeric(c(res@REmat[1,3],rep(cov,2),res@REmat[2,3])),ncol=2, byrow=F)
+res
+vv
+class(res)
+str(res)
+res@REmat
+res
+res@mu
+res@ranef
+227*2
+res@Xst
+str(res)
+res@Zt
+res
+str(res)
+res@coefs
+res@sigma
+res@vcov
+vv
+res
+door_list <- 1:3#
+switch_win <- NULL#
+M <- 10000#
+for (i in 1:M){#
+prize_door <- sample(door_list,size=1)#
+door_picked <- sample(door_list,size=1)#
+open_pool <- door_list[-c(door_picked)]#
+open_door <- sample(open_pool,size=1)#
+if (open_door==prize_door) win=FALSE else {#
+	shut_door <- door_list[-c(open_door,door_picked)]#
+	win <- (shut_door==prize_door)}#
+switch_win <- c(switch_win, win)#
+}#
+#
+sum(switch_win)/M
+res <- data.frame(result=sum(switch_win)/M)
+res
+library(reshape)
+raw.dat <- read.csv("../data/raw_data_turk1.csv")
+dp <- ddply(subset(raw.dat, p_value < 0.0002),.(id),summarise,#
+   easy_cnt = length(response),#
+   percent_correct = mean(response)*100#
+  )#
+#
+included_id <- dp$id[ dp$percent_correct > 49]#
+dat <- subset(raw.dat, id %in% included_id)
+head(dat)
+unique
+unique(dat$beta[dat$difficulty=="easy" & dat$sample_size==100])
+ddply(dat, .c(difficulty, n, sigma), summarize,#
+   params <- unique(beta) )
+ddply(dat, .(difficulty, n, sigma), summarize,#
+   params <- unique(beta) )
+ddply(dat, .(difficulty, sample_size, sigma), summarize,#
+   params <- unique(beta) )
+paste(1:4)
+collaspe(1:4)
+collasp(1:4)
+collaps(1:4)
+collapse(1:4)
+collapse
+ddply(dat, .(difficulty, sample_size, sigma), summarize,#
+   params <- paste(unique(beta), collapse=",") )
+ddply(dat, .(difficulty, sample_size, sigma), summarize,#
+   params_beta <- paste(unique(beta), collapse=",") )
+ddply(dat, .(difficulty, sample_size, sigma), summarise,#
+   params_beta <- paste(unique(beta), collapse=",") )
+params <- ddply(dat, .(difficulty, sample_size, sigma), summarise,#
+   params_beta <- paste(unique(beta), collapse=",") )
+params
+apply(params, 1, paste(), collapse="&")
+apply(params, 1, function(x){paste(x, collapse="&"))
+apply(params, 1, function(x){paste(x, collapse="&"})
+apply(params, 1, function(x){paste(x, collapse="&")})
+params <- ddply(dat, .(difficulty, sample_size, sigma), summarise,#
+   params_beta <- paste(unique(beta), collapse=",") )
+params
+g <- ddply(dat, .(difficulty, sample_size, sigma), summarise,#
+      params_beta <- unique(beta) )
+g
+params_comb <- ddply(dat, .(difficulty, sample_size, sigma), summarise,#
+      params_beta <- unique(beta) )
+calculate_ump_power <- function (beta, n, sigma){#
+	alpha <- 0.05#
+	se_beta <- sigma/(0.5 * sqrt(n))    # refer to docs for derivation of power#
+	mu <- beta/se_beta#
+	t_n <- qt(p=1-alpha/2,df=n-3)#
+	res <- pt(q=-t_n, df=n-3, ncp=mu)-pt(q=t_n, df=n-3, ncp=mu)+1#
+	return(res)#
+}#
+#
+calculate_ump_power(3,100,5)
+params_comb <- ddply(dat, .(difficulty, sample_size, sigma), summarise,#
+      params_beta <- unique(beta),#
+      g <- calculate_ump_power(beta=unique(beta),n=sample_size[1],sigma=sigma[1]) )
+params_comb
+params_comb <- ddply(dat, .("difficulty", "sample_size", "sigma"), summarise,#
+      params_beta <- unique(beta),#
+      g <- calculate_ump_power(beta=unique(beta),n=sample_size[1],sigma=sigma[1]) )
+params_comb
+params_comb <- ddply(dat, .(difficulty, sample_size, sigma), summarise,#
+      params_beta <- unique(beta),#
+      g <- calculate_ump_power(beta=unique(beta),n=sample_size[1],sigma=sigma[1]),#
+      sample_size <- get_sample_size(g) )
+sample_size <- function(g){#
+	res <- g*(1-g)/((.05/1.96)^2)#
+	return(res)#
+} #
+#
+params_comb <- ddply(dat, .(difficulty, sample_size, sigma), summarise,#
+      params_beta <- unique(beta),#
+      g <- calculate_ump_power(beta=unique(beta),n=sample_size[1],sigma=sigma[1]),#
+      s.size <- sample_size(calculate_ump_power(beta=unique(beta),n=sample_size[1],sigma=sigma[1])) )
+params_comb
+sample_size <- function(g){#
+	res <- g*(1-g)/((.05/1.96)^2)#
+	return(round(res,2))#
+} #
+#
+params_comb <- ddply(dat, .(difficulty, sample_size, sigma), summarise,#
+      params_beta <- unique(beta),#
+      g <- calculate_ump_power(beta=unique(beta),n=sample_size[1],sigma=sigma[1]),#
+      s.size <- sample_size(calculate_ump_power(beta=unique(beta),n=sample_size[1],sigma=sigma[1])) )
+params_comb
+dp <- ddply(subset(raw.dat, p_value < 0.0002),.(id),summarise,#
+   easy_cnt = length(response),#
+   percent_correct = mean(response)*100#
+  )
+head(dp)
+sample_size <- function(g){#
+	res <- g*(1-g)/((.05/1.96)^2)#
+	return(round(res,0))#
+} #
+#
+params_comb <- ddply(dat, .(difficulty, sample_size, sigma), summarise,#
+      params_beta <- unique(beta),#
+#      g <- calculate_ump_power(beta=unique(beta),n=sample_size[1],sigma=sigma[1]),#
+      s.size <- sample_size(calculate_ump_power(beta=unique(beta),n=sample_size[1],sigma=sigma[1])) )
+params_comb
+params_comb <- ddply(dat, .(difficulty, sample_size, sigma), summarise,#
+      params_beta <- unique(beta),#
+      g <- calculate_ump_power(beta=unique(beta),n=sample_size[1],sigma=sigma[1]),#
+      s.size <- sample_size(calculate_ump_power(beta=unique(beta),n=sample_size[1],sigma=sigma[1])) )
+params_comb
+ddply(dat,.(difficulty), length(response))
+ddply(dat,.(difficulty), length(sigma))
+ddply(dat,.(difficulty), summarize, length(sigma))
+set.seed(29)#
+#
+n <- 300#
+beta <- 10#
+sigma <- 12	#
+x1 <- rpois(n,lambda=20)#
+Xk <- factor(sample(c("A","B"), size=n, replace=T))#
+cnd <- sample(c("A","B"), size=1)#
+y <- round(5 + 15 * x1 + beta * (Xk==cnd) + rnorm(n=n, mean=0, sd=sigma))#
+#qplot(x1,y, colour=factor(Xk)) + geom_smooth(method="lm", se=F, size=1)#
+# plotting test stat for testing b2=0#
+fit <- lm(y~x1 )#
+fit.stat <- summary(fit)#
+sigma_hat <- fit.stat$sigma#
+obs.residuals <- as.vector(resid(fit)) #
+#
+qplot(Xk, obs.residuals,colour=Xk,geom="boxplot", ylab="Residual") + #
+      xlab(expression(X[k])) + labs(colour=expression(X[k]))#
+ggsave("../images/stat_category.pdf",height=2,width=3)#
+# plotting lineup for testing b2=0#
+loc <- sample(1:20, size=1)  # location of observed plot#
+simdat <- matrix(rnorm(n=20*n,mean=0, sd=sigma_hat),ncol=20)#
+simdat[,loc] <- obs.residuals#
+pdat <- data.frame(simdat,Xk)#
+names(pdat) <- c(1:20,"Xk")#
+pdat.m <- melt(pdat,id="Xk")#
+qplot(Xk, value, data=pdat.m ,colour=Xk,,geom="boxplot", ylab="Residual") + #
+     facet_wrap(~variable)+ xlab(expression(X[k])) + #
+     labs(colour=expression(X[k]))#
+ggsave("../images/test_category.pdf",height=7,width=7.5)#
+ggsave("../images/test_category_small.pdf",height=4.5,width=5) # for comparizon table
+library(ggplot2)#
+library(plyr)#
+library(reshape)
+set.seed(29)#
+#
+n <- 300#
+beta <- 10#
+sigma <- 12	#
+x1 <- rpois(n,lambda=20)#
+Xk <- factor(sample(c("A","B"), size=n, replace=T))#
+cnd <- sample(c("A","B"), size=1)#
+y <- round(5 + 15 * x1 + beta * (Xk==cnd) + rnorm(n=n, mean=0, sd=sigma))#
+#qplot(x1,y, colour=factor(Xk)) + geom_smooth(method="lm", se=F, size=1)#
+# plotting test stat for testing b2=0#
+fit <- lm(y~x1 )#
+fit.stat <- summary(fit)#
+sigma_hat <- fit.stat$sigma#
+obs.residuals <- as.vector(resid(fit)) #
+#
+qplot(Xk, obs.residuals,colour=Xk,geom="boxplot", ylab="Residual") + #
+      xlab(expression(X[k])) + labs(colour=expression(X[k]))#
+ggsave("../images/stat_category.pdf",height=2,width=3)#
+# plotting lineup for testing b2=0#
+loc <- sample(1:20, size=1)  # location of observed plot#
+simdat <- matrix(rnorm(n=20*n,mean=0, sd=sigma_hat),ncol=20)#
+simdat[,loc] <- obs.residuals#
+pdat <- data.frame(simdat,Xk)#
+names(pdat) <- c(1:20,"Xk")#
+pdat.m <- melt(pdat,id="Xk")#
+qplot(Xk, value, data=pdat.m ,colour=Xk,,geom="boxplot", ylab="Residual") + #
+     facet_wrap(~variable)+ xlab(expression(X[k])) + #
+     labs(colour=expression(X[k]))#
+ggsave("../images/test_category.pdf",height=7,width=7.5)#
+ggsave("../images/test_category_small.pdf",height=4.5,width=5) # for comparizon table
+loc
+ggsave("../images/test_category_small.pdf",height=4.5,width=4.5) # for comparizon table
+ggsave("../images/test_category_small.pdf",height=5,width=4.5) # for comparizon table
+qplot(Xk, value, data=pdat.m ,colour=Xk,,geom="boxplot", ylab="Residual") + #
+     facet_wrap(~variable)+ xlab(expression(X[k])) + #
+     labs(colour=expression(X[k]))#
+ggsave("../images/test_category.pdf",height=7,width=7.5)#
+ggsave("../images/test_category_small.pdf",height=5,width=4.5) # for comparizon table
+qplot(Xk, value, data=pdat.m ,colour=Xk,,geom="boxplot", ylab="Residual") + #
+     facet_wrap(~variable)+ xlab(expression(X[k])) + #
+     labs(colour=expression(X[k]))#
+ggsave("../images/test_category.pdf",height=7,width=7.5)#
+ggsave("../images/test_category_small.pdf",height=4.5,width=5) # for comparizon table
+qplot(Xk, obs.residuals,colour=Xk,geom="boxplot", ylab="Residual") + #
+      xlab(expression(X[k])) + labs(colour=expression(X[k]))#
+ggsave("../images/stat_category.pdf",height=2,width=2.5)
+qplot(Xk, obs.residuals,colour=Xk,geom="boxplot", ylab="Residual") + #
+      xlab(expression(X[k])) + labs(colour=expression(X[k]))#
+ggsave("../images/stat_category.pdf",height=2,width=2.75)
+generate_turk2_lineup <- function(n,beta,sigma){#
+	#n <- 100; a <- 6; b <- 2; sigma <- 12#
+	a <- 6#
+	b <- beta*sign(rnorm(1,0,1))#
+	x <- subset(read.csv("Xdata.csv"),N==n)[,1]#
+	#x <- subset(read.csv("dropbox/graphical-inference/simulation_phase2/Xdata.csv"),N==n)[,1]#
+	y <- a + b*x + rnorm(n=n, mean=0, sd=sigma)#
+#
+	fit <- lm(y~1) # fitting model without slope#
+	fit.stat <- summary(fit)#
+#
+	sim <- matrix(rnorm(n=n*20, mean = fit$coefficient[[1]], sd=fit.stat$sigma),ncol=20)#
+	loc <- sample(1:20, size=1)#
+	sim[,loc] <- y#
+	sim <- data.frame(x,sim)#
+	colnames(sim) <- c("X",1:20)#
+	m.sim <- melt(sim,id=c("X"))#
+	p <- qplot( X, value, data=m.sim, xlab="X",geom="point", ylab="Y", alpha=I(.2))#
+	p <- p + geom_smooth(method="lm", se=F, size=1) + facet_wrap(~variable)#
+#
+	fit1 <- lm(y~x)#
+      fit1.stat <- summary(fit1)#
+      pval <-  fit1.stat$coefficients[2,4]#
+	res <- list(result = data.frame(n,b,sigma,pval,loc),p=p,dat_used=sim)#
+	return(res)#
+}#
+#
+p <- generate_plot(n=100,beta=1.25,sigma=5)#
+p
+generate_turk2_lineup <- function(n,beta,sigma){#
+	#n <- 100; a <- 6; b <- 2; sigma <- 12#
+	a <- 6#
+	b <- beta*sign(rnorm(1,0,1))#
+	x <- subset(read.csv("../data/Xdata.csv"),N==n)[,1]#
+	#x <- subset(read.csv("dropbox/graphical-inference/simulation_phase2/Xdata.csv"),N==n)[,1]#
+	y <- a + b*x + rnorm(n=n, mean=0, sd=sigma)#
+#
+	fit <- lm(y~1) # fitting model without slope#
+	fit.stat <- summary(fit)#
+#
+	sim <- matrix(rnorm(n=n*20, mean = fit$coefficient[[1]], sd=fit.stat$sigma),ncol=20)#
+	loc <- sample(1:20, size=1)#
+	sim[,loc] <- y#
+	sim <- data.frame(x,sim)#
+	colnames(sim) <- c("X",1:20)#
+	m.sim <- melt(sim,id=c("X"))#
+	p <- qplot( X, value, data=m.sim, xlab="X",geom="point", ylab="Y", alpha=I(.2))#
+	p <- p + geom_smooth(method="lm", se=F, size=1) + facet_wrap(~variable)#
+#
+	fit1 <- lm(y~x)#
+      fit1.stat <- summary(fit1)#
+      pval <-  fit1.stat$coefficients[2,4]#
+	res <- list(result = data.frame(n,b,sigma,pval,loc),p=p,dat_used=sim)#
+	return(res)#
+}#
+#
+p <- generate_turk2_lineup(n=100,beta=1.25,sigma=5)#
+p
+generate_turk2_lineup <- function(n,beta,sigma){#
+	#n <- 100; a <- 6; b <- 2; sigma <- 12#
+	a <- 6#
+	b <- beta*sign(rnorm(1,0,1))#
+	x <- subset(read.csv("../data/Xdata.csv"),N==n)[,1]#
+	#x <- subset(read.csv("dropbox/graphical-inference/simulation_phase2/Xdata.csv"),N==n)[,1]#
+	y <- a + b*x + rnorm(n=n, mean=0, sd=sigma)#
+#
+	fit <- lm(y~1) # fitting model without slope#
+	fit.stat <- summary(fit)#
+#
+	sim <- matrix(rnorm(n=n*20, mean = fit$coefficient[[1]], sd=fit.stat$sigma),ncol=20)#
+	loc <- sample(1:20, size=1)#
+	sim[,loc] <- y#
+	sim <- data.frame(x,sim)#
+	colnames(sim) <- c("X",1:20)#
+	m.sim <- melt(sim,id=c("X"))#
+	p <- qplot( X, value, data=m.sim, xlab="X",geom="point", ylab="Y", alpha=I(.2))#
+	p <- p + geom_smooth(method="lm", se=F, size=1) + facet_wrap(~variable)#
+#
+	fit1 <- lm(y~x)#
+      fit1.stat <- summary(fit1)#
+      pval <-  fit1.stat$coefficients[2,4]#
+	res <- list(result = data.frame(n,b,sigma,pval,loc),p=p,dat_used=sim)#
+	return(res)#
+}#
+#
+l2 <- generate_turk2_lineup(n=100,beta=1.25,sigma=5)
+str(lt)
+str(l2)
+l2$p
+generate_turk2_lineup <- function(n,beta,sigma){#
+	#n <- 100; a <- 6; b <- 2; sigma <- 12#
+	a <- 6#
+	b <- beta*sign(rnorm(1,0,1))#
+	x <- subset(read.csv("../data/Xdata.csv"),N==n)[,1]#
+	#x <- subset(read.csv("dropbox/graphical-inference/simulation_phase2/Xdata.csv"),N==n)[,1]#
+	y <- a + b*x + rnorm(n=n, mean=0, sd=sigma)#
+#
+	fit <- lm(y~1) # fitting model without slope#
+	fit.stat <- summary(fit)#
+#
+	sim <- matrix(rnorm(n=n*20, mean = fit$coefficient[[1]], sd=fit.stat$sigma),ncol=20)#
+	loc <- sample(1:20, size=1)#
+	sim[,loc] <- y#
+	sim <- data.frame(x,sim)#
+	colnames(sim) <- c("X",1:20)#
+	m.sim <- melt(sim,id=c("X"))#
+	p <- qplot( X, value, data=m.sim, xlab=expression("X[k]"),geom="point", ylab="Y", alpha=I(.2))#
+	p <- p + geom_smooth(method="lm", se=F, size=1) + facet_wrap(~variable)#
+#
+	fit1 <- lm(y~x)#
+      fit1.stat <- summary(fit1)#
+      pval <-  fit1.stat$coefficients[2,4]#
+	res <- list(result = data.frame(n,b,sigma,pval,loc),p=p,dat_used=sim)#
+	return(res)#
+}#
+#
+l2 <- generate_turk2_lineup(n=100,beta=1.25,sigma=5)
+l2$p
+generate_turk2_lineup <- function(n,beta,sigma){#
+	#n <- 100; a <- 6; b <- 2; sigma <- 12#
+	a <- 6#
+	b <- beta*sign(rnorm(1,0,1))#
+	x <- subset(read.csv("../data/Xdata.csv"),N==n)[,1]#
+	#x <- subset(read.csv("dropbox/graphical-inference/simulation_phase2/Xdata.csv"),N==n)[,1]#
+	y <- a + b*x + rnorm(n=n, mean=0, sd=sigma)#
+#
+	fit <- lm(y~1) # fitting model without slope#
+	fit.stat <- summary(fit)#
+#
+	sim <- matrix(rnorm(n=n*20, mean = fit$coefficient[[1]], sd=fit.stat$sigma),ncol=20)#
+	loc <- sample(1:20, size=1)#
+	sim[,loc] <- y#
+	sim <- data.frame(x,sim)#
+	colnames(sim) <- c("X",1:20)#
+	m.sim <- melt(sim,id=c("X"))#
+	p <- qplot( X, value, data=m.sim, xlab=expression(X[k]),geom="point", ylab="Y", alpha=I(.2))#
+	p <- p + geom_smooth(method="lm", se=F, size=1) + facet_wrap(~variable)#
+#
+	fit1 <- lm(y~x)#
+      fit1.stat <- summary(fit1)#
+      pval <-  fit1.stat$coefficients[2,4]#
+	res <- list(result = data.frame(n,b,sigma,pval,loc),p=p,dat_used=sim)#
+	return(res)#
+}#
+#
+l2 <- generate_turk2_lineup(n=100,beta=1.25,sigma=5)
+l2$p
+ggsave("../images/lineup_continuous.pdf",height=7,width=7.5)
+set.seed(29)#
+#
+n <- 300#
+beta <- 10#
+sigma <- 12	#
+x1 <- rpois(n,lambda=20)#
+Xk <- factor(sample(c("A","B"), size=n, replace=T))#
+cnd <- sample(c("A","B"), size=1)#
+y <- round(5 + 15 * x1 + beta * (Xk==cnd) + rnorm(n=n, mean=0, sd=sigma))#
+#qplot(x1,y, colour=factor(Xk)) + geom_smooth(method="lm", se=F, size=1)#
+# plotting test stat for testing b2=0#
+fit <- lm(y~x1 )#
+fit.stat <- summary(fit)#
+sigma_hat <- fit.stat$sigma#
+obs.residuals <- as.vector(resid(fit)) #
+#
+qplot(Xk, obs.residuals,colour=Xk,geom="boxplot", ylab="Residual") + #
+      xlab(expression(X[k])) + labs(colour=expression(X[k]))#
+ggsave("../images/stat_category.pdf",height=2,width=2.75)#
+# plotting lineup for testing b2=0#
+loc <- sample(1:20, size=1)  # location of observed plot#
+simdat <- matrix(rnorm(n=20*n,mean=0, sd=sigma_hat),ncol=20)#
+simdat[,loc] <- obs.residuals#
+pdat <- data.frame(simdat,Xk)#
+names(pdat) <- c(1:20,"Xk")#
+pdat.m <- melt(pdat,id="Xk")#
+qplot(Xk, value, data=pdat.m ,colour=Xk,,geom="boxplot", ylab="Residual") + #
+     facet_wrap(~variable)+ xlab(expression(X[k])) + #
+     labs(colour=expression(X[k]))#
+ggsave("../images/lineup_category.pdf",height=7,width=7.5)#
+ggsave("../images/lineup_category_small.pdf",height=4.5,width=5) # for comparizon table
+generate_turk2_lineup <- function(n,beta,sigma){#
+	#n <- 100; a <- 6; b <- 2; sigma <- 12#
+	a <- 6#
+	b <- beta*sign(rnorm(1,0,1))#
+	x <- subset(read.csv("../data/Xdata.csv"),N==n)[,1]#
+	#x <- subset(read.csv("dropbox/graphical-inference/simulation_phase2/Xdata.csv"),N==n)[,1]#
+	y <- a + b*x + rnorm(n=n, mean=0, sd=sigma)#
+#
+	fit <- lm(y~1) # fitting model without slope#
+	fit.stat <- summary(fit)#
+#
+	sim <- matrix(rnorm(n=n*20, mean = fit$coefficient[[1]], sd=fit.stat$sigma),ncol=20)#
+	loc <- sample(1:20, size=1)#
+	sim[,loc] <- y#
+	sim <- data.frame(x,sim)#
+	colnames(sim) <- c("X",1:20)#
+	m.sim <- melt(sim,id=c("X"))#
+	p <- qplot( X, value, data=m.sim, xlab=expression(X[k]),geom="point", ylab="Y", alpha=I(.2))#
+	p <- p + geom_smooth(method="lm", se=F, size=1) + facet_wrap(~variable)#
+#
+	fit1 <- lm(y~x)#
+      fit1.stat <- summary(fit1)#
+      pval <-  fit1.stat$coefficients[2,4]#
+	res <- list(result = data.frame(n,b,sigma,pval,loc),p=p,dat_used=sim)#
+	return(res)#
+}#
+#
+l2 <- generate_turk2_lineup(n=100,beta=1.25,sigma=5)#
+ggsave("../images/lineup_continuous.pdf",height=7,width=7.5)
+ggsave(plot=l2$p, file="../images/lineup_continuous.pdf",height=7,width=7.5)
+generate_turk2_stat <- function(n,beta,sigma){#
+	#n <- 100; a <- 6; b <- 2; sigma <- 12#
+	a <- 6#
+	b <- beta*sign(rnorm(1,0,1))#
+	x <- subset(read.csv("../data/Xdata.csv"),N==n)[,1]#
+	#x <- subset(read.csv("dropbox/graphical-inference/simulation_phase2/Xdata.csv"),N==n)[,1]#
+	y <- a + b*x + rnorm(n=n, mean=0, sd=sigma)#
+	p <- qplot(x, y, xlab=expression(X[k]),geom="point", ylab="Y", alpha=I(.2))#
+	p <- p + geom_smooth(method="lm", se=F, size=1) + facet_wrap(~variable)#
+}
+generate_turk2_stat(n=100,beta=1.25,sigma=5)
+p <- generate_turk2_stat(n=100,beta=1.25,sigma=5)
+generate_turk2_stat <- function(n,beta,sigma){#
+	#n <- 100; a <- 6; b <- 2; sigma <- 12#
+	a <- 6#
+	b <- beta*sign(rnorm(1,0,1))#
+	x <- subset(read.csv("../data/Xdata.csv"),N==n)[,1]#
+	#x <- subset(read.csv("dropbox/graphical-inference/simulation_phase2/Xdata.csv"),N==n)[,1]#
+	y <- a + b*x + rnorm(n=n, mean=0, sd=sigma)#
+	p <- qplot(x, y, xlab=expression(X[k]),geom="point", ylab="Y", alpha=I(.2))#
+	p <- p + geom_smooth(method="lm", se=F, size=1) + facet_wrap(~variable)#
+	return(p)#
+}#
+p <- generate_turk2_stat(n=100,beta=1.25,sigma=5)
+p
+n <- 100; a <- 6; b <- 2; sigma <- 12
+a <- 6#
+	b <- beta*sign(rnorm(1,0,1))#
+	x <- subset(read.csv("../data/Xdata.csv"),N==n)[,1]#
+	#x <- subset(read.csv("dropbox/graphical-inference/simulation_phase2/Xdata.csv"),N==n)[,1]#
+	y <- a + b*x + rnorm(n=n, mean=0, sd=sigma)#
+	p <- qplot(x, y, xlab=expression(X[k]),geom="point", ylab="Y", alpha=I(.2))#
+	p <- p + geom_smooth(method="lm", se=F, size=1) + facet_wrap(~variable)
+p
+p <- qplot(x, y, xlab=expression(X[k]),geom="point", ylab="Y", alpha=I(.2))#
+	p <- p + geom_smooth(method="lm", se=F, size=1)
+p
+generate_turk2_stat <- function(n,beta,sigma){#
+	#n <- 100; a <- 6; b <- 2; sigma <- 12#
+	a <- 6#
+	b <- beta*sign(rnorm(1,0,1))#
+	x <- subset(read.csv("../data/Xdata.csv"),N==n)[,1]#
+	y <- a + b*x + rnorm(n=n, mean=0, sd=sigma)#
+	p <- qplot(x, y, xlab=expression(X[k]),geom="point", ylab="Y", alpha=I(.2))#
+	p <- p + geom_smooth(method="lm", se=F, size=1)#
+	return(p)#
+}#
+p <- generate_turk2_stat(n=100,beta=1.25,sigma=5)#
+ggsave(plot=p, file="../images/stat_beta_k.pdf",height=2,width=2)
+set.seed(29)#
+#
+n <- 300#
+beta <- 10#
+sigma <- 12	#
+x1 <- rpois(n,lambda=20)#
+Xk <- factor(sample(c("A","B"), size=n, replace=T))#
+cnd <- sample(c("A","B"), size=1)#
+y <- round(5 + 15 * x1 + beta * (Xk==cnd) + rnorm(n=n, mean=0, sd=sigma))#
+#qplot(x1,y, colour=factor(Xk)) + geom_smooth(method="lm", se=F, size=1)#
+# plotting test stat for testing b2=0#
+fit <- lm(y~x1 )#
+fit.stat <- summary(fit)#
+sigma_hat <- fit.stat$sigma#
+obs.residuals <- as.vector(resid(fit)) #
+#
+qplot(Xk, obs.residuals,colour=Xk,geom="boxplot", ylab="Residual") + #
+      xlab(expression(X[k])) + labs(colour=expression(X[k]))#
+ggsave("../images/stat_category.pdf",height=2,width=2.75)#
+# plotting lineup for testing b2=0#
+loc <- sample(1:20, size=1)  # location of observed plot#
+simdat <- matrix(rnorm(n=20*n,mean=0, sd=sigma_hat),ncol=20)#
+simdat[,loc] <- obs.residuals#
+pdat <- data.frame(simdat,Xk)#
+names(pdat) <- c(1:20,"Xk")#
+pdat.m <- melt(pdat,id="Xk")#
+qplot(Xk, value, data=pdat.m ,colour=Xk,,geom="boxplot", ylab="Residual") + #
+     facet_wrap(~variable)+ xlab(expression(X[k])) + #
+     labs(colour=expression(X[k]))#
+ggsave("../images/lineup_category.pdf",height=7,width=7.5)#
+ggsave("../images/lineup_category_small.pdf",height=4.5,width=5) # for comparizon table#
+#
+# === plotting test stat and lineup for continuous variable variable (turk2)#
+#
+generate_turk2_stat <- function(n,beta,sigma){#
+	#n <- 100; a <- 6; b <- 2; sigma <- 12#
+	a <- 6#
+	b <- beta*sign(rnorm(1,0,1))#
+	x <- subset(read.csv("../data/Xdata.csv"),N==n)[,1]#
+	y <- a + b*x + rnorm(n=n, mean=0, sd=sigma)#
+	p <- qplot(x, y, xlab=expression(X[k]),geom="point", ylab="Y", alpha=I(.2))#
+	p <- p + geom_smooth(method="lm", se=F, size=1)#
+	return(p)#
+}#
+p <- generate_turk2_stat(n=100,beta=1.25,sigma=5)#
+ggsave(plot=p, file="../images/stat_beta_k.pdf",height=2,width=2)#
+generate_turk2_lineup <- function(n,beta,sigma){#
+	#n <- 100; a <- 6; b <- 2; sigma <- 12#
+	a <- 6#
+	b <- beta*sign(rnorm(1,0,1))#
+	x <- subset(read.csv("../data/Xdata.csv"),N==n)[,1]#
+	y <- a + b*x + rnorm(n=n, mean=0, sd=sigma)#
+#
+	fit <- lm(y~1) # fitting model without slope#
+	fit.stat <- summary(fit)#
+#
+	sim <- matrix(rnorm(n=n*20, mean = fit$coefficient[[1]], sd=fit.stat$sigma),ncol=20)#
+	loc <- sample(1:20, size=1)#
+	sim[,loc] <- y#
+	sim <- data.frame(x,sim)#
+	colnames(sim) <- c("X",1:20)#
+	m.sim <- melt(sim,id=c("X"))#
+	p <- qplot( X, value, data=m.sim, xlab=expression(X[k]),geom="point", ylab="Y", alpha=I(.2))#
+	p <- p + geom_smooth(method="lm", se=F, size=1) + facet_wrap(~variable)#
+#
+	fit1 <- lm(y~x)#
+      fit1.stat <- summary(fit1)#
+      pval <-  fit1.stat$coefficients[2,4]#
+	res <- list(result = data.frame(n,b,sigma,pval,loc),p=p,dat_used=sim)#
+	return(res)#
+}#
+#
+l2 <- generate_turk2_lineup(n=100,beta=1.25,sigma=5)#
+ggsave(plot=l2$p, file="../images/lineup_continuous.pdf",height=7,width=7.5)
+generating data#
+set.seed(29)#
+#
+n <- 300#
+beta <- 10#
+sigma <- 12	#
+x1 <- rpois(n,lambda=20)#
+Xk <- factor(sample(c("A","B"), size=n, replace=T))#
+cnd <- sample(c("A","B"), size=1)#
+y <- round(5 + 15 * x1 + beta * (Xk==cnd) + rnorm(n=n, mean=0, sd=sigma))#
+#qplot(x1,y, colour=factor(Xk)) + geom_smooth(method="lm", se=F, size=1)#
+# plotting test stat for testing b2=0#
+fit <- lm(y~x1 )#
+fit.stat <- summary(fit)#
+sigma_hat <- fit.stat$sigma#
+obs.residuals <- as.vector(resid(fit)) #
+#
+qplot(Xk, obs.residuals,colour=Xk,geom="boxplot", ylab="Residual") + #
+      xlab(expression(X[k])) + labs(colour=expression(X[k]))#
+ggsave("../images/stat_category.pdf",height=2,width=2.75)#
+# plotting lineup for testing b2=0#
+loc <- sample(1:20, size=1)  # location of observed plot#
+simdat <- matrix(rnorm(n=20*n,mean=0, sd=sigma_hat),ncol=20)#
+simdat[,loc] <- obs.residuals#
+pdat <- data.frame(simdat,Xk)#
+names(pdat) <- c(1:20,"Xk")#
+pdat.m <- melt(pdat,id="Xk")#
+qplot(Xk, value, data=pdat.m ,colour=Xk,,geom="boxplot", ylab="Residual") + #
+     facet_wrap(~variable)+ xlab(expression(X[k])) + #
+     labs(colour=expression(X[k]))#
+ggsave("../images/lineup_category.pdf",height=7,width=7.5)#
+ggsave("../images/lineup_category_small.pdf",height=4.5,width=5) # for comparizon table#
+#
+# === plotting test stat and lineup for continuous variable variable (turk2)#
+#
+generate_turk2_stat <- function(n,beta,sigma){#
+	#n <- 100; a <- 6; b <- 2; sigma <- 12#
+	a <- 6#
+	b <- beta*sign(rnorm(1,0,1))#
+	x <- subset(read.csv("../data/Xdata.csv"),N==n)[,1]#
+	y <- a + b*x + rnorm(n=n, mean=0, sd=sigma)#
+	p <- qplot(x, y, xlab=expression(X[k]),geom="point", ylab="Y", alpha=I(.2))#
+	p <- p + geom_smooth(method="lm", se=F, size=1)#
+	return(p)#
+}#
+p <- generate_turk2_stat(n=100,beta=2.5,sigma=5)#
+ggsave(plot=p, file="../images/stat_beta_k.pdf",height=2,width=2)#
+generate_turk2_lineup <- function(n,beta,sigma){#
+	#n <- 100; a <- 6; b <- 2; sigma <- 12#
+	a <- 6#
+	b <- beta*sign(rnorm(1,0,1))#
+	x <- subset(read.csv("../data/Xdata.csv"),N==n)[,1]#
+	y <- a + b*x + rnorm(n=n, mean=0, sd=sigma)#
+#
+	fit <- lm(y~1) # fitting model without slope#
+	fit.stat <- summary(fit)#
+#
+	sim <- matrix(rnorm(n=n*20, mean = fit$coefficient[[1]], sd=fit.stat$sigma),ncol=20)#
+	loc <- sample(1:20, size=1)#
+	sim[,loc] <- y#
+	sim <- data.frame(x,sim)#
+	colnames(sim) <- c("X",1:20)#
+	m.sim <- melt(sim,id=c("X"))#
+	p <- qplot( X, value, data=m.sim, xlab=expression(X[k]),geom="point", ylab="Y", alpha=I(.2))#
+	p <- p + geom_smooth(method="lm", se=F, size=1) + facet_wrap(~variable)#
+#
+	fit1 <- lm(y~x)#
+      fit1.stat <- summary(fit1)#
+      pval <-  fit1.stat$coefficients[2,4]#
+	res <- list(result = data.frame(n,b,sigma,pval,loc),p=p,dat_used=sim)#
+	return(res)#
+}#
+#
+l2 <- generate_turk2_lineup(n=100,beta=1.25,sigma=5)#
+ggsave(plot=l2$p, file="../images/lineup_continuous.pdf",height=7,width=7.5)
+n <- 100; a <- 6; b <- 2; sigma <- 12#
+	a <- 6#
+	b <- beta*sign(rnorm(1,0,1))#
+	x <- rnorm(n=n, mean=0, sd=1)#
+	y <- a + b*x + rnorm(n=n, mean=0, sd=sigma)#
+	fit <- lm(y~x)#
+	p <- qplot(x, resid(fit), xlab=expression(X[k]),geom="point", ylab="Y", alpha=I(.2))#
+	p <- p + geom_smooth(method="lm", se=F, size=1)
+p
+n <- 100; a <- 6; b <- 2; sigma <- 12#
+	a <- 6#
+	b <- beta*sign(rnorm(1,0,1))#
+	x <- rnorm(n=n, mean=0, sd=1)#
+	y <- a + b*x + rnorm(n=n, mean=0, sd=sigma)#
+	fit <- lm(y~1)#
+	p <- qplot(x, resid(fit), xlab=expression(X[k]),geom="point", ylab="Y", alpha=I(.2))#
+	p <- p + geom_smooth(method="lm", se=F, size=1)
+p
+generate_stat_slope <- function(n,beta,sigma){#
+	#n <- 100; a <- 6; b <- 2; sigma <- 12#
+	a <- 6#
+	b <- beta*sign(rnorm(1,0,1))#
+	x <- rnorm(n=n, mean=0, sd=1)#
+	y <- a + b*x + rnorm(n=n, mean=0, sd=sigma)#
+	fit <- lm(y~1)#
+	p <- qplot(x, resid(fit), xlab=expression(X[k]),geom="point", ylab="Residual", alpha=I(.2))#
+	p <- p + geom_smooth(method="lm", se=F, size=1)#
+	return(p)#
+}#
+p <- generate_stat_slope(n=100,beta=2.5,sigma=5)#
+ggsave(plot=p, file="../images/stat_beta_k.pdf",height=2,width=2)
+p
+generate_stat_slope <- function(n,beta,sigma){#
+	#n <- 100; a <- 6; b <- 2; sigma <- 12#
+	a <- 6#
+	b <- beta*sign(rnorm(1,0,1))#
+	x <- rnorm(n=n, mean=0, sd=1)#
+	y <- a + b*x + rnorm(n=n, mean=0, sd=sigma)#
+	fit <- lm(y~1)#
+	p <- qplot(x, resid(fit), xlab=expression(X[k]),geom="point", ylab="Residual", alpha=I(.3))#
+	p <- p + geom_smooth(method="lm", se=F, size=1)#
+	return(p)#
+}#
+p <- generate_stat_slope(n=100,beta=2.5,sigma=5)#
+ggsave(plot=p, file="../images/stat_beta_k.pdf",height=2,width=2)
+p\
+p
+generate_stat_slope <- function(n,beta,sigma){#
+	#n <- 100; a <- 6; b <- 2; sigma <- 12#
+	a <- 6#
+	x <- rnorm(n=n, mean=0, sd=1)#
+	y <- a + beta*x + rnorm(n=n, mean=0, sd=sigma)#
+	fit <- lm(y~1)#
+	p <- qplot(x, resid(fit), xlab=expression(X[k]),geom="point", ylab="Residual", alpha=I(.3))#
+	p <- p + geom_smooth(method="lm", se=F, size=1)#
+	return(p)#
+}#
+p <- generate_stat_slope(n=100,beta=2.5,sigma=5)#
+ggsave(plot=p, file="../images/stat_beta_k.pdf",height=2,width=2)
+p
+ggsave(plot=p, file="../images/stat_beta_k.pdf",height=2,width=2.5)
+ggsave(plot=p, file="../images/stat_beta_k.pdf",height=2,width=2.2)
+ggsave(plot=p, file="../images/stat_beta_k.pdf",height=2,width=2.1)
+ggsave(plot=p, file="../images/stat_beta_k.pdf",height=2,width=2.05)
+generating data#
+set.seed(29)#
+#
+n <- 300#
+beta <- 10#
+sigma <- 12	#
+x1 <- rpois(n,lambda=20)#
+Xk <- factor(sample(c("A","B"), size=n, replace=T))#
+cnd <- sample(c("A","B"), size=1)#
+y <- round(5 + 15 * x1 + beta * (Xk==cnd) + rnorm(n=n, mean=0, sd=sigma))#
+#qplot(x1,y, colour=factor(Xk)) + geom_smooth(method="lm", se=F, size=1)#
+# plotting test stat for testing b2=0#
+fit <- lm(y~x1 )#
+fit.stat <- summary(fit)#
+sigma_hat <- fit.stat$sigma#
+obs.residuals <- as.vector(resid(fit)) #
+#
+qplot(Xk, obs.residuals,colour=Xk,geom="boxplot", ylab="Residual") + #
+      xlab(expression(X[k])) + labs(colour=expression(X[k]))#
+ggsave("../images/stat_category.pdf",height=2,width=2.75)#
+# plotting lineup for testing b2=0#
+loc <- sample(1:20, size=1)  # location of observed plot#
+simdat <- matrix(rnorm(n=20*n,mean=0, sd=sigma_hat),ncol=20)#
+simdat[,loc] <- obs.residuals#
+pdat <- data.frame(simdat,Xk)#
+names(pdat) <- c(1:20,"Xk")#
+pdat.m <- melt(pdat,id="Xk")#
+qplot(Xk, value, data=pdat.m ,colour=Xk,,geom="boxplot", ylab="Residual") + #
+     facet_wrap(~variable)+ xlab(expression(X[k])) + #
+     labs(colour=expression(X[k]))#
+ggsave("../images/lineup_category.pdf",height=7,width=7.5)#
+ggsave("../images/lineup_category_small.pdf",height=4.5,width=5) # for comparizon table#
+#
+# === plotting lineup for continuous variable variable (turk2)#
+#
+generate_turk2_lineup <- function(n,beta,sigma){#
+	#n <- 100; a <- 6; b <- 2; sigma <- 12#
+	a <- 6#
+	b <- beta*sign(rnorm(1,0,1))#
+	x <- subset(read.csv("../data/Xdata.csv"),N==n)[,1]#
+	y <- a + b*x + rnorm(n=n, mean=0, sd=sigma)#
+#
+	fit <- lm(y~1) # fitting model without slope#
+	fit.stat <- summary(fit)#
+#
+	sim <- matrix(rnorm(n=n*20, mean = fit$coefficient[[1]], sd=fit.stat$sigma),ncol=20)#
+	loc <- sample(1:20, size=1)#
+	sim[,loc] <- y#
+	sim <- data.frame(x,sim)#
+	colnames(sim) <- c("X",1:20)#
+	m.sim <- melt(sim,id=c("X"))#
+	p <- qplot( X, value, data=m.sim, xlab=expression(X[k]),geom="point", ylab="Y", alpha=I(.2))#
+	p <- p + geom_smooth(method="lm", se=F, size=1) + facet_wrap(~variable)#
+#
+	fit1 <- lm(y~x)#
+      fit1.stat <- summary(fit1)#
+      pval <-  fit1.stat$coefficients[2,4]#
+	res <- list(result = data.frame(n,b,sigma,pval,loc),p=p,dat_used=sim)#
+	return(res)#
+}#
+#
+l2 <- generate_turk2_lineup(n=100,beta=1.25,sigma=5)#
+ggsave(plot=l2$p, file="../images/lineup_continuous.pdf",height=7,width=7.5)
+l2$p
+str(l2)
+l2$result
+generate_turk3_lineup <- function(n,sigma,beta){#
+	#n <- 100;nc <- 15; beta <- .1; sigma <- 4; #
+	gamma <- 10 #
+	beta <- sign(rnorm(1))*beta#
+	nc <- n*15/100#
+	x1 <- rnorm(n,0,1)#
+	x2 <- rnorm(n=nc,mean=-1.75*sign(beta), sd=1/3)#
+	x <- c(x1,x2)#
+	sig_hat <- 0#
+	while(sig_hat<4.99 || sig_hat>5.01){#
+		y1 <- beta0 + beta*x1 + rnorm(n,0,sigma)#
+		y2 <- rnorm(nc,gamma,sigma/3)#
+		y <- c(y1,y2)#
+		fit <- lm(y~x-1)#
+		sig_hat <- summary(fit)$sigma#
+	}#
+	pval <- summary(fit)$coefficients[,4]#
+#
+	sim <- matrix(rnorm(n=20*length(x),mean=0,sd=sig_hat),ncol=20)#
+	loc <- sample(1:20,size=1)#
+	sim[,loc] <- y#
+#
+	dat <- data.frame(x,sim)#
+	colnames(dat) <- c("X",1:20)#
+	m.dat <- melt(dat, id="X")#
+#
+	p <- qplot(X,value,data=m.dat,alpha=I(.2), ylab="Y")+facet_wrap(~variable)#
+	result = c(n,beta,5,pval,loc)#
+	return(list(result=result,p=p, dat_used=data.frame(x,y)))#
+}#
+#
+pl <- generate_plot(n=100,sigma=sigma,beta=beta)
+pl <- generate_turk3_lineup(n=100,sigma=sigma,beta=beta)
+n <- 100;nc <- 15; beta <- .1; sigma <- 4;
+gamma <- 10
+beta <- sign(rnorm(1))*beta
+nc <- n*15/100
+x1 <- rnorm(n,0,1)
+x2 <- rnorm(n=nc,mean=-1.75*sign(beta), sd=1/3)
+x <- c(x1,x2)
+sig_hat <- 0
+while(sig_hat<4.99 || sig_hat>5.01){
+y1 <- beta0 + beta*x1 + rnorm(n,0,sigma)
+y2 <- rnorm(nc,gamma,sigma/3)
+y <- c(y1,y2)
+fit <- lm(y~x-1)
+sig_hat <- summary(fit)$sigma
+}
+generate_turk3_lineup <- function(n,sigma,beta){#
+	#n <- 100;nc <- 15; beta <- .1; sigma <- 4; #
+	beta0 <- 5#
+	gamma <- 10 #
+	beta <- sign(rnorm(1))*beta#
+	nc <- n*15/100#
+	x1 <- rnorm(n,0,1)#
+	x2 <- rnorm(n=nc,mean=-1.75*sign(beta), sd=1/3)#
+	x <- c(x1,x2)#
+	sig_hat <- 0#
+	while(sig_hat<4.99 || sig_hat>5.01){#
+		y1 <- beta0 + beta*x1 + rnorm(n,0,sigma)#
+		y2 <- rnorm(nc,gamma,sigma/3)#
+		y <- c(y1,y2)#
+		fit <- lm(y~x-1)#
+		sig_hat <- summary(fit)$sigma#
+	}#
+	pval <- summary(fit)$coefficients[,4]#
+#
+	sim <- matrix(rnorm(n=20*length(x),mean=0,sd=sig_hat),ncol=20)#
+	loc <- sample(1:20,size=1)#
+	sim[,loc] <- y#
+#
+	dat <- data.frame(x,sim)#
+	colnames(dat) <- c("X",1:20)#
+	m.dat <- melt(dat, id="X")#
+#
+	p <- qplot(X,value,data=m.dat,alpha=I(.2), ylab="Y")+facet_wrap(~variable)#
+	result = c(n,beta,5,pval,loc)#
+	return(list(result=result,p=p, dat_used=data.frame(x,y)))#
+}#
+#
+pl <- generate_turk3_lineup(n=100,sigma=sigma,beta=beta)
+beta0 <- 5#
+	gamma <- 10 #
+	beta <- sign(rnorm(1))*beta#
+	nc <- n*15/100#
+	x1 <- rnorm(n,0,1)#
+	x2 <- rnorm(n=nc,mean=-1.75*sign(beta), sd=1/3)#
+	x <- c(x1,x2)
+y1 <- beta0 + beta*x1 + rnorm(n,0,sigma)#
+		y2 <- rnorm(nc,gamma,sigma/3)#
+		y <- c(y1,y2)#
+		fit <- lm(y~x-1)#
+		sig_hat <- summary(fit)$sigma
+sig_hat
+n <- 100;nc <- 15; beta <- .1; sigma <- 4;
+beta0 <- 5#
+	gamma <- 10 #
+	beta <- sign(rnorm(1))*beta#
+	nc <- n*15/100#
+	x1 <- rnorm(n,0,1)#
+	x2 <- rnorm(n=nc,mean=-1.75*sign(beta), sd=1/3)#
+	x <- c(x1,x2)
+y1 <- beta0 + beta*x1 + rnorm(n,0,sigma)#
+		y2 <- rnorm(nc,gamma,sigma/3)#
+		y <- c(y1,y2)#
+		fit <- lm(y~x-1)#
+		sig_hat <- summary(fit)$sigma
+sig_hat
+pval <- summary(fit)$coefficients[,4]
+sim <- matrix(rnorm(n=20*length(x),mean=0,sd=sig_hat),ncol=20)
+loc <- sample(1:20,size=1)
+sim[,loc] <- y
+dat <- data.frame(x,sim)
+colnames(dat) <- c("X",1:20)
+m.dat <- melt(dat, id="X")
+library(reshape)
+library(ggpplot2)
+library(ggplot2)
+m.dat <- melt(dat, id="X")
+p <- qplot(X,value,data=m.dat,alpha=I(.2), ylab="Y")+facet_wrap(~variable)
+p
+pl <- generate_turk3_lineup(n=100,sigma=3.5,beta=2.5)
+str(pl)
+pl
+beta0 <- 5
+gamma <- 10
+beta <- sign(rnorm(1))*beta
+nc <- n*15/100
+x1 <- rnorm(n,0,1)
+x2 <- rnorm(n=nc,mean=-1.75*sign(beta), sd=1/3)
+x <- c(x1,x2)
+sig_hat <- 0
+while(sig_hat<4.99 || sig_hat>5.01){
+y1 <- beta0 + beta*x1 + rnorm(n,0,sigma)
+y2 <- rnorm(nc,gamma,sigma/3)
+y <- c(y1,y2)
+fit <- lm(y~x-1)
+sig_hat <- summary(fit)$sigma
+}
+beta0 <- 5
+gamma <- 10
+beta <- sign(rnorm(1))*beta
+nc <- n*15/100
+x1 <- rnorm(n,0,1)
+x2 <- rnorm(n=nc,mean=-1.75*sign(beta), sd=1/3)
+x <- c(x1,x2)
+sig_hat <- 0
+y1 <- beta0 + beta*x1 + rnorm(n,0,sigma)
+y2 <- rnorm(nc,gamma,sigma/3)
+y <- c(y1,y2)
+fit <- lm(y~x-1)
+sig_hat <- summary(fit)$sigma
+pval <- summary(fit)$coefficients[,4]
+sim <- matrix(rnorm(n=20*length(x),mean=0,sd=sig_hat),ncol=20)
+sig_hat
+beta0 <- 5#
+	gamma <- 10 #
+	beta <- sign(rnorm(1))*beta#
+	nc <- n*15/100#
+	x1 <- rnorm(n,0,1)#
+	x2 <- rnorm(n=nc,mean=-1.75*sign(beta), sd=1/3)#
+	x <- c(x1,x2)#
+	sig_hat <- 0
+y1 <- beta0 + beta*x1 + rnorm(n,0,sigma)
+y2 <- rnorm(nc,gamma,sigma/3)
+y <- c(y1,y2)
+fit <- lm(y~x-1)
+sig_hat <- summary(fit)$sigma
+pval <- summary(fit)$coefficients[,4]
+sig_hat
+generate_turk3_lineup <- function(n,sigma,beta){#
+	#n <- 100;nc <- 15; beta <- .1; sigma <- 3.5; #
+	beta0 <- 5#
+	gamma <- 10 #
+	beta <- sign(rnorm(1))*beta#
+	nc <- n*15/100#
+	x1 <- rnorm(n,0,1)#
+	x2 <- rnorm(n=nc,mean=-1.75*sign(beta), sd=1/3)#
+	x <- c(x1,x2)#
+	sig_hat <- 0#
+	while(sig_hat<4.99 || sig_hat>5.01){#
+		y1 <- beta0 + beta*x1 + rnorm(n,0,sigma)#
+		y2 <- rnorm(nc,gamma,sigma/3)#
+		y <- c(y1,y2)#
+		fit <- lm(y~x-1)#
+		sig_hat <- summary(fit)$sigma#
+	}#
+	pval <- summary(fit)$coefficients[,4]#
+#
+	sim <- matrix(rnorm(n=20*length(x),mean=0,sd=sig_hat),ncol=20)#
+	loc <- sample(1:20,size=1)#
+	sim[,loc] <- y#
+#
+	dat <- data.frame(x,sim)#
+	colnames(dat) <- c("X",1:20)#
+	m.dat <- melt(dat, id="X")#
+#
+	p <- qplot(X,value,data=m.dat,alpha=I(.2), ylab="Y")+facet_wrap(~variable)#
+	result = c(n,beta,5,pval,loc)#
+	return(list(result=result,p=p, dat_used=data.frame(x,y)))#
+}
+pl <- generate_turk3_lineup(n=100,sigma=3.5,beta=0.4)
+beta0
+gamma <- 10
+gamma <- 10 #
+	beta <- sign(rnorm(1))*beta#
+	nc <- n*15/100#
+	x1 <- rnorm(n,0,1)#
+	x2 <- rnorm(n=nc,mean=-1.75*sign(beta), sd=1/3)#
+	x <- c(x1,x2)#
+	sig_hat <- 0
+y1 <- beta0 + beta*x1 + rnorm(n,0,sigma)#
+		y2 <- rnorm(nc,gamma,sigma/3)#
+		y <- c(y1,y2)#
+		fit <- lm(y~x-1)#
+		sig_hat <- summary(fit)$sigma
+sig_hat
+beta0=1
+gamma <- 10 #
+	beta <- sign(rnorm(1))*beta#
+	nc <- n*15/100#
+	x1 <- rnorm(n,0,1)#
+	x2 <- rnorm(n=nc,mean=-1.75*sign(beta), sd=1/3)#
+	x <- c(x1,x2)#
+	sig_hat <- 0
+y1 <- beta0 + beta*x1 + rnorm(n,0,sigma)#
+		y2 <- rnorm(nc,gamma,sigma/3)#
+		y <- c(y1,y2)#
+		fit <- lm(y~x-1)#
+		sig_hat <- summary(fit)$sigma
+sig_hat
+generate_plot <- function(n,sigma,beta){#
+	#n <- 100;nc <- 15; beta <- .1; sigma <- 4; #
+	gamma <- 10 #
+	beta <- sign(rnorm(1))*beta#
+	nc <- n*15/100#
+	x1 <- rnorm(n,0,1)#
+	x2 <- rnorm(n=nc,mean=-1.75*sign(beta), sd=1/3)#
+	x <- c(x1,x2)#
+	sig_hat <- 0#
+	while(sig_hat<4.99 || sig_hat>5.01){#
+		y1 <- beta0 + beta*x1 + rnorm(n,0,sigma)#
+		y2 <- rnorm(nc,gamma,sigma/3)#
+		y <- c(y1,y2)#
+		fit <- lm(y~x-1)#
+		sig_hat <- summary(fit)$sigma#
+	}#
+	pval <- summary(fit)$coefficients[,4]#
+	sim <- matrix(rnorm(n=20*length(x),mean=0,sd=sig_hat),ncol=20)#
+	loc <- sample(1:20,size=1)#
+	sim[,loc] <- y#
+	dat <- data.frame(x,sim)#
+	colnames(dat) <- c("X",1:20)#
+	m.dat <- melt(dat, id="X")#
+	p <- qplot(X,value,data=m.dat,alpha=I(.2), ylab="Y")+facet_wrap(~variable)#
+	result = c(n,beta,5,pval,loc)#
+	return(list(result=result,p=p, dat_used=data.frame(x,y)))#
+}
+n <- 100#
+nc <- 15#
+beta <- -7#
+sigma <- 5#
+gamma <- 15#
+x1 <- rnorm(n,0,1)#
+y1 <- 5 + beta*x1 + rnorm(n,0,sigma)
+x2 <- rnorm(n=nc,mean=-1.75*sign(beta), sd=1/3)#
+y2 <- rnorm(nc,gamma,sigma/3)
+x <- c(x1,x2)#
+y <- c(y1,y2)
+fit <- lm(y~x)#
+sig_hat <- summary(fit)$sigma#
+beta_not <- fit$coefficients[[1]]#
+sim <- matrix(rnorm(n=4*length(x),mean=beta_not,sd=sig_hat),ncol=4)#
+loc <- sample(1:4,size=1)#
+sim[,loc] <- y#
+dat <- data.frame(x,sim)#
+colnames(dat) <- c("X",1:4)#
+m.dat <- melt(dat, id="X")
+qplot(X,value,data=m.dat,alpha=I(.2), ylab="Y")+facet_wrap(~variable, ncol=4)
+generate_turk3_lineup <- function(n,sigma,beta){#
+	#n <- 100;nc <- 15; beta <- .1; sigma <- 4; #
+	alpha <- 0#
+	lambda <- 10 #
+	beta <- sign(rnorm(1))*beta#
+	nc <- n*15/100#
+	x1 <- rnorm(n,0,1)#
+	x2 <- rnorm(n=nc,mean=-1.75*sign(beta), sd=1/3)#
+	x <- c(x1,x2)#
+	sig_hat <- 0#
+	while(sig_hat<4.99 || sig_hat>5.01){#
+		y1 <- alpha + beta*x1 + rnorm(n,0,sigma)#
+		y2 <- rnorm(nc,lambda,sigma/3)#
+		y <- c(y1,y2)#
+		fit <- lm(y~x-1)#
+		sig_hat <- summary(fit)$sigma#
+	}#
+	pval <- summary(fit)$coefficients[,4]#
+#
+	sim <- matrix(rnorm(n=20*length(x),mean=0,sd=sig_hat),ncol=20)#
+	loc <- sample(1:20,size=1)#
+	sim[,loc] <- y#
+#
+	dat <- data.frame(x,sim)#
+	colnames(dat) <- c("X",1:20)#
+	m.dat <- melt(dat, id="X")#
+#
+	p <- qplot(X,value,data=m.dat,alpha=I(.2), ylab="Y")+facet_wrap(~variable)#
+	result = data.frame(n,beta,sigma=5,pval,loc)#
+	return(list(result=result,p=p, dat_used=data.frame(x,y)))#
+}#
+#
+pl <- generate_plot(n=100,sigma=3.5,beta=2.1)#
+pl$result
+pl <- generate_turk3_lineup(n=100,sigma=3.5,beta=2.1)#
+pl$result
+library(ggplot2)
+library(plyr)
+pl <- generate_turk3_lineup(n=100,sigma=3.5,beta=2.1)#
+pl$result
+library(reshape)
+pl <- generate_turk3_lineup(n=100,sigma=3.5,beta=2.1)#
+pl$result
+pl <- generate_turk3_lineup(n=100,sigma=3.5,beta=0.1)#
+pl$result
+pl <- generate_turk3_lineup(n=100,sigma=3.5,beta=0.4)
+pl$result
+set.seed(29)#
+#
+n <- 300#
+beta <- 10#
+sigma <- 12	#
+x1 <- rpois(n,lambda=20)#
+Xk <- factor(sample(c("A","B"), size=n, replace=T))#
+cnd <- sample(c("A","B"), size=1)#
+y <- round(5 + 15 * x1 + beta * (Xk==cnd) + rnorm(n=n, mean=0, sd=sigma))#
+#qplot(x1,y, colour=factor(Xk)) + geom_smooth(method="lm", se=F, size=1)#
+# plotting test stat for testing b2=0#
+fit <- lm(y~x1 )#
+fit.stat <- summary(fit)#
+sigma_hat <- fit.stat$sigma#
+obs.residuals <- as.vector(resid(fit))
+loc <- sample(1:20, size=1)  # location of observed plot#
+simdat <- matrix(rnorm(n=20*n,mean=0, sd=sigma_hat),ncol=20)#
+simdat[,loc] <- obs.residuals#
+pdat <- data.frame(simdat,Xk)#
+names(pdat) <- c(1:20,"Xk")#
+pdat.m <- melt(pdat,id="Xk")
+generate_turk2_lineup <- function(n,beta,sigma){#
+	#n <- 100; a <- 6; b <- 2; sigma <- 12#
+	a <- 6#
+	b <- beta*sign(rnorm(1,0,1))#
+	x <- subset(read.csv("../data/Xdata.csv"),N==n)[,1]#
+	y <- a + b*x + rnorm(n=n, mean=0, sd=sigma)#
+#
+	fit <- lm(y~1) # fitting model without slope#
+	fit.stat <- summary(fit)#
+#
+	sim <- matrix(rnorm(n=n*20, mean = fit$coefficient[[1]], sd=fit.stat$sigma),ncol=20)#
+	loc <- sample(1:20, size=1)#
+	sim[,loc] <- y#
+	sim <- data.frame(x,sim)#
+	colnames(sim) <- c("X",1:20)#
+	m.sim <- melt(sim,id=c("X"))#
+	p <- qplot( X, value, data=m.sim, xlab=expression(X[k]),geom="point", ylab="Y", alpha=I(.2))#
+	p <- p + geom_smooth(method="lm", se=F, size=1) + facet_wrap(~variable)#
+#
+	fit1 <- lm(y~x)#
+      fit1.stat <- summary(fit1)#
+      pval <-  fit1.stat$coefficients[2,4]#
+	res <- list(result = data.frame(n,b,sigma,pval,loc),p=p,dat_used=sim)#
+	return(res)#
+}#
+#
+l2 <- generate_turk2_lineup(n=100,beta=1.25,sigma=5)
+generate_turk3_lineup <- function(n,sigma,beta){#
+	#n <- 100;nc <- 15; beta <- .1; sigma <- 4; #
+	alpha <- 0#
+	lambda <- 10 #
+	beta <- sign(rnorm(1))*beta#
+	nc <- n*15/100#
+	x1 <- rnorm(n,0,1)#
+	x2 <- rnorm(n=nc,mean=-1.75*sign(beta), sd=1/3)#
+	x <- c(x1,x2)#
+	sig_hat <- 0#
+	while(sig_hat<4.99 || sig_hat>5.01){#
+		y1 <- alpha + beta*x1 + rnorm(n,0,sigma)#
+		y2 <- rnorm(nc,lambda,sigma/3)#
+		y <- c(y1,y2)#
+		fit <- lm(y~x-1)#
+		sig_hat <- summary(fit)$sigma#
+	}#
+	pval <- summary(fit)$coefficients[,4]#
+#
+	sim <- matrix(rnorm(n=20*length(x),mean=0,sd=sig_hat),ncol=20)#
+	loc <- sample(1:20,size=1)#
+	sim[,loc] <- y#
+#
+	dat <- data.frame(x,sim)#
+	colnames(dat) <- c("X",1:20)#
+	m.dat <- melt(dat, id="X")#
+#
+	p <- qplot(X,value,data=m.dat,alpha=I(.2), ylab="Y")+facet_wrap(~variable)#
+	result = data.frame(n,beta,sigma=5,pval,loc)#
+	return(list(result=result,p=p, dat_used=data.frame(x,y)))#
+}#
+#
+pl <- generate_turk3_lineup(n=100,sigma=3.5,beta=0.4)#
+pl$result
+pl$p
+ggsave(plot=pl$p, file="../images/lineup_contaminated.pdf",height=7,width=7.5)
+loc
+pl$result

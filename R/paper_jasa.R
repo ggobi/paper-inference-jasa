@@ -106,6 +106,44 @@ generate_turk2_lineup <- function(n,beta,sigma){
 l2 <- generate_turk2_lineup(n=100,beta=1.25,sigma=5)
 ggsave(plot=l2$p, file="../images/lineup_continuous.pdf",height=7,width=7.5)
 
+# plotting turk3 lineups --------------
+
+generate_turk3_lineup <- function(n,sigma,beta){
+	#n <- 100;nc <- 15; beta <- .1; sigma <- 4; 
+	alpha <- 0
+	lambda <- 10 
+	beta <- sign(rnorm(1))*beta
+	nc <- n*15/100
+	x1 <- rnorm(n,0,1)
+	x2 <- rnorm(n=nc,mean=-1.75*sign(beta), sd=1/3)
+	x <- c(x1,x2)
+	sig_hat <- 0
+	while(sig_hat<4.99 || sig_hat>5.01){
+		y1 <- alpha + beta*x1 + rnorm(n,0,sigma)
+		y2 <- rnorm(nc,lambda,sigma/3)
+		y <- c(y1,y2)
+		fit <- lm(y~x-1)
+		sig_hat <- summary(fit)$sigma
+	}
+	pval <- summary(fit)$coefficients[,4]
+
+	sim <- matrix(rnorm(n=20*length(x),mean=0,sd=sig_hat),ncol=20)
+	loc <- sample(1:20,size=1)
+	sim[,loc] <- y
+
+	dat <- data.frame(x,sim)
+	colnames(dat) <- c("X",1:20)
+	m.dat <- melt(dat, id="X")
+
+	p <- qplot(X,value,data=m.dat,alpha=I(.2), ylab="Y")+facet_wrap(~variable)
+	result = data.frame(n,beta,sigma=5,pval,loc)
+	return(list(result=result,p=p, dat_used=data.frame(x,y)))
+}
+
+pl <- generate_turk3_lineup(n=100,sigma=3.5,beta=0.4)
+pl$result
+ggsave(plot=pl$p, file="../images/lineup_contaminated.pdf",height=7,width=7.5)
+
 # ==== plotting test statistics --------
 
 generate_stat_slope <- function(n,beta,sigma){
