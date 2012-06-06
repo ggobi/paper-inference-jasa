@@ -1,7 +1,7 @@
 <<read-data, echo=FALSE, resuls=hide>>=
 
 suppressMessages(library(ggplot2))
-setwd("/Users/heike/papers/paper-inference-jasa/R_codes/")
+setwd("/Users/heike/papers/paper-inference-jasa/R/")
 raw.dat <- read.csv("../data/raw_data_turk1.csv")
 @
 
