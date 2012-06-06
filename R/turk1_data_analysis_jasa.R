@@ -819,7 +819,7 @@ p + geom_line(data=subset(pow.dat.m, variable=="UMP"),colour="darkviolet", size=
 
 
 
-# ----------------- individual observed and estimated power curve by gender and random slope----------
+# ----- individual observed and estimated power curve by gender and random slope----------
 
 power=NULL
 gnd <- NULL
@@ -1083,7 +1083,8 @@ p <- p + geom_point(size=3)
 p + stat_smooth(aes(group=gender, linetype=gender), se=F)
 
 
-# ----------- glm with effect as covariate ---------------
+# ----------- glmm with effect as covariate ---------------
+#
 
 dat$effect <-  with(dat,beta/sigma*sqrt(sample_size))
 
@@ -1117,31 +1118,36 @@ ggplot(data=effect.d,aes(x=effect,y=power-ump_power)) +
    geom_smooth(method="loess", span=0.8,aes(colour=factor(replica))) +
    scale_colour_discrete(name = "Replication")  
    
-     
-
-
 
 # and then fit the following model:
-       response ~ effect + (effect | id)
+# response ~ effect + (effect | id)
+# response~ offset(alpha)+effect -1 + (effect|id), family=binomial())
+# offset is set such that under H0, P(response=T|effect=0) = .05 (type I error)
+# alpha = log(.05/0.95)
 
-# ------- subjectwise power curve with random slope  for covariate effect 
+# ------- subjectwise power curve with random slope for covariate effect 
 library(lme4)
-fit.mixed <- lmer(response ~ effect + (1+effect|id)
-              , family="binomial"
-              , data=dat)
+
+dat$alpha <- log(.05/0.95)
+fit.mixed <- lmer(response ~ offset(alpha) + effect -1 + (effect|id),
+                  family="binomial",
+                  data=dat)
+qplot(group=effect, x=resid(fit.mixed), geom="histogram", data=dat, facets=~effect, binwidth=0.2)
+
 res <- summary(fit.mixed)
 B <- res@coefs[,1]
 effect <- seq(0.01,16, by=.2)
 #res@frame
 ones <- rep(1,length(effect))
 #conf_level <- rep(1,length(beta))
-X <- cbind(ones,effect)
-dim(X)
+#X <- cbind(ones,effect)
+#dim(X)
 
+X <- effect
 Z <- cbind(ones,effect)
-cov <- as.numeric(res@REmat[2,5])*as.numeric(res@REmat[1,4])*as.numeric(res@REmat[2,4])
-vv <- matrix(as.numeric(c(res@REmat[1,3],rep(cov,2),res@REmat[2,3])),ncol=2, byrow=F)
-
+# cov <- as.numeric(res@REmat[2,5])*as.numeric(res@REmat[1,4])*as.numeric(res@REmat[2,4])
+# vv <- matrix(as.numeric(c(res@REmat[1,3],rep(cov,2),res@REmat[2,3])),ncol=2, byrow=F)
+vv <- VarCorr(fit.mixed)$id
 
 # library(MASS) is needed for mvrnorm
 
@@ -1150,7 +1156,7 @@ M <- 20
 set.seed(79345)
 tau <- mvrnorm(n = M, mu=c(0,0),Sigma=vv)
 for (i in 1:M){
-xb <- X %*% B + Z %*%tau[i,]
+xb <- X* B + Z %*%tau[i,]
 power <- cbind(power,exp(xb)/(1+exp(xb)))
 }
 colnames(power) <- 1:M
