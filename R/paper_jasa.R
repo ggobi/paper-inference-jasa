@@ -196,8 +196,8 @@ get_screened_summary <- function(dat){
 }
 
 dat1 <- read.csv("../data/raw_data_turk1.csv")
-dat2 <- read.csv("../data/raw_data_turk1.csv")
-dat3 <- read.csv("../data/raw_data_turk1.csv")
+dat2 <- read.csv("../data/raw_data_turk2.csv")
+dat3 <- read.csv("../data/raw_data_turk3.csv")
 
 sm <- cbind(get_screened_summary(dat1),
       get_screened_summary(dat2),
