@@ -708,7 +708,7 @@ A lineup for this experiment is shown in figure \ref{fig:test_continuous}.  This
 
 %\green{Fill in details of lineups, probably need a figure with an example lineup, and how lineups were assigned to subjects.}
 
-{\bf Presenting lineups for evaluation} Each subject got at least 10 lineups for evaluation. For each combination of sample size ($n$) and error SD ($\sigma$) we define the difficulty of the lineup based on the five slope ($\beta$) parameters we choose as shown in table \ref{tbl:experiment_params}. For the smallest slope parameter the difficulty is 0 and for the largest parameter the difficulty is 4. The 10 lineups are choosen as follows;
+{\bf Presenting lineups for evaluation} Each subject got at least 10 lineups for evaluation. For each combination of sample size ($n$) and error SD ($\sigma$) we define the difficulty of the lineup based on the five slope ($\beta$) parameters we choose as shown in table \ref{tbl:experiment_params}. For the smallest slope parameter the difficulty is 0 and for the largest parameter the difficulty is 4. The 10 lineups are chosen as follows;
 
 \begin{enumerate}
 	\item For one combination of  sample size ($n$) and error SD ($\sigma$) randomly select five lineups with one from each difficulty level
@@ -862,11 +862,24 @@ One lineup for slope $\beta=0.4$ is shown in figure \ref{fig:test_contaminated}.
 \end{enumerate}
 
 \begin{table}[hbtp]
-\caption{Number of unique subjects and their total feedbacks after applying five screening process on all three experimental data sets.}\begin{center}\begin{tabular}{rrrrr|rrrr|rrrr}  \hline
+\caption{Number of participants and their total feedbacks after applying five screening process on all three experimental data sets.}
+\begin{center} {\small
+\begin{tabular}{rrrrr|rrrr|rrrr}
+  \hline 
 Screening &  \multicolumn{4}{c} {Experiment 1}  & \multicolumn{4}{c} {Experiment 2}  & \multicolumn{4}{c} {Experiment 3} \\
- \cline{2-5}  \cline{6-9}   \cline{10-13}criteria & total & male & female & feedbacks & total & male & female & feedbacks & total & male & female & feedbacks \\   \hline1 & 520 & 264 & 201 & 4914 & 390 & 203 & 182 & 4603 & 257 & 166 &  84 & 2830 \\   2 & 465 & 264 & 201 & 4624 & 385 & 203 & 182 & 4558 & 250 & 166 &  84 & 2782 \\   3 & 384 & 200 & 165 & 4187 & 384 & 199 & 181 & 4573 & 227 & 147 &  78 & 2648 \\   4 & 318 & 168 & 135 & 3395 & 378 & 195 & 179 & 4492 & 205 & 133 &  72 & 2393 \\   5 & 277 & 139 & 124 & 3008 & 374 & 193 & 177 & 4451 & 112 &  73 &  39 & 1410 \\    \hline
-\end{tabular}\end{center}
-\label{tbl:summary}\end{table}
+ \cline{2-5}  \cline{6-9}   \cline{10-13}
+criteria & total & male & female & feedbacks & total & male & female & feedbacks & total & male & female & feedbacks \\ 
+  \hline
+1 & 520 & 264 & 201 & 4914 & 390 & 203 & 182 & 4603 & 257 & 166 &  84 & 2830 \\ 
+  2 & 465 & 264 & 201 & 4624 & 385 & 203 & 182 & 4558 & 250 & 166 &  84 & 2782 \\ 
+  3 & 384 & 200 & 165 & 4187 & 384 & 199 & 181 & 4573 & 227 & 147 &  78 & 2648 \\ 
+  4 & 318 & 168 & 135 & 3395 & 378 & 195 & 179 & 4492 & 205 & 133 &  72 & 2393 \\ 
+  5 & 277 & 139 & 124 & 3008 & 374 & 193 & 177 & 4451 & 112 &  73 &  39 & 1410 \\  
+   \hline
+\end{tabular} }
+\end{center}
+\label{tbl:summary}
+\end{table}
 
 Participants for all the experiments were recruited through \cite{turk} Amazon's Mechanical Turk. Each participant was shown a sequence of 10 lineup plots. Participants are asked to select the plot with the biggest vertical difference, give a reason for their choice, and determine a level of  confidence for their decision. Gender, age, education and geographic location of each participant are also collected.
  In total, 3629 lineups were evaluated by 324 people coming from many different locations across the globe.  The results of the experiment are summarized in Figure \ref{fig:power_observed} which shows the observed power from the survey data calculated using equation \eqref{power_est} along with 95\% confidence interval calculated using Fisher's exact method.
