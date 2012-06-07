@@ -8,26 +8,38 @@ generate_visual_power <- function(n,beta,sigma){
 	#This program generates expected visual power by simulation.
 	# default m = 20
 	m <- 20
-	M <- 500
+#	M <- 5000
 	age <- rpois(n,lambda=30)
 	grp <- factor(sample(c("A","B"), size=n, replace=T))
-	cnd <- sample(c("A","B"), size=1)
-	gnd <- grp==cnd
+#	cnd <- sample(c("A","B"), size=1)
+#	gnd <- as.numeric(grp==cnd)
 
-	weights <- NULL
-	pvals <- NULL
-	for (i in 1:M){
-		weight <- round(5 + 15 * age + beta * gnd + rnorm(n=n, mean=0, sd=sigma))
-		weights <- cbind(weights,weight)
-		fit <- lm(weight~age + factor(grp)) # fitting full model
-		fit.stat <- summary(fit)
-		pval <- fit.stat$coefficients[3,4]
-		pvals <- c(pvals,pval)
-	}
-	y <- matrix(runif(n=M*(m-1)),nrow=(m-1),ncol=M)
-	b <- sum(pvals < apply(y,2,min))
-	pow <- b/M
+	X <- model.matrix(~age + factor(grp))
+
+#	weights <- NULL
+#	pvals <- NULL
+#	for (i in 1:M){
+#		weight <- round(5 + 15 * age + beta * gnd + rnorm(n=n, mean=0, sd=sigma))
+#		weights <- cbind(weights,weight)
+#		fit <- lm(weight~age + factor(grp)) # fitting full model
+#		fit.stat <- summary(fit)
+#		pval <- fit.stat$coefficients[3,4]
+#		pvals <- c(pvals,pval)
+#	}
+
+	 sdbeta <- sigma *sqrt(ginv(t(X) %*% X)[2,2])
+	ts <- abs(rt(5000, ncp=beta/sdbeta, df=n-1))
+	pvals <- 2*pt(ts, n-1, lower.tail=FALSE)
+
 	
+#	y <- matrix(runif(n=M*(m-1)),nrow=(m-1),ncol=M)
+#	b <- sum(pvals < apply(y,2,min))
+#	pow <- b/M
+# minimum of (m-1) uniform random variables has a Beta (1, m-1) distribution
+	pow <- mean(qbeta(pvals, shape1=1, shape2=m-1, lower.tail=FALSE))
+# equivalent:
+#	pow <- mean(vpower(pvals, m=20))
+
 	return(pow)
 }
 
@@ -54,6 +66,7 @@ calculate_power <- function(n,sigma){
   my_pow <- NULL
   ump_pow <- NULL
   my_beta <- seq(0,16,by=1)
+  generate_visual_power(n=n,beta=my_beta,sigma=sigma)
   for (beta in my_beta){
 	my_pow <- c(my_pow,generate_visual_power(n=n,beta=beta,sigma=sigma))
 	ump_pow <- c(ump_pow,calculate_theoretical_power(beta=beta,n=n,sigma=sigma))
