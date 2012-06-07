@@ -55,3 +55,4 @@ powerdf$theoretical <- ldply(1:nrow(powerdf), function(x) {
 
 qplot(beta, theoretical, geom="line", linetype=I(2), size=I(1), data=subset(powerdf, m %in% c(10, 20, 30))) + ylab("Power") + geom_smooth(aes(y=visual, group=m, colour=m), alpha=0.5, fill=NA, method="loess", span=0.1) + geom_smooth(aes(y=visual, group=m, colour=m), subset(powerdf, m==20), size=1, fill=NA, method="loess", span=0.1, show.guide=FALSE)
 
+ggsave("images/power_expected.pdf")
