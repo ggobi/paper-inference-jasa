@@ -782,29 +782,7 @@ An example lineup for slope $\beta=0.4$ is shown in Figure \ref{fig:test_contami
 %       \label{fig:power_loess2}
 %\end{figure*}
 
-\begin{figure*}[hbtp]
-   \centering
-       \scalebox{0.45}{\includegraphics{effect_power_exp1.pdf}}
-       \scalebox{0.45}{\includegraphics{effect_power_exp2.pdf}}
-       \caption{Observed power shown by loess smoother and the power of UMP test for different effect size $E$ as per experiment 1 and 2.}
-       \label{fig:power_effect1}
-\end{figure*}
 
-\begin{figure*}[hbtp]
-   \centering
-       \scalebox{0.45}{\includegraphics{effect_power_subject_exp1.pdf}}
-       \scalebox{0.45}{\includegraphics{effect_power_subject_exp2.pdf}}
-       \caption{Subject specific power obtained from Equation \ref{eqn:effect} and the power of UMP test for different effect size $E$ as per experiment 1 and 2.}
-       \label{fig:power_effect_subject1}
-\end{figure*}
-
-
-\begin{figure*}[hbtp]
-   \centering
-       \scalebox{0.4}{\includegraphics{power_loess_exp3.pdf}}
-       \caption{Observed power shown by loess smoother with simultaneous bootstrap confidence band and the power of UMP test for sample size $n= 100$ and $\sigma = 5$ as per experiment 3. Notice that for experiment 3, power does not seem to depend on the parameter $\beta$. Di/Heike, I am not sure how I can relate this to demonstrate the power of visual inference when normal conditions are not met. Does this really test our hypothesis $H_0: \beta=0$ or some other hypothesis about the existence of cluster in the data?}
-       \label{fig:power_loess3}
-\end{figure*}
 
 
 %\begin{figure*}[hbtp]
@@ -871,7 +849,33 @@ We fit model \ref{mixed} with effect $E=\beta*n/\sqrt(n)$ as the only fixed effe
 \end{figure}
 
 
+
+
 Each participant was shown a sequence of 10 lineup plots.  In total, 3629 lineups were evaluated by 324 people coming from many different locations across the globe.  The results of the experiment are summarized in Figure \ref{fig:power_observed} which shows the observed power from the survey data calculated using Equation \ref{eqn:power_estimate} along with 95\% confidence interval calculated using Fisher's exact method.
+
+\begin{figure*}[hbtp]
+   \centering
+       \scalebox{0.45}{\includegraphics{effect_power_exp1.pdf}}
+       \scalebox{0.45}{\includegraphics{effect_power_exp2.pdf}}
+       \caption{Observed power shown by loess smoother and the power of UMP test for different effect size $E$ as per experiment 1 and 2.}
+       \label{fig:power_effect1}
+\end{figure*}
+
+%\begin{figure*}[hbtp]
+%   \centering
+%       \scalebox{0.45}{\includegraphics{effect_power_subject_exp1.pdf}}
+%       \scalebox{0.45}{\includegraphics{effect_power_subject_exp2.pdf}}
+%       \caption{Subject specific power obtained from Equation \ref{eqn:effect} and the power of UMP test for different effect size $E$ as per experiment 1 and 2.}
+%       \label{fig:power_effect_subject1}
+%\end{figure*}
+
+
+\begin{figure*}[hbtp]
+   \centering
+       \scalebox{0.4}{\includegraphics{power_loess_exp3.pdf}}
+       \caption{Observed power shown by loess smoother with simultaneous bootstrap confidence band and the power of UMP test for sample size $n= 100$ and $\sigma = 5$ as per experiment 3. Notice that for experiment 3, power does not seem to depend on the parameter $\beta$. Di/Heike, I am not sure how I can relate this to demonstrate the power of visual inference when normal conditions are not met. Does this really test our hypothesis $H_0: \beta=0$ or some other hypothesis about the existence of cluster in the data?}
+       \label{fig:power_loess3}
+\end{figure*}
 
 %\begin{figure}[hbtp]
 %   \centering
@@ -893,6 +897,14 @@ Each participant was shown a sequence of 10 lineup plots.  In total, 3629 lineup
 \hh{From figure \ref{fig:power_loess3} we see that identification of the data plot is high independently of the effect size. This might be an indication that participants were not considering slope as distinguishing feature for the data, but the apparent clustering, i.e. the null hypothesis is being rejected, but not for the reason of the slope -- which the experimental setup was asking for --  leading to a type III error of `correctly rejecting the null hypothesis for the wrong reason', as defined by \citet{mosteller:48}.} \green{Not sure that this goes here, but something needs to be said about Type III.}
 
 \subsection{Subject-specific variation}
+
+\begin{figure}[hbtp]
+   \centering
+       \scalebox{0.60}{\includegraphics{power_screening_subject.pdf}}
+      \caption{The subject specific power estimated from model \ref{mixed} are shown for various data sets obtained by applying 5 screening criteria.  The corresponding power curve for Uniformly Most powerful (UMP) test is shown in pink lines for comparison.}
+       \label{fig:power_screening_subject}	
+\end{figure}
+
 
 \subsection{Estimating $p$-value in Non-Classical Settings}
 

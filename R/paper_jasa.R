@@ -167,7 +167,7 @@ p <- generate_stat_slope(n=100,beta=2.5,sigma=5)
 ggsave(plot=p, file="../images/stat_beta_k.pdf",height=2,width=2.05)
 
 
-# ==== summary of the data =====
+# ==== summary of the data applying different screening criteria =====
 
 get_summary <- function(dat){
   g <- ddply(dat,.(gender),summarise, length(unique(id)))
@@ -208,7 +208,7 @@ sm <- cbind(get_screened_summary(dat1),
 #library(xtable)
 xtable(sm)
 
-# --- fit model with each screening criteria and plot power
+# --- fit mixed model with each screening criteria and plot power
 #library(lme4)
 
 pred.mixed <- function(X, subject=0,fit) {
@@ -268,7 +268,7 @@ ggplot()+
 ggsave( file="../images/power_screening.pdf",height=4.25,width=10)
 
 
-# ----- subject specific power from mixed model
+# ----- subject specific power for each screening criteria from mixed model
 
 
 pi <- rbind(data.frame(experiment="Experiment 1",get_screened_predict(dat1, newdat=data.frame(effect=seq(0.01,18, by=.2)),intercept=T)),
@@ -282,15 +282,13 @@ ggplot()+
   ylab("power") + xlab(expression(Effect(E)))
 ggsave( file="../images/power_screening_subject.pdf",height=7,width=10 )  
 
-
-
-ump1 <- calculate_ump_power1(3, 100, 5)
-qplot(effect, pred.mixed(X=effect, fit=fit.mixed)) + ylim(c(0,1))
-
-newdata <- data.frame(expand.grid(effect=effect, subject=ranef(fit.mixed)[[1]][,1]))
-newdata$pred <- pred.mixed(newdata$effect, intercept=newdata$subject, fit=fit.mixed)
-
-qplot(effect, pred, group=subject, data=subset(newdata, subject %in% sample(size=2, x=unique(newdata$subject))), geom="line")
+# ump1 <- calculate_ump_power1(3, 100, 5)
+# qplot(effect, pred.mixed(X=effect, fit=fit.mixed)) + ylim(c(0,1))
+# 
+# newdata <- data.frame(expand.grid(effect=effect, subject=ranef(fit.mixed)[[1]][,1]))
+# newdata$pred <- pred.mixed(newdata$effect, intercept=newdata$subject, fit=fit.mixed)
+# 
+# qplot(effect, pred, group=subject, data=subset(newdata, subject %in% sample(size=2, x=unique(newdata$subject))), geom="line")
 
 
 
