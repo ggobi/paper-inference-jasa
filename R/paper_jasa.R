@@ -4,6 +4,13 @@
 library(ggplot2)
 library(plyr)
 library(reshape)
+library(xtable)
+library(lme4)
+
+
+dat1 <- read.csv("../data/raw_data_turk1.csv")
+dat2 <- read.csv("../data/raw_data_turk2.csv")
+dat3 <- read.csv("../data/raw_data_turk3.csv")
 
 
 # =================== mathematical test t distribution  ===================
@@ -144,7 +151,7 @@ pl <- generate_turk3_lineup(n=100,sigma=3.5,beta=0.4)
 pl$result
 ggsave(plot=pl$p, file="../images/lineup_contaminated.pdf",height=7,width=7.5)
 
-# ==== plotting test statistics --------
+# ==== plotting visual test statistics --------
 
 generate_stat_slope <- function(n,beta,sigma){
 	#n <- 100; a <- 6; b <- 2; sigma <- 12
@@ -195,15 +202,78 @@ get_screened_summary <- function(dat){
   return(s)
 }
 
-dat1 <- read.csv("../data/raw_data_turk1.csv")
-dat2 <- read.csv("../data/raw_data_turk2.csv")
-dat3 <- read.csv("../data/raw_data_turk3.csv")
-
 sm <- cbind(get_screened_summary(dat1),
       get_screened_summary(dat2),
       get_screened_summary(dat3))
-library(xtable)
+#library(xtable)
 xtable(sm)
+
+# --- fit model with each screening criteria and plot power
+#library(lme4)
+
+pred.mixed <- function(X, intercept=0, fit) {
+  alpha <- log(.05/0.95)
+  eta <- alpha + X * fixef(fit) + intercept
+  g.eta <- exp(eta)/(1+exp(eta))
+  return(g.eta)
+}
+
+get_predict_mixed <- function(dat, newdat){
+  dat$effect <-  with(dat,abs(beta)/sigma*sqrt(sample_size))
+  dat$alpha <- log(.05/0.95)
+  fit.mixed <- lmer(response ~ offset(alpha) + effect -1 + (effect-1|id),
+                    family="binomial",
+                    data=dat) 
+  res <- data.frame(effect=newdat$effect,pred=pred.mixed(X=newdat$effect, fit=fit.mixed))
+  return(res)
+}
+effect <- seq(0.01,16, by=.2)
+get_predict_mixed(dat1, newdat=data.frame(effect))
+
+
+get_screened_predict <- function(dat, newdat){
+  indx <- get_sceering_index(dat)
+  res <- NULL
+  for (i in 1:5){
+    pred <- get_predict_mixed(subset(dat,indx[,i]), newdat)
+    res <- rbind(res, data.frame(screening=i,pred)) 
+  }
+  return(res)
+}
+get_screened_predict(dat1, newdat=data.frame(effect))
+pi <- rbind(data.frame(experiment="Experiment 1",get_screened_predict(dat1, newdat=data.frame(effect=seq(0.01,18, by=.2)))),
+            data.frame(experiment="Experiment 2",get_screened_predict(dat2, newdat=data.frame(effect=seq(0.01,8, by=.2)))),
+            data.frame(experiment="Experiment 3",get_screened_predict(dat3, newdat=data.frame(effect=seq(0.01,8, by=.2)))))
+set.seed(2035)
+ump <- rbind(data.frame(experiment="Experiment 1",effect=seq(0.01,18, by=.2),
+                        ump= calculate_ump_power1(beta=seq(0.01,18, by=.2)/10, n=100, sigma=1)),
+             data.frame(experiment="Experiment 2",effect=seq(0.01,8, by=.2),
+                        ump= calculate_ump_power2(beta=seq(0.01,8, by=.2)/10, n=100, sigma=1)),
+             data.frame(experiment="Experiment 3",effect=seq(0.01,8, by=.2),
+                        ump= calculate_ump_power3(beta=seq(0.01,8, by=.2)/sqrt(115), n=115, sigma=1, x=getx(100))))
+
+ggplot()+
+  geom_line(aes(effect,pred, colour=factor(screening)), data=pi) +
+  geom_line(aes(effect,ump), data=ump) +
+  facet_grid(.~experiment, scales="free") +
+  ylab("power") + xlab(expression(Effect(E))) +
+  scale_colour_discrete(name = "Screening \ncriteria") 
+
+ggsave( file="../images/power_screening.pdf",height=4.25,width=10)
+
+
+# ----- subject specific power from mixed model
+
+
+ump1 <- calculate_ump_power1(3, 100, 5)
+qplot(effect, pred.mixed(X=effect, fit=fit.mixed)) + ylim(c(0,1))
+
+newdata <- data.frame(expand.grid(effect=effect, subject=ranef(fit.mixed)[[1]][,1]))
+newdata$pred <- pred.mixed(newdata$effect, intercept=newdata$subject, fit=fit.mixed)
+
+qplot(effect, pred, group=subject, data=subset(newdata, subject %in% sample(size=2, x=unique(newdata$subject))), geom="line")
+
+
 
 # =================== Turk1 data analysis  ================================
 
@@ -402,15 +472,49 @@ qplot(bt, power, geom = "line", colour = test) + xlab(expression(beta))
 
 # ====================== Turk2 data analysis ========================= 
 
+calculate_ump_power2 <- function (beta, n, sigma){
+  alpha <- 0.05
+  beta_not <- 0
+  df <- n-2 # two parameters
+  x <- subset(read.csv("../data/Xdata.csv"),N==n)[,1]
+  ssx <- sum((x-mean(x))^2)
+  se_beta <- sigma/sqrt(ssx) 
+  mu <- beta/se_beta
+  t_n <- qt(p=1-alpha/2,df=df)
+  res <- pt(q=-t_n, df=df, ncp=mu)-pt(q=t_n, df=df, ncp=mu)+1
+  return(res)
+}
+
+
+# ==== turk3 data anaysis ===========
+
+
+getx <- function(n){
+  x1 <- rnorm(n,0,1)
+  nc <- 15*n/100
+  x2 <- rnorm(n=nc,mean=-1.75, sd=1/3)
+  return(c(x2,x1))
+}
+getx(100)
+
+calculate_ump_power3 <- function (beta, n, sigma,x){
+  alpha <- 0.05
+  sigmasq <- sigma^2
+  beta_not <- 0
+  df <- n-1 # one parameter(s)
+  se_beta <- sqrt(sigmasq/sum((x-mean(x))^2))
+  mu <- beta/se_beta
+  alpha <- alpha/2
+  t_n <- qt(p=1-alpha,df=df)
+  res <- pt(q=-t_n, df=df, ncp=mu)-pt(q=t_n, df=df, ncp=mu)+1
+  return(res)
+}
+
+calculate_ump_power3(beta=.1,n=100,sigma=5,x=getx(100))
 
 
 
 # ======================= p_value vs %correct =====================
-
-dat1 <- read.csv("../data/feedback_data_turk1_50p.txt")
-dat2 <- read.csv("../data/feedback_data_turk2_30p.txt")
-dat3 <- read.csv("../data/feedback_data_turk3_50p.txt")
-
 
 pdat <- NULL
 for (i in 1:3){
@@ -434,8 +538,6 @@ p <- ggplot() +
 p 
 
 ggsave(p,file="../images/p_val_percent_correct.pdf", height = 4.25, width = 10)
-
-
 
 # ----- p-value vs plot signal strength --------------------
 

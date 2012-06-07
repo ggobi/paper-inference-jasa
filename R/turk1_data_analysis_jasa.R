@@ -1129,7 +1129,7 @@ ggplot(data=effect.d,aes(x=effect,y=power-ump_power)) +
 library(lme4)
 
 dat$alpha <- log(.05/0.95)
-fit.mixed <- lmer(response ~ offset(alpha) + effect -1 + (effect|id),
+fit.mixed <- lmer(response ~ offset(alpha) + effect -1 + (effect-1|id),
                   family="binomial",
                   data=dat)
 qplot(group=effect, x=resid(fit.mixed), geom="histogram", data=dat, facets=~effect, binwidth=0.2)
@@ -1149,6 +1149,23 @@ Z <- cbind(ones,effect)
 # vv <- matrix(as.numeric(c(res@REmat[1,3],rep(cov,2),res@REmat[2,3])),ncol=2, byrow=F)
 vv <- VarCorr(fit.mixed)$id
 
+
+#################
+pred.mixed <- function(X, intercept=0) {
+  alpha <- log(.05/0.95)
+  fit <- X * fixef(fit.mixed) + intercept + alpha
+  return(exp(fit)/(1+exp(fit)))
+}
+
+qplot(effect, pred(X=effect)) + ylim(c(0,1))
+
+newdata <- data.frame(expand.grid(effect=effect, subject=ranef(fit.mixed)[[1]][,1]))
+newdata$pred <- pred(newdata$effect, intercept=newdata$subject)
+
+
+qplot(effect, pred, group=subject, data=subset(newdata, subject %in% sample(size=2, x=unique(newdata$subject))), geom="line")
+
+#################
 # library(MASS) is needed for mvrnorm
 
 power=NULL
