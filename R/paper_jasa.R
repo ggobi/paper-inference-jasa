@@ -211,31 +211,37 @@ xtable(sm)
 # --- fit model with each screening criteria and plot power
 #library(lme4)
 
-pred.mixed <- function(X, intercept=0, fit) {
+pred.mixed <- function(X, subject=0,fit) {
   alpha <- log(.05/0.95)
-  eta <- alpha + X * fixef(fit) + intercept
+  eta <- alpha + X * fixef(fit) + subject
   g.eta <- exp(eta)/(1+exp(eta))
   return(g.eta)
 }
 
-get_predict_mixed <- function(dat, newdat){
+get_predict_mixed <- function(dat, newdat, intercept=F){
   dat$effect <-  with(dat,abs(beta)/sigma*sqrt(sample_size))
   dat$alpha <- log(.05/0.95)
   fit.mixed <- lmer(response ~ offset(alpha) + effect -1 + (effect-1|id),
                     family="binomial",
                     data=dat) 
-  res <- data.frame(effect=newdat$effect,pred=pred.mixed(X=newdat$effect, fit=fit.mixed))
+  X <- newdat$effect
+  if(intercept){
+    subject <- ranef(fit.mixed)[[1]][,1]
+    d <- data.frame(expand.grid(effect=X, subject=subject))
+    pred <- pred.mixed(d$effect, subject=d$subject, fit=fit.mixed)
+    res <- data.frame(effect=d$effect, subject=d$subject, pred)
+  } else res <- data.frame(effect=X,pred=pred.mixed(X, fit=fit.mixed))
   return(res)
 }
 effect <- seq(0.01,16, by=.2)
 get_predict_mixed(dat1, newdat=data.frame(effect))
+#get_predict_mixed(dat1, newdat=data.frame(effect), intercept=T)
 
-
-get_screened_predict <- function(dat, newdat){
+get_screened_predict <- function(dat, newdat,intercept=F){
   indx <- get_sceering_index(dat)
   res <- NULL
   for (i in 1:5){
-    pred <- get_predict_mixed(subset(dat,indx[,i]), newdat)
+    pred <- get_predict_mixed(subset(dat,indx[,i]), newdat, intercept)
     res <- rbind(res, data.frame(screening=i,pred)) 
   }
   return(res)
@@ -263,6 +269,19 @@ ggsave( file="../images/power_screening.pdf",height=4.25,width=10)
 
 
 # ----- subject specific power from mixed model
+
+
+pi <- rbind(data.frame(experiment="Experiment 1",get_screened_predict(dat1, newdat=data.frame(effect=seq(0.01,18, by=.2)),intercept=T)),
+            data.frame(experiment="Experiment 2",get_screened_predict(dat2, newdat=data.frame(effect=seq(0.01,8, by=.2)),intercept=T)),
+            data.frame(experiment="Experiment 3",get_screened_predict(dat3, newdat=data.frame(effect=seq(0.01,8, by=.2)),intercept=T)))
+
+ggplot()+
+  geom_line(aes(effect,pred, group=subject), data=pi, alpha=.1) +
+  geom_line(aes(effect,ump), data=ump, colour="hotpink", size=1) +
+  facet_grid(screening~experiment, scales="free") +
+  ylab("power") + xlab(expression(Effect(E)))
+ggsave( file="../images/power_screening_subject.pdf",height=7,width=10 )  
+
 
 
 ump1 <- calculate_ump_power1(3, 100, 5)

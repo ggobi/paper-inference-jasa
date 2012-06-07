@@ -775,6 +775,94 @@ An example lineup for slope $\beta=0.4$ is shown in Figure \ref{fig:test_contami
 \end{figure}
 
 
+\subsection{Results}
+
+Participants for all the experiments were recruited through \cite{turk} Amazon's Mechanical Turk. Summary of the data we obtained for all three experiments are shown in table \ref{tbl:summary}. Participants are asked to select the plot they think best match the question asked, give a reason for their choice, and determine a level of  confidence for their decision. Gender, age, education and geographic location of each participant are also collected. In this process of collecting data some participants did not provide demographic information as we see in table \ref{tbl:summary} that male and female participants do not add up to total participants. It is not clear why they did not provide the information. Now the concern arises whether we should keep their responses in the study. It is also possible that participants were not serious enough to provide feedback. For each of the experiments we had a test plot (easy plot) for which they should have a correct evaluation without much effort.  This could be a criteria to determine their attentiveness in the study. For this we consider five different data cleaning criteria as shown below;
+
+{\bf Cleaning data:} There are five suggested approach to clean the data. They are 
+\begin{enumerate}
+\item not throw out anything
+\item throw out people where we don't have demographic information
+\item throw out all people with 0 percent correct
+\item only include people with at least 20 percent correct (current suggestion)
+\item include people with 50\% correct on all very easy (could be evaluated correctly if the participant is not ignorant) lineups (as suggested before)
+\end{enumerate}
+
+\begin{table}[hbtp]
+\caption{Number of unique subjects and their total feedbacks after applying five screening process on all three experimental data sets.}
+\begin{center}
+\begin{tabular}{rrrrr|rrrr|rrrr}
+  \hline
+Screening &  \multicolumn{4}{c} {Experiment 1}  & \multicolumn{4}{c} {Experiment 2}  & \multicolumn{4}{c} {Experiment 3} \\
+ \cline{2-5}  \cline{6-9}   \cline{10-13}
+criteria & total & male & female & feedbacks & total & male & female & feedbacks & total & male & female & feedbacks \\ 
+  \hline
+1 & 520 & 264 & 201 & 4914 & 390 & 203 & 182 & 4603 & 257 & 166 &  84 & 2830 \\ 
+  2 & 465 & 264 & 201 & 4624 & 385 & 203 & 182 & 4558 & 250 & 166 &  84 & 2782 \\ 
+  3 & 384 & 200 & 165 & 4187 & 384 & 199 & 181 & 4573 & 227 & 147 &  78 & 2648 \\ 
+  4 & 318 & 168 & 135 & 3395 & 378 & 195 & 179 & 4492 & 205 & 133 &  72 & 2393 \\ 
+  5 & 277 & 139 & 124 & 3008 & 374 & 193 & 177 & 4451 & 112 &  73 &  39 & 1410 \\ 
+   \hline
+\end{tabular}
+\end{center}
+\label{tbl:summary}
+\end{table}
+
+
+We fit model \ref{mixed} with effect $E=\beta*n/\sqrt(n)$ as the only fixed effect covariate without intercept. We also set $offset = log(0.05/95)$ so that the estimated power has a fixed lower limit = 0.05 (Type-I error) for effect $E=0$. The power curves obtained by fitting model \ref{mixed} to the data for all the experiments applying different screening criteria is shown in figure \ref{fig:power_screening}. This shows how the screening criteria may affect the results. The corresponding power curves of UMP test are also shown. Notice that no mater what criteria we apply the result does not change much for experiment 2. Also, estimated power curve with criteria 5 for experiment 3 is above the UMP test power curve.
+
+\begin{figure}[hbtp]
+   \centering
+       \scalebox{0.70}{\includegraphics{power_screening.pdf}}
+       \caption{The overall power estimated from model \ref{mixed} are shown for various data sets obtained by applying 5 screening criteria.  The corresponding power curve for Uniformly Most powerful (UMP) test is shown in black solid lines for comparison.}
+       \label{fig:power_screening}
+\end{figure}
+
+\begin{figure}[hbtp]
+   \centering
+       \scalebox{0.60}{\includegraphics{power_screening_subject.pdf}}
+       \caption{The subject wise power estimated from model \ref{mixed} are shown for various data sets obtained by applying 5 screening criteria.  The corresponding power curve for Uniformly Most powerful (UMP) test is shown in pink lines for comparison.}
+       \label{fig:power_screening_subject}
+\end{figure}
+
+Each participant was shown a sequence of 10 lineup plots.  In total, 3629 lineups were evaluated by 324 people coming from many different locations across the globe.  The results of the experiment are summarized in Figure \ref{fig:power_observed} which shows the observed power from the survey data calculated using equation \eqref{power_est} along with 95\% confidence interval calculated using Fisher's exact method.
+
+%\begin{figure}[hbtp]
+%   \centering
+%       \scalebox{0.40}{\includegraphics{power_model.pdf}}
+%       \caption{Estimated power curve from Equation \ref{eqn:power} along with 95\% confidence interval for sample size $n$ = 100 and $\sigma$ = 12.  The corresponding power curve for Uniformly Most powerful (UMP) test is shown for comparison.}
+%       \label{fig:power_model}
+%\end{figure}
+
+%We fit model \eqref{mixed} to the survey data obtained from the simulation experiment. The estimated overall power curve obtained from equation \eqref{eqn:power} is shown in Figure \ref{fig:power_model}. Model \ref{mixed} also gives the subject specific power curves shown in Figure \ref{fig:power_subject}. The plot includes 20 randomly selected subject-specific power curves. Notice that the power curve estimated for one subject is above the UMP test power curve. 
+%
+%\begin{figure}[hbtp]
+%   \centering
+%       \scalebox{0.45}{\includegraphics{power_subject.pdf}}
+%       \caption{Estimated subject specific power curve from model \ref{mixed} for sample size $n$ = 100 and $\sigma$ = 12.  The corresponding power curve for Uniformly Most powerful (UMP) test is shown for comparison.}
+%       \label{fig:power_subject}
+%\end{figure}
+
+
+\begin{figure*}[hbtp]
+   \centering
+       \scalebox{0.6}{\includegraphics{p_val_percent_correct.pdf}}
+       \caption{Percentage of correct responses decreases rapidly with the increase of p-value. After p-value exceeds 1.5 it is very unlikely to identify the actual plot. The theoretical justification of this is shown in figure \ref{fig:pval_power}}
+       \label{fig:pval_pcorrect}
+\end{figure*}
+
+\begin{figure*}[hbtp]
+   \centering
+       \scalebox{0.6}{\includegraphics{p_val_plot_signal.pdf}}
+       \caption{p-value vs plot signal strength. The solid line represents 45 degree line which represents the equity shown in equation \ref{plot_signal}}
+       \label{fig:pval_plot_signal}
+\end{figure*}
+
+
+\hh{From figure \ref{fig:power_loess3} we see that identification of the data plot is high independently of the effect size. This might be an indication that participants were not considering slope as distinguishing feature for the data, but the apparent clustering, i.e. the null hypothesis is being rejected, but not for the reason of the slope -- which the experimental setup was asking for --  leading to a type III error of `correctly rejecting the null hypothesis for the wrong reason', as defined by \citet{mosteller:48}.}
+
+
+
 \begin{figure*}[hbtp]
    \centering
        \scalebox{0.6}{\includegraphics{power_observed.pdf}}
@@ -839,84 +927,7 @@ An example lineup for slope $\beta=0.4$ is shown in Figure \ref{fig:test_contami
 \end{figure*}
 
 
-\begin{figure*}[hbtp]
-   \centering
-       \scalebox{0.6}{\includegraphics{p_val_percent_correct.pdf}}
-       \caption{Percentage of correct responses decreases rapidly with the increase of p-value. After p-value exceeds 1.5 it is very unlikely to identify the actual plot. The theoretical justification of this is shown in figure \ref{fig:pval_power}}
-       \label{fig:pval_pcorrect}
-\end{figure*}
 
-\begin{figure*}[hbtp]
-   \centering
-       \scalebox{0.6}{\includegraphics{p_val_plot_signal.pdf}}
-       \caption{p-value vs plot signal strength. The solid line represents 45 degree line which represents the equity shown in equation \ref{plot_signal}}
-       \label{fig:pval_plot_signal}
-\end{figure*}
-
-\subsection{Results}
-
-Participants for all the experiments were recruited through \cite{turk} Amazon's Mechanical Turk. Summary of the data we obtained for all three experiments are shown in table \ref{tbl:summary}. Participants are asked to select the plot they think best match the question asked, give a reason for their choice, and determine a level of  confidence for their decision. Gender, age, education and geographic location of each participant are also collected. In this process of collecting data some participants did not provide demographic information as we see in table \ref{tbl:summary} that male and female participants do not add up to total participants. It is not clear why they did not provide the information. Now the concern arises whether we should keep their responses in the study. It is also possible that participants were not serious enough to provide feedback. For each of the experiments we had a test plot (easy plot) for which they should have a correct evaluation without much effort.  This could be a criteria to determine their attentiveness in the study. For this we consider five different data cleaning criteria as shown below;
-
-{\bf Cleaning data:} There are five suggested approach to clean the data. They are 
-\begin{enumerate}
-\item not throw out anything
-\item throw out people where we don't have demographic information
-\item throw out all people with 0 percent correct
-\item only include people with at least 20 percent correct (current suggestion)
-\item include people with 50\% correct on all very easy (could be evaluated correctly if the participant is not ignorant) lineups (as suggested before)
-\end{enumerate}
-
-\begin{table}[hbtp]
-\caption{Number of unique subjects and their total feedbacks after applying five screening process on all three experimental data sets.}
-\begin{center}
-\begin{tabular}{rrrrr|rrrr|rrrr}
-  \hline
-Screening &  \multicolumn{4}{c} {Experiment 1}  & \multicolumn{4}{c} {Experiment 2}  & \multicolumn{4}{c} {Experiment 3} \\
- \cline{2-5}  \cline{6-9}   \cline{10-13}
-criteria & total & male & female & feedbacks & total & male & female & feedbacks & total & male & female & feedbacks \\ 
-  \hline
-1 & 520 & 264 & 201 & 4914 & 390 & 203 & 182 & 4603 & 257 & 166 &  84 & 2830 \\ 
-  2 & 465 & 264 & 201 & 4624 & 385 & 203 & 182 & 4558 & 250 & 166 &  84 & 2782 \\ 
-  3 & 384 & 200 & 165 & 4187 & 384 & 199 & 181 & 4573 & 227 & 147 &  78 & 2648 \\ 
-  4 & 318 & 168 & 135 & 3395 & 378 & 195 & 179 & 4492 & 205 & 133 &  72 & 2393 \\ 
-  5 & 277 & 139 & 124 & 3008 & 374 & 193 & 177 & 4451 & 112 &  73 &  39 & 1410 \\ 
-   \hline
-\end{tabular}
-\end{center}
-\label{tbl:summary}
-\end{table}
-
-
-We fit model \ref{mixed} with effect $E=\beta*n/\sqrt(n)$ as the only fixed effect covariate without intercept. We also set $offset = log(0.05/95)$ so that the estimated power has a fixed lower limit = 0.05 (Type-I error) for effect $E=0$. The power curves obtained by fitting model \ref{mixed} to the data for all the experiments applying different screening criteria is shown in figure \ref{fig:power_screening}. This shows how the screening criteria may affect the results. The corresponding power curves of UMP test are also shown. Notice that no mater what criteria we apply the result does not change much for experiment 2. Also, estimated power curve with criteria 5 for experiment 3 is above the UMP test power curve.
-
-\begin{figure}[hbtp]
-   \centering
-       \scalebox{0.70}{\includegraphics{power_screening.pdf}}
-       \caption{The overall power estimated from model \ref{mixed} are shown for various data sets obtained by applying 5 screening criteria.  The corresponding power curve for Uniformly Most powerful (UMP) test is shown in black solid lines for comparison.}
-       \label{fig:power_screening}
-\end{figure}
-
-
-Each participant was shown a sequence of 10 lineup plots.  In total, 3629 lineups were evaluated by 324 people coming from many different locations across the globe.  The results of the experiment are summarized in Figure \ref{fig:power_observed} which shows the observed power from the survey data calculated using equation \eqref{power_est} along with 95\% confidence interval calculated using Fisher's exact method.
-
-\begin{figure}[hbtp]
-   \centering
-       \scalebox{0.40}{\includegraphics{power_model.pdf}}
-       \caption{Estimated power curve from Equation \ref{eqn:power} along with 95\% confidence interval for sample size $n$ = 100 and $\sigma$ = 12.  The corresponding power curve for Uniformly Most powerful (UMP) test is shown for comparison.}
-       \label{fig:power_model}
-\end{figure}
-
-%We fit model \eqref{mixed} to the survey data obtained from the simulation experiment. The estimated overall power curve obtained from equation \eqref{eqn:power} is shown in Figure \ref{fig:power_model}. Model \ref{mixed} also gives the subject specific power curves shown in Figure \ref{fig:power_subject}. The plot includes 20 randomly selected subject-specific power curves. Notice that the power curve estimated for one subject is above the UMP test power curve. 
-
-\begin{figure}[hbtp]
-   \centering
-       \scalebox{0.45}{\includegraphics{power_subject.pdf}}
-       \caption{Estimated subject specific power curve from model \ref{mixed} for sample size $n$ = 100 and $\sigma$ = 12.  The corresponding power curve for Uniformly Most powerful (UMP) test is shown for comparison.}
-       \label{fig:power_subject}
-\end{figure}
-
-
-\hh{From figure \ref{fig:power_loess3} we see that identification of the data plot is high independently of the effect size. This might be an indication that participants were not considering slope as distinguishing feature for the data, but the apparent clustering, i.e. the null hypothesis is being rejected, but not for the reason of the slope -- which the experimental setup was asking for --  leading to a type III error of `correctly rejecting the null hypothesis for the wrong reason', as defined by \citet{mosteller:48}.}
 
 \green{A lot more needs to be done here!!!}
 
