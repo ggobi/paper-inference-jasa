@@ -359,7 +359,7 @@ We will be able to show evidence for the second assumption with the help of the 
 
 \hh{In order to compare power of classical tests and lineups side-by-side, we will have to assume, that we are in the controlled environment of a simulation with tests corresponding to a known parameter value $\theta \in R$ and associated distribution function $F_t$ of the test statistic. }
 
-\begin{lemma}
+\begin{lemma}~\label{lemma}
 Suppose $F_{|t|}(.)$ is the distribution function of an absolute value of $t$, the classical test statistic. Suppose the associated test statistic in a classical test is observed as  $t_{obs}$ with $p$-value $p_D$. 
 
 The probability of picking the data plot from a lineup depends on the size $m$ of the lineup and the strength of the signal in the data plot. 
@@ -451,7 +451,7 @@ By matching the expected values, we therefore get an expression for the $p$-valu
 {E[p_D]} = 1- \left(\frac{E[N_m]}{K}\right)^{1/(m-1)}.
 \end{equation}
 
-Note that the right hand side of equation (\ref{eqn:power_estimate}) is independent of the parameter $\theta$, but just based on the lineup evaluation by independent observers. While this allows us to compute this value independently of the parametric setting, it also means that observers might pick out the data plot for a reason not related to the value of $\theta$. 
+Note that the right hand side of the equation (\ref{eqn:power_estimate}) is independent of the parameter $\theta$, but just based on the lineup evaluation by independent observers. While this allows us to compute this value independently of the parametric setting, it also means that observers might pick out the data plot for a reason not related to the value of $\theta$. 
 
 %Picking out the data plot is still a measure of how different the data plot is compared to the null plots, and therefore is a test statistic of the visual test.
 
@@ -499,12 +499,12 @@ To make these concepts more concrete consider how this would operate in the line
 \end{equation}
 where $\epsilon_i \stackrel{iid}{ \sim } N(0,\sigma^2)$, $i=1,2, .., n$. The covariates ($X_j, j=1,..,p$) can be continuous or discrete.
 
-In this setting, there is a multitude of established graphics that help with the evaluation and diagnostics of a model \citep{cook:99}. Table \ref{tbl:stat_multiple} shows an overview of possible hypotheses that would be tested in the regression setting, and what visual test statistic might be used in these tests. These plots shoul be familiar, because they are all commonly used for evaluating and diagnosing regression models. For example, to examine the effect of variable $X_j$ on $Y$, we would plot $Y$ against $X_j$ (cases 1-4). To assess whether the linear assumption is appropriate we would make a plot of residuals against fitted values (case 5). 
+In this setting, there are many established graphics that are used to evaluate and diagnose the fit of a regression model (e.g. \citet{cook:99}). Table \ref{tbl:stat_multiple} lists several common hypotheses related to the regression setting, and the visual test statistic that might be used for testing these hypotheses. These plots should be familiar, because they are all in common use. For example, to examine the effect of variable $X_j$ on $Y$, we would plot $Y$ against $X_j$ (cases 1-4). To assess whether the linear assumption is appropriate we would make a plot of residuals against fitted values (case 5). For the purposes of comparing visual against classical inference, we focus on cases 2 and 3, with a continuous and catgorical explanatory variable respectively. 
 
 %Note that some charts can be associated with several different testing situations. In our paper, we pick the examples for situation 2 and 3 as candidates.
 
 \begin{table*}[hbtp] 
-\caption{Test Statistics for Testing Hypothesis Related to Model $Y_i = \beta_0 + \beta_1 X_{i1} + \beta_1 X_{i2} + \beta_3 X_{i1}X_{i2} + ... + \epsilon_i  $ } 
+\caption{Visual test statistics for testing hypotheses related to the model $Y_i = \beta_0 + \beta_1 X_{i1} + \beta_1 X_{i2} + \beta_3 X_{i1}X_{i2} + ... + \epsilon_i  $ } 
 \centering 
 \begin{tabular}{m{0.5cm}m{3cm}m{2cm}m{3cm}m{5.5cm}} 
 \hline\hline 
@@ -524,14 +524,9 @@ Case & Null Hypothesis & Statistic & Test Statistic & Description \\ [0.5ex] % i
 \label{tbl:stat_multiple} 
 \end{table*} 
 
-For the purposes of validating visual inference, we focus on cases 2 and 3, with a continuous and catgorical explanatory variable respectively. 
-
-Suppose $X_k$ is a categorical variable with two levels, and we test the hypothesis $H_0:\beta_k=0$ vs $H_1: \beta_k \ne 0$. If the responses for the two levels of the categorical variable $X_k$ in the model are significantly different and we fit the null model to the actual data, the resulting residual plot shows two groups of residuals. To test this we generate side-by-side boxplots of the residuals conditioned on the two levels of $X_k$, as the test statistic. If $\beta_k\ne 0$ the boxplots show a vertical displacement. 
+Suppose $X_k$ is a categorical variable with two levels, and we test the hypothesis $H_0:\beta_k=0$ vs $H_1: \beta_k \ne 0$. If the responses for the two levels of the categorical variable $X_k$ in the model are different and we fit the null model to the actual data, the resulting residuals should show a significant difference between the two groups. To test this boxplots of the residuals conditioned on the two levels of $X_k$ are made, as the observed test statistic. If $\beta_k\ne 0$ the boxplots should show a vertical displacement. 
 
 %A lineup including the test statistic  for a binary $X_k$ is shown in Figure \ref{fig:test_category}. The 19 null plots are generated  by simulating residuals from $N(0,\hat{\sigma}^2)$. The test statistic, the plot containing the actual data, is randomly placed among these null plots. If the test statistic is identifiable the null hypothesis is rejected. % with a $p$-value of at most 0.05.
-
-
-
 
 %\subsection{Expected power}
 
@@ -557,13 +552,21 @@ Suppose $X_k$ is a categorical variable with two levels, and we test the hypothe
 %%Thus the density of $p_D$ is Uniform(0,1)  under $H_0$. As noted by \cite{Ruppert:2007}, under $H_1$ the density $$f_{p_D}(p_D; \delta)= \frac{f_{|t|}(F_{|t|}^{-1}(1-p_D);\delta)}{f_{|t|}(F_{|t|}^{-1}(1-p_D))}$$ derived from equation \ref{dist_p}  is a right skewed distribution.  
 %In a lineup plot we simulate $m-1$ residual data sets from null model where each of these $m-1$ null data sets produces a corresponding $p$-value $p_{0,i}$ and $p_{0,i} \sim \text{Uniform}(0,1)$ for $i = 1, ..., m-1$. Suppose  $p_0=\min_i(p_{0,i})$. Thus $p_0 \sim \text{Beta}(1,m-1)$. 
 
-Under the assumption that an observer is able to pick the plot with the smallest $p$-value from a lineup plot,  this leads to the decision to reject $H_0$ when $p_{B} < p_0$. Thus we have the expected power as 
+The classical test in this scenario uses $T= \hat{\beta_k}/
+se(\hat{\beta_k})$ and rejects the null hypothesis if $T$ is extreme
+on the scale of a $t$ distribution with $n-p$ degrees of freedom. This
+is the uniformly most powerful (UMP) test \green{reference needed
+  here} and it forms the benchmark upon which we evaluate the visual
+test. To calculate what we might expect for the power of the visual
+test, under perfect conditions, first assume that the observer is able
+to pick the plot with the smallest $p$-value from a lineup plot.  This
+leads to the decision to reject $H_0$ when $p_{B} < p_0$, where $p_{B}$ is calculated according to details given in Lemma \ref{lemma}. Thus 
+the expected power of the visual test in this scenario is
 
 \begin{equation}\label{power_exp} 
    Power(\beta)=Pr(p_{B} < p_0)  \quad \text{for}  \quad \beta \ne 0
 \end{equation}
-
-The classical uniformly most powerful (UMP) test rejects $H_0$ if the observed test statistic $T= \hat{\beta_k}/ se(\hat{\beta_k})$ takes an extreme value in the distribution of theoretical $t$ distribution with $n-p$ degrees of freedom. Figure \ref{fig:power_expected} shows the power of the UMP test in comparison to the expected power of the visual test obtained from equation \eqref{power_exp}. Notice that the expected power of the visual test is almost as good as the power of UMP test. In fact, the only loss we experience stems from comparing the test statistic to only a discrete number of  $m-1$ samples from the null distribution. 
+Figure \ref{fig:power_expected} shows the power of the UMP test in comparison to the expected power of the visual test obtained from Equation \ref{power_exp}. Notice that the expected power of the visual test is almost as good as the power of UMP test. \green{What do you mean by this? Where does this ``fact'' come from?} In fact, the only loss we experience stems from comparing the test statistic to only a discrete number of  $m-1$ samples from the null distribution. 
 
 %Theorem \ref{thm:power} helps to compute the expected power of visual inference.
 %\begin{thm}\label{thm:power}
@@ -595,7 +598,7 @@ The classical uniformly most powerful (UMP) test rejects $H_0$ if the observed t
 \begin{figure}[hbtp]
    \centering
        \scalebox{.65}{\includegraphics{power_expected.pdf}}
-       \caption{Expected power of visual test  and the power of UMP test for sample size $n =100$ and $\sigma = 12$. \hh{what is $m$? - would it make sense to show a curves for varying values of $m$?} \blue{$m$=20 here. When $m$ changes the type-I error also changes. Thus I can produce the difference between power curves for each $m$. Do you suggest that?}}
+       \caption{Expected power of visual test  and the power of UMP test for sample size $n =100$, $\sigma = 12$ and $m$=20. \green{Produce these curves for $m=12$, $m=20$, $m=30$.}}
        \label{fig:power_expected}
 \end{figure}
 
@@ -737,7 +740,7 @@ The first two simulation experiments use data generated with a normal error mode
     \lambda+ \eta_i & \quad X_i \sim N(\mu,1/3) \quad  i=n+1, ...,n*c\\
   \end{array} \right.
 \]
-where $\epsilon_i \stackrel{iid}\sim N(0,\sigma)$, $\eta_i \stackrel{iid}\sim N(0,\sigma/3)$ and $\mu = -1.75$, $c$ is the proportion of contaminated data. For the experiment we consider $n=100$, $c=0.15$ producing actual data with $115$ points. Also $\alpha=0$ and $\lambda=10$, and $\sigma$ is chosen such that overall error standard deviation of the data is $5$ which is approximately 3.5\green{????} \blue{(Yes, this is how we did it. This value (3.5) makes the overall sd to be 5 because of the inclusion of the contaminated part of the data.)}. Figure \ref{fig:cont_dat} shows an example of contaminated data, generated by this model for $\beta=5$.  A linear model (Equation \eqref{multi} with $p=1$  and intercept $\beta_0=0$) is fit to the contaminated data. This experiment also follows the test in Table \ref{tbl:stat_multiple}, case 2. The actual data plot shows a scatterplot of the residuals vs $X_1$, and the null data plots are scatterplots of null data generated by simulating residuals from $N(0, {\hat{\sigma}}^2$) and plotting against $X_1$. 
+where $\epsilon_i \stackrel{iid}\sim N(0,\sigma)$, $\eta_i \stackrel{iid}\sim N(0,\sigma/3)$ and $\mu = -1.75$, $c$ is the proportion of contaminated data. For the experiment we consider $n=100$, $c=0.15$ producing actual data with $115$ points. Also $\alpha=0$ and $\lambda=10$, and $\sigma$ is chosen such that overall error standard deviation of the data is $5$ which is approximately 3.5\green{????} \blue{(Yes, this is how we did it. This value (3.5) makes the overall sd to be 5 because of the inclusion of the contaminated part of the data.)}. Figure \ref{fig:cont_dat} shows an example of contaminated data, generated by this model for $\beta=5$.  A linear model (Equation \ref{multi} with $p=1$  and intercept $\beta_0=0$) is fit to the contaminated data. This experiment also follows the test in Table \ref{tbl:stat_multiple}, case 2. The actual data plot shows a scatterplot of the residuals vs $X_1$, and the null data plots are scatterplots of null data generated by simulating residuals from $N(0, {\hat{\sigma}}^2$) and plotting against $X_1$. 
 
 Five replications of actual data sets for each slope value shown in Table \ref{tbl:experiment_params}, producing 30 lineups. Six groups of difficulty level based on slope are defined, difficulty = 0 for largest slope and difficulty = 5 for the smallest slope.    Eight (8) lineups with two from each of the difficulty group from 0 through 3 and two(2) lineups with one from each difficulty group 4 and 5 were randomly picked for each subject. 
 
@@ -766,7 +769,7 @@ An example lineup for slope $\beta=0.4$ is shown in Figure \ref{fig:test_contami
 %\begin{figurehere}
    \centering
        \scalebox{0.4}{\includegraphics{contaminated_data.pdf}}
-       \caption{Scatterplot of a simulated contaminated data set generated such that a simple linear model produce a slope almost negligible, ie, if we fit model (Equation \eqref{multi}) with $p=1$  to this data, the resulting estimate of $\beta_1$ would not be statistically significant.
+       \caption{Scatterplot of a simulated contaminated data set generated such that a simple linear model produce a slope almost negligible, ie, if we fit model (Equation \ref{multi}) with $p=1$  to this data, the resulting estimate of $\beta_1$ would not be statistically significant.
 }
        \label{fig:cont_dat}
 \end{figure}
@@ -775,7 +778,7 @@ An example lineup for slope $\beta=0.4$ is shown in Figure \ref{fig:test_contami
 \begin{figure*}[hbtp]
    \centering
        \scalebox{0.6}{\includegraphics{power_observed.pdf}}
-       \caption{Observed power of visual test from equation \eqref{power_est} with pointwise 95\% confidence limits and the power of UMP test for sample size $n= 100,300$ and $\sigma = 12,5$ as per experiment 1.}
+       \caption{Observed power of visual test from equation \ref{power_est} with pointwise 95\% confidence limits and the power of UMP test for sample size $n= 100,300$ and $\sigma = 12,5$ as per experiment 1.}
        \label{fig:power_observed}
 \end{figure*}
 
@@ -831,7 +834,7 @@ An example lineup for slope $\beta=0.4$ is shown in Figure \ref{fig:test_contami
 \begin{figure*}[hbtp]
    \centering
        \scalebox{0.6}{\includegraphics{power_observed_exp3.pdf}}
-       \caption{Observed power of visual test from equation \eqref{power_est} with pointwise 95\% confidence limits and the power of UMP test for sample size $n= 100$ and $\sigma = 5$ as per experiment 3. }
+       \caption{Observed power of visual test from equation \ref{power_est} with pointwise 95\% confidence limits and the power of UMP test for sample size $n= 100$ and $\sigma = 5$ as per experiment 3. }
        \label{fig:power_observed_exp3}
 \end{figure*}
 
@@ -846,7 +849,7 @@ An example lineup for slope $\beta=0.4$ is shown in Figure \ref{fig:test_contami
 \begin{figure*}[hbtp]
    \centering
        \scalebox{0.6}{\includegraphics{p_val_plot_signal.pdf}}
-       \caption{p-value vs plot signal strength. The solid line represents 45 degree line which represents the equity shown in equation \eqref{plot_signal}}
+       \caption{p-value vs plot signal strength. The solid line represents 45 degree line which represents the equity shown in equation \ref{plot_signal}}
        \label{fig:pval_plot_signal}
 \end{figure*}
 
@@ -899,7 +902,7 @@ Each participant was shown a sequence of 10 lineup plots.  In total, 3629 lineup
 \begin{figure}[hbtp]
    \centering
        \scalebox{0.40}{\includegraphics{power_model.pdf}}
-       \caption{Estimated power curve from equation \eqref{eqn:power} along with 95\% confidence interval for sample size $n$ = 100 and $\sigma$ = 12.  The corresponding power curve for Uniformly Most powerful (UMP) test is shown for comparison.}
+       \caption{Estimated power curve from Equation \ref{eqn:power} along with 95\% confidence interval for sample size $n$ = 100 and $\sigma$ = 12.  The corresponding power curve for Uniformly Most powerful (UMP) test is shown for comparison.}
        \label{fig:power_model}
 \end{figure}
 
