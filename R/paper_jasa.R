@@ -186,19 +186,25 @@ get_sceering_index <- function(dat){
   indx3 <- dat$id %in% included_id3
   included_id4 <- d34$id[ d34$percent_correct >= 20 ]
   indx4 <- dat$id %in% included_id4
-  d4 <- ddply(subset(dat, p_value < 0.0002),.(id),summarise,
+  d56 <- ddply(subset(dat, p_value < 0.0002),.(id),summarise,
               easy_cnt = length(response),
-              percent_correct = mean(response)*100
+              percent_correct = mean(response)*100,
+              include_criteria_6 = response[1],
+              exclude_lineup_criteria_6 = paste(id[1],"_",pic_id[1],sep=""),
+              exclude_lineup_p_value = p_value[1]
               )
-  included_id5 <- d4$id[ d4$percent_correct > 49]
+  included_id5 <- d56$id[ d56$percent_correct > 49]
   indx5 <- dat$id %in% included_id5
-  return(data.frame(indx1,indx2,indx3,indx4,indx5))
+  included_id6 <- d56$id[d56$include_criteria_6]
+  indx6 <- dat$id %in% included_id6
+  indx6[paste(dat$id,"_",dat$pic_id,sep="") %in% d56$exclude_lineup_criteria_6] <- FALSE
+  return(data.frame(indx1,indx2,indx3,indx4,indx5,indx6))
 }
 
 get_screened_summary <- function(dat){
   indx <- get_sceering_index(dat)
   s <- NULL
-  for (i in 1:5) s <-  rbind(s,get_summary(subset(dat,indx[,i])))
+  for (i in 1:6) s <-  rbind(s,get_summary(subset(dat,indx[,i])))
   return(s)
 }
 
