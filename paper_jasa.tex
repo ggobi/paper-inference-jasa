@@ -826,7 +826,14 @@ For each of the experiments we had a test plot (easy plot) for which they should
 Screening &  \multicolumn{4}{c} {Experiment 1}  & \multicolumn{4}{c} {Experiment 2}  & \multicolumn{4}{c} {Experiment 3} \\
  \cline{2-5}  \cline{6-9}   \cline{10-13}
 criteria & Subj & Male & Fem & Total & Subj & Male & Fem & Total & Subj & Male & Fem & Total \\ 
-  \hline1 & 520 & 264 & 201 & 4914 & 390 & 203 & 182 & 4603 & 257 & 166 &  84 & 2830 \\   2 & 465 & 264 & 201 & 4624 & 385 & 203 & 182 & 4558 & 250 & 166 &  84 & 2782 \\   3 & 384 & 200 & 165 & 4187 & 384 & 199 & 181 & 4573 & 227 & 147 &  78 & 2648 \\   4 & 318 & 168 & 135 & 3395 & 378 & 195 & 179 & 4492 & 205 & 133 &  72 & 2393 \\   5 & 277 & 139 & 124 & 3008 & 374 & 193 & 177 & 4451 & 112 &  73 &  39 & 1410 \\   6 & 239 & 121 & 107 & 2317 & 351 & 185 & 164 & 3858 &  98 &  64 &  34 & 1095 \\    \hline
+  \hline
+1 & 520 & 264 & 201 & 4914 & 390 & 203 & 182 & 4603 & 257 & 166 &  84 & 2830 \\ 
+  2 & 465 & 264 & 201 & 4624 & 385 & 203 & 182 & 4558 & 250 & 166 &  84 & 2782 \\ 
+  3 & 384 & 200 & 165 & 4187 & 384 & 199 & 181 & 4573 & 227 & 147 &  78 & 2648 \\ 
+  4 & 318 & 168 & 135 & 3395 & 378 & 195 & 179 & 4492 & 205 & 133 &  72 & 2393 \\ 
+  5 & 277 & 139 & 124 & 3008 & 374 & 193 & 177 & 4451 & 112 &  73 &  39 & 1410 \\ 
+  6 & 239 & 121 & 107 & 2317 & 351 & 185 & 164 & 3858 &  98 &  64 &  34 & 1095 \\ 
+   \hline
 \end{tabular}
 \end{center}
 \label{tbl:summary}
@@ -922,6 +929,15 @@ Each participant was shown a sequence of 10 lineup plots.  In total, 3629 lineup
 \subsection{Do people tend to pick the lowest $p$-value?}
 
 This section takes the data and looks at the assumption made for the early expected power.
+
+\begin{figure*}[hbtp]
+   \centering
+       \scalebox{0.6}{\includegraphics{p_val_rank_counts.pdf}}
+       \caption{Rank of p-values in a lineup of size 20 and the number of subjects choosing that plot in the lineup of experiment 1 with raw data (nothing is dropped). This indicates that most of the subjects pick the plot with minimum p-value (rank 1). There are subjects choosing the lineups with highest p-value(rank 20) but we can attribute this behavior to the type-I error. Can we?}
+       \label{fig:P-val_rank}
+\end{figure*}
+
+
 
 \section{Conclusions}
 

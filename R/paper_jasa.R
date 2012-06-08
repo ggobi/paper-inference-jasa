@@ -13,6 +13,7 @@ dat2 <- read.csv("../data/raw_data_turk2.csv")
 dat3 <- read.csv("../data/raw_data_turk3.csv")
 
 
+
 # =================== mathematical test t distribution  ===================
 
 t <- seq(-4, 4, by = 0.1)
@@ -246,23 +247,23 @@ get_predict_mixed(dat1, newdat=data.frame(effect))
 get_screened_predict <- function(dat, newdat,intercept=F){
   indx <- get_sceering_index(dat)
   res <- NULL
-  for (i in 1:5){
+  for (i in 1:6){
     pred <- get_predict_mixed(subset(dat,indx[,i]), newdat, intercept)
     res <- rbind(res, data.frame(screening=i,pred)) 
   }
   return(res)
 }
 get_screened_predict(dat1, newdat=data.frame(effect))
-pi <- rbind(data.frame(experiment="Experiment 1",get_screened_predict(dat1, newdat=data.frame(effect=seq(0.01,18, by=.2)))),
-            data.frame(experiment="Experiment 2",get_screened_predict(dat2, newdat=data.frame(effect=seq(0.01,8, by=.2)))),
-            data.frame(experiment="Experiment 3",get_screened_predict(dat3, newdat=data.frame(effect=seq(0.01,8, by=.2)))))
+pi <- rbind(data.frame(experiment="Experiment 1",get_screened_predict(dat1, newdat=data.frame(effect=seq(0,18, by=.2)))),
+            data.frame(experiment="Experiment 2",get_screened_predict(dat2, newdat=data.frame(effect=seq(0,7, by=.2)))),
+            data.frame(experiment="Experiment 3",get_screened_predict(dat3, newdat=data.frame(effect=seq(0,6, by=.2)))))
 set.seed(2035)
-ump <- rbind(data.frame(experiment="Experiment 1",effect=seq(0.01,18, by=.2),
-                        ump= calculate_ump_power1(beta=seq(0.01,18, by=.2)/10, n=100, sigma=1)),
-             data.frame(experiment="Experiment 2",effect=seq(0.01,8, by=.2),
-                        ump= calculate_ump_power2(beta=seq(0.01,8, by=.2)/10, n=100, sigma=1)),
-             data.frame(experiment="Experiment 3",effect=seq(0.01,8, by=.2),
-                        ump= calculate_ump_power3(beta=seq(0.01,8, by=.2)/sqrt(115), n=115, sigma=1, x=getx(100))))
+ump <- rbind(data.frame(experiment="Experiment 1",effect=seq(0,18, by=.2),
+                        ump= calculate_ump_power1(beta=seq(0,18, by=.2)/10, n=100, sigma=1)),
+             data.frame(experiment="Experiment 2",effect=seq(0,7, by=.2),
+                        ump= calculate_ump_power2(beta=seq(0,7, by=.2)/10, n=100, sigma=1)),
+             data.frame(experiment="Experiment 3",effect=seq(0,6, by=.2),
+                        ump= calculate_ump_power3(beta=seq(0,6, by=.2)/sqrt(115), n=115, sigma=1, x=getx(100))))
 
 ggplot()+
   geom_line(aes(effect,pred, colour=factor(screening)), data=pi) +
@@ -277,16 +278,16 @@ ggsave( file="../images/power_screening.pdf",height=4.25,width=10)
 # ----- subject specific power for each screening criteria from mixed model
 
 
-pi <- rbind(data.frame(experiment="Experiment 1",get_screened_predict(dat1, newdat=data.frame(effect=seq(0.01,18, by=.2)),intercept=T)),
-            data.frame(experiment="Experiment 2",get_screened_predict(dat2, newdat=data.frame(effect=seq(0.01,8, by=.2)),intercept=T)),
-            data.frame(experiment="Experiment 3",get_screened_predict(dat3, newdat=data.frame(effect=seq(0.01,8, by=.2)),intercept=T)))
+pi <- rbind(data.frame(experiment="Experiment 1",get_screened_predict(dat1, newdat=data.frame(effect=seq(0,18, by=.2)),intercept=T)),
+            data.frame(experiment="Experiment 2",get_screened_predict(dat2, newdat=data.frame(effect=seq(0,7, by=.2)),intercept=T)),
+            data.frame(experiment="Experiment 3",get_screened_predict(dat3, newdat=data.frame(effect=seq(0,6, by=.2)),intercept=T)))
 
 ggplot()+
   geom_line(aes(effect,pred, group=subject), data=pi, alpha=.1) +
   geom_line(aes(effect,ump), data=ump, colour="hotpink", size=1) +
   facet_grid(screening~experiment, scales="free") +
   ylab("power") + xlab(expression(Effect(E)))
-ggsave( file="../images/power_screening_subject.pdf",height=7,width=10 )  
+ggsave( file="../images/power_screening_subject.pdf",height=8,width=10 )  
 
 # ump1 <- calculate_ump_power1(3, 100, 5)
 # qplot(effect, pred.mixed(X=effect, fit=fit.mixed)) + ylim(c(0,1))
@@ -296,7 +297,33 @@ ggsave( file="../images/power_screening_subject.pdf",height=7,width=10 )
 # 
 # qplot(effect, pred, group=subject, data=subset(newdata, subject %in% sample(size=2, x=unique(newdata$subject))), geom="line")
 
+# ======= checking minimum p-value assumption for expected power ======
 
+pval1 <- read.csv("../data/pvalue_turk1.csv")
+
+get_response_count <- function(response_no){
+  res <- rep(0,20)
+  freq <- table(response_no)
+  res[as.numeric(dimnames(freq)[[1]])] <- freq
+  return(data.frame(counts=res))
+}
+
+response_count <- ddply(dat1,.(pic_name),summarise,
+                  counts = get_response_count(response_no)$counts,
+                  variable=paste("X",1:20,sep="") )
+p_values <- melt(pval1, id="pic_name")
+
+pr <- merge(p_values,response_count, by=c("pic_name","variable"))
+
+prr <- ddply(pr, .(pic_name),summarise,
+             counts=counts[order(value)],
+             pvalue=round(value,5)[order(value)],
+             rank_pval = 1:20)
+
+p <- qplot(factor(rank_pval),counts, geom="boxplot",data=prr) +
+  xlab("rank of p-value") + ylab("Number of subjects picked the lineup")
+
+ggsave( file="../images/p_val_rank_counts.pdf",height=4,width=7 )
 
 # =================== Turk1 data analysis  ================================
 
