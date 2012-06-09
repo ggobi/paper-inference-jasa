@@ -306,15 +306,17 @@ get_response_count <- function(response_no){
 
 response_count <- ddply(dat1, .(pic_name), summarise,
                   counts = get_response_count(response_no)$counts,
-                  variable = paste("X",1:20,sep="") )
+                  variable = paste("X",1:20,sep=""),
+                  obs_pvalue = rep(p_value[1],20))
 p_values <- melt(pval1, id="pic_name")
 
 pr <- merge(p_values,response_count, by=c("pic_name","variable"))
 
 prr <- ddply(pr, .(pic_name),summarise,
              counts=counts[order(value)],
-             pvalue=round(value,5)[order(value)],
-             rank_pval = 1:20)
+             pvalue=round(value,4)[order(value)],
+             rank_pval = 1:20,
+             obs_pvalue = obs_pvalue)
 
 p <- qplot(factor(rank_pval), counts, geom="boxplot", data=prr) +
   xlab("rank of p-value") + ylab("Number of subjects")
@@ -333,10 +335,14 @@ p <- qplot(pvalue, counts, geom="point", data=prr) +
   xlab("rank of p-value") + ylab("Number of subjects") +
   facet_wrap(~pic_name3, ncol=10, scales="free_y") + scale_x_log10()
 prr$lpvalue<-log10(prr$pvalue+0.01)
-p <- qplot(lpvalue, counts, geom="point", data=prr) +
+prr$lobs_pvalue<-log10(prr$obs_pvalue+0.01)
+p <- qplot(lpvalue, counts, geom="point", data=subset(prr,lpvalue != lobs_pvalue)) +
   geom_segment(mapping=aes(xend=lpvalue, yend=0)) +
+  geom_segment(mapping=aes(xend=lobs_pvalue, yend=0, colour="hotpink"), data= subset(prr,lpvalue==lobs_pvalue))+ 
+  geom_point(mapping=aes(xend=lobs_pvalue, yend=0, colour="hotpink"), data= subset(prr,lpvalue==lobs_pvalue))+ 
   xlab(expression(paste(log[10], " p-value"))) + ylab("Number of subjects") +
-  facet_grid(beta~n+sd+rep, scales="free_y", labeller="label_both") 
+  facet_grid(beta~n+sd+rep, scales="free_y", labeller="label_both") +
+  opts(legend.position="none")
 p
 ggsave(file="../images/p_val_log_counts.pdf", height=10, width=12)
 
