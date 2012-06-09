@@ -365,7 +365,7 @@ Suppose $F_{|t|}(.)$ is the distribution function of an absolute value of $t$, t
 The probability of picking the data plot from a lineup depends on the size $m$ of the lineup and the strength of the signal in the data plot. 
 Under the above assumptions, we can express the probability as:
 \[
-P(p_D < p_0) = \left(1 - E[p_D] \right)^{m-1} 
+P(p_D < p_0) = 1 - E\left[ (1 - p_D)^{m-1}\right]
 \]
 where $p_D$ is the $p$-value associated with the data in the test statistic, and $p_0$ is the minimum of all $p$-values in the data going into null plots.
 \end{lemma}
@@ -396,23 +396,37 @@ F{p_D}(p) &=& Pr(p_D \le p)=1-Pr(1-p_D \le 1-p) \nonumber \\
 
 Let $p_{0,i}$, $i=1, ..., m-1$ denote the  $p$-values associated with data corresponding to the $m-1$ null plots. Since this data is generated consistently with the null hypothesis,  the $p$-values are independent and  follow a standard Uniform distribution, $p_{i,0} \sim U[0,1], i= 1, ..., m-1$.
 
-Let us think of a lineup as a head-to-head comparison of the test statistic and $m-1$ null plots. 
-%Let the data plot have a $p$-value of $p_D$, and the null plots $p$ values of $p_{0, i}$ with $1 \le i \le m-1$.
-We know that for each comparison the probability that the data, on which the plot is based, has the smaller $p$ value is 
-\begin{eqnarray*}
-P(p_D < p_{0,i}) &=& 1 - P(p_{i,0} \le p_D) = 1- \int_0^1  P(p_{i,0} \le p_D \mid p_D=t) f_{p_D}(t) dt =  \\
-&=& 1 - \int_0^1 F_{p_{0,i}}(t) f_{p_D}(t) dt = 1 - \int_0^1 t f_{p_D}(t) dt = 1 - E[p_D],
-\end{eqnarray*}
-which, in particular, is independent of $p_{0,i}$ for all $i$.
-
-Let us make the assumption that an observer is able to identify  the chart corresponding to the data with the smallest $p$-value. Further we will assume that all observers  have the same ability in identifying the data plot.
-
-With that, we define $Z$  as the number of null plots in a lineup, for which the $p$-value $p_{0,i}$ is smaller than $p_D$.  
-
-Then $Z \sim B_{m-1, E[p_D]}$, and the probability that an observer will pick the data plot in a given lineup is 
+\hh{Their minimum $p_0 = \min_{1 \le i \le m-1}  \ p_{0,i}$ then follows a Beta distribution with shape parameters 1 and $m-1$, and corresponding distribution function 
 \[
-P(Z=0) = \left(1 - E[p_D] \right)^{m-1} = P(p_D \le p_0), \ \ \ \text{ where } p_0 = \min_{1 \le i \le m-1}  \ p_{0,i}.
+F_{p_0} (x) =  (1- x) ^{m-1} \text{ for } x \in [0,1].
 \]
+
+\begin{eqnarray*}
+P(p_D < p_{0}) &=& 1 - P(p_{0} \le p_D) = 1- \int_0^1  P(p_{0} \le p_D \mid p_D=t) f_{p_D}(t) dt =  \\
+&=& 1 - \int_0^1 F_{p_{0}}(t) f_{p_D}(t) dt = 1 - \int_0^1 (1-t)^{m-1} f_{p_D}(t) dt = 1 - E\left[ (1 - p_D)^{m-1}\right],
+\end{eqnarray*}
+
+}
+%
+%
+%
+%Let us think of a lineup as a head-to-head comparison of the test statistic and $m-1$ null plots. 
+%%Let the data plot have a $p$-value of $p_D$, and the null plots $p$ values of $p_{0, i}$ with $1 \le i \le m-1$.
+%We know that for each comparison the probability that the data, on which the plot is based, has the smaller $p$ value is 
+%\begin{eqnarray*}
+%P(p_D < p_{0,i}) &=& 1 - P(p_{i,0} \le p_D) = 1- \int_0^1  P(p_{i,0} \le p_D \mid p_D=t) f_{p_D}(t) dt =  \\
+%&=& 1 - \int_0^1 F_{p_{0,i}}(t) f_{p_D}(t) dt = 1 - \int_0^1 t f_{p_D}(t) dt = 1 - E[p_D],
+%\end{eqnarray*}
+%which, in particular, is independent of $p_{0,i}$ for all $i$.
+%
+%Let us make the assumption that an observer is able to identify  the chart corresponding to the data with the smallest $p$-value. Further we will assume that all observers  have the same ability in identifying the data plot.
+%
+%With that, we define $Z$  as the number of null plots in a lineup, for which the $p$-value $p_{0,i}$ is smaller than $p_D$.  
+%
+%Then $Z \sim B_{m-1, E[p_D]}$, and the probability that an observer will pick the data plot in a given lineup is 
+%\[
+%P(Z=0) = \left(1 - E[p_D] \right)^{m-1} = P(p_D \le p_0), \ \ \ \text{ where } p_0 = \min_{1 \le i \le m-1}  \ p_{0,i}.
+%\]
 \end{proof}
 
 %\red{pull the results for $P(p_D < p_{i,0})$ and $P(p_D < p_0)$ to the front, including the figure on $1/m$ versus power. These results are independent of the regression setting - they don't make any assumptions in terms of regression.}
