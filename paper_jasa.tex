@@ -403,9 +403,12 @@ F_{p_0} (x) =  (1- x) ^{m-1} \text{ for } x \in [0,1].
 
 \begin{eqnarray*}
 P(p_D < p_{0}) &=& 1 - P(p_{0} \le p_D) = 1- \int_0^1  P(p_{0} \le p_D \mid p_D=t) f_{p_D}(t) dt =  \\
-&=& 1 - \int_0^1 F_{p_{0}}(t) f_{p_D}(t) dt = 1 - \int_0^1 (1-t)^{m-1} f_{p_D}(t) dt = 1 - E\left[ (1 - p_D)^{m-1}\right],
+&=& 1 - \int_0^1 F_{p_{0}}(t) f_{p_D}(t) dt = 1 - \int_0^1 (1-t)^{m-1} f_{p_D}(t) dt = 1 - E\left[ (1 - p_D)^{m-1}\right] = \\
+&=& 1 - \sum_{k=0}^{m-1} {m-1 \choose k} (-E[p_D])^{k} = (m-1)E[p_D] + O(E[p_D^2]),
 \end{eqnarray*}
 
+This can't be right - it's completely counter-intuitive: as $p_D$, the $p$-value is smaller, the probability that we pick the data plot should go up not down. 
+Conversely, as $m$, the number of choices given, goes up the probability to pick the data plot should go down, not up. 
 }
 %
 %
@@ -447,14 +450,15 @@ Figure \ref{fig:pval_power} gives an overview of the probability of picking the 
    \label{fig:pval_power}
 \end{figure}
 
-Now assume that the same lineup plot is evaluated by $K$ independent observers. W.l.o.g.\green{Can we get rid of cliches like WLOG?} let the last plot be the data plot and plots 1 through $m-1$ the null plots. Let $n_i$ be the number of observers who picked plot $i$ as the plot with the structure least consistent with the null hypothesis, corresponding to random variable $N_i$.  Then  $(N_1, N_2, ..., N_m) \sim$ Mult$_{\pi_1, ..., \pi_m}$ with $\sum_i \pi_i = 1$ and $\sum_{k=1}^{m} n_k = K$. We can estimate $\pi_i$ as $\widehat{\pi_i} = n_i/K$. 
+Now assume that the same lineup plot is evaluated by $K$ independent observers. %W.l.o.g.\green{Can we get rid of cliches like WLOG?} 
+Let the last plot be the data plot and plots 1 through $m-1$ the null plots. Let $n_i$ be the number of observers who picked plot $i$ as the plot with the structure least consistent with the null hypothesis, corresponding to random variable $N_i$.  Then  $(N_1, N_2, ..., N_m) \sim$ Mult$_{\pi_1, ..., \pi_m}$ with $\sum_i \pi_i = 1$ and $\sum_{k=1}^{m} n_k = K$. We can estimate $\pi_i$ as $\widehat{\pi_i} = n_i/K$. 
 
 For the distribution of $N_m$, %the number of times out of $K$ that observers picked the last plot to show the structure least consistent with the null hypothesis, 
 we get
 \[
 N_m\sim \left \{ 
 \begin{array}{ll}
-B_{K, (1-E[p_D])^{m-1}} & \text { under } H_1\\
+B_{K, 1-E[1 - p_D])^{m-1}} & \text { under } H_1\\
 B_{K, 1/m} & \text { under } H_0
 \end{array}
 \right .
