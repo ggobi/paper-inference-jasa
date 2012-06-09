@@ -6,6 +6,7 @@ library(plyr)
 library(reshape)
 library(xtable)
 library(lme4)
+library(stringr)
 
 
 dat1 <- read.csv("../data/raw_data_turk1.csv")
@@ -318,7 +319,7 @@ p <- qplot(factor(rank_pval), counts, geom="boxplot", data=prr) +
   xlab("rank of p-value") + ylab("Number of subjects")
 ggsave(file="../images/p_val_rank_counts.pdf", height=4, width=7)
 
-prr$pic_name2 <- str_sub(prr$pic_name, 12, 20)
+prr$pic_name2 <- str_sub(prr$pic_name, 12, -5)
 p <- qplot(pvalue, counts, geom="line", data=prr) +
   xlab("rank of p-value") + ylab("Number of subjects") +
   facet_wrap(~pic_name2, ncol=10, scales="free_y") + scale_x_log10()
