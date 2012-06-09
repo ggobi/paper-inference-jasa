@@ -956,10 +956,19 @@ This section takes the data and looks at the assumption made for the early expec
 \begin{figure*}[hbtp]
    \centering
        \scalebox{0.6}{\includegraphics{p_val_rank_counts.pdf}}
-       \caption{Rank of p-values in a lineup of size 20 and the number of subjects choosing that plot in the lineup of experiment 1 with raw data (nothing is dropped). This indicates that most of the subjects pick the plot with minimum p-value (rank 1). There are subjects choosing the lineups with highest p-value(rank 20) but we can attribute this behavior to the type-I error. Can we?}
+       \scalebox{0.6}{\includegraphics{p_val_rank_counts2.pdf}}
+       \caption{Rank of p-values in a lineup of size 20 and the number of subjects choosing that plot in the lineup of experiment 1 and 2 (bottom) with raw data (nothing is dropped). This indicates that most of the subjects pick the plot with minimum p-value (rank 1). There are subjects choosing the lineups with highest p-value(rank 20) but we can attribute this behavior to the type-I error. Can we?}
        \label{fig:P-val_rank}
 \end{figure*}
 
+\green{I think it is very interesting to look at the individual lineups by beta, and other parameters, and we can see the tendency to pick the lowest $p$-value. Figure \ref{fig:P-val_log}.}
+
+\begin{figure*}[hbtp]
+   \centering
+       \scalebox{0.6}{\includegraphics{p_val_log_counts.pdf}}
+       \caption{Frequency of plot picks by log$_10$ $p$-value in individual lineups}
+       \label{fig:P-val_log}
+\end{figure*}
 
 
 \section{Conclusions}

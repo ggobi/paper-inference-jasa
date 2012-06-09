@@ -295,6 +295,7 @@ ggsave( file="../images/power_screening_subject.pdf",height=8,width=10 )
 # ======= checking minimum p-value assumption for expected power ======
 
 pval1 <- read.csv("../data/pvalue_turk1.csv")
+#pval2 <- read.csv("../data/pvalue_turk2.csv")
 
 get_response_count <- function(response_no){
   res <- rep(0,20)
