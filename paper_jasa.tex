@@ -365,7 +365,7 @@ Suppose $F_{|t|}(.)$ is the distribution function of an absolute value of $t$, t
 The probability of picking the data plot from a lineup depends on the size $m$ of the lineup and the strength of the signal in the data plot. 
 Under the above assumptions, we can express the probability as:
 \[
-P(p_D < p_0) = 1 - E\left[ (1 - p_D)^{m-1}\right]
+P(p_D < p_0) =  E\left[ (1 - p_D)^{m-1}\right]
 \]
 where $p_D$ is the $p$-value associated with the data in the test statistic, and $p_0$ is the minimum of all $p$-values in the data going into null plots.
 \end{lemma}
@@ -398,17 +398,21 @@ Let $p_{0,i}$, $i=1, ..., m-1$ denote the  $p$-values associated with data corre
 
 \hh{Their minimum $p_0 = \min_{1 \le i \le m-1}  \ p_{0,i}$ then follows a Beta distribution with shape parameters 1 and $m-1$, and corresponding distribution function 
 \[
-F_{p_0} (x) =  (1- x) ^{m-1} \text{ for } x \in [0,1].
+F_{p_0} (x) =  1- (1- x) ^{m-1}  \text{ for } x \in [0,1].
 \]
 
 \begin{eqnarray*}
 P(p_D < p_{0}) &=& 1 - P(p_{0} \le p_D) = 1- \int_0^1  P(p_{0} \le p_D \mid p_D=t) f_{p_D}(t) dt =  \\
-&=& 1 - \int_0^1 F_{p_{0}}(t) f_{p_D}(t) dt = 1 - \int_0^1 (1-t)^{m-1} f_{p_D}(t) dt = 1 - E\left[ (1 - p_D)^{m-1}\right] = \\
-&=& 1 - \sum_{k=0}^{m-1} {m-1 \choose k} (-E[p_D])^{k} = (m-1)E[p_D] + O(E[p_D^2]),
+&=& 1 - \int_0^1 F_{p_{0}}(t) f_{p_D}(t) dt = 1 - \int_0^1 f_{p_D}(t) dt + \int_0^1 (1-t)^{m-1} f_{p_D}(t) dt =  E\left[ (1 - p_D)^{m-1}\right].
 \end{eqnarray*}
 
-This can't be right - it's completely counter-intuitive: as $p_D$, the $p$-value is smaller, the probability that we pick the data plot should go up not down. 
-Conversely, as $m$, the number of choices given, goes up the probability to pick the data plot should go down, not up. 
+
+This proves the statement above. We further see:
+\[
+E\left[ (1 - p_D)^{m-1}\right] =  \sum_{k=0}^{m-1} {m-1 \choose k} (-E[p_D])^{k} = 1-(m-1)E[p_D] + O(E[p_D^2]).
+\]
+This implies that as $p_D$, the $p$-value, becomes smaller, the probability that the observer identifies the data plot goes up and,
+conversely, as $m$, the number of choices given in the lineup, goes up the probability to pick the data plot  goes down. 
 }
 %
 %
@@ -458,7 +462,7 @@ we get
 \[
 N_m\sim \left \{ 
 \begin{array}{ll}
-B_{K, 1-E[1 - p_D])^{m-1}} & \text { under } H_1\\
+B_{K, \hh{E\left[ (1 - p_D)^{m-1}\right]}} & \text { under } H_1\\
 B_{K, 1/m} & \text { under } H_0
 \end{array}
 \right .
@@ -466,10 +470,11 @@ B_{K, 1/m} & \text { under } H_0
 
 By matching the expected values, we therefore get an expression for the $p$-value in the data under $H_1$  as:
 \begin{equation}\label{eqn:power_estimate}
-{E[p_D]} = 1- \left(\frac{E[N_m]}{K}\right)^{1/(m-1)}.
+%{E[p_D]} = 1- \left(\frac{E[N_m]}{K}\right)^{1/(m-1)}.
+\hh{1 - E[N_m]/K = (m-1)E[p_D] + O(E[p_D^2])}
 \end{equation}
 
-Note that the right hand side in Equation \ref{eqn:power_estimate} is independent of the parameter $\theta$, but just based on the lineup evaluation by independent observers. While this allows us to compute this value independently of the parametric setting, it also means that observers might pick out the data plot for a reason not related to the value of $\theta$. 
+Note that the \hh{left}  hand side in Equation \ref{eqn:power_estimate} is independent of the parameter $\theta$, but just based on the lineup evaluation by independent observers. While this allows us to compute this value independently of the parametric setting, it also means that observers might pick out the data plot for a reason not related to the value of $\theta$. 
 
 %Picking out the data plot is still a measure of how different the data plot is compared to the null plots, and therefore is a test statistic of the visual test.
 
