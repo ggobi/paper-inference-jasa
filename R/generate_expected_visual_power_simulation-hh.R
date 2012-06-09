@@ -4,6 +4,12 @@ library(ggplot2)
 library(plyr)
 library(MASS)
 
+vpower <- function(pd, m=20) {
+# same as pbeta(pd, shape1=1, shape2=m-1, lower.tail=FALSE)	
+
+	(1 - pd)^(m-1)
+}
+
 generate_visual_power <- function(n,beta,sigma, m=20){
   #This program generates expected visual power by simulation.
   age <- rpois(n,lambda=30)
@@ -12,9 +18,10 @@ generate_visual_power <- function(n,beta,sigma, m=20){
   X <- model.matrix(~age + factor(grp))
 
   sdbeta <- sigma *sqrt(ginv(t(X) %*% X)[3,3])
+# simulate from non central t distribution
   ts <- abs(rt(5000, ncp=beta/sdbeta, df=n-3))
+# compute p-values 	
   pvals <- 2*pt(ts, n-3, lower.tail=FALSE)
-
   
 # minimum of (m-1) uniform random variables has a Beta (1, m-1) distribution
   pow <- mean(pbeta(pvals, shape1=1, shape2=m-1, lower.tail=FALSE))
