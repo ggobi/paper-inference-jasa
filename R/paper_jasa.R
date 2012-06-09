@@ -319,11 +319,25 @@ p <- qplot(factor(rank_pval), counts, geom="boxplot", data=prr) +
   xlab("rank of p-value") + ylab("Number of subjects")
 ggsave(file="../images/p_val_rank_counts.pdf", height=4, width=7)
 
-prr$pic_name2 <- str_sub(prr$pic_name, 12, -5)
-p <- qplot(pvalue, counts, geom="line", data=prr) +
+
+prr$pic_name2 <- str_sub(prr$pic_name, 12, -5L)
+x <- str_split(prr$pic_name2, "_")
+prr$n <-  unlist(lapply(x, function(x) x[1]))
+prr$beta <-  unlist(lapply(x, function(x) x[2]))
+prr$beta <-  factor(prr$beta, levels=c("0", "1", "2", "3", "5", "7", "8", "10", "16"))
+prr$sd <-  unlist(lapply(x, function(x) x[3]))
+prr$rep <-  unlist(lapply(x, function(x) x[4]))
+prr$pic_name3 <- factor(paste(prr$beta, prr$n, prr$sd, prr$rep, sep="."))
+p <- qplot(pvalue, counts, geom="point", data=prr) +
   xlab("rank of p-value") + ylab("Number of subjects") +
-  facet_wrap(~pic_name2, ncol=10, scales="free_y") + scale_x_log10()
+  facet_wrap(~pic_name3, ncol=10, scales="free_y") + scale_x_log10()
+prr$lpvalue<-log10(prr$pvalue+0.01)
+p <- qplot(lpvalue, counts, geom="point", data=prr) +
+  geom_segment(mapping=aes(xend=lpvalue, yend=0)) +
+  xlab(expression(paste(log[10], " p-value"))) + ylab("Number of subjects") +
+  facet_grid(beta~n+sd+rep, scales="free_y", labeller="label_both") 
 p
+ggsave(file="../images/p_val_log_counts.pdf", height=10, width=12)
 
 # =================== Turk1 data analysis  ================================
 
