@@ -1,5 +1,5 @@
 # This file computes the expected power for visual test.
-# Last modified Jan 19, 2012
+# Last modified Jun 2012, di re-formatted and ran, works
 library(ggplot2)
 library(plyr)
 library(MASS)

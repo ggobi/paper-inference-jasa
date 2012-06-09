@@ -1,5 +1,5 @@
 # The complete R codes for JASA Paper
-# Last modified by Mahbub on April 5, 2012.
+# Last modified by Di on Jun 7, 2012.
 
 library(ggplot2)
 library(plyr)
@@ -39,9 +39,6 @@ for (K in 1:5){
 	}
 }
 
-
-
-
 # === plotting test stat and lineup for categorical variable
 
 # generating data
@@ -66,8 +63,6 @@ obs.residuals <- as.vector(resid(fit))
 qplot(Xk, obs.residuals,colour=Xk,geom="boxplot", ylab="Residual") + 
       xlab(expression(X[k])) + labs(colour=expression(X[k]))
 ggsave("../images/stat_category.pdf",height=2,width=2.75)
-
-
 
 # plotting lineup for testing b2=0
 loc <- sample(1:20, size=1)  # location of observed plot
@@ -277,7 +272,6 @@ ggsave( file="../images/power_screening.pdf",height=4.25,width=10)
 
 # ----- subject specific power for each screening criteria from mixed model
 
-
 pi <- rbind(data.frame(experiment="Experiment 1",get_screened_predict(dat1, newdat=data.frame(effect=seq(0,18, by=.2)),intercept=T)),
             data.frame(experiment="Experiment 2",get_screened_predict(dat2, newdat=data.frame(effect=seq(0,7, by=.2)),intercept=T)),
             data.frame(experiment="Experiment 3",get_screened_predict(dat3, newdat=data.frame(effect=seq(0,6, by=.2)),intercept=T)))
@@ -308,9 +302,9 @@ get_response_count <- function(response_no){
   return(data.frame(counts=res))
 }
 
-response_count <- ddply(dat1,.(pic_name),summarise,
+response_count <- ddply(dat1, .(pic_name), summarise,
                   counts = get_response_count(response_no)$counts,
-                  variable=paste("X",1:20,sep="") )
+                  variable = paste("X",1:20,sep="") )
 p_values <- melt(pval1, id="pic_name")
 
 pr <- merge(p_values,response_count, by=c("pic_name","variable"))
@@ -320,10 +314,15 @@ prr <- ddply(pr, .(pic_name),summarise,
              pvalue=round(value,5)[order(value)],
              rank_pval = 1:20)
 
-p <- qplot(factor(rank_pval),counts, geom="boxplot",data=prr) +
-  xlab("rank of p-value") + ylab("Number of subjects picked the lineup")
+p <- qplot(factor(rank_pval), counts, geom="boxplot", data=prr) +
+  xlab("rank of p-value") + ylab("Number of subjects")
+ggsave(file="../images/p_val_rank_counts.pdf", height=4, width=7)
 
-ggsave( file="../images/p_val_rank_counts.pdf",height=4,width=7 )
+prr$pic_name2 <- str_sub(prr$pic_name, 12, 20)
+p <- qplot(pvalue, counts, geom="line", data=prr) +
+  xlab("rank of p-value") + ylab("Number of subjects") +
+  facet_wrap(~pic_name2, ncol=10, scales="free_y") 
+p
 
 # =================== Turk1 data analysis  ================================
 
