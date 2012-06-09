@@ -321,7 +321,7 @@ ggsave(file="../images/p_val_rank_counts.pdf", height=4, width=7)
 prr$pic_name2 <- str_sub(prr$pic_name, 12, 20)
 p <- qplot(pvalue, counts, geom="line", data=prr) +
   xlab("rank of p-value") + ylab("Number of subjects") +
-  facet_wrap(~pic_name2, ncol=10, scales="free_y") 
+  facet_wrap(~pic_name2, ncol=10, scales="free_y") + scale_x_log10()
 p
 
 # =================== Turk1 data analysis  ================================
