@@ -409,7 +409,7 @@ P(p_D < p_{0}) &=& 1 - P(p_{0} \le p_D) = 1- \int_0^1  P(p_{0} \le p_D \mid p_D=
 
 This proves the statement above. We further see:
 \[
-E\left[ (1 - p_D)^{m-1}\right] =  \sum_{k=0}^{m-1} {m-1 \choose k} (-E[p_D])^{k} = 1-(m-1)E[p_D] + O(E[p_D^2]).
+E\left[ (1 - p_D)^{m-1}\right] =  \sum_{k=0}^{m-1} {m-1 \choose k} (-1)^k E[p_D^k] = 1-(m-1)E[p_D] + O(E[p_D^2]).
 \]
 This implies that as $p_D$, the $p$-value, becomes smaller, the probability that the observer identifies the data plot goes up and,
 conversely, as $m$, the number of choices given in the lineup, goes up the probability to pick the data plot  goes down. 
