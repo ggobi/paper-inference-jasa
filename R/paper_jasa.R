@@ -404,8 +404,8 @@ get_all_pval_sam <- function(dat1,dat2,pval1,pval2){
   min_pval2 <- ddply(prr2,.(pic_name), summarize,
                      most_pick_minimum_pval = max(counts)==counts[rank_pval==1])
   
-  pval_sm <- rbind(data.frame(Experiment="1",Total = nrow(min_pval1), Most_pick_minimum = sum(min_pval1$most_pick_minimum_pval)),
-                   data.frame(Experiment="2",Total = nrow(min_pval2), Most_pick_minimum = sum(min_pval2$most_pick_minimum_pval))
+  pval_sm <- cbind(data.frame(Experiment1=sum(min_pval1$most_pick_minimum_pval)),
+                   data.frame(Experiment2=sum(min_pval2$most_pick_minimum_pval))
                    )
   return(pval_sm)
 }
@@ -419,7 +419,7 @@ for (i in 1:6) {
   d2 <- subset(dat2,indx2[,i])
   pval_sm <- rbind(pval_sm,cbind(screening=i,get_all_pval_sam(d1,d2,pval1,pval2)))
 }
-
+pval_sm <- rbind(pval_sm,c("Total lineups",60,70))
 print(xtable(pval_sm), include.rownames=FALSE)
 
 
