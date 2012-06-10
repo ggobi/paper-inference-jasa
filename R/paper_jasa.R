@@ -356,6 +356,48 @@ p <- qplot(lpvalue, counts, geom="point", data=subset(prr,lpvalue != lobs_pvalue
 p
 ggsave(file="../images/p_val_log_counts.pdf", height=10, width=12)
 
+# now same plot for turk2 data
+prr2 <- get_merged_pvalue(dat2,pval2)
+prr2$pic_name2 <- str_sub(prr2$pic_name, 12, -5L)
+x <- str_split(prr2$pic_name2, "_")
+prr2$n <-  unlist(lapply(x, function(x) x[1]))
+prr2$B <-  unlist(lapply(x, function(x) as.numeric(x[2])/100))
+#prr$beta <-  factor(prr$beta, levels=c("0", "1", "2", "3", "5", "7", "8", "10", "16"))
+prr2$sd <-  unlist(lapply(x, function(x) x[3]))
+prr2$rep <-  unlist(lapply(x, function(x) x[4]))
+prr2$pic_name3 <- factor(paste(prr2$beta, prr2$n, prr2$sd, prr2$rep, sep="."))
+p <- qplot(pvalue, counts, geom="point", data=prr2) +
+  xlab("rank of p-value") + ylab("Number of subjects") +
+  facet_wrap(~pic_name3, ncol=10, scales="free_y") + scale_x_log10()
+prr2$lpvalue<-log10(prr2$pvalue+0.01)
+prr2$lobs_pvalue<-log10(prr2$obs_pvalue+0.01)
+p <- qplot(lpvalue, counts, geom="point", data=subset(prr2,lpvalue != lobs_pvalue)) +
+  geom_segment(mapping=aes(xend=lpvalue, yend=0)) +
+  geom_segment(mapping=aes(xend=lobs_pvalue, yend=0, colour="hotpink"), data= subset(prr2,lpvalue==lobs_pvalue))+ 
+  geom_point(mapping=aes(xend=lobs_pvalue, yend=0, colour="hotpink"), data= subset(prr2,lpvalue==lobs_pvalue))+ 
+  xlab(expression(paste(log[10], " p-value"))) + ylab("Number of subjects") +
+  facet_grid(B~n+sd+rep, scales="free_y", labeller="label_both") +
+  opts(legend.position="none")
+p
+ggsave(file="../images/p_val_log_counts2.pdf", height=10, width=14)
+
+
+# --- summary of minimum p-value data -----
+
+prr1 <- get_merged_pvalue(dat1,pval1)
+min_pval1 <- ddply(prr1,.(pic_name), summarize,
+                   most_pick_minimum_pval = max(counts)==counts[rank_pval==1])
+prr2 <- get_merged_pvalue(dat2,pval2)
+min_pval2 <- ddply(prr2,.(pic_name), summarize,
+      most_pick_minimum_pval = max(counts)==counts[rank_pval==1])
+
+pval_sm <- rbind(data.frame(Experiment=1,Total = nrow(min_pval1), Most_pick_minimum = sum(min_pval1$most_pick_minimum_pval)),
+                 data.frame(Experiment=2,Total = nrow(min_pval2), Most_pick_minimum = sum(min_pval2$most_pick_minimum_pval))
+                 )
+xtable(pval_sm)
+
+
+
 # =================== Turk1 data analysis  ================================
 
 dat <- read.csv("../data/raw_data_turk1.csv")
