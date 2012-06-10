@@ -601,9 +601,9 @@ pdat <- NULL
 for (i in 1:3){
    dati <- eval(parse(text=paste("dat",i,sep="")))
    pdati <- ddply(dati, .(p_value, sample_size), summarize,
-	  attempted = sum(response==response),
-	  corrected = sum(response=="TRUE"),
-	  percent_correct = sum(response=="TRUE")*100/sum(response==response)
+	  attempted = length(response),
+	  corrected = sum(response),
+	  percent_correct = mean(response)*100
 	)
    pdati$experiment=paste("experiment",i)
    pdat <- rbind(pdat,pdati)
@@ -614,11 +614,11 @@ for (i in 1:3){
 p <- ggplot() +
      geom_point(aes(p_value,percent_correct),data=pdat,size=2) + 
      facet_grid(.~experiment) +
-     xlab(expression(paste("p-value(",p[B],")"))) +
+     xlab(expression(paste("p-value(",p[D],")"))) +
      ylab("Percentage of correct responses") 
 p 
 
-ggsave(p,file="../images/p_val_percent_correct.pdf", height = 4.25, width = 10)
+ggsave(p,file="../images/p_val_percent_correct.pdf", height = 4, width = 10)
 
 # ----- p-value vs plot signal strength --------------------
 

@@ -886,7 +886,7 @@ We fit model \ref{mixed} with effect $E=\beta*n/\sqrt(n)$ as the only fixed effe
 
 
 
-Each participant was shown a sequence of 10 lineup plots.  In total, 3629 lineups were evaluated by 324 people coming from many different locations across the globe.  The results of the experiment are summarized in Figure \ref{fig:power_observed} which shows the observed power from the survey data calculated using Equation \ref{eqn:power_estimate} along with 95\% confidence interval calculated using Fisher's exact method.
+%Each participant was shown a sequence of 10 lineup plots.  In total, 3629 lineups were evaluated by 324 people coming from many different locations across the globe.  The results of the experiment are summarized in Figure \ref{fig:power_observed} which shows the observed power from the survey data calculated using Equation \ref{eqn:power_estimate} along with 95\% confidence interval calculated using Fisher's exact method.
 
 \begin{figure*}[hbtp]
    \centering
@@ -929,7 +929,7 @@ Each participant was shown a sequence of 10 lineup plots.  In total, 3629 lineup
 %\end{figure}
 
 
-\hh{From figure \ref{fig:power_loess3} we see that identification of the data plot is high independently of the effect size. This might be an indication that participants were not considering slope as distinguishing feature for the data, but the apparent clustering, i.e. the null hypothesis is being rejected, but not for the reason of the slope -- which the experimental setup was asking for --  leading to a type III error of `correctly rejecting the null hypothesis for the wrong reason', as defined by \citet{mosteller:48}.} \green{Not sure that this goes here, but something needs to be said about Type III.}
+\hh{From figure \ref{fig:power_loess3} we see that identification of the data plot is high independently of the effect size. This might be an indication that participants were not considering slope as distinguishing feature for the data, but the apparent clustering, i.e. the null hypothesis is being rejected, but not for the reason of the slope -- which the experimental setup was asking for --  leading to a type III error of correctly rejecting the null hypothesis for the wrong reason', as defined by \citet{mosteller:48}.} \green{Not sure that this goes here, but something needs to be said about Type III.}
 
 \subsection{Subject-specific variation}
 
@@ -941,12 +941,16 @@ Each participant was shown a sequence of 10 lineup plots.  In total, 3629 lineup
 \end{figure}
 
 
-\subsection{Estimating $p$-value in Non-Classical Settings}
+\subsection{Estimating $p$-value in Non-Classical Settings} 
+
+Lemma \ref{lemma} helps us estimate the plot signal strength based on which the visual test decision could be made based on multiple evaluations on a lineup. From the equation \ref{fig:pval_plot_signal} following from Lemma \ref{lemma} we can write $1 - E[N_m]/K \approx (m-1)E[p_D] $. This gives an estimate as  $$\hat p_D= (1- u/K)/(m-1)$$ where $K$ is the total number of independent evaluations on a lineup with $u$ being number of successful evaluations. Figure \ref{fig:pval_plot_signal} shows the plot signal strengths in relation with classical test $p$-values. Notice that plot signal strength is equivalent to classical test $p$-value when $p$-value is less than or equal to 0.05 and beyond that the plot signal strength levels off on a point bigger than 0.05. Thus if plot signal strength is less than 0.05, we may decide to reject the null hypothesis.
+
+Figure \ref{fig:pval_pcorrect} shows evidence of direct association of percentage of correct evaluations with classical test $p$-values. When $p$-value is larger than 0.15, it is almost impossible to correctly identify the observed plot in the lineup. We observed this for both experiment 1 and 2. For experiment 3, the scenario is different as in this case people might have observed something other than the effect $E$.
 
 \begin{figure*}[hbtp]
    \centering
        \scalebox{0.6}{\includegraphics{p_val_percent_correct.pdf}}
-       \caption{Percentage of correct responses decreases rapidly with the increase of p-value. After p-value exceeds 1.5 it is very unlikely to identify the actual plot. The theoretical justification of this is shown in figure \ref{fig:pval_power}}
+       \caption{Percentage of correct responses decreases rapidly with the increase of p-value. After p-value exceeds 0.15 it is very unlikely to identify the actual plot. The theoretical justification of this is shown in figure \ref{fig:pval_power}. \blue{The scenario is different for experiment 3. $p$-value does not seem to have any effect on percent correct. This may be due to Type-III error.} }
        \label{fig:pval_pcorrect}
 \end{figure*}
 
