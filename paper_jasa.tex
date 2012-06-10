@@ -826,23 +826,26 @@ An example lineup for slope $\beta=0.4$ is shown in Figure \ref{fig:test_contami
 
 \section{Results}
 
-\subsection{Data Cleaning}
+\subsection{Data Screening}
 
 % In this process of collecting data some participants did not provide demographic information as we see in Table \ref{tbl:summary} that male and female participants do not add up to total participants. It is not clear why they did not provide the information. Now the concern arises whether we should keep their responses in the study. It is also possible that participants were not serious enough to provide feedback. 
-For each of the experiments we had a test plot (easy plot) for which they should have a correct evaluation without much effort.  This could be a criteria to determine their attentiveness in the study. For this we consider six different data cleaning criteria as shown below;
+%For each of the experiments we had a test plot (easy plot) for which they should have a correct evaluation without much effort.  This could be a criteria to determine their attentiveness in the study. For this we consider six different data cleaning criteria as shown below;
 
-{\bf Cleaning data:} There are six suggested approach to clean the data. They are 
+{\bf Screening scenarios:} \hh{Amazon Mechanical Turk data often suffers from the problem that some participants are trying to 'game' the system -- in our situation, these are participants who did not put in a best effort to identify the data plot, but just randomly picked a plot to maximize their 'winnings'.  In order to avoid using those results, we are comparing six different screening methods for excluded participants from the data analysis.} 
+%There are six suggested approach to clean the data. 
+They are 
 \begin{enumerate}
-\item not throw out anything
-\item throw out people where we don't have demographic information
-\item throw out all people with 0 percent correct
-\item only include people with at least 20 percent correct (current suggestion)
-\item include people with 50\% correct on all very easy (could be evaluated correctly if the participant is not ignorant) lineups (as suggested before)
-\item each person saw at least one easy lineup. we select one of those easy lineups as the inclusion criteria. If that lineup is evaluated correctly we include only the rest of the evaluations of that subject. Otherwise, we exclude all the feedbacks of that subject.
+\item {\bf include all participants} and their evaluations
+\item exclude all participants' evaluations, who did {\bf not} share their {\bf demographic information} (age, gender education level -- all three pieces of information are either missing or all present).
+\item exclude participants' records, if {\bf none of the evaluations}  correctly identified the data plot -- every participant was shown a range of `easy' lineups.
+\item include participants' records, if   {\bf at least 20 percent} of the evaluations are {\bf correct}  -- based on ten evaluations per participants, two correct evaluations are significant evidence against a person just guessing
+\item include participants' records, if at least {\bf 50\% of all very easy lineups are correct} 
+\item use easy lineups as {\bf reference charts}: sample one easy lineup from a person's records. If that lineup is evaluated {\bf correctly}, include all (other) lineups of that person, otherwise exclude all lineup evaluations by this participant.
 \end{enumerate}
 
 \begin{table}[hbtp]
-\caption{Number of unique subjects and their total feedbacks after applying six screening process on all three experimental data sets.}
+\caption{Number of unique subjects and their total feedbacks after applying six screening process on all three experimental data sets. 
+\hh{Note that in some of the lines the number of male and female participants does not add up to the total number of participants. This is due to missing demographic information.}}
 \begin{center}
 \begin{tabular}{rrrrr|rrrr|rrrr}
   \hline
