@@ -394,7 +394,33 @@ min_pval2 <- ddply(prr2,.(pic_name), summarize,
 pval_sm <- rbind(data.frame(Experiment=1,Total = nrow(min_pval1), Most_pick_minimum = sum(min_pval1$most_pick_minimum_pval)),
                  data.frame(Experiment=2,Total = nrow(min_pval2), Most_pick_minimum = sum(min_pval2$most_pick_minimum_pval))
                  )
-xtable(pval_sm)
+
+# ---- getting minimum p-value summary for all screening criteria
+get_all_pval_sam <- function(dat1,dat2,pval1,pval2){
+  prr1 <- get_merged_pvalue(dat1,pval1)
+  min_pval1 <- ddply(prr1,.(pic_name), summarize,
+                     most_pick_minimum_pval = max(counts)==counts[rank_pval==1])
+  prr2 <- get_merged_pvalue(dat2,pval2)
+  min_pval2 <- ddply(prr2,.(pic_name), summarize,
+                     most_pick_minimum_pval = max(counts)==counts[rank_pval==1])
+  
+  pval_sm <- rbind(data.frame(Experiment="1",Total = nrow(min_pval1), Most_pick_minimum = sum(min_pval1$most_pick_minimum_pval)),
+                   data.frame(Experiment="2",Total = nrow(min_pval2), Most_pick_minimum = sum(min_pval2$most_pick_minimum_pval))
+                   )
+  return(pval_sm)
+}
+
+
+indx1 <- get_sceering_index(dat1)
+indx2 <- get_sceering_index(dat2)
+pval_sm <- NULL
+for (i in 1:6) {
+  d1 <- subset(dat1,indx1[,i])
+  d2 <- subset(dat2,indx2[,i])
+  pval_sm <- rbind(pval_sm,cbind(screening=i,get_all_pval_sam(d1,d2,pval1,pval2)))
+}
+
+print(xtable(pval_sm), include.rownames=FALSE)
 
 
 
