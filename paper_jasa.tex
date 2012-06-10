@@ -577,10 +577,10 @@ Suppose $X_k$ is a categorical variable with two levels, and we test the hypothe
 %%Thus the density of $p_D$ is Uniform(0,1)  under $H_0$. As noted by \cite{Ruppert:2007}, under $H_1$ the density $$f_{p_D}(p_D; \delta)= \frac{f_{|t|}(F_{|t|}^{-1}(1-p_D);\delta)}{f_{|t|}(F_{|t|}^{-1}(1-p_D))}$$ derived from equation \ref{dist_p}  is a right skewed distribution.  
 %In a lineup plot we simulate $m-1$ residual data sets from null model where each of these $m-1$ null data sets produces a corresponding $p$-value $p_{0,i}$ and $p_{0,i} \sim \text{Uniform}(0,1)$ for $i = 1, ..., m-1$. Suppose  $p_0=\min_i(p_{0,i})$. Thus $p_0 \sim \text{Beta}(1,m-1)$. 
 
-The classical test in this scenario uses $T= \hat{\beta_k}/ se(\hat{\beta_k})$ and rejects the null hypothesis if $T$ is extreme on the scale of a $t$ distribution with $n-p$ degrees of freedom. This is the uniformly most powerful (UMP) test \green{reference needed here} and it forms the benchmark upon which we evaluate the visual test. (This is also the UMP test for the continuous covariate, case 2.) To calculate what we might expect for the power of the visual test, under perfect conditions, first assume that the observer is able to pick the plot with the smallest $p$-value from a lineup plot.  This leads to the decision to reject $H_0$ when $p_{B} < p_0$, where $p_{B}$ is calculated according to details given in Lemma \ref{lemma}. Thus the expected power of the visual test in this scenario is
+The classical test in this scenario uses $T= \hat{\beta_k}/ se(\hat{\beta_k})$ and rejects the null hypothesis if $T$ is extreme on the scale of a $t$ distribution with $n-p$ degrees of freedom. This is the uniformly most powerful (UMP) test \green{reference needed here} and it forms the benchmark upon which we evaluate the visual test. (This is also the UMP test for the continuous covariate, case 2.) To calculate what we might expect for the power of the visual test, under perfect conditions, first assume that the observer is able to pick the plot with the smallest $p$-value from a lineup plot.  This leads to the decision to reject $H_0$ when $p_{D} < p_0$, where $p_{D}$ is the classical $p$-value as details given in Lemma \ref{lemma}. Thus the expected power of the visual test in this scenario is
 
 \begin{equation}\label{power_exp} 
-   Power(\beta)=Pr(p_{B} < p_0)  \quad \text{for}  \quad \beta \ne 0
+   Power(\beta)=Pr(p_{D} < p_0)  \quad \text{for}  \quad \beta \ne 0
 \end{equation}
 Figure \ref{fig:power_expected} shows the power of the UMP test in comparison to the expected power of the visual test obtained from Equation \ref{power_exp}. Notice that the expected power of the visual test is almost as good as the power of UMP test. \green{What do you mean by this? Where does this ``fact'' come from?} In fact, the only loss we experience stems from comparing the test statistic to only a discrete number of  $m-1$ samples from the null distribution. 
 
@@ -953,8 +953,8 @@ Each participant was shown a sequence of 10 lineup plots.  In total, 3629 lineup
 \begin{figure*}[hbtp]
    \centering
        \scalebox{0.6}{\includegraphics{p_val_plot_signal.pdf}}
-       \caption{$p$-value vs plot signal strength. The solid line represents 45 degree line which represents the equity shown in equation \ref{plot_signal}
-       \hh{Mahbub, could you exchange this plot for one with  $p_D$ estimated as $(1 - \#  correct/ \# shown)/(m-1)$ as given in lemma 3.1 now?}}
+       \caption{Classical test $p$-value ($p_D$) vs plot signal strength ($\hat p_D$) estimated using Lemma \ref{lemma}. The solid line is a 45 degree line which represents the equity shown in equation \ref{eqn:power_estimate}.}
+       %\hh{Mahbub, could you exchange this plot for one with  $p_D$ estimated as $(1 - \#  correct/ \# shown)/(m-1)$ as given in lemma 3.1 now?}}
        \label{fig:pval_plot_signal}
 \end{figure*}
 
@@ -964,9 +964,8 @@ This section takes the data and looks at the assumption made for the early expec
 
 \begin{figure*}[hbtp]
    \centering
-       \scalebox{0.6}{\includegraphics{p_val_rank_counts.pdf}}
-       \scalebox{0.6}{\includegraphics{p_val_rank_counts2.pdf}}
-       \caption{Rank of p-values in a lineup of size 20 and the number of subjects choosing that plot in the lineup of experiment 1 and 2 (bottom) with raw data (nothing is dropped). This indicates that most of the subjects pick the plot with minimum p-value (rank 1). There are subjects choosing the lineups with highest p-value(rank 20) but we can attribute this behavior to the type-I error. Can we?}
+       \scalebox{0.6}{\includegraphics{p_val_rank_counts12.pdf}}
+       \caption{Rank of p-values in a lineup of size 20 and the number of subjects choosing that plot in the lineup of experiment 1 and 2 with raw data (screening criteria 1). This indicates that most of the subjects pick the plot with minimum p-value (rank 1). There are subjects choosing the lineups with highest p-value(rank 20) but we can attribute this behavior to the type-I error. Can we?}
        \label{fig:P-val_rank}
 \end{figure*}
 

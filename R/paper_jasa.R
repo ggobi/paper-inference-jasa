@@ -295,7 +295,7 @@ ggsave( file="../images/power_screening_subject.pdf",height=8,width=10 )
 # ======= checking minimum p-value assumption for expected power ======
 
 pval1 <- read.csv("../data/pvalue_turk1.csv")
-#pval2 <- read.csv("../data/pvalue_turk2.csv")
+pval2 <- read.csv("../data/pvalue_turk2.csv")
 
 get_response_count <- function(response_no){
   res <- rep(0,20)
@@ -304,23 +304,33 @@ get_response_count <- function(response_no){
   return(data.frame(counts=res))
 }
 
-response_count <- ddply(dat1, .(pic_name), summarise,
-                  counts = get_response_count(response_no)$counts,
-                  variable = paste("X",1:20,sep=""),
-                  obs_pvalue = rep(p_value[1],20))
-p_values <- melt(pval1, id="pic_name")
+get_merged_pvalue <- function(dat,pval){
+  response_count <- ddply(dat, .(pic_name), summarise,
+                          counts = get_response_count(response_no)$counts,
+                          variable = paste("X",1:20,sep=""),
+                          obs_pvalue = rep(p_value[1],20))
+  p_values <- melt(pval, id="pic_name")
+  pr <- merge(p_values,response_count, by=c("pic_name","variable"))
+  prr <- ddply(pr, .(pic_name),summarise,
+               counts=counts[order(value)],
+               pvalue=round(value,4)[order(value)],
+               rank_pval = 1:20,
+               obs_pvalue = obs_pvalue)  
+  return(prr)
+}
 
-pr <- merge(p_values,response_count, by=c("pic_name","variable"))
 
-prr <- ddply(pr, .(pic_name),summarise,
-             counts=counts[order(value)],
-             pvalue=round(value,4)[order(value)],
-             rank_pval = 1:20,
-             obs_pvalue = obs_pvalue)
-
+prr <- get_merged_pvalue(dat1,pval1)
 p <- qplot(factor(rank_pval), counts, geom="boxplot", data=prr) +
   xlab("rank of p-value") + ylab("Number of subjects")
 ggsave(file="../images/p_val_rank_counts.pdf", height=4, width=7)
+
+prr12 <- rbind(data.frame(Experiment="Experiment1",get_merged_pvalue(dat1,pval1)),
+               data.frame(Experiment="Experiment2",get_merged_pvalue(dat2,pval2)))
+p <- qplot(factor(rank_pval), counts, geom="boxplot", data=prr12) +
+  facet_grid(.~Experiment) +
+  xlab("rank of p-value") + ylab("Number of subjects")
+ggsave(file="../images/p_val_rank_counts12.pdf", height=5, width=10)
 
 
 prr$pic_name2 <- str_sub(prr$pic_name, 12, -5L)
@@ -615,28 +625,26 @@ ggsave(p,file="../images/p_val_percent_correct.pdf", height = 4.25, width = 10)
 pdat <- NULL
 for (i in 1:3){
    dati <- eval(parse(text=paste("dat",i,sep="")))
-   pdati <- ddply(dati, .(p_value, sample_size), summarize,
-	  attempted = sum(response==response),
-	  corrected = sum(response=="TRUE"),
-	  percent_correct = ifelse(sum(response=="TRUE")>0,sum(response=="TRUE")*100/sum(response==response),1*100/sum(response==response))
+   pdati <- ddply(dati, .(p_value), summarize,
+	  attempted = length(response),
+	  corrected = sum(response),
+	  percent_correct = ifelse(sum(response)>0,mean(response),1/length(response))
 	)
    pdati$experiment=paste("experiment",i)
    pdat <- rbind(pdat,pdati)
 }
 
-
-pdat$strength <- 1- (pdat$percent_correct/100)^(1/19)
-
-
+#pdat$strength <- 1 - (pdat$percent_correct/100)^(1/19) #previous estimation
+pdat$strength <- (1 - pdat$percent_correct)/19
 p <- ggplot(pdat) +
      geom_point(aes(p_value,strength),size=2) + 
      facet_grid(.~experiment) +
-     xlab(expression(paste("p-value(",p[B],")"))) +
-     ylab("plot signal strength") + 
+     xlab(expression(paste("Classical test p-value (",p[D],")"))) +
+     ylab(expression(paste("plot signal strength (", hat(p)[D],")"))) + 
      geom_abline(aes(intercept=0,slope=1))
 p 
 
-ggsave(p,file="../images/p_val_plot_signal.pdf", height = 4.25, width = 10)
+ggsave(p,file="../images/p_val_plot_signal.pdf", height = 4, width = 10)
 
 # -------- Hieke's code for power vs m and p-value------------------
 
