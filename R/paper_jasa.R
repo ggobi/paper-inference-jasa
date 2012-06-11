@@ -150,6 +150,8 @@ ggsave(plot=pl$p, file="../images/lineup_contaminated.pdf",height=7,width=7.5)
 
 # ==== plotting visual test statistics --------
 
+set.seed(200)
+
 generate_stat_slope <- function(n,beta,sigma){
 	#n <- 100; a <- 6; b <- 2; sigma <- 12
 	a <- 6
@@ -158,10 +160,45 @@ generate_stat_slope <- function(n,beta,sigma){
 	fit <- lm(y~1)
 	p <- qplot(x, resid(fit), xlab=expression(X[k]),geom="point", ylab="Residual", alpha=I(.3))
 	p <- p + geom_smooth(method="lm", se=F, size=1)
-	return(p)
+	return(list(dat=data.frame(x,y),plot=p))
 }
-p <- generate_stat_slope(n=100,beta=2.5,sigma=5)
-ggsave(plot=p, file="../images/stat_beta_k.pdf",height=2,width=2.05)
+rs <- generate_stat_slope(n=100,beta=2.5,sigma=5)
+ggsave(plot=rs$plot, file="../images/stat_beta_k.pdf",height=2,width=2.05)
+
+p <- qplot(x,y, geom="point", data=rs$dat, alpha=I(0.3)) + 
+     xlab(expression(X[k]))+ ylab("Y") +
+     geom_smooth(method="lm", se=F, size=1)
+ggsave(plot=p, file="../images/stat_intercept.pdf",height=2,width=2.05)
+
+p <- qplot(y, geom="histogram", binwidth=1, data=rs$dat)
+ggsave(plot=p, file="../images/stat_goodness_simple.pdf",height=2,width=2.05)
+
+p <- qplot(0,x, geom="boxplot", data=rs$dat, colour=factor(1),fill=factor(1), alpha=.3) +
+     opts(legend.position="none",axis.text.x = theme_blank()) + 
+     xlim(-1,1) + ylab("Residual")
+ggsave(plot=p, file="../images/stat_sigma_box.pdf",height=2,width=2.05)
+
+generate_stat_interection <- function(n,beta, sigma){  
+  x1 <- rpois(n,lambda=20)
+  x2 <- factor(sample(c("A","B"), size=n, replace=T))
+  cnd <- sample(c("A","B"), size=1)
+  y <- round(5+2*x1+3*(x2==cnd)+beta*x1*(x2==cnd)+rnorm(n=n, mean=0, sd=sigma))
+  p <- qplot(x1,y, colour=factor(x2), alpha=I(0.3)) + xlab("X") +ylab("Y")+
+       geom_smooth(method="lm", se=F, size=1)  +
+       scale_colour_discrete(name=expression(X[k]))
+  return(p)
+}
+set.seed(340)
+p <- generate_stat_interection(n=100,beta=3.5,sigma=10)
+ggsave(plot=p, file="../images/stat_interection.pdf",height=2,width=2.75)
+
+
+X <- rnorm(n=100,mean=0,sd=3)
+Y <- 5 - 5 * X + 3 * X^2  + rnorm(n=100,mean=0,sd=20)
+fit <- lm(Y~X)
+p <- qplot(X,resid(fit), ylab="Residual", alpha=I(0.3)) + 
+     stat_smooth(method="loess", se=F)
+ggsave(plot=p, file="../images/stat_nonlinear.pdf",height=2,width=2.05)
 
 
 # ==== summary of the data applying different screening criteria =====
