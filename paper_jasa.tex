@@ -275,7 +275,7 @@ If the alternative hypothesis is true with a fixed parameter value $\theta$, we 
 Power is an important consideration in deciding which test to use for solving a problem. %In classical testing, new test procedures are examined for their power under a variety of scenarios. 
 For visual inference, this corresponds to the choice of plot to use. Analysts typically have a choice of plots to make, and a myriad of possible options such as reference grids, for any particular purpose. This is akin to different choices of statistics in classical hypothesis testing, for example, mean, median, or trimmed mean. One is typically better than another. For two different visual test statistics of the same actual data, one is considered to be better, if $T(y)$ is more easily distinguishable to the observer. Power is typically used to measure this characteristic of a test. %Power is the probability of rejecting $H_0$ when it is not true.  We can assess power therefore both empirically based on experimental data and through theoretical considerations. 
 
-\section{Effect of Lineup Size and Number of Observers}
+\section{Effect of Lineup Size and Number of Observers}~\label{sec:size}
 
 \green{Notation changes $i$ to $j$, and $p$ to $\pi$. Can someone please decide which to use, and make the appropriate changes? How does the ``Let $X_{j\ell} \sim B_{1, \pi_{j\ell}}$...'' below relate to the ``let $X_i$ be a binary random variable...'' above? It looks like this is a repeat. One needs to go once notation is clarified.}
 
@@ -351,7 +351,7 @@ One of the big differences between visual inference and the classical testing si
 The following properties are only derived for the situation of a  fully parameterized  simulation study. This allows us to directly compare lineup tests against their classical counterparts and also identify  properties relevant for a quality assessment of  lineups, which are typically used  in non-parametric situations.
 
 We need to make two crucial assumptions:
-\begin{enumerate}
+\begin{enumerate} \itemsep 0in
 \item  the plot setup is structured in a way that makes it possible for observer to identify a deviation from the null hypothesis,
 \item an observer is able to identify the plot with the strongest `signal' (or deviation from $H_0$)  from a lineup.
 \end{enumerate}
@@ -964,9 +964,11 @@ Figure \ref{fig:pval_pcorrect} shows evidence of direct association of percentag
 
 \subsection{Do people tend to pick the lowest $p$-value?}
 
-This section takes the data and looks at the assumption made for the early expected power.
+In Section \ref{sec:size} in order to make comparisons with classical tests an assumption was made that the observer would pick the plot in the lineup that had the lowest $p$-value. In this section we take a look at the picks that subjects made, to see if this is, indeed, true. Figure \ref{fig:P-val_rank} shows side-by-side boxplots of rank of plot (in its lineup) and how many subjects selected the plot. \green{Maybe we don't need this plot.} 
 
-Number of lineups for which most of the subjects picked the data plot based on the minimum $p$-values are shown in table \ref{tbl:pval_assumption} for both experiment 1 and 2. The $p$-values of lineups which were not chosen based on minimum $p$-value are also very small (close to minimum) as we see in both figures \ref{fig:P-val_log} and \ref{fig:P-val_log2}. We see the same pattern in figure \ref{fig:P-val_rank} where the median number of people who pick the data plot with minimum $p$-value (rank 1) are much higher than other ranks.
+Figures \ref{fig:P-val_log} and \ref{fig:P-val_log2} show the selection counts and $p$-values of all plots for each lineup in experiments 1 and 2, respectively. In each of these plots, the log of $p$-value for each plot in the lineup is plotted horizntally and the count of the number of subjects who selected this plot is displayed vertically. The dot represents this point, and the lines connect vertically with 0 count. Each row corresponds to a different $\beta$ value ordered top to bottom from lowest to highest. Columns correspond to the other levels of the exeriment, sample size $(n)$, error standard deviation $(\sigma)$ and replicate. (Empty cells indicate no lineup shown with this combination.) Red indicates the actual data plot, which is not always the plot in the lineup with the lowest $p$-value. As $\beta$ gets larger (stronger effect) people tended to select the plot with the lowest $p$-value. 
+
+%Number of lineups for which most of the subjects picked the data plot based on the minimum $p$-values are shown in table \ref{tbl:pval_assumption} for both experiment 1 and 2. The $p$-values of lineups which were not chosen based on minimum $p$-value are also very small (close to minimum) as we see in both figures \ref{fig:P-val_log} and \ref{fig:P-val_log2}. We see the same pattern in figure \ref{fig:P-val_rank} where the median number of people who pick the data plot with minimum $p$-value (rank 1) are much higher than other ranks.
 
 %\begin{table}[hbtp]
 %\caption{Number of lineups for which most people pick the plot with minimum $p$-value. The data used is from screening criteria 1. } %\begin{center}%\begin{tabular}{cccc}%  \hline%screening & Experiment & Total &  minimum $p$-value\\ 
@@ -980,34 +982,45 @@ Number of lineups for which most of the subjects picked the data plot based on t
 
 
 \begin{table}[hbtp]
-\caption{Number of lineups for which most people pick the plot with minimum $p$-value.  } \begin{center}\begin{tabular}{ccc}  \hlinescreening & \multicolumn{2}{c} {lineups picked by minimum $p$-value} \\
+\caption{Number of lineups for which most people pick the plot with minimum $p$-value.  } 
+\begin{center}
+\begin{tabular}{ccc} \hline
+screening & \multicolumn{2}{c} {lineups picked by minimum $p$-value} \\
  \cline{2-3}
-criteria & Experiment 1 & Experiment 2 \\   \hline1 & 37 & 60 \\   2 & 38 & 61 \\   3 & 38 & 60 \\   4 & 41 & 60 \\   5 & 39 & 60 \\   6 & 40 & 60 \\ 
-\hline  Total lineups & 60 & 70 \\    \hline\end{tabular}\end{center}
-\label{tbl:pval_assumption} \end{table}
-
-
+criteria & Experiment 1 & Experiment 2 \\ 
+  \hline
+1 & 37 & 60 \\ 
+2 & 38 & 61 \\  
+3 & 38 & 60 \\ 
+4 & 41 & 60 \\ 
+5 & 39 & 60 \\
+6 & 40 & 60 \\ 
+\hline
+Total lineups & 60 & 70 \\  
+\hline
+\end{tabular}
+\end{center}
+\label{tbl:pval_assumption} 
+\end{table}
 
 \begin{figure*}[hbtp]
    \centering
        \scalebox{0.6}{\includegraphics{p_val_rank_counts12.pdf}}
-       \caption{Rank of p-values in a lineup of size 20 and the number of subjects choosing that plot in the lineup of experiment 1 and 2 with raw data (screening criteria 1). This indicates that most of the subjects pick the plot with minimum p-value (rank 1). There are subjects choosing the lineups with highest p-value(rank 20) but we can attribute this behavior to the type-I error. Can we?}
+       \caption{Rank of p-values in a lineup of size 20 and the number of subjects choosing that plot in the lineup of experiment 1 and 2 with raw data (screening criteria 1). This indicates that most of the subjects pick the plot with minimum p-value (rank 1). There are subjects choosing the lineups with highest p-value(rank 20) but we can attribute this behavior to the type-I error. Can we?  \green{Maybe don't need this plot}}
        \label{fig:P-val_rank}
 \end{figure*}
-
-\green{I think it is very interesting to look at the individual lineups by beta, and other parameters, and we can see the tendency to pick the lowest $p$-value. Figure \ref{fig:P-val_log}.}
 
 \begin{figure*}[hbtp]
    \centering
        \scalebox{0.6}{\includegraphics{p_val_log_counts.pdf}}
-       \caption{Frequency of plot picks by log$_10$ $p$-value in all of the sixty (60) individual lineups for experiment 1. The colored lines indicate the $p$-value of observed data plot.}
+       \caption{Frequency of plot picks by log$_{10}$ $p$-value in all of the sixty (60) individual lineups for experiment 1. The colored lines indicate the $p$-value of actual data plot.}
        \label{fig:P-val_log}
 \end{figure*}
 
 \begin{figure*}[hbtp]
    \centering
        \scalebox{0.5}{\includegraphics{p_val_log_counts2.pdf}}
-       \caption{Frequency of plot picks by log$_10$ $p$-value in all of the seventy (70) individual lineups for experiment 2. The colored lines indicate the $p$-value of observed data plot.}
+       \caption{Frequency of plot picks by log$_{10}$ $p$-value in all of the seventy (70) individual lineups for experiment 2. The colored lines indicate the $p$-value of actual data plot.}
        \label{fig:P-val_log2}
 \end{figure*}
 
