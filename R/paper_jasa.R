@@ -350,6 +350,7 @@ get_merged_pvalue <- function(dat,pval){
   pr <- merge(p_values,response_count, by=c("pic_name","variable"))
   prr <- ddply(pr, .(pic_name),summarise,
                counts=counts[order(value)],
+               rfreq=counts[order(value)]/sum(counts[order(value)]),
                pvalue=round(value,4)[order(value)],
                rank_pval = 1:20,
                obs_pvalue = obs_pvalue)  
@@ -391,6 +392,23 @@ p <- qplot(lpvalue, counts, geom="point", data=subset(prr,lpvalue != lobs_pvalue
   facet_grid(beta~n+sd+rep, scales="free_y", labeller="label_both") +
   opts(legend.position="none")
 p
+
+prr.min<-ddply(prr, "pic_name", summarise,
+                   lpvalue=min(lpvalue),
+                   rfreq=rfreq[order(lpvalue)[1]],
+                   beta=beta[1],
+                   n=n[1],
+                   sd=sd[1],
+                   rep=rep[1])
+p <- qplot(lpvalue, rfreq, geom="point", data=prr) +
+  geom_segment(mapping=aes(xend=lpvalue, yend=0)) +
+  geom_segment(mapping=aes(xend=lpvalue, yend=0, colour="hotpink"), data=prr.min) + 
+  geom_point(mapping=aes(xend=lpvalue, yend=0, colour="hotpink"), data=prr.min) + 
+  xlab(expression(paste("P-value on ",log[10]," scale"))) + ylab("Relative frequency of picks") +
+  facet_grid(beta~n+sd+rep, labeller="label_both") + scale_x_continuous(limits=c(-2.1,0.1), breaks=c(-2,-1,0), labels=c("0.01","0.1","0")) + 
+  opts(legend.position="none")
+p
+
 ggsave(file="../images/p_val_log_counts.pdf", height=10, width=12)
 
 # now same plot for turk2 data
@@ -398,11 +416,11 @@ prr2 <- get_merged_pvalue(dat2,pval2)
 prr2$pic_name2 <- str_sub(prr2$pic_name, 12, -5L)
 x <- str_split(prr2$pic_name2, "_")
 prr2$n <-  unlist(lapply(x, function(x) x[1]))
-prr2$B <-  unlist(lapply(x, function(x) as.numeric(x[2])/100))
-#prr$beta <-  factor(prr$beta, levels=c("0", "1", "2", "3", "5", "7", "8", "10", "16"))
+prr2$b <-  unlist(lapply(x, function(x) as.numeric(x[2])/100))
+#prr$b <-  factor(prr$b, levels=c("0", "1", "2", "3", "5", "7", "8", "10", "16"))
 prr2$sd <-  unlist(lapply(x, function(x) x[3]))
 prr2$rep <-  unlist(lapply(x, function(x) x[4]))
-prr2$pic_name3 <- factor(paste(prr2$beta, prr2$n, prr2$sd, prr2$rep, sep="."))
+prr2$pic_name3 <- factor(paste(prr2$b, prr2$n, prr2$sd, prr2$rep, sep="."))
 p <- qplot(pvalue, counts, geom="point", data=prr2) +
   xlab("rank of p-value") + ylab("Number of subjects") +
   facet_wrap(~pic_name3, ncol=10, scales="free_y") + scale_x_log10()
@@ -414,6 +432,21 @@ p <- qplot(lpvalue, counts, geom="point", data=subset(prr2,lpvalue != lobs_pvalu
   geom_point(mapping=aes(xend=lobs_pvalue, yend=0, colour="hotpink"), data= subset(prr2,lpvalue==lobs_pvalue))+ 
   xlab(expression(paste(log[10], " p-value"))) + ylab("Number of subjects") +
   facet_grid(B~n+sd+rep, scales="free_y", labeller="label_both") +
+  opts(legend.position="none")
+p
+prr2.min<-ddply(prr2, "pic_name", summarise,
+                   lpvalue=min(lpvalue),
+                   rfreq=rfreq[order(lpvalue)[1]],
+                   b=b[1],
+                   n=n[1],
+                   sd=sd[1],
+                   rep=rep[1])
+p <- qplot(lpvalue, rfreq, geom="point", data=prr2) +
+  geom_segment(mapping=aes(xend=lpvalue, yend=0)) +
+  geom_segment(mapping=aes(xend=lpvalue, yend=0, colour="hotpink"), data=prr2.min) + 
+  geom_point(mapping=aes(xend=lpvalue, yend=0, colour="hotpink"), data=prr2.min) + 
+  xlab(expression(paste("P-value on ",log[10]," scale"))) + ylab("Relative frequency of picks") +
+  facet_grid(b~n+sd+rep, labeller="label_both") + scale_x_continuous(limits=c(-2.1,0.1), breaks=c(-2,-1,0), labels=c("0.01","0.1","")) + scale_y_continuous(limits=c(0,1.1), breaks=c(0,0.5,1), labels=c("","0.5","1")) +
   opts(legend.position="none")
 p
 ggsave(file="../images/p_val_log_counts2.pdf", height=10, width=14)
