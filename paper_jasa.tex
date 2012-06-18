@@ -294,14 +294,14 @@ We model $p_{\ell i} = E(X_{\ell i})$ as  a mixed effects logistic regression
 Let $X_{\ell i} \sim Binom_{1, p_{\ell i}}$ be the random variable, with $X_{ \ell i}= 1$, if  subject $i$ correctly identifies the data plot from lineup $\ell$, and 0 otherwise.
 We can model $p_{ \ell i}$ with a logistic regression with subject specific random effects as:
 \begin{equation} \label{mixed}
-g( p_{\ell i} )= X_{\ell i} B +  Z_{\ell i}  \tau_{\ell i},  
+g( p_{\ell i} )= W_{\ell i} \delta +  Z_{\ell i}  \tau_{\ell i},  
 \end{equation}
 
 where $g(.)$ denotes the {\it logit} link function $g(\pi)=\log(\pi) - \log(1-\pi); 0 \le \pi \le 1$ and
 
 \begin{tabular}{lp{5.5in}}
-$X$  & is a design matrix of covariates corresponding to specifics of lineup $\ell$ and subject $i$. Covariates could include  demographic information of individuals, such as age, gender, education level etc. as well lineup-specific elements, e.g. difficulty level. \\
-$B$ & is a vector of parameters for fixed effects.\\
+$W$  & is a design matrix of covariates corresponding to specifics of lineup $\ell$ and subject $i$. Covariates could include  demographic information of individuals, such as age, gender, education level etc. as well lineup-specific elements, e.g. difficulty level. \\
+$\delta$ & is a vector of parameters for fixed effects.\\
 $Z_{\ell i}$ & $1 \le i \le K$, $1 \le \ell \le L$  is a design matrix corresponding to random effects specific to individual $i$ and lineup $\ell$.  \\
 $\tau$ & is a vector of independent real-valued random variables $\tau_{\ell i}$,  $\tau  \sim  MVN(0,\sigma_\tau I_{KL \times KL})$. $\tau$ will usually include a component incorporating an individual's ability or skill to evaluate lineups.\\
 \end{tabular}
