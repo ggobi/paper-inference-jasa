@@ -9,9 +9,9 @@ library(lme4)
 library(stringr)
 
 
-dat1 <- read.csv("../data/raw_data_turk1.csv")
-dat2 <- read.csv("../data/raw_data_turk2.csv")
-dat3 <- read.csv("../data/raw_data_turk3.csv")
+raw.dat1 <- read.csv("../data/raw_data_turk1.csv")
+raw.dat2 <- read.csv("../data/raw_data_turk2.csv")
+raw.dat3 <- read.csv("../data/raw_data_turk3.csv")
 
 
 
@@ -201,7 +201,7 @@ p <- qplot(X,resid(fit), ylab="Residual", alpha=I(0.3)) +
 ggsave(plot=p, file="../images/stat_nonlinear.pdf",height=2,width=2.05)
 
 
-# ==== summary of the data applying different screening criteria =====
+# ==== summary of the data applying different screening criteria to the raw data 
 
 get_summary <- function(dat){
   g <- ddply(dat,.(gender),summarise, length(unique(id)))
@@ -220,7 +220,9 @@ get_sceering_index <- function(dat){
   indx3 <- dat$id %in% included_id3
   included_id4 <- d34$id[ d34$percent_correct >= 20 ]
   indx4 <- dat$id %in% included_id4
-  d56 <- ddply(subset(dat, p_value < 0.0002),.(id),summarise,
+  easy_dat <- subset(dat, p_value < 0.0002)
+  if (dat$experiment[1]=='turk3') easy_dat <- subset(dat, difficulty==0)
+  d56 <- ddply(easy_dat,.(id),summarise,
               easy_cnt = length(response),
               percent_correct = mean(response)*100,
               include_criteria_6 = response[1],
@@ -242,9 +244,9 @@ get_screened_summary <- function(dat){
   return(s)
 }
 
-sm <- cbind(get_screened_summary(dat1),
-      get_screened_summary(dat2),
-      get_screened_summary(dat3))
+sm <- cbind(get_screened_summary(raw.dat1),
+      get_screened_summary(raw.dat2),
+      get_screened_summary(raw.dat3))
 #library(xtable)
 xtable(sm)
 
@@ -286,10 +288,10 @@ get_screened_predict <- function(dat, newdat,intercept=F){
   }
   return(res)
 }
-get_screened_predict(dat1, newdat=data.frame(effect))
-pi <- rbind(data.frame(experiment="Experiment 1",get_screened_predict(dat1, newdat=data.frame(effect=seq(0,18, by=.2)))),
-            data.frame(experiment="Experiment 2",get_screened_predict(dat2, newdat=data.frame(effect=seq(0,7, by=.2)))),
-            data.frame(experiment="Experiment 3",get_screened_predict(dat3, newdat=data.frame(effect=seq(0,6, by=.2)))))
+get_screened_predict(raw.dat1, newdat=data.frame(effect))
+pi <- rbind(data.frame(experiment="Experiment 1",get_screened_predict(raw.dat1, newdat=data.frame(effect=seq(0,18, by=.2)))),
+            data.frame(experiment="Experiment 2",get_screened_predict(raw.dat2, newdat=data.frame(effect=seq(0,7, by=.2)))),
+            data.frame(experiment="Experiment 3",get_screened_predict(raw.dat3, newdat=data.frame(effect=seq(0,6, by=.2)))))
 set.seed(2035)
 ump <- rbind(data.frame(experiment="Experiment 1",effect=seq(0,18, by=.2),
                         ump= calculate_ump_power1(beta=seq(0,18, by=.2)/10, n=100, sigma=1)),
@@ -310,9 +312,9 @@ ggsave( file="../images/power_screening.pdf",height=4.25,width=10)
 
 # ----- subject specific power for each screening criteria from mixed model
 
-pi <- rbind(data.frame(experiment="Experiment 1",get_screened_predict(dat1, newdat=data.frame(effect=seq(0,18, by=.2)),intercept=T)),
-            data.frame(experiment="Experiment 2",get_screened_predict(dat2, newdat=data.frame(effect=seq(0,7, by=.2)),intercept=T)),
-            data.frame(experiment="Experiment 3",get_screened_predict(dat3, newdat=data.frame(effect=seq(0,6, by=.2)),intercept=T)))
+pi <- rbind(data.frame(experiment="Experiment 1",get_screened_predict(raw.dat1, newdat=data.frame(effect=seq(0,18, by=.2)),intercept=T)),
+            data.frame(experiment="Experiment 2",get_screened_predict(raw.dat2, newdat=data.frame(effect=seq(0,7, by=.2)),intercept=T)),
+            data.frame(experiment="Experiment 3",get_screened_predict(raw.dat3, newdat=data.frame(effect=seq(0,6, by=.2)),intercept=T)))
 
 ggplot()+
   geom_line(aes(effect,pred, group=subject), data=pi, alpha=.1) +
@@ -735,10 +737,18 @@ calculate_ump_power3(beta=.1,n=100,sigma=5,x=getx(100))
 
 # ======================= p_value vs %correct =====================
 
+indx1 <- get_sceering_index(dat1)
+indx2 <- get_sceering_index(dat2)
+indx3 <- get_sceering_index(dat3)
+
+
+
+
 pdat <- NULL
 for (i in 1:3){
    dati <- eval(parse(text=paste("dat",i,sep="")))
-   pdati <- ddply(dati, .(p_value, sample_size), summarize,
+   indxi <- eval(parse(text=paste("indx",i,sep="")))
+   pdati <- ddply(subset(dati,indxi[,6]), .(p_value, sample_size), summarize,
 	  attempted = length(response),
 	  corrected = sum(response),
 	  percent_correct = mean(response)*100
@@ -750,9 +760,9 @@ for (i in 1:3){
 # pdat$percent_correct <- pdat$corrected*100/pdat$attempted
 
 p <- ggplot() +
-     geom_point(aes(p_value,percent_correct),data=pdat,size=2) + 
+     geom_point(aes(log(p_value),percent_correct),data=pdat,size=2) + 
      facet_grid(.~experiment) +
-     xlab(expression(paste("p-value(",p[D],")"))) +
+     xlab(expression(paste(log[10], "(p-value(",p[D],"))"))) +
      ylab("Percentage of correct responses") 
 p 
 
@@ -760,22 +770,10 @@ ggsave(p,file="../images/p_val_percent_correct.pdf", height = 4, width = 10)
 
 # ----- p-value vs plot signal strength --------------------
 
-pdat <- NULL
-for (i in 1:3){
-   dati <- eval(parse(text=paste("dat",i,sep="")))
-   pdati <- ddply(dati, .(p_value), summarize,
-	  attempted = length(response),
-	  corrected = sum(response),
-	  percent_correct = ifelse(sum(response)>0,mean(response),1/length(response))
-	)
-   pdati$experiment=paste("experiment",i)
-   pdat <- rbind(pdat,pdati)
-}
-
 #pdat$strength <- 1 - (pdat$percent_correct/100)^(1/19) #previous estimation
-pdat$strength <- (1 - pdat$percent_correct)/19
+pdat$strength <- (1 - pdat$percent_correct/100)/19
 p <- ggplot(pdat) +
-     geom_point(aes(p_value,strength),size=2) + 
+     geom_point(aes(log(p_value),log(strength)),size=2) + 
      facet_grid(.~experiment) +
      xlab(expression(paste("Classical test p-value (",p[D],")"))) +
      ylab(expression(paste("plot signal strength (", hat(p)[D],")"))) + 
