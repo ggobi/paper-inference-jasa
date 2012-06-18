@@ -183,7 +183,7 @@ generate_stat_interection <- function(n,beta, sigma){
   x2 <- factor(sample(c("A","B"), size=n, replace=T))
   cnd <- sample(c("A","B"), size=1)
   y <- round(5+2*x1+3*(x2==cnd)+beta*x1*(x2==cnd)+rnorm(n=n, mean=0, sd=sigma))
-  p <- qplot(x1,y, colour=factor(x2), alpha=I(0.3)) + xlab("X") +ylab("Y")+
+  p <- qplot(x1,y/10, colour=factor(x2), alpha=I(0.3)) + xlab("X") +ylab("Y")+
        geom_smooth(method="lm", se=F, size=1)  +
        scale_colour_discrete(name=expression(X[k]))
   return(p)
@@ -194,7 +194,7 @@ ggsave(plot=p, file="../images/stat_interection.pdf",height=2,width=2.75)
 
 
 X <- rnorm(n=100,mean=0,sd=3)
-Y <- 5 - 5 * X + 3 * X^2  + rnorm(n=100,mean=0,sd=20)
+Y <- .5 - .5 * X + .3 * X^2  + rnorm(n=100,mean=0,sd=2)
 fit <- lm(Y~X)
 p <- qplot(X,resid(fit), ylab="Residual", alpha=I(0.3)) + 
      stat_smooth(method="loess", se=F)
