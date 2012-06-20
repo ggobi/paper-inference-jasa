@@ -71,7 +71,7 @@ However, measuring the strength of patterns seen in plots, and differences in in
 \end{figure}
 %\end{figurehere}
 
-The protocol has only been informally tested until now. In the work described in this paper, the lineup protocol is compared head to head with the equivalent classical test. Specifically, the lineup is examined in the context of a linear model setting, where we are determining the importance of including a variable in the model. This is not the envisioned environment for the use of the lineup -- actually it is likely the worst case scenario for visual inference. The intended use of lineups is where there is no existing test, and unlikely to be ever any numerical test. The thought is though, that the classical setting provides a benchmark for how well the lineup protocol works under controlled conditions, and will provide some assurance that they will work in scenarios where there is no benchmark. Testing is done using a human-subjects experiment using Amazon's Mechanical Turk \citep{turk}, using simulation to provide controlled conditions for assessing lineups. The results are compared with those of the classical test. 
+The protocol has only been informally tested until now. In the work described in this paper, the lineup protocol is compared head to head with the equivalent conventional test. Specifically, the lineup is examined in the context of a linear model setting, where we are determining the importance of including a variable in the model. This is not the envisioned environment for the use of the lineup -- actually it is likely the worst case scenario for visual inference. The intended use of lineups is where there is no existing test, and unlikely to be ever any numerical test. The thought is though, that the classical setting provides a benchmark for how well the lineup protocol works under controlled conditions, and will provide some assurance that they will work in scenarios where there is no benchmark. Testing is done using a human-subjects experiment using Amazon's Mechanical Turk \citep{turk}, using simulation to provide controlled conditions for assessing lineups. The results are compared with those of the conventional test. 
 
 %, analysis requires plots of data. For exploratory data analysis, statistical graphics play an invaluable role in model checking and diagnostics. Even though we have established mathematical procedures to obtain various statistics, we need to support the results by also producing the relevant plots. 
 
@@ -87,7 +87,7 @@ The paper is organized as follows. Section \ref{sec:visual_test} defines terms a
 
 \section{Definitions and Explanations for Visual Statistical Inference} \label{sec:visual_test} 
 
-Table \ref{tbl:compare} illustrates the lineup protocol in relation to traditional hypothesis testing. Both start from the same place, the same null hypothesis. The classical test statistic is the $t$-statistic, where the parameter estimate is divided by its standard error. In the lineup protocol, the test statistic is a plot of the data, here side-by-side boxplots are used, because the variable of interest is categorical and takes just two values. In traditional hypothesis testing the value of the test statistic is compared with all possible values of the sampling distribution, the distribution of the statistic if the null hypothesis is true. If it is extreme on this scale then the null hypothesis is rejected. In contrast in visual inference, the plot of the data is compared with plots of a finite number of samples drawn from the null distribution. If the actual data plot is selected as the most different, then this results in rejection of the null hypothesis.
+Table \ref{tbl:compare} illustrates the lineup protocol in relation to traditional hypothesis testing. Both start from the same place, the same null hypothesis. The conventional test statistic is the $t$-statistic, where the parameter estimate is divided by its standard error. In the lineup protocol, the test statistic is a plot of the data, here side-by-side boxplots are used, because the variable of interest is categorical and takes just two values. In traditional hypothesis testing the value of the test statistic is compared with all possible values of the sampling distribution, the distribution of the statistic if the null hypothesis is true. If it is extreme on this scale then the null hypothesis is rejected. In contrast in visual inference, the plot of the data is compared with plots of a finite number of samples drawn from the null distribution. If the actual data plot is selected as the most different, then this results in rejection of the null hypothesis.
 
 \begin{table*}[hbtp]
 \caption{Comparison of visual inference with existing inference technique.  }
@@ -253,7 +253,7 @@ The \textbf{power} of a visual test $V_{\theta}$ is defined as the probability t
     \end{equation*}
 \end{dfn}
 
-\hh{\noindent An important difference between classical testing and the lineup scenarios is that lineups always depend on observers -- this brings the number of people evaluating a particular lineup into the actual evaluation of power, i.e. we are assuming, again, that $X$ counts the number of observers (out of $K$) who identify the data plot from the lineup.
+\hh{\noindent An important difference between conventional testing and the lineup scenarios is that lineups always depend on observers -- this brings the number of people evaluating a particular lineup into the actual evaluation of power, i.e. we are assuming, again, that $X$ counts the number of observers (out of $K$) who identify the data plot from the lineup.
 Then power is calculated as
 \[
 \widehat{Power}_{V} (\theta) = {Power}_{V, K} (\theta) = 1 - F_{X, \theta} (x_{\alpha} - 1),
@@ -346,7 +346,7 @@ $\tau$ & is a vector of independent real-valued random variables $\tau_{\ell i}$
 
 \noindent
 \paragraph{Lineup size $m$}
-One of the big differences between visual inference and the classical testing situation is the use of a finite number $m-1$ of representatives of the null distribution as comparison against the test statistic. The choice of $m$ has an obvious impact on the test, and we will discuss this in the following paragraph.
+One of the big differences between visual inference and the conventional testing situation is the use of a finite number $m-1$ of representatives of the null distribution as comparison against the test statistic. The choice of $m$ has an obvious impact on the test, and we will discuss this in the following paragraph.
 
 The following properties are only derived for the situation of a  fully parameterized  simulation study. This allows us to directly compare lineup tests against their classical counterparts and also identify  properties relevant for a quality assessment of  lineups, which are typically used  in non-parametric situations.
 
@@ -357,10 +357,10 @@ We need to make two crucial assumptions:
 \end{enumerate}
 We will be able to show evidence for the second assumption with the help of the study discussed in Section~\ref{sec:simulation}, \hh{the degree to which the first assumption is fulfilled is reflected} by the power of a lineup. The better suited a design is for a particular task, the higher its power will be.
 
-\hh{In order to compare power of classical tests and lineups side-by-side, we will have to assume, that we are in the controlled environment of a simulation with tests corresponding to a known parameter value $\theta \in R$ and associated distribution function $F_t$ of the test statistic. }
+\hh{In order to compare power of conventional tests and lineups side-by-side, we will have to assume, that we are in the controlled environment of a simulation with tests corresponding to a known parameter value $\theta \in R$ and associated distribution function $F_t$ of the test statistic. }
 
 \begin{lemma}~\label{lemma}
-Suppose $F_{|t|}(.)$ is the distribution function of an absolute value of $t$, the classical test statistic. Suppose the associated test statistic in a classical test is observed as  $t_{obs}$ with $p$-value $p_D$. 
+Suppose $F_{|t|}(.)$ is the distribution function of an absolute value of $t$, the conventional test statistic. Suppose the associated test statistic in a conventional test is observed as  $t_{obs}$ with $p$-value $p_D$. 
 
 The probability of picking the data plot from a lineup depends on the size $m$ of the lineup and the strength of the signal in the data plot. 
 Under the above assumptions, we can express the probability as:
@@ -940,19 +940,14 @@ We fit model \ref{mixed} with effect $E=\beta*n/\sqrt(n)$ as the only fixed effe
 
 \subsection{Subject-specific variation}
 
-\begin{figure}[hbtp]
-   \centering
-       \scalebox{0.60}{\includegraphics{power_screening_subject.pdf}}
-      \caption{The subject specific power estimated from model \ref{mixed} are shown for various data sets obtained by applying 6 screening criteria.  The corresponding power curve for conventional test is shown in pink lines for comparison.}
-       \label{fig:power_screening_subject}	
-\end{figure}
+
 
 
 \subsection{Estimating $p$-value in Non-Classical Settings} 
 
 \green{third experiment doesn't really have a p-value, does it? Need to explain this. Why are there still so many small p-values in experiment 3?} \blue{$p$-values are computed fitting the full model to the contaminated data anyway.}
 
-In the real setting, where visual inference is to be useful, there will be no classical tests or traditional $p$-values. Yet, assessing the strength of the structure is a critical component of inference. For experiments 1 and 2, to assess the signal strength we examine the proportion of correct picks, with multiple users and the $p$-value of the actual data plot. For experiment 3 the \green{How is p-value calculated here?} Figure \ref{fig:pval_pcorrect} displays scatterplots of these two variables for each experiment. As the $p$-value increases the proportion of correct responses falls, evidence of direct association between proportion of correct responses and classical test $p$-values. When $p$-value is larger than 0.15, it is almost impossible to correctly identify the observed plot in the lineup. We observed this for both experiment 1 and 2. For experiment 3, the scenario is different, because there are two structures, the association between variables, and the cluster of contaminated points.% as in this case people might have observed something other than the effect $E$.
+In the real setting, where visual inference is to be useful, there will be no conventional tests or traditional $p$-values. Yet, assessing the strength of the structure is a critical component of inference. For experiments 1 and 2, to assess the signal strength we examine the proportion of correct picks, with multiple users and the $p$-value of the actual data plot. For experiment 3 the \green{How is p-value calculated here?} Figure \ref{fig:pval_pcorrect} displays scatterplots of these two variables for each experiment. As the $p$-value increases the proportion of correct responses falls, evidence of direct association between proportion of correct responses and conventional test $p$-values. When $p$-value is larger than 0.15, it is almost impossible to correctly identify the observed plot in the lineup. We observed this for both experiment 1 and 2. For experiment 3, the scenario is different, because there are two structures, the association between variables, and the cluster of contaminated points.% as in this case people might have observed something other than the effect $E$.
 
 \green{Should we use proportion of correct, rather than percentage? Wouldn't that work into the equations better?}
 
@@ -961,32 +956,32 @@ Yet, it is possible to obtain an estimate the strength of the signal in the actu
 \hat p_D= (1- {u}/{K})/({m-1})
 \]
 where $K$ is the total number of independent evaluations on a lineup and $u$ is the number of successful evaluations. 
-Figure \ref{fig:pval_plot_signal} shows the plot signal strengths in relation with classical test $p$-values. 
+Figure \ref{fig:pval_plot_signal} shows the plot signal strengths in relation with conventional test $p$-values. 
 \hh{Note that the estimate for $p_D$ is bounded within $(0, 1/(m-1))$. This estimate has to be interpreted carefully, since the  choice of a large lineup size, $m$, will make the value look `significant' in a traditional sense. Values close to the upper bound of $1/(m-1)$ should therefore be interpreted as `at least as high', rather than their actual numeric value.}
-\hh{For $p$-values below $1/(m-1)$ visual $p$-values are very similar to actual $p$-values, the correlation for those values is: XXX, XXX, and XXX based on $n_1 = YYY, n_2 = YYY$, and $n_3=YYY$ lineups, respectively. Mahbub, could you please compute correlation coefficients for $p$ values below $1/(m-1)$ and fill in the numbers. } 
+\hh{For $p$-values below $1/(m-1)$ visual $p$-values are very similar to actual $p$-values, the correlation for those values is: 0.48, 0.85, and 0.11 based on $n_1 = 39, n_2 = 41$, and $n_3= 18$ lineups, respectively.  }  \blue{This is not happening as we see in figure \ref{fig:pval_plot_signal}. But it is true for experiment 2, right?. }
 %is equivalent to classical test $p$-value when $p$-value is less than or equal to $1/(m-1)$.  
 %and beyond that the plot signal strength levels off on a point bigger than 0.05. Thus if plot signal strength is less than 0.05, we may decide to reject the null hypothesis.
 
 
 
-\begin{figure*}[hbtp]
-   \centering
-       \scalebox{0.6}{\includegraphics{p_val_percent_correct.pdf}}
-       \caption{Percentage of correct responses decreases rapidly with the increase of p-value. After p-value exceeds 0.15 it is very unlikely to identify the actual plot. The theoretical justification of this is shown in figure \ref{fig:pval_power}. \blue{The scenario is different for experiment 3. $p$-value does not seem to have any effect on percent correct. This may be due to Type-III error.} \green{p-value on log scale?} }
-       \label{fig:pval_pcorrect}
-\end{figure*}
+%\begin{figure*}[hbtp]
+%   \centering
+%       \scalebox{0.6}{\includegraphics{p_val_percent_correct.pdf}}
+%       \caption{Percentage of correct responses decreases rapidly with the increase of p-value. After p-value exceeds 0.15 it is very unlikely to identify the actual plot. The theoretical justification of this is shown in figure \ref{fig:pval_power}. \blue{The scenario is different for experiment 3. $p$-value does not seem to have any effect on percent correct. This may be due to Type-III error.} \green{p-value on log scale?} }
+%       \label{fig:pval_pcorrect}
+%\end{figure*}
 
 \begin{figure*}[hbtp]
    \centering
        \scalebox{0.6}{\includegraphics{p_val_plot_signal.pdf}}
-       \caption{Classical test $p$-value ($p_D$) vs plot signal strength ($\hat p_D$) estimated using Lemma \ref{lemma}. The solid line is a 45 degree line which represents the equity shown in equation \ref{eqn:power_estimate}. \green{p-value on log scale?}}
-       \hh{Mahbub, another change: could you change the y label to 'estimate of visual p-value $\hat{p_D}$ ?}
+       \caption{Conventional test $p$-value ($p_D$) vs plot signal strength ($\hat p_D$) estimated using Lemma \ref{lemma}. The solid line is a 45 degree line which represents the equity shown in equation \ref{eqn:power_estimate}. p-values are shown on log scale.}
+    %   \hh{Mahbub, another change: could you change the y label to 'estimate of visual p-value $\hat{p_D}$ ?}
        \label{fig:pval_plot_signal}
 \end{figure*}
 
 \subsection{Do people tend to pick the lowest $p$-value?}
 
-In Section \ref{sec:size} in order to make comparisons with classical tests an assumption was made that the observer would pick the plot in the lineup that had the lowest $p$-value. In this section we take a look at the picks that subjects made, to see if this is, indeed, true. Figure \ref{fig:P-val_rank} shows side-by-side boxplots of rank of plot (in its lineup) and how many subjects selected the plot. \green{Maybe we don't need this plot.} 
+In Section \ref{sec:size} in order to make comparisons with conventional tests an assumption was made that the observer would pick the plot in the lineup that had the lowest $p$-value. In this section we take a look at the picks that subjects made, to see if this is, indeed, true. Figure \ref{fig:P-val_rank} shows side-by-side boxplots of rank of plot (in its lineup) and how many subjects selected the plot. \green{Maybe we don't need this plot.} 
 
 Figures \ref{fig:P-val_log} and \ref{fig:P-val_log2} show the selection counts and $p$-values of all plots for each lineup in experiments 1 and 2, respectively. In each of these plots, the log of $p$-value for each plot in the lineup is plotted horizontally and the count of the number of subjects who selected this plot is displayed vertically. The dot represents this point, and the lines connect vertically with 0 count. Each row corresponds to a different $\beta$ value ordered top to bottom from lowest to highest. Columns correspond to the other levels of the experiment, sample size $(n)$, error standard deviation $(\sigma)$ and replicate. (Empty cells indicate no lineup shown with this combination.) Red indicates the actual data plot, which is not always the plot in the lineup with the lowest $p$-value. In both experiments as $\beta$ gets larger (stronger effect) people tended to select the plot with the lowest $p$-value. This is less so the case when $\beta$ is small, when standard deviation is large and sample size is small. The results are clearer for experiment 2, that used a continuous covariate. So for most observers, the assumption that they pick the plot with the smallest $p$-value would appear to be reasonable, and the actual power of the visual test should be close to the expected power.
 
@@ -1071,7 +1066,7 @@ Total lineups & 60 & 70 \\
 
 \hh{
 \subsection{How much do null plots affect the choice?}
-Another difference between classical tests and visual inference is the potential influence that null plots have on an observer's choice of plot. If one or more null plots represent data with -- by chance -- a smaller $p$-value than the data plot, there's a strong possibility that an observer will pick the null plot instead of the data plot, independently of the actual value of the $p$-value. 
+Another difference between conventional tests and visual inference is the potential influence that null plots have on an observer's choice of plot. If one or more null plots represent data with -- by chance -- a smaller $p$-value than the data plot, there's a strong possibility that an observer will pick the null plot instead of the data plot, independently of the actual value of the $p$-value. 
 
 See figure \ref{still-to-do} of evidence for this phenomenon.
 Mahbub, could you have a look at the lineups, and compute the difference between the data plot's $p$-value and the  smallest $p$ value of a null plot, and plot that in a scatterplot against proportion correct? Thanks!
@@ -1127,6 +1122,13 @@ Total &&&&&60&10\\
 \end{tabular}
 \label{tbl:dist_lineup1}
 \end{table} 
+
+\begin{figure}[hbtp]
+   \centering
+       \scalebox{0.60}{\includegraphics{power_screening_subject.pdf}}
+      \caption{The subject specific power estimated from model \ref{mixed} are shown for various data sets obtained by applying 6 screening criteria.  The corresponding power curve for conventional test is shown in pink lines for comparison.}
+       \label{fig:power_screening_subject}	
+\end{figure}
 
 \end{document}  %End of document.
 

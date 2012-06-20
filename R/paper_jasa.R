@@ -8,7 +8,6 @@ library(xtable)
 library(lme4)
 library(stringr)
 
-
 raw.dat1 <- read.csv("../data/raw_data_turk1.csv")
 raw.dat2 <- read.csv("../data/raw_data_turk2.csv")
 raw.dat3 <- read.csv("../data/raw_data_turk3.csv")
@@ -315,17 +314,13 @@ get_screened_predict(raw.dat1, newdat=data.frame(effect))
 pi <- rbind(data.frame(experiment="Experiment 1",get_screened_predict(raw.dat1, newdat=data.frame(effect=seq(0,18, by=.2)))),
             data.frame(experiment="Experiment 2",get_screened_predict(raw.dat2, newdat=data.frame(effect=seq(0,7, by=.2)))),
             data.frame(experiment="Experiment 3",get_screened_predict(raw.dat3, newdat=data.frame(effect=seq(0,6, by=.2)))))
-set.seed(2035)
-ump <- rbind(data.frame(experiment="Experiment 1",effect=seq(0,18, by=.2),
-                        ump= calculate_ump_power1(beta=seq(0,18, by=.2)/10, n=100, sigma=1)),
-             data.frame(experiment="Experiment 2",effect=seq(0,7, by=.2),
-                        ump= calculate_ump_power2(beta=seq(0,7, by=.2)/10, n=100, sigma=1)),
-             data.frame(experiment="Experiment 3",effect=seq(0,6, by=.2),
-                        ump= calculate_ump_power3(beta=seq(0,6, by=.2)/sqrt(115), n=115, sigma=1, x=getx(100))))
+
+source("calculate_ump_power.R")
+ump <- get_ump_power_by_effect()
 
 ggplot()+
   geom_line(aes(effect,pred, colour=factor(screening)), data=pi) +
-  geom_line(aes(effect,ump), data=ump) +
+  geom_line(aes(effect,pow), data=ump) +
   facet_grid(.~experiment, scales="free") +
   ylab("power") + xlab(expression(Effect(E))) +
   scale_colour_discrete(name = "Screening \ncriteria") 
@@ -524,20 +519,7 @@ print(xtable(pval_sm), include.rownames=FALSE)
 
 # ------function to calculate UMP power -----------------------
 
-calculate_ump_power1 <- function(beta, n, sigma) {
-    # n <- 100
-    # sigmasq <- 12^2
-    alpha <- 0.05
-    sigmasq <- sigma^2
-    beta_not <- 0
-    se_beta <- sqrt(sigmasq/(n * (0.5^2)))  # refer to docs derivation of power
-    mu <- beta/se_beta
-    alpha <- alpha/2
-    t_n <- qt(p = 1 - alpha, df = n - 3)
-    res <- pt(q = -t_n, df = n - 3, ncp = mu) - pt(q = t_n, df = n - 3, 
-        ncp = mu) + 1
-    return(res)
-}
+# source("calculate_ump_power.R")
 calculate_ump_power1(3, 100, 5)
 
 # ---------------------- fitting loess smoother  ------------
@@ -708,62 +690,22 @@ qplot(bt, power, geom = "line", colour = test) + xlab(expression(beta))
 
 # ====================== Turk2 data analysis ========================= 
 
-calculate_ump_power2 <- function (beta, n, sigma){
-  alpha <- 0.05
-  beta_not <- 0
-  df <- n-2 # two parameters
-  x <- subset(read.csv("../data/Xdata.csv"),N==n)[,1]
-  ssx <- sum((x-mean(x))^2)
-  se_beta <- sigma/sqrt(ssx) 
-  mu <- beta/se_beta
-  t_n <- qt(p=1-alpha/2,df=df)
-  res <- pt(q=-t_n, df=df, ncp=mu)-pt(q=t_n, df=df, ncp=mu)+1
-  return(res)
-}
-
+# source("calculate_ump_power.R")
+calculate_ump_power2(beta=.1,n=100,sigma=5)
 
 # ==== turk3 data anaysis ===========
 
-
-getx <- function(n){
-  x1 <- rnorm(n,0,1)
-  nc <- 15*n/100
-  x2 <- rnorm(n=nc,mean=-1.75, sd=1/3)
-  return(c(x2,x1))
-}
-getx(100)
-
-calculate_ump_power3 <- function (beta, n, sigma,x){
-  alpha <- 0.05
-  sigmasq <- sigma^2
-  beta_not <- 0
-  df <- n-1 # one parameter(s)
-  se_beta <- sqrt(sigmasq/sum((x-mean(x))^2))
-  mu <- beta/se_beta
-  alpha <- alpha/2
-  t_n <- qt(p=1-alpha,df=df)
-  res <- pt(q=-t_n, df=df, ncp=mu)-pt(q=t_n, df=df, ncp=mu)+1
-  return(res)
-}
-
+# source("calculate_ump_power.R")
 calculate_ump_power3(beta=.1,n=100,sigma=5,x=getx(100))
 
 
 
 # ======================= p_value vs %correct =====================
 
-indx1 <- get_sceering_index(dat1)
-indx2 <- get_sceering_index(dat2)
-indx3 <- get_sceering_index(dat3)
-
-
-
-
 pdat <- NULL
 for (i in 1:3){
    dati <- eval(parse(text=paste("dat",i,sep="")))
-   indxi <- eval(parse(text=paste("indx",i,sep="")))
-   pdati <- ddply(subset(dati,indxi[,6]), .(p_value, sample_size), summarize,
+   pdati <- ddply(dati, .(p_value, sample_size), summarize,
 	  attempted = length(response),
 	  corrected = sum(response),
 	  percent_correct = mean(response)*100
@@ -790,12 +732,31 @@ pdat$strength <- (1 - pdat$percent_correct/100)/19
 p <- ggplot(pdat) +
      geom_point(aes(log(p_value),log(strength)),size=2) + 
      facet_grid(.~experiment) +
-     xlab(expression(paste("Classical test p-value (",p[D],")"))) +
-     ylab(expression(paste("plot signal strength (", hat(p)[D],")"))) + 
+     xlab(expression(paste("Conventional test p-value (",p[D],") on ",log[10]," scale"))) +
+     ylab(expression(paste("Estimate of visual p-value (", hat(p)[D],") on ",log[10]," scale"))) + 
      geom_abline(aes(intercept=0,slope=1))
 p 
 
 ggsave(p,file="../images/p_val_plot_signal.pdf", height = 4, width = 10)
+
+
+# correlation between visual and conventional p-value
+
+get_corr <- function(dat){
+  d <- subset(dat,p_value < 1/19)
+  dd <- ddply(d, .(pic_id), summarize,
+              conventional_p = p_value[1],
+              visual_p = (1 - mean(response))/19
+              )
+  n <- nrow(dd)
+  corr_p <- cor(dd$conventional_p,dd$visual_p)
+  return(data.frame(n,correlation=corr_p))
+}
+
+get_corr(dat1)
+get_corr(dat2)
+get_corr(dat3)
+
 
 # -------- Hieke's code for power vs m and p-value------------------
 
