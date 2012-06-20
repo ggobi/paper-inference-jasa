@@ -310,11 +310,12 @@ pi_effect <- rbind(data.frame(experiment="Experiment 1",get_predict_mixed(dat1, 
 ump <- get_ump_power_by_effect()
 
 ggplot()+
-  geom_line(aes(effect,pred, colour="Visual"), data=pi_effect) +
-  geom_line(aes(effect,pow, colour="Conventional"), data=ump) +
+  geom_line(aes(effect,pred, colour="Visual"), data=pi_effect, size=1.2) +
+  geom_line(aes(effect,pow,colour="Conventional"), data=ump, size=1.2) +
   facet_grid(.~experiment, scales="free") +
-  ylab("power") + xlab(expression(Effect(E))) +
-  scale_colour_discrete(name = "Test") 
+  ylab("Power") + xlab(expression(Effect(E))) +
+  scale_colour_discrete(name = "Test") +
+  scale_colour_manual( values=c("Black","Blue"))
 
 ggsave( file="../images/power_mixed.pdf",height=4,width=10)
 
@@ -341,7 +342,7 @@ ggplot()+
   geom_line(aes(effect,pred, colour=factor(screening)), data=pi) +
   geom_line(aes(effect,pow), data=ump) +
   facet_grid(.~experiment, scales="free") +
-  ylab("power") + xlab(expression(Effect(E))) +
+  ylab("Power") + xlab(expression(Effect(E))) +
   scale_colour_discrete(name = "Screening \ncriteria") 
 
 ggsave( file="../images/power_screening.pdf",height=4,width=10)
@@ -356,7 +357,7 @@ ggplot()+
   geom_line(aes(effect,pred, group=subject), data=pi_subject, alpha=.1) +
   geom_line(aes(effect,pow), data=ump, colour="hotpink", size=1) +
   facet_grid(.~experiment, scales="free") +
-  ylab("power") + xlab(expression(Effect(E)))
+  ylab("Power") + xlab(expression(Effect(E)))
 
 ggsave( file="../images/power_mixed_subject.pdf",height=4,width=10)
 
@@ -371,7 +372,7 @@ ggplot()+
   geom_line(aes(effect,pred, group=subject), data=pi, alpha=.1) +
   geom_line(aes(effect,pow), data=ump, colour="hotpink", size=1) +
   facet_grid(screening~experiment, scales="free") +
-  ylab("power") + xlab(expression(Effect(E)))
+  ylab("Power") + xlab(expression(Effect(E)))
 ggsave( file="../images/power_screening_subject.pdf",height=8,width=10 )  
 
 # ump1 <- calculate_ump_power1(3, 100, 5)
@@ -792,7 +793,7 @@ get_bootstrap_limit_loess <- function(dat){
   set.seed(56)
   dat$effect <- with(dat,sqrt(sample_size)*abs(beta)/sigma)
   dat_boot_pow <- NULL
-  for (i in 1:10){
+  for (i in 1:1000){
     dat.b <- ddply(dat,.(effect), summarize,
                    response = sample(response,replace=T)
                    )
@@ -813,9 +814,14 @@ loess.power <- rbind(data.frame(experiment="Experiment 1", get_power_loess(dat1)
                     data.frame(experiment="Experiment 2", get_power_loess(dat2)),
                     data.frame(experiment="Experiment 3", get_power_loess(dat3)))
 
-loess.limts <- rbind(data.frame(experiment="Experiment 1", get_bootstrap_limit_loess(dat1)),
-                     data.frame(experiment="Experiment 2", get_bootstrap_limit_loess(dat2)),
-                     data.frame(experiment="Experiment 3", get_bootstrap_limit_loess(dat3)))
+# the following codes generates bootstrap limits and takes 10 minutes to run
+# The limits are saved so without running this we can get the saved limit data
+# loess.limts <- rbind(data.frame(experiment="Experiment 1", get_bootstrap_limit_loess(dat1)),
+#                      data.frame(experiment="Experiment 2", get_bootstrap_limit_loess(dat2)),
+#                      data.frame(experiment="Experiment 3", get_bootstrap_limit_loess(dat3)))
+# write.csv(loess.limts,file='../data/loess_bootstrap_limits.txt',row.names=F)
+
+loess.limts <- read.csv('../data/loess_bootstrap_limits.txt')
 
 source("calculate_ump_power.R")
 ump.power <- get_ump_power_by_effect()

@@ -613,7 +613,7 @@ Figure \ref{fig:power_expected} shows the power of the conventional test in comp
 %
 \begin{figure}[hbtp]
    \centering
-       \scalebox{.95}{\includegraphics{power_expected.pdf}}
+       \scalebox{.6}{\includegraphics{power_expected.pdf}}
        \caption{Expected power of visual test  and the power of conventional test for sample size $n =100$, $\sigma = 12$ and $m$=20. }
        \label{fig:power_expected}
 \end{figure}
@@ -943,7 +943,26 @@ We fit model \ref{mixed} with effect $E=\beta*n/\sqrt(n)$ as the only fixed effe
 
 \subsection{Subject-specific variation}
 
-Model \ref{mixed} with effect as fixed covariate and subject as random effect is fitted to the data to estimate the subject specific power curves shown in figure \ref{fig:power_mixed_subject}. The offset is set to $log(0.05/0.95)$ so that Type-I error is fixed to be 0.05 when effect = 0. Subject specific power is quite different for three experiments. It appears that scatter plot serves better job compared to boxplot as a visual test statistic. But subject to subject variability is larger in scatterplot as we see in figure \ref{fig:power_mixed_subject} for experiment 2 and 3.
+In all the three experiments, each subject saw a lineup only once. Assuming that there is no random effect for lineup, we set  $\tau_{\ell  i}=\tau_i $ in model \ref{mixed} and $W_{\ell i} = E_{\ell i}$, the effect of lineup $\ell$ that subject $i$ has evaluated. This gives us the estimate of subject specific probability of successful evaluation of a lineup ($\hat p_i$) from model \ref{mixed}. Parameter estimates of the model is shown in table \ref{tbl:model_par}.  The estimated subject specific power curves are shown in figure \ref{fig:power_mixed_subject}. The offset is set to $log(0.05/0.95)$ so that Type-I error is fixed to be 0.05 when effect = 0. Subject specific power is quite different for three experiments. It appears that scatter plot serves better job compared to boxplot as a visual test statistic. But subject to subject variability is larger in scatterplot as we see in figure \ref{fig:power_mixed_subject} for experiment 2 and 3.
+
+\begin{table}[hbtp]
+\caption{Parameter estimates of model \ref{mixed}.}
+\begin{center}
+\begin{tabular}{ccc}
+  \hline
+ &  \multicolumn{2}{c} {Estimates}  \\
+ \cline{2-3}
+ Experiment & Effect & inter subject correlation\\
+  \hline
+  1 &  &  \\ 
+  2 &  &  \\ 
+  3 &  & \\ 
+   \hline
+\end{tabular}
+\end{center}
+\label{tbl:model_par}
+\end{table}
+
 
 \begin{figure}[hbtp]
    \centering

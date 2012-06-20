@@ -45,25 +45,25 @@ calculate_theoretical_power <- function (beta, n, sigma, alpha=0.05){
   return(res)
 }
 
-powerdf <- data.frame(expand.grid(beta=seq(0, 16, by=0.1), sigma=12, n=100, m=seq(10, 30, by=5), test="visual"))
+powerdf <- data.frame(expand.grid(beta=seq(0, 16, by=0.1), sigma=12, n=100, m=seq(10, 30, by=5), test="Visual"))
 powerdf$power <- ldply(1:nrow(powerdf), function(x) {
   mean(replicate(10, with(powerdf, generate_visual_power(n[x],
     beta=beta[x], sigma=sigma[x], m=m[x]))))
 })$V1
 
-power2 <- data.frame(expand.grid(beta=seq(0, 16, by=0.1), sigma=12, n=100, m=NA, test="theoretical"))
+power2 <- data.frame(expand.grid(beta=seq(0, 16, by=0.1), sigma=12, n=100, m=NA, test="Conventional"))
 power2$power <- ldply(1:nrow(power2), function(x) {
   with(powerdf, calculate_theoretical_power(n[x], beta=beta[x], sigma=sigma[x]))
 })$V1
 
 powerdf <- rbind(powerdf, power2)
 levels(powerdf$test)
-powerdf$emphasize <- 0.5 + ((powerdf$m==20) | (powerdf$test=="theoretical"))
+powerdf$emphasize <- 0.5 + ((powerdf$m==20) | (powerdf$test=="Conventional"))
 
 ggplot(aes(beta, power, group=m, linetype=test, size=emphasize), data=powerdf) + 
   geom_smooth(aes(colour=m), alpha=0.5, fill=NA, method="loess", span=0.1) + 
   scale_colour_gradient("Lineup size m", breaks=c(10,20,30)) + 
-  scale_size_identity() + 
+  scale_size_identity() + ylab("Power") +
   scale_linetype_discrete("Test") + scale_x_continuous(expression(beta))
 
-ggsave("images/power_expected.pdf", width=5, height=3, units="in")
+ggsave("../images/power_expected.pdf", width=7, height=5, units="in")
