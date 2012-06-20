@@ -960,7 +960,12 @@ Yet, it is possible to obtain an estimate the strength of the signal in the actu
 \[
 \hat p_D= (1- {u}/{K})/({m-1})
 \]
-where $K$ is the total number of independent evaluations on a lineup and $u$ is the number of successful evaluations. Figure \ref{fig:pval_plot_signal} shows the plot signal strengths in relation with classical test $p$-values. Notice that plot signal strength is equivalent to classical test $p$-value when $p$-value is less than or equal to 0.05 and beyond that the plot signal strength levels off on a point bigger than 0.05. Thus if plot signal strength is less than 0.05, we may decide to reject the null hypothesis.
+where $K$ is the total number of independent evaluations on a lineup and $u$ is the number of successful evaluations. 
+Figure \ref{fig:pval_plot_signal} shows the plot signal strengths in relation with classical test $p$-values. 
+\hh{Note that the estimate for $p_D$ is bounded within $(0, 1/(m-1))$. This estimate has to be interpreted carefully, since the  choice of a large lineup size, $m$, will make the value look `significant' in a traditional sense. Values close to the upper bound of $1/(m-1)$ should therefore be interpreted as `at least as high', rather than their actual numeric value.}
+\hh{For $p$-values below $1/(m-1)$ visual $p$-values are very similar to actual $p$-values, the correlation for those values is: XXX, XXX, and XXX based on $n_1 = YYY, n_2 = YYY$, and $n_3=YYY$ lineups, respectively. Mahbub, could you please compute correlation coefficients for $p$ values below $1/(m-1)$ and fill in the numbers. } 
+%is equivalent to classical test $p$-value when $p$-value is less than or equal to $1/(m-1)$.  
+%and beyond that the plot signal strength levels off on a point bigger than 0.05. Thus if plot signal strength is less than 0.05, we may decide to reject the null hypothesis.
 
 
 
@@ -975,7 +980,7 @@ where $K$ is the total number of independent evaluations on a lineup and $u$ is 
    \centering
        \scalebox{0.6}{\includegraphics{p_val_plot_signal.pdf}}
        \caption{Classical test $p$-value ($p_D$) vs plot signal strength ($\hat p_D$) estimated using Lemma \ref{lemma}. The solid line is a 45 degree line which represents the equity shown in equation \ref{eqn:power_estimate}. \green{p-value on log scale?}}
-       %\hh{Mahbub, could you exchange this plot for one with  $p_D$ estimated as $(1 - \#  correct/ \# shown)/(m-1)$ as given in lemma 3.1 now?}}
+       \hh{Mahbub, another change: could you change the y label to 'estimate of visual p-value $\hat{p_D}$ ?}
        \label{fig:pval_plot_signal}
 \end{figure*}
 
@@ -983,9 +988,9 @@ where $K$ is the total number of independent evaluations on a lineup and $u$ is 
 
 In Section \ref{sec:size} in order to make comparisons with classical tests an assumption was made that the observer would pick the plot in the lineup that had the lowest $p$-value. In this section we take a look at the picks that subjects made, to see if this is, indeed, true. Figure \ref{fig:P-val_rank} shows side-by-side boxplots of rank of plot (in its lineup) and how many subjects selected the plot. \green{Maybe we don't need this plot.} 
 
-Figures \ref{fig:P-val_log} and \ref{fig:P-val_log2} show the selection counts and $p$-values of all plots for each lineup in experiments 1 and 2, respectively. In each of these plots, the log of $p$-value for each plot in the lineup is plotted horizntally and the count of the number of subjects who selected this plot is displayed vertically. The dot represents this point, and the lines connect vertically with 0 count. Each row corresponds to a different $\beta$ value ordered top to bottom from lowest to highest. Columns correspond to the other levels of the exeriment, sample size $(n)$, error standard deviation $(\sigma)$ and replicate. (Empty cells indicate no lineup shown with this combination.) Red indicates the actual data plot, which is not always the plot in the lineup with the lowest $p$-value. In both experiments as $\beta$ gets larger (stronger effect) people tended to select the plot with the lowest $p$-value. This is less so the case when $\beta$ is small, when standard deviation is large and sample size is small. The results are clearer for experiment 2, that used a continuous covariate. So for most observers, the assumption that they pick the plot with the smallest $p$-value would appear to be reasonable, and the actual power of the visual test should be close to the expected power.
+Figures \ref{fig:P-val_log} and \ref{fig:P-val_log2} show the selection counts and $p$-values of all plots for each lineup in experiments 1 and 2, respectively. In each of these plots, the log of $p$-value for each plot in the lineup is plotted horizontally and the count of the number of subjects who selected this plot is displayed vertically. The dot represents this point, and the lines connect vertically with 0 count. Each row corresponds to a different $\beta$ value ordered top to bottom from lowest to highest. Columns correspond to the other levels of the experiment, sample size $(n)$, error standard deviation $(\sigma)$ and replicate. (Empty cells indicate no lineup shown with this combination.) Red indicates the actual data plot, which is not always the plot in the lineup with the lowest $p$-value. In both experiments as $\beta$ gets larger (stronger effect) people tended to select the plot with the lowest $p$-value. This is less so the case when $\beta$ is small, when standard deviation is large and sample size is small. The results are clearer for experiment 2, that used a continuous covariate. So for most observers, the assumption that they pick the plot with the smallest $p$-value would appear to be reasonable, and the actual power of the visual test should be close to the expected power.
 
-Experiment 3 does not have $p$-values associated with each plot, so the assumption can only be tested with the first two experiments. Practically, this is not an assumption that is explicitly made, because there will not be a $p$-value available. Rather it is assumed that the observer has the ability to select the plot with the most extreme structure. A few of the lineups indicated that occasionally people cue on different patterns, for example, in experiment 1 the lineup $\beta=0, n=100, sd=5, rep=1$ (first row, fourth column) many subjects chose the same plot, that had a higher $p$-value. Some of these anomalous lineups were selcted for follow-up studies using an eyetracker to investigate what people were looking at.
+Experiment 3 does not have $p$-values associated with each plot, so the assumption can only be tested with the first two experiments. Practically, this is not an assumption that is explicitly made, because there will not be a $p$-value available. Rather it is assumed that the observer has the ability to select the plot with the most extreme structure. A few of the lineups indicated that occasionally people cue on different patterns, for example, in experiment 1 the lineup $\beta=0, n=100, sd=5, rep=1$ (first row, fourth column) many subjects chose the same plot, that had a higher $p$-value. Some of these anomalous lineups were selected for follow-up studies using an eye-tracker to investigate what people were looking at.
 
 %Number of lineups for which most of the subjects picked the data plot based on the minimum $p$-values are shown in table \ref{tbl:pval_assumption} for both experiment 1 and 2. The $p$-values of lineups which were not chosen based on minimum $p$-value are also very small (close to minimum) as we see in both figures \ref{fig:P-val_log} and \ref{fig:P-val_log2}. We see the same pattern in figure \ref{fig:P-val_rank} where the median number of people who pick the data plot with minimum $p$-value (rank 1) are much higher than other ranks.
 
@@ -1064,6 +1069,16 @@ Total lineups & 60 & 70 \\
        \label{fig:P-val_log2}
 \end{figure*}
 
+\hh{
+\subsection{How much do null plots affect the choice?}
+Another difference between classical tests and visual inference is the potential influence that null plots have on an observer's choice of plot. If one or more null plots represent data with -- by chance -- a smaller $p$-value than the data plot, there's a strong possibility that an observer will pick the null plot instead of the data plot, independently of the actual value of the $p$-value. 
+
+See figure \ref{still-to-do} of evidence for this phenomenon.
+Mahbub, could you have a look at the lineups, and compute the difference between the data plot's $p$-value and the  smallest $p$ value of a null plot, and plot that in a scatterplot against proportion correct? Thanks!
+
+This problem is further investigated in the paper \cite{waldo}.
+
+}
 
 \section{Conclusions}
 
