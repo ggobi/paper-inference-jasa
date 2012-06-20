@@ -13,6 +13,29 @@ raw.dat1 <- read.csv("../data/raw_data_turk1.csv")
 raw.dat2 <- read.csv("../data/raw_data_turk2.csv")
 raw.dat3 <- read.csv("../data/raw_data_turk3.csv")
 
+# cleaning the data based on criteria 6
+clean_data <- function(raw_dat){
+  easy_dat <- subset(raw_dat, p_value < 0.0002)
+  if (raw_dat$experiment[1]=='turk3') easy_dat <- subset(raw_dat, difficulty==0)
+  d <- ddply(subset(easy_dat),.(id),summarise,
+             easy_cnt = length(response),
+             percent_correct = mean(response)*100,
+             include_id = response[1],
+             excluded_lineup = paste(id[1],"_",pic_id[1],sep=""),
+             excluded_lineup_p_value = round(p_value[1],4)
+             )
+  included_id <- d$id[d$include_id]
+  indx <- raw_dat$id %in% included_id
+  excluded_lineup <- paste(raw_dat$id,"_",raw_dat$pic_id,sep="") %in% d$excluded_lineup
+  indx[excluded_lineup] <- FALSE
+  cleaned_dat <- subset(raw_dat,indx)
+  return(cleaned_dat)
+}
+
+
+dat1 <- clean_data(raw.dat1)
+dat2 <- clean_data(raw.dat2)
+dat3 <- clean_data(raw.dat3)
 
 
 # =================== mathematical test t distribution  ===================
@@ -23,7 +46,7 @@ qplot(t, density_t, geom = "line") + geom_vline(xintercept = 2.5) + ylab("Densit
 ggsave("../images/stat_mathematical_test.pdf",height=2,width=2.2)
 
 
-# ===== computation of p-values =============
+# ===== computation of visual p-values for diffrent combination of K and x 
 
 get_pval <- function(m,K,x){
 	p <- pbinom(size=K,prob=1/m,q=x)
@@ -65,7 +88,7 @@ qplot(Xk, obs.residuals,colour=Xk,geom="boxplot", ylab="Residual") +
       xlab(expression(X[k])) + labs(colour=expression(X[k]))
 ggsave("../images/stat_category.pdf",height=2,width=2.75)
 
-# plotting lineup for testing b2=0
+# plotting lineup (turk1) for testing b2=0
 loc <- sample(1:20, size=1)  # location of observed plot
 simdat <- matrix(rnorm(n=20*n,mean=0, sd=sigma_hat),ncol=20)
 simdat[,loc] <- obs.residuals
@@ -433,9 +456,10 @@ p <- qplot(lpvalue, counts, geom="point", data=subset(prr2,lpvalue != lobs_pvalu
   geom_segment(mapping=aes(xend=lobs_pvalue, yend=0, colour="hotpink"), data= subset(prr2,lpvalue==lobs_pvalue))+ 
   geom_point(mapping=aes(xend=lobs_pvalue, yend=0, colour="hotpink"), data= subset(prr2,lpvalue==lobs_pvalue))+ 
   xlab(expression(paste(log[10], " p-value"))) + ylab("Number of subjects") +
-  facet_grid(B~n+sd+rep, scales="free_y", labeller="label_both") +
+  facet_grid(b~n+sd+rep, scales="free_y", labeller="label_both") +
   opts(legend.position="none")
 p
+
 prr2.min<-ddply(prr2, "pic_name", summarise,
                    lpvalue=min(lpvalue),
                    rfreq=rfreq[order(lpvalue)[1]],
@@ -447,7 +471,7 @@ p <- qplot(lpvalue, rfreq, geom="point", data=prr2) +
   geom_segment(mapping=aes(xend=lpvalue, yend=0)) +
   geom_segment(mapping=aes(xend=lpvalue, yend=0, colour="hotpink"), data=prr2.min) + 
   geom_point(mapping=aes(xend=lpvalue, yend=0, colour="hotpink"), data=prr2.min) + 
-  xlab(expression(paste("P-value on ",log[10]," scale"))) + ylab("Relative frequency of picks") +
+  xlab(expression(paste("p-value on ",log[10]," scale"))) + ylab("Relative frequency of picks") +
   facet_grid(b~n+sd+rep, labeller="label_both") + scale_x_continuous(limits=c(-2.1,0.1), breaks=c(-2,-1,0), labels=c("0.01","0.1","")) + scale_y_continuous(limits=c(0,1.1), breaks=c(0,0.5,1), labels=c("","0.5","1")) +
   opts(legend.position="none")
 p
@@ -483,12 +507,12 @@ get_all_pval_sam <- function(dat1,dat2,pval1,pval2){
 }
 
 
-indx1 <- get_sceering_index(dat1)
-indx2 <- get_sceering_index(dat2)
+indx1 <- get_sceering_index(raw.dat1)
+indx2 <- get_sceering_index(raw.dat2)
 pval_sm <- NULL
 for (i in 1:6) {
-  d1 <- subset(dat1,indx1[,i])
-  d2 <- subset(dat2,indx2[,i])
+  d1 <- subset(raw.dat1,indx1[,i])
+  d2 <- subset(raw.dat2,indx2[,i])
   pval_sm <- rbind(pval_sm,cbind(screening=i,get_all_pval_sam(d1,d2,pval1,pval2)))
 }
 pval_sm <- rbind(pval_sm,c("Total lineups",60,70))
@@ -497,8 +521,6 @@ print(xtable(pval_sm), include.rownames=FALSE)
 
 
 # =================== Turk1 data analysis  ================================
-
-dat <- read.csv("../data/raw_data_turk1.csv")
 
 # ------function to calculate UMP power -----------------------
 
@@ -527,10 +549,8 @@ get_smooth_power <- function(dat.n, test = "Empirical") {
         for (n in c(100, 300)) {
             dats <- subset(dat.n, sigma == s & sample_size == n)
             dats$y <- as.numeric(dats$response)
-            fit <- loess(y ~ beta, data = dats, span = 1 + (n == 100) * 
-                0.2)
-            dat_smooth <- rbind(dat_smooth, cbind(betas, predict(fit, 
-                betas), n, s))
+            fit <- loess(y ~ beta, data = dats, span = 1 + (n == 100) * 0.2)
+            dat_smooth <- rbind(dat_smooth, cbind(betas, predict(fit, betas), n, s))
         }
     }
     colnames(dat_smooth) <- c("beta", "pow", "sample_size", "sigma")
@@ -546,10 +566,8 @@ get_ump_power1 <- function(dat, test = "UMP") {
     for (n in c(100, 300)) {
         for (sg in c(5, 12)) {
             pow <- NULL
-            for (i in beta) pow <- c(pow, calculate_ump_power1(beta = i, 
-                n = n, sigma = sg))
-            dat_ump <- data.frame(beta = c(-beta, beta), pow = c(pow, 
-                pow))
+            for (i in beta) pow <- c(pow, calculate_ump_power1(beta = i, n = n, sigma = sg))
+            dat_ump <- data.frame(beta = c(-beta, beta), pow = c(pow, pow))
             dat_ump$sample_size <- n
             dat_ump$sigma <- sg
             #head(dat_ump)
@@ -560,57 +578,54 @@ get_ump_power1 <- function(dat, test = "UMP") {
     return(dat_pow)
 }
 
-dat_emp_pow <- get_smooth_power(dat)
-dat_ump_pow <- get_ump_power1(dat)
+dat_emp_pow <- get_smooth_power(dat1)
+dat_ump_pow <- get_ump_power1(dat1)
 p <- ggplot(dat_emp_pow, aes(beta, pow)) + geom_line(aes(colour = test))
 p <- p + geom_line(aes(beta, pow, colour = test), data = dat_ump_pow)
 p <- p + facet_grid(sample_size ~ sigma)
 p + xlab(expression(beta)) + ylab("Power")
 
 # ---------- bootstrap band for empirical power -----------------------
+set.seed(56)
+dat_boot_pow <- NULL
+for (i in 1:1000){
+dat.b <- ddply(dat1,.(beta,sample_size,sigma), summarize,
+           response = sample(response,replace=T)
+           )
+dat_boot_pow <-
+  rbind(dat_boot_pow,get_smooth_power(dat.b,test=paste('smooth',i,sep='')))
+}
 
-# dat_boot_pow <- NULL
-# for (i in 1:1000){
-# dat.b <- ddply(dat,.(beta,sample_size,sigma), summarize,
-#            response = sample(response,replace=T)
-#            )
-# dat_boot_pow <-
-#   rbind(dat_boot_pow,get_smooth_power(dat.b,test=paste('smooth',i,sep='')))
-# }
-#
-#   write.csv(dat_boot_pow,file='../data/dat_bootstrap_power.txt',row.names=F)
+write.csv(dat_boot_pow,file='../data/dat_bootstrap_power.txt',row.names=F)
 
 dat_boot_pow <- read.csv("../data/dat_bootstrap_power.txt")
 
-dat_boot_limit <- ddply(dat_boot_pow, .(beta, sample_size, 
-    sigma), summarize, limit1 = quantile(pow, 0.025, na.rm = T), limit2 = quantile(pow, 
-    0.975, na.rm = T))
-dat_boot_pow_limit <- melt(dat_boot_limit, id = c("beta", "sample_size", 
-    "sigma"))
-colnames(dat_boot_pow_limit) <- c("beta", "sample_size", "sigma", 
-    "test", "pow")
-dat_obs_val <- ddply(dat, .(beta, sample_size, sigma, response), 
-    summarize, responses = length(response))
-dat_obs_val <- rbind(dat_obs_val, cbind(beta = -dat_obs_val[, 
-    1], dat_obs_val[, -1]))
-dat_obs_pow <- ddply(dat, .(beta, sample_size, sigma, replica), 
-    summarize, pow = sum(response == "TRUE")/sum(response == response))
-dat_obs_pow <- rbind(dat_obs_pow, cbind(beta = -dat_obs_pow[, 
-    1], dat_obs_pow[, -1]))
-dat_boot_ribbon <- ddply(dat_boot_pow, .(beta, sample_size, 
-    sigma), summarize, limit1 = quantile(pow, 0.025, na.rm = T), limit2 = quantile(pow, 
-    0.975, na.rm = T))
-dat_boot_ribbon <- rbind(dat_boot_ribbon, cbind(beta = -dat_boot_ribbon[, 
-    1], dat_boot_ribbon[, -1]))
-p <- ggplot() + geom_point(aes(beta, as.numeric(response), 
-    size = responses), data = dat_obs_val) + geom_ribbon(aes(x = beta, 
-    ymin = limit1, ymax = limit2), data = dat_boot_ribbon) + geom_line(aes(beta, 
-    pow, colour = test), data = dat_emp_pow) + geom_line(aes(beta, pow, 
-    colour = test), data = dat_ump_pow) + facet_grid(sample_size ~ sigma) + 
-    xlab(expression(beta)) + ylab("Power")
+dat_boot_limit <- ddply(dat_boot_pow, .(beta, sample_size, sigma), summarize, 
+                        limit1 = quantile(pow, 0.025, na.rm = T), 
+                        limit2 = quantile(pow, 0.975, na.rm = T))
+dat_boot_pow_limit <- melt(dat_boot_limit, id = c("beta", "sample_size", "sigma"))
+colnames(dat_boot_pow_limit) <- c("beta", "sample_size", "sigma", "test", "pow")
+dat_obs_val <- ddply(dat1, .(beta, sample_size, sigma, response), summarize, 
+                     responses = length(response))
+dat_obs_val <- rbind(dat_obs_val, cbind(beta = -dat_obs_val[,1], dat_obs_val[, -1]))
+dat_obs_pow <- ddply(dat1, .(beta, sample_size, sigma, replica), summarize, 
+                     pow = sum(response == "TRUE")/sum(response == response))
+dat_obs_pow <- rbind(dat_obs_pow, cbind(beta = -dat_obs_pow[,1], dat_obs_pow[, -1]))
+dat_boot_ribbon <- ddply(dat_boot_pow, .(beta, sample_size, sigma), summarize, 
+                         limit1 = quantile(pow, 0.025, na.rm = T), 
+                         limit2 = quantile(pow, 0.975, na.rm = T))
+dat_boot_ribbon <- rbind(dat_boot_ribbon, cbind(beta = -dat_boot_ribbon[,1], dat_boot_ribbon[, -1]))
+p <- ggplot() + 
+  geom_point(aes(beta, as.numeric(response),size = responses), 
+             data = dat_obs_val, alpha=.3) + 
+  geom_ribbon(aes(x = beta, ymin = limit1, ymax = limit2), 
+              data = dat_boot_ribbon, alpha=.3) + 
+  geom_line(aes(beta, pow, colour = test), data = dat_emp_pow) + 
+  facet_grid(sample_size ~ sigma) + 
+  xlab(expression(beta)) + ylab("Power")
 p
-ggsave(p, filename = "../images/power_loess_exp1.pdf", height = 5.5, 
-    width = 8.5)
+ggsave(p, filename = "../images/power_loess_exp1.pdf", height = 5.5,width = 8.5)
+
 # ------------------- Expected power calculations ------------------------
 n <- 300
 beta <- 3
@@ -796,6 +811,70 @@ p <- qplot(m, power, geom="line", group=pb, data=powerdf, colour=pb) +
 p     
 ggsave(p,file="../images/p_val_power_m.pdf", height = 4.25, width = 6)
 
+
+# empirical power by effect
+
+get_response_by_effect <- function(dat){
+  dat$effect <- with(dat,sqrt(sample_size)*abs(beta)/sigma)
+  effet.pow <- ddply(dat,.(effect,response), summarize,
+                     responses = length(response))
+  return(data.frame(effet.pow))
+}
+
+get_power_loess <- function(dat) {
+  if (is.null(dat$effect)) dat$effect <- with(dat,sqrt(sample_size)*abs(beta)/sigma)
+  effects <- seq(0.01, max(dat$effect), by = 0.2)
+  dat$y <- as.numeric(dat$response)
+  experiment <- as.numeric(substr(dat$experiment,5,5)[1])
+  spn <- c(1,.9,1.4)[experiment]  #different span for 3 experiments
+  fit <- loess(y ~ effect, data = dat, span = spn)
+  pow_smooth <- data.frame(effect=effects, pow=predict(fit, effects))
+  return(pow_smooth)
+}
+
+get_bootstrap_limit_loess <- function(dat){
+  set.seed(56)
+  dat$effect <- with(dat,sqrt(sample_size)*abs(beta)/sigma)
+  dat_boot_pow <- NULL
+  for (i in 1:1000){
+    dat.b <- ddply(dat,.(effect), summarize,
+                   response = sample(response,replace=T)
+                   )
+    dat.b$experiment <- dat$experiment
+    dat_boot_pow <- rbind(dat_boot_pow,get_power_loess(dat.b))
+  }
+  limits <- ddply(dat_boot_pow, .(effect), summarize, 
+                  limit1 = quantile(pow, 0.025, na.rm = T), 
+                  limit2 = quantile(pow, 0.975, na.rm = T))
+  return(limits)
+}
+
+effect.dat <- rbind(data.frame(experiment="Experiment 1", get_response_by_effect(dat1)),
+                    data.frame(experiment="Experiment 2", get_response_by_effect(dat2)),
+                    data.frame(experiment="Experiment 3", get_response_by_effect(dat3)))
+
+loess.power <- rbind(data.frame(experiment="Experiment 1", get_power_loess(dat1)),
+                    data.frame(experiment="Experiment 2", get_power_loess(dat2)),
+                    data.frame(experiment="Experiment 3", get_power_loess(dat3)))
+
+loess.limts <- rbind(data.frame(experiment="Experiment 1", get_bootstrap_limit_loess(dat1)),
+                     data.frame(experiment="Experiment 2", get_bootstrap_limit_loess(dat2)),
+                     data.frame(experiment="Experiment 3", get_bootstrap_limit_loess(dat3)))
+
+source("calculate_ump_power.R")
+ump.power <- get_ump_power_by_effect()
+power.dat <- rbind(data.frame(Test="Visual",loess.power),
+                   data.frame(Test="conventional", ump.power))
+
+                                   
+ggplot()+
+  geom_point(aes(effect,as.numeric(response), size=responses), data=effect.dat, alpha=.3) +
+  geom_line(aes(effect,pow,colour=Test), data=power.dat) +
+  geom_ribbon(aes(x = effect, ymin = limit1, ymax = limit2), 
+              data = loess.limts, alpha=.3) +
+  facet_grid(.~experiment, scales="free") + 
+  ylab("Power")
+ggsave(filename = "../images/power_loess_effect.pdf", height = 4,width = 10)
 
 
 
