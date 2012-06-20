@@ -943,7 +943,7 @@ We fit model \ref{mixed} with effect $E=\beta*n/\sqrt(n)$ as the only fixed effe
 
 \subsection{Subject-specific variation}
 
-Model \ref{mixed} with effect as fixed covariate and subject as random effect is fitted to the data to estimate the subject specific power curves shown in figure \ref{fig:power_mixed_subject}. Subject specific power is quite different for three experiments. It appears that scatter plot serves better job compared to boxplot as a visual test statistic. But subject to subject variability is larger in scatterplot as we see in figure \ref{fig:power_mixed_subject} for experiment 2 and 3.
+Model \ref{mixed} with effect as fixed covariate and subject as random effect is fitted to the data to estimate the subject specific power curves shown in figure \ref{fig:power_mixed_subject}. The offset is set to $log(0.05/0.95)$ so that Type-I error is fixed to be 0.05 when effect = 0. Subject specific power is quite different for three experiments. It appears that scatter plot serves better job compared to boxplot as a visual test statistic. But subject to subject variability is larger in scatterplot as we see in figure \ref{fig:power_mixed_subject} for experiment 2 and 3.
 
 \begin{figure}[hbtp]
    \centering

@@ -820,16 +820,16 @@ loess.limts <- rbind(data.frame(experiment="Experiment 1", get_bootstrap_limit_l
 source("calculate_ump_power.R")
 ump.power <- get_ump_power_by_effect()
 power.dat <- rbind(data.frame(Test="Visual",loess.power),
-                   data.frame(Test="Conventional", ump.power))
-#power.dat$emphasize <- 0.5 +  (power.dat$Test=="Conventional")                             
+                   data.frame(Test="Conventional", ump.power))                          
 
 ggplot()+
   geom_point(aes(effect,as.numeric(response), size=responses), data=effect.dat, alpha=.3) +
-  geom_line(aes(effect,pow,colour=Test), data=power.dat) +
+  geom_line(aes(effect,pow,linetype=Test, colour=Test), data=power.dat, size=1.2) +
   geom_ribbon(aes(x = effect, ymin = limit1, ymax = limit2), 
               data = loess.limts, alpha=.3) +
   facet_grid(.~experiment, scales="free") + 
-  ylab("Power")
+  scale_colour_manual(values=c("Blue","Black")) +
+  ylab("Power") + xlab("Effect") + scale_size_continuous("# Responses")
 ggsave(filename = "../images/power_loess_effect.pdf", height = 4,width = 10)
 
 
