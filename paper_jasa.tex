@@ -876,19 +876,22 @@ criteria & Subj & Male & Fem & Total & Subj & Male & Fem & Total & Subj & Male &
 
 We fit model \ref{mixed} with effect $E=\beta*n/\sqrt(n)$ as the only fixed effect covariate without intercept. We also set $offset = log(0.05/95)$ so that the estimated power has a fixed lower limit = 0.05 (Type-I error) for effect $E=0$. The power curves obtained by fitting model \ref{mixed} to the data for all the experiments applying different screening criteria is shown in figure \ref{fig:power_screening}. This shows how the screening criteria may affect the results. The corresponding power curves of conventional test are also shown. Notice that no mater what criteria we apply the result does not change much for experiment 2. Also, estimated power curve with criteria 5 for experiment 3 is above the conventional test power curve.
 
-\begin{figure}[hbtp]
-   \centering
-       \scalebox{0.70}{\includegraphics{power_screening.pdf}}
-       \caption{The overall power estimated from model \ref{mixed} are shown for various data sets obtained by applying 6 screening criteria.  The corresponding power curve for conventional test is shown in black solid lines for comparison.}
-       \label{fig:power_screening}
-\end{figure}
+
 
 
 \begin{figure}[hbtp]
    \centering
        \scalebox{0.70}{\includegraphics{power_loess_effect.pdf}}
-       \caption{Observed power shown by loess smoother with simultaneous bootstrap confidence band and the power of conventional test. }
-       \label{fig:power_screening}
+       \caption{Observed power shown by loess smoother with simultaneous bootstrap confidence band and the power of conventional test. Responses are 1 and 0 depending on the success or failure respectively to identify the actual plot in the lineup. Size of the dots represents the number of responses for each lineup.}
+       \label{fig:power_loess_effect}
+\end{figure}
+
+
+\begin{figure}[hbtp]
+   \centering
+       \scalebox{0.70}{\includegraphics{power_mixed.pdf}}
+       \caption{The overall power estimated from model \ref{mixed} are shown. The corresponding power curve for conventional test is shown for comparison.}
+       \label{fig:power_mixed}
 \end{figure}
 
 
@@ -940,7 +943,12 @@ We fit model \ref{mixed} with effect $E=\beta*n/\sqrt(n)$ as the only fixed effe
 
 \subsection{Subject-specific variation}
 
-
+\begin{figure}[hbtp]
+   \centering
+       \scalebox{0.60}{\includegraphics{power_mixed_subject.pdf}}
+       \caption{Subject specific  power estimated from model \ref{mixed} are shown. The corresponding power curve for conventional test is shown for comparison.}
+       \label{fig:power_mixed_subject}
+\end{figure}
 
 
 \subsection{Estimating $p$-value in Non-Classical Settings} 
@@ -1043,12 +1051,12 @@ Total lineups & 60 & 70 \\
 \label{tbl:pval_assumption} 
 \end{table}
 
-\begin{figure*}[hbtp]
-   \centering
-       \includegraphics[width=0.95\textwidth]{p_val_rank_counts12.pdf}
-       \caption{Rank of p-values in a lineup of size 20 and the number of subjects choosing that plot in the lineup of experiment 1 and 2 with raw data (screening criteria 1). This indicates that most of the subjects pick the plot with minimum p-value (rank 1). There are subjects choosing the lineups with highest p-value(rank 20) but we can attribute this behavior to the type-I error. Can we?  \green{Maybe don't need this plot}}
-       \label{fig:P-val_rank}
-\end{figure*}
+%\begin{figure*}[hbtp]
+%   \centering
+%       \includegraphics[width=0.95\textwidth]{p_val_rank_counts12.pdf}
+%       \caption{Rank of p-values in a lineup of size 20 and the number of subjects choosing that plot in the lineup of experiment 1 and 2 with raw data (screening criteria 1). This indicates that most of the subjects pick the plot with minimum p-value (rank 1). There are subjects choosing the lineups with highest p-value(rank 20) but we can attribute this behavior to the type-I error. Can we?  \green{Maybe don't need this plot}}
+%       \label{fig:P-val_rank}
+%\end{figure*}
 
 \begin{figure*}[hbtp]
    \centering
@@ -1069,11 +1077,19 @@ Total lineups & 60 & 70 \\
 Another difference between conventional tests and visual inference is the potential influence that null plots have on an observer's choice of plot. If one or more null plots represent data with -- by chance -- a smaller $p$-value than the data plot, there's a strong possibility that an observer will pick the null plot instead of the data plot, independently of the actual value of the $p$-value. 
 
 See figure \ref{still-to-do} of evidence for this phenomenon.
-Mahbub, could you have a look at the lineups, and compute the difference between the data plot's $p$-value and the  smallest $p$ value of a null plot, and plot that in a scatterplot against proportion correct? Thanks!
+Mahbub, could you have a look at the lineups, and compute the difference between the data plot's $p$-value and the  smallest $p$ value of a null plot, and plot that in a scatterplot against proportion correct? Thanks! 
 
-This problem is further investigated in the paper \cite{waldo}.
+This problem is further investigated in the paper \cite{waldo}. \blue{Here is the plot in figure \ref{fig:pval_difference} as proposed.}
 
 }
+
+\begin{figure}[hbtp]
+   \centering
+       \scalebox{0.70}{\includegraphics{pval_difference.pdf}}
+       \caption{Difference between the data plot's $p$-value and the  smallest $p$ value of a null plot vs proportion correct.}
+       \label{fig:pval_difference}
+\end{figure}
+
 
 \section{Conclusions}
 
@@ -1122,6 +1138,13 @@ Total &&&&&60&10\\
 \end{tabular}
 \label{tbl:dist_lineup1}
 \end{table} 
+
+\begin{figure}[hbtp]
+   \centering
+       \scalebox{0.70}{\includegraphics{power_screening.pdf}}
+       \caption{The overall power estimated from model \ref{mixed} are shown for various data sets obtained by applying 6 screening criteria.  The corresponding power curve for conventional test is shown in black solid lines for comparison.}
+       \label{fig:power_screening}
+\end{figure}
 
 \begin{figure}[hbtp]
    \centering

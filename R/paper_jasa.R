@@ -1,5 +1,4 @@
 # The complete R codes for JASA Paper
-# Last modified by Di on Jun 7, 2012.
 
 library(ggplot2)
 library(plyr)
@@ -8,9 +7,12 @@ library(xtable)
 library(lme4)
 library(stringr)
 
+# getting the data and some common functions
+
 raw.dat1 <- read.csv("../data/raw_data_turk1.csv")
 raw.dat2 <- read.csv("../data/raw_data_turk2.csv")
 raw.dat3 <- read.csv("../data/raw_data_turk3.csv")
+source("calculate_ump_power.R") # functions to compute power
 
 # cleaning the data based on criteria 6
 clean_data <- function(raw_dat){
@@ -30,7 +32,6 @@ clean_data <- function(raw_dat){
   cleaned_dat <- subset(raw_dat,indx)
   return(cleaned_dat)
 }
-
 
 dat1 <- clean_data(raw.dat1)
 dat2 <- clean_data(raw.dat2)
@@ -272,7 +273,7 @@ sm <- cbind(get_screened_summary(raw.dat1),
 #library(xtable)
 xtable(sm)
 
-# --- fit mixed model with each screening criteria and plot power
+# --- fit mixed model with cleaned data
 #library(lme4)
 
 pred.mixed <- function(X, subject=0,fit) {
@@ -301,6 +302,24 @@ effect <- seq(0.01,16, by=.2)
 get_predict_mixed(dat1, newdat=data.frame(effect))
 #get_predict_mixed(dat1, newdat=data.frame(effect), intercept=T)
 
+pi_effect <- rbind(data.frame(experiment="Experiment 1",get_predict_mixed(dat1, newdat=data.frame(effect=seq(0,18, by=.2)))),
+            data.frame(experiment="Experiment 2",get_predict_mixed(dat2, newdat=data.frame(effect=seq(0,6, by=.2)))),
+            data.frame(experiment="Experiment 3",get_predict_mixed(dat3, newdat=data.frame(effect=seq(0,5, by=.2)))))
+
+# source("calculate_ump_power.R")
+ump <- get_ump_power_by_effect()
+
+ggplot()+
+  geom_line(aes(effect,pred, colour="Visual"), data=pi_effect) +
+  geom_line(aes(effect,pow, colour="Conventional"), data=ump) +
+  facet_grid(.~experiment, scales="free") +
+  ylab("power") + xlab(expression(Effect(E))) +
+  scale_colour_discrete(name = "Test") 
+
+ggsave( file="../images/power_mixed.pdf",height=4,width=10)
+
+# --- fit mixed model with each screening criteria and plot power
+
 get_screened_predict <- function(dat, newdat,intercept=F){
   indx <- get_sceering_index(dat)
   res <- NULL
@@ -315,7 +334,7 @@ pi <- rbind(data.frame(experiment="Experiment 1",get_screened_predict(raw.dat1, 
             data.frame(experiment="Experiment 2",get_screened_predict(raw.dat2, newdat=data.frame(effect=seq(0,7, by=.2)))),
             data.frame(experiment="Experiment 3",get_screened_predict(raw.dat3, newdat=data.frame(effect=seq(0,6, by=.2)))))
 
-source("calculate_ump_power.R")
+# source("calculate_ump_power.R")
 ump <- get_ump_power_by_effect()
 
 ggplot()+
@@ -325,7 +344,21 @@ ggplot()+
   ylab("power") + xlab(expression(Effect(E))) +
   scale_colour_discrete(name = "Screening \ncriteria") 
 
-ggsave( file="../images/power_screening.pdf",height=4.25,width=10)
+ggsave( file="../images/power_screening.pdf",height=4,width=10)
+
+# subject specific power from mixed model
+
+pi_subject <- rbind(data.frame(experiment="Experiment 1",get_predict_mixed(dat1, newdat=data.frame(effect=seq(0,18, by=.2)), intercept=T)),
+                   data.frame(experiment="Experiment 2",get_predict_mixed(dat2, newdat=data.frame(effect=seq(0,6, by=.2)), intercept=T)),
+                   data.frame(experiment="Experiment 3",get_predict_mixed(dat3, newdat=data.frame(effect=seq(0,5, by=.2)), intercept=T)))
+
+ggplot()+
+  geom_line(aes(effect,pred, group=subject), data=pi_subject, alpha=.1) +
+  geom_line(aes(effect,pow), data=ump, colour="hotpink", size=1) +
+  facet_grid(.~experiment, scales="free") +
+  ylab("power") + xlab(expression(Effect(E)))
+
+ggsave( file="../images/power_mixed_subject.pdf",height=4,width=10)
 
 
 # ----- subject specific power for each screening criteria from mixed model
@@ -336,7 +369,7 @@ pi <- rbind(data.frame(experiment="Experiment 1",get_screened_predict(raw.dat1, 
 
 ggplot()+
   geom_line(aes(effect,pred, group=subject), data=pi, alpha=.1) +
-  geom_line(aes(effect,ump), data=ump, colour="hotpink", size=1) +
+  geom_line(aes(effect,pow), data=ump, colour="hotpink", size=1) +
   facet_grid(screening~experiment, scales="free") +
   ylab("power") + xlab(expression(Effect(E)))
 ggsave( file="../images/power_screening_subject.pdf",height=8,width=10 )  
@@ -487,6 +520,7 @@ pval_sm <- rbind(data.frame(Experiment=1,Total = nrow(min_pval1), Most_pick_mini
                  )
 
 # ---- getting minimum p-value summary for all screening criteria
+
 get_all_pval_sam <- function(dat1,dat2,pval1,pval2){
   prr1 <- get_merged_pvalue(dat1,pval1)
   min_pval1 <- ddply(prr1,.(pic_name), summarize,
@@ -513,6 +547,31 @@ for (i in 1:6) {
 pval_sm <- rbind(pval_sm,c("Total lineups",60,70))
 print(xtable(pval_sm), include.rownames=FALSE)
 
+
+# Difference between data plot p-value and minimum p-value 
+
+min.pval1 <- ddply(melt(pval1, id="pic_name"),.(pic_name), summarize, 
+                   min.pval = round(min(value),4))
+min.pval2 <- ddply(melt(pval2, id="pic_name"),.(pic_name), summarize, 
+                   min.pval = round(min(value)))
+
+min.pval <- rbind(data.frame(experiment="Experiment 1", min.pval1),
+                  data.frame(experiment="Experiment 2", min.pval2))
+
+pval.success1 <- ddply(dat1, .(pic_name), summarize,
+                       prop_correct=mean(response),
+                       p_value=p_value[1])
+pval.success2 <- ddply(dat2, .(pic_name), summarize,
+                       prop_correct=mean(response),
+                       p_value=p_value[1])
+
+pval.success <- rbind(pval.success1,pval.success2)
+pval_diff <- merge(min.pval,pval.success, by="pic_name")
+
+ggplot(pval_diff) +
+  geom_point(aes(p_value-min.pval, prop_correct)) +
+  facet_grid(.~experiment)
+ggsave(file="../images/pval_difference.pdf", height=4, width=8)
 
 
 # =================== Turk1 data analysis  ================================
@@ -608,7 +667,7 @@ p <- ggplot() +
 p
 ggsave(p, filename = "../images/power_loess_exp1.pdf", height = 5.5,width = 8.5)
 
-# ------------------- Expected power calculations ------------------------
+# ------------------- Expected power calculations old --------
 n <- 300
 beta <- 3
 sigma <- 12
