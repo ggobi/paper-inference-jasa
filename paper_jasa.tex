@@ -874,7 +874,7 @@ criteria & Subj & Male & Fem & Total & Subj & Male & Fem & Total & Subj & Male &
 
 \subsection{Power comparison}
 
-We fit model \ref{mixed} with effect $E=\beta*n/\sqrt(n)$ as the only fixed effect covariate without intercept. We also set $offset = log(0.05/95)$ so that the estimated power has a fixed lower limit = 0.05 (Type-I error) for effect $E=0$. The power curves obtained by fitting model \ref{mixed} to the data for all the experiments applying different screening criteria is shown in figure \ref{fig:power_screening}. This shows how the screening criteria may affect the results. The corresponding power curves of conventional test are also shown. Notice that no mater what criteria we apply the result does not change much for experiment 2. Also, estimated power curve with criteria 5 for experiment 3 is above the conventional test power curve.
+We fit model \ref{mixed} with effect $E=\beta*n/\sqrt(n)$ as the only fixed effect covariate without intercept. We also set $offset = log(0.05/0.95)$ so that the estimated power has a fixed lower limit = 0.05 (Type-I error) for effect $E=0$. The power curves obtained by fitting model \ref{mixed} to the data for all the experiments applying different screening criteria is shown in figure \ref{fig:power_screening}. This shows how the screening criteria may affect the results. The corresponding power curves of conventional test are also shown. Notice that no mater what criteria we apply the result does not change much for experiment 2. Also, estimated power curve with criteria 5 for experiment 3 is above the conventional test power curve.
 
 
 
@@ -918,7 +918,7 @@ We fit model \ref{mixed} with effect $E=\beta*n/\sqrt(n)$ as the only fixed effe
 \begin{figure*}[hbtp]
    \centering
        \scalebox{0.4}{\includegraphics{power_loess_exp3.pdf}}
-       \caption{Observed power shown by loess smoother with simultaneous bootstrap confidence band and the power of conventional test for sample size $n= 100$ and $\sigma = 5$ as per experiment 3. Notice that for experiment 3, power does not seem to depend on the parameter $\beta$. Di/Heike, I am not sure how I can relate this to demonstrate the power of visual inference when normal conditions are not met. Does this really test our hypothesis $H_0: \beta=0$ or some other hypothesis about the existence of cluster in the data?}
+       \caption{Observed power shown by loess smoother with simultaneous bootstrap confidence band and the power of conventional test for sample size $n= 100$ and $\sigma = 5$ as per experiment 3. Notice that for experiment 3, power does not seem to depend on the parameter $\beta$. \blue{Di/Heike, I am not sure how I can relate this to demonstrate the power of visual inference when normal conditions are not met. Does this really test our hypothesis $H_0: \beta=0$ or some other hypothesis about the existence of cluster in the data?}}
        \label{fig:power_loess3}
 \end{figure*}
 
@@ -942,6 +942,8 @@ We fit model \ref{mixed} with effect $E=\beta*n/\sqrt(n)$ as the only fixed effe
 \hh{From figure \ref{fig:power_loess3} we see that identification of the data plot is high independently of the effect size. This might be an indication that participants were not considering slope as distinguishing feature for the data, but the apparent clustering, i.e. the null hypothesis is being rejected, but not for the reason of the slope -- which the experimental setup was asking for --  leading to a type III error of correctly rejecting the null hypothesis for the wrong reason', as defined by \citet{mosteller:48}.} \green{Not sure that this goes here, but something needs to be said about Type III.}
 
 \subsection{Subject-specific variation}
+
+Model \ref{mixed} with effect as fixed covariate and subject as random effect is fitted to the data to estimate the subject specific power curves shown in figure \ref{fig:power_mixed_subject}. Subject specific power is quite different for three experiments. It appears that scatter plot serves better job compared to boxplot as a visual test statistic. But subject to subject variability is larger in scatterplot as we see in figure \ref{fig:power_mixed_subject} for experiment 2 and 3.
 
 \begin{figure}[hbtp]
    \centering
