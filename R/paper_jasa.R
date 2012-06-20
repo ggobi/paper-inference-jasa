@@ -667,92 +667,17 @@ p <- ggplot() +
 p
 ggsave(p, filename = "../images/power_loess_exp1.pdf", height = 5.5,width = 8.5)
 
-# ------------------- Expected power calculations old --------
-n <- 300
-beta <- 3
-sigma <- 12
-ncp <- beta * sqrt(n)/(2 * sigma)  # refer to documentation for derivation of power (xbar=1/2 here)
-#Density of the absolute value of a noncentral
-#t random variable with df degrees of freedom
-#and noncentrality parameter ncp.
-#refer to Dr. nettleton power point slide in gmail
-f.abs.t = function(t, df, ncp = 0) {
-    (t > 0) * dt(t, df = df, ncp = ncp) + dt(-t, df = df, ncp = ncp)
-}
-#Density of the p-value from a t-test
-#when the noncentrality parameter is ncp
-#and the degrees of freedom are df.
-f = function(p, df, ncp = 0) {
-    tt = qt(1 - p/2, df = df)
-    f.abs.t(tt, df = df, ncp = ncp)/f.abs.t(tt, df = df)
-}
-#Example: Density of p-value for t-test with
-#df=8 and ncp=2.
-df <- n - 3  # since 3 parameters in the regression model
-p = seq(0.01, 1, by = 0.01)
-y = f(p, df = df, ncp = ncp)
-plot(p, y, type = "l", ylim = c(0, max(y)))
-library(ggplot2)
-qplot(p, y, geom = "line", ylim = c(0, max(y))) + xlab("p-value") + 
-    ylab("density")
-n <- 100
-sigma <- 12
-expected_power <- function(beta) {
-    #beta <- 3
-    m <- 19
-    ncp <- beta * sqrt(n)/(2 * sigma)
-    df <- n - 3
-    p <- seq(1e-05, 1, by = 1e-04)
-    N <- length(p)
-    y <- f(p, df = df, ncp = ncp)
-    x <- sample(p, prob = y, replace = T)
-    z <- rbeta(n = N, shape1 = 1, shape2 = m - 1)
-    return(sum(x < z)/N)
-}
-expected_power(6)
-n <- 100
-sigma <- 12
-expected_power_thm <- function(beta) {
-    #beta <- 3
-    m <- 20
-    ncp <- beta * sqrt(n)/(2 * sigma)
-    df <- n - 3
-    p <- runif(n = 1e+06)
-    return(mean(((1 - p)^(m - 1)) * f(p, df = df, ncp = ncp)))
-}
-expected_power_thm(6)
-mypow <- function(beta) {
-    # n <- 100
-    # sigmasq <- 12^2
-    sigmasq <- sigma^2
-    beta_not <- 0
-    se_beta <- sqrt(sigmasq/(n * (0.5^2)))  # refer to Jon Hobbs document in gmail
-    mu <- beta/se_beta
-    alpha <- 0.05
-    t_n <- qt(p = 0.975, df = n - 3)
-    res <- pt(q = -t_n, df = n - 3, ncp = mu) - pt(q = t_n, df = n - 3, 
-        ncp = mu) + 1
-    return(res)
-}
-betas <- seq(0.01, 16, by = 0.3)
-pow0 <- sapply(betas, expected_power_thm)
-pow1 <- sapply(betas, expected_power_thm)
-pow2 <- sapply(betas, expected_power_thm)
-pow <- (pow0 + pow1 + pow2)/3
-pw <- sapply(betas, mypow)
-power <- c(rep(pow, 2), rep(pw, 2))
-bt <- c(-betas, betas, -betas, betas)
-test <- c(rep("Visual", length(betas) * 2), rep("UMP", length(betas) * 
-    2))
-qplot(bt, power, geom = "line", colour = test) + xlab(expression(beta))
+# ------------------- Expected visual power calculations --------
 
+# Following code will produce figure power_expected.pdf by simulation
+source("generate_expected_visual_power_simulation-hh.R")
 
-# ====================== Turk2 data analysis ========================= 
+# ====================== Turk2 conventional power calculations  
 
 # source("calculate_ump_power.R")
 calculate_ump_power2(beta=.1,n=100,sigma=5)
 
-# ==== turk3 data anaysis ===========
+# ====================== turk3 conventional power calculations
 
 # source("calculate_ump_power.R")
 calculate_ump_power3(beta=.1,n=100,sigma=5,x=getx(100))
@@ -784,7 +709,7 @@ p
 
 ggsave(p,file="../images/p_val_percent_correct.pdf", height = 4, width = 10)
 
-# ----- p-value vs plot signal strength --------------------
+# ----- p-value vs plot signal strength (visual p-value) 
 
 #pdat$strength <- 1 - (pdat$percent_correct/100)^(1/19) #previous estimation
 pdat$strength <- (1 - pdat$percent_correct/100)/19
@@ -793,8 +718,19 @@ p <- ggplot(pdat) +
      facet_grid(.~experiment) +
      xlab(expression(paste("Conventional test p-value (",p[D],") on ",log[10]," scale"))) +
      ylab(expression(paste("Estimate of visual p-value (", hat(p)[D],") on ",log[10]," scale"))) + 
-     geom_abline(aes(intercept=0,slope=1))
+     geom_abline(aes(intercept=0,slope=1)) +
+     scale_x_log10()
 p 
+
+
+p <- ggplot(pdat) +
+  geom_point(aes(p_value,strength),size=2) + 
+  facet_grid(.~experiment) +
+  xlab(expression(paste("Conventional test p-value (",p[D],") on ",log[10]," scale"))) +
+  ylab(expression(paste("Estimate of visual p-value (", hat(p)[D],") on ",log[10]," scale"))) + 
+  geom_abline(aes(intercept=0,slope=1)) +
+  scale_x_log10() +scale_y_log10()
+p
 
 ggsave(p,file="../images/p_val_plot_signal.pdf", height = 4, width = 10)
 
@@ -832,7 +768,7 @@ p
 ggsave(p,file="../images/p_val_power_m.pdf", height = 4.25, width = 6)
 
 
-# empirical power by effect
+# empirical power by effect with bootstrap confidence band
 
 get_response_by_effect <- function(dat){
   dat$effect <- with(dat,sqrt(sample_size)*abs(beta)/sigma)
@@ -856,7 +792,7 @@ get_bootstrap_limit_loess <- function(dat){
   set.seed(56)
   dat$effect <- with(dat,sqrt(sample_size)*abs(beta)/sigma)
   dat_boot_pow <- NULL
-  for (i in 1:1000){
+  for (i in 1:10){
     dat.b <- ddply(dat,.(effect), summarize,
                    response = sample(response,replace=T)
                    )
@@ -884,9 +820,9 @@ loess.limts <- rbind(data.frame(experiment="Experiment 1", get_bootstrap_limit_l
 source("calculate_ump_power.R")
 ump.power <- get_ump_power_by_effect()
 power.dat <- rbind(data.frame(Test="Visual",loess.power),
-                   data.frame(Test="conventional", ump.power))
+                   data.frame(Test="Conventional", ump.power))
+#power.dat$emphasize <- 0.5 +  (power.dat$Test=="Conventional")                             
 
-                                   
 ggplot()+
   geom_point(aes(effect,as.numeric(response), size=responses), data=effect.dat, alpha=.3) +
   geom_line(aes(effect,pow,colour=Test), data=power.dat) +
