@@ -874,14 +874,16 @@ criteria & Subj & Male & Fem & Total & Subj & Male & Fem & Total & Subj & Male &
 
 \subsection{Power comparison}
 
-We fit model \ref{mixed} with effect $E=\beta*n/\sqrt(n)$ as the only fixed effect covariate without intercept. We also set $offset = log(0.05/0.95)$ so that the estimated power has a fixed lower limit = 0.05 (Type-I error) for effect $E=0$. The power curves obtained by fitting model \ref{mixed} to the data for all the experiments applying different screening criteria is shown in figure \ref{fig:power_screening}. This shows how the screening criteria may affect the results. The corresponding power curves of conventional test are also shown. Notice that no mater what criteria we apply the result does not change much for experiment 2. Also, estimated power curve with criteria 5 for experiment 3 is above the conventional test power curve.
+For each parameter combination, the effect of the lineup is computed as $$E=\beta*\sqrt {n}/\sigma.$$ The experimental data is displayed in figure \ref{fig:power_loess_effect} for different effect sizes. The loess curves fitted to the response data provide the estimated observed power for each test. The corresponding power curves of conventional tests are shown for comparison. The observed power for experiment 2 (scatter plot) is better than what we observed for experiment 1 (box plot). For experiment 3, observed power is always above the conventional test power since for contaminated data we can visually see a trend while conventional test fail to address that.
 
+Figure \ref{fig:power_loess_effect} also reveals that at effect $E=0$, the power is close to 0.05 (Type-I error) for both experiment 1 and 2. For experiment 3 the scenario is different since visually we can easily notice this type of contamination in the data. Thus for fitting model \ref{mixed} to the data we set offset = $log(0.05/0.95)$ so that the estimated power has a fixed lower limit = 0.05 (Type-I error) for effect $E=0$. While fitting model \ref{mixed} we set $W_{\ell i} = E_{\ell i}$, the effect of lineup $\ell$ that subject $i$ has evaluated. Also $E$ is used as the only fixed effect covariate without intercept but offset for experiment 1 and 2. For experiment 3 we fit the intercept two allow the power curves to go above 0.05 as we see in figure \ref{fig:power_loess_effect}. 
 
+The power curves obtained by fitting model \ref{mixed} to the data for all the experiments applying different screening criteria is shown in figure \ref{fig:power_screening}. This shows how the screening criteria may affect the results. The corresponding power curves of conventional test are also shown. Notice that no mater what criteria we apply the result does not change much for experiment 2. Also, estimated power curve with criteria 5 for experiment 3 is above the conventional test power curve.
 
 
 \begin{figure}[hbtp]
    \centering
-       \scalebox{0.70}{\includegraphics{power_loess_effect.pdf}}
+       \scalebox{0.55}{\includegraphics{power_loess_effect.pdf}}
        \caption{Observed power shown by loess smoother with simultaneous bootstrap confidence band and the power of conventional test. Responses are 1 and 0 depending on the success or failure respectively to identify the actual plot in the lineup. Size of the dots represents the number of responses for each lineup. \blue{Response to the intuition of Di: We are overestimating the effect for experiment 3 here because to compute effect I used the beta values of the linear part of the contaminated data. True effect should be much smaller since overall contaminated data should have a smaller slope. Thus the effect of 5 that the plot is showing now would actually be effect 2 (may be). That means the  power that we see in the plot for effect 5 is actually the power for effect 2. How can we get true effect for this data?
 }}
        \label{fig:power_loess_effect}
@@ -940,6 +942,10 @@ We fit model \ref{mixed} with effect $E=\beta*n/\sqrt(n)$ as the only fixed effe
 %\end{figure}
 
 
+
+
+\hh{From figure \ref{fig:power_loess_effect} we see that identification of the data plot is high independently of the effect size for experiment 3. This might be an indication that participants were not considering slope as distinguishing feature for the data, but the apparent clustering, i.e. the null hypothesis is being rejected, but not for the reason of the slope -- which the experimental setup was asking for --  leading to a type III error of correctly rejecting the null hypothesis for the wrong reason', as defined by \citet{mosteller:48}.} \green{Not sure that this goes here, but something needs to be said about Type III.} \blue{We also see this feature in figure \ref{fig:choice_reason}}.
+
 \begin{figure}[hbtp]
    \centering
        \scalebox{0.60}{\includegraphics{choice_reason.pdf}}
@@ -947,11 +953,9 @@ We fit model \ref{mixed} with effect $E=\beta*n/\sqrt(n)$ as the only fixed effe
        \label{fig:choice_reason}
 \end{figure}
 
-\hh{From figure \ref{fig:power_loess_effect} we see that identification of the data plot is high independently of the effect size for experiment 3. This might be an indication that participants were not considering slope as distinguishing feature for the data, but the apparent clustering, i.e. the null hypothesis is being rejected, but not for the reason of the slope -- which the experimental setup was asking for --  leading to a type III error of correctly rejecting the null hypothesis for the wrong reason', as defined by \citet{mosteller:48}.} \green{Not sure that this goes here, but something needs to be said about Type III.}
-
 \subsection{Subject-specific variation}
 
-In all the three experiments, each subject saw a lineup only once. Assuming that there is no random effect for lineup, we set  $\tau_{\ell  i}=\tau_i $ in model \ref{mixed} and $W_{\ell i} = E_{\ell i}$, the effect of lineup $\ell$ that subject $i$ has evaluated. This gives us the estimate of subject specific probability of successful evaluation of a lineup ($\hat p_i$) from model \ref{mixed}. Parameter estimates of the model is shown in table \ref{tbl:model_par}.  The estimated subject specific power curves are shown in figure \ref{fig:power_mixed_subject}. The offset is set to $log(0.05/0.95)$ so that Type-I error is fixed to be 0.05 when effect = 0. Subject specific power is quite different for three experiments. It appears that scatter plot serves better job compared to boxplot as a visual test statistic. But subject to subject variability is larger in scatterplot as we see in figure \ref{fig:power_mixed_subject} for experiment 2 and 3.
+In all the three experiments, each subject saw a lineup only once. This allows no random effect for lineup and this simplifies model \ref{mixed} as $\tau_{\ell  i}=\tau_i$.   This gives us the estimate of subject specific probability of successful evaluation of a lineup ($\hat p_i$) from model \ref{mixed}. Parameter estimates of the model is shown in table \ref{tbl:model_par}.  The estimated subject specific power curves are shown in figure \ref{fig:power_mixed_subject}. Subject specific power is quite different for three experiments. It appears that scatter plot serves better job compared to box plot as a visual test statistic. But subject to subject variability is larger in scatterplot as we see in figure \ref{fig:power_mixed_subject} for experiment 2 and 3.
 
 \begin{table}[hbtp]
 \caption{Parameter estimates of model \ref{mixed}.}
@@ -975,7 +979,7 @@ In all the three experiments, each subject saw a lineup only once. Assuming that
 \begin{figure}[hbtp]
    \centering
        \scalebox{0.60}{\includegraphics{power_mixed_subject.pdf}}
-       \caption{Subject specific  power estimated from model \ref{mixed} are shown. The corresponding power curve for conventional test is shown for comparison.}
+       \caption{Subject specific  power estimated from model \ref{mixed} are shown. The corresponding power curve for conventional test (dashed line) is shown for comparison. The overall average power curve estimated from the model is shown (light blue).}
        \label{fig:power_mixed_subject}
 \end{figure}
 

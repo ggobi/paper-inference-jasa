@@ -369,10 +369,11 @@ pi_subject <- rbind(data.frame(experiment="Experiment 1",get_predict_mixed(dat1,
                    data.frame(experiment="Experiment 3",get_predict_mixed(dat3, newdat=data.frame(effect=seq(0,5, by=.2)), intercept=T)))
 
 ggplot()+
-  geom_line(aes(effect,pred, group=subject), data=pi_subject, alpha=.1) +
-  geom_line(aes(effect,pow), data=ump, colour="hotpink", size=1) +
+  geom_line(aes(effect,pred, group=subject), data=pi_subject, colour="blue",alpha=.1) +
+  geom_line(aes(effect,pow), data=ump, size=1, linetype=2) +
+  geom_line(aes(effect,pred), data=pi_effect, colour="skyblue", size=1) +
   facet_grid(.~experiment, scales="free") +
-  ylab("Power") + xlab(expression(Effect(E)))
+  ylab("Power") + xlab("Effect")
 
 ggsave( file="../images/power_mixed_subject.pdf",height=4,width=10)
 
@@ -870,7 +871,7 @@ ggplot()+
   scale_colour_manual(values=c("Blue","Black")) +
   ylab("Power") + xlab("Effect") + scale_size_continuous("# Responses") + 
   opts(asp.ratio=1)
-ggsave(filename = "../images/power_loess_effect.pdf", height = 4,width = 10)
+ggsave(filename = "../images/power_loess_effect.pdf", height = 4.5,width = 12)
 
 
 # examining dat3
