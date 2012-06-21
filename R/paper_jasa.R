@@ -171,6 +171,21 @@ pl <- generate_turk3_lineup(n=100,sigma=3.5,beta=0.4)
 pl$result
 ggsave(plot=pl$p, file="../images/lineup_contaminated.pdf",height=7,width=7.5)
 
+# == plotting contaminated data example
+set.seed(509)
+n <- 100 ; nc <- 15; beta <- 3; sigma <- 5; gamma <- 15
+x1 <- rnorm(n,0,1)
+y1 <- 5 + beta*x1 + rnorm(n,0,sigma)
+x2 <- rnorm(n=nc,mean=-1.75, sd=1/3)
+y2 <- rnorm(nc,gamma,sigma/3)
+X <- c(x2,x1)
+Y <- c(y2,y1)
+summary(lm(Y~X)) # p-value for slope is large
+qplot(X,Y)
+
+ggsave("../images/contaminated_data.pdf", width=5,height=5)
+
+
 # ==== plotting visual test statistics --------
 
 set.seed(200)
@@ -549,31 +564,31 @@ pval_sm <- rbind(pval_sm,c("Total lineups",60,70))
 print(xtable(pval_sm), include.rownames=FALSE)
 
 
-# Difference between data plot p-value and minimum p-value 
+# Difference between data plot p-value and minimum null plot p-value 
 
-min.pval1 <- ddply(melt(pval1, id="pic_name"),.(pic_name), summarize, 
-                   min.pval = round(min(value),4))
-min.pval2 <- ddply(melt(pval2, id="pic_name"),.(pic_name), summarize, 
-                   min.pval = round(min(value)))
+get_pval_success <- function (dat){
+  res <- ddply(dat, .(pic_name), summarize,      
+        prop_correct=mean(response),
+        p_value=p_value[1],
+        actual_plot = plot_location[1])
+  res$experiment=paste("Experiment", substr(dat$experiment,5,5)[1])
+  return(res)
+}
+pval.success <- rbind(get_pval_success(dat1),get_pval_success(dat2))
+pval.dat <- merge(pval.success,rbind(pval1,pval2), by="pic_name")
+pval.dat.m <- melt(pval.dat, id=c("pic_name","prop_correct",
+                                  "p_value","actual_plot","experiment"))
+pval.diff <- ddply(pval.dat.m, .(pic_name), summarise,
+                   experiment=experiment[1],
+                   prop_correct=prop_correct[1],
+                   pval_diff = p_value[1]- min(value[-actual_plot[1]]))
 
-min.pval <- rbind(data.frame(experiment="Experiment 1", min.pval1),
-                  data.frame(experiment="Experiment 2", min.pval2))
-
-pval.success1 <- ddply(dat1, .(pic_name), summarize,
-                       prop_correct=mean(response),
-                       p_value=p_value[1])
-pval.success2 <- ddply(dat2, .(pic_name), summarize,
-                       prop_correct=mean(response),
-                       p_value=p_value[1])
-
-pval.success <- rbind(pval.success1,pval.success2)
-pval_diff <- merge(min.pval,pval.success, by="pic_name")
-
-ggplot(pval_diff) +
-  geom_point(aes(p_value-min.pval, prop_correct)) +
-  facet_grid(.~experiment)
+ggplot(pval.diff) +
+  geom_point(aes(pval_diff, prop_correct)) +
+  facet_grid(.~experiment) +
+  xlab("Difference between p-value of actual data and minimum p-value of null data") +
+  ylab("Proportion correct")
 ggsave(file="../images/pval_difference.pdf", height=4, width=8)
-
 
 # =================== Turk1 data analysis  ================================
 
@@ -835,7 +850,8 @@ ggplot()+
               data = loess.limts, alpha=.3) +
   facet_grid(.~experiment, scales="free") + 
   scale_colour_manual(values=c("Blue","Black")) +
-  ylab("Power") + xlab("Effect") + scale_size_continuous("# Responses")
+  ylab("Power") + xlab("Effect") + scale_size_continuous("# Responses") + 
+  opts(asp.ratio=1)
 ggsave(filename = "../images/power_loess_effect.pdf", height = 4,width = 10)
 
 
