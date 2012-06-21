@@ -761,10 +761,10 @@ p
 p <- ggplot(pdat) +
   geom_point(aes(p_value,strength),size=2) + 
   facet_grid(.~experiment) +
-  xlab(expression(paste("Conventional test p-value (",p[D],") on ",log[10]," scale"))) +
-  ylab(expression(paste("Estimate of visual p-value (", hat(p)[D],") on ",log[10]," scale"))) + 
+  xlab(expression(paste("Conventional test p-value (",p[D],") on square root scale"))) +
+  ylab(expression(paste("Visual p-value (", hat(p)[D],") on square root scale"))) + 
   geom_abline(aes(intercept=0,slope=1)) +
-  scale_x_log10() +scale_y_log10()
+  scale_x_sqrt() +scale_y_sqrt()
 p
 
 ggsave(p,file="../images/p_val_plot_signal.pdf", height = 4, width = 10)
