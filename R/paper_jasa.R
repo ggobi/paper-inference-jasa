@@ -698,6 +698,24 @@ calculate_ump_power2(beta=.1,n=100,sigma=5)
 # source("calculate_ump_power.R")
 calculate_ump_power3(beta=.1,n=100,sigma=5,x=getx(100))
 
+# experiment 3 reasoning (reasons for choice)
+
+# 1. Most different plot
+# 2. Visible trend
+# 3. Clustering visible
+# 4. Other
+
+reason.exp3 <- c("Most different plot", "Visible trend","Clustering visible","Other")
+
+reason.dat3 <- ddply(dat3,.(choice_reason), summarise,
+      prop_correct = mean(response),
+      counts = length(response))
+reason.dat3$choice_reason <- with(reason.dat3, factor(choice_reason, 
+                             levels=choice_reason[order(counts, decreasing=T)]))
+qplot(choice_reason, counts, geom="bar", data=reason.dat3, fill=prop_correct) +
+  xlab("Reasons for choice") + ylab("Number of Subjects") +
+  scale_fill_continuous(name="Proportion \ncorrect")
+ggsave("../images/choice_reason.pdf", height = 4, width = 8)
 
 
 # ======================= p_value vs %correct =====================
@@ -864,6 +882,3 @@ d3 <- ddply(dat3, .(pic_name), summarize,
 qplot(effect, prop_correct, data=d3, size=num_responses) + geom_smooth(method="loess")
 
 qplot(effect,as.numeric(response), data=dat3)+ geom_smooth(method="loess")
-
-
-
