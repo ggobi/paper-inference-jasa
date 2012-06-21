@@ -172,7 +172,7 @@ pl$result
 ggsave(plot=pl$p, file="../images/lineup_contaminated.pdf",height=7,width=7.5)
 
 # == plotting contaminated data example
-set.seed(509)
+set.seed(59)
 n <- 100 ; nc <- 15; beta <- 3; sigma <- 5; gamma <- 15
 x1 <- rnorm(n,0,1)
 y1 <- 5 + beta*x1 + rnorm(n,0,sigma)
@@ -853,6 +853,17 @@ ggplot()+
   ylab("Power") + xlab("Effect") + scale_size_continuous("# Responses") + 
   opts(asp.ratio=1)
 ggsave(filename = "../images/power_loess_effect.pdf", height = 4,width = 10)
+
+
+# examining dat3
+dat3$effect= with(dat3, sqrt(sample_size)*abs(beta)/sigma)
+d3 <- ddply(dat3, .(pic_name), summarize,
+            prop_correct=mean(response),
+            effect=effect[1],
+            num_responses = length(effect))
+qplot(effect, prop_correct, data=d3, size=num_responses) + geom_smooth(method="loess")
+
+qplot(effect,as.numeric(response), data=dat3)+ geom_smooth(method="loess")
 
 
 

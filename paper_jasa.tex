@@ -772,7 +772,7 @@ An example lineup for slope $\beta=0.4$ is shown in Figure \ref{fig:test_contami
 %\begin{figurehere}
    \centering
        \scalebox{0.6}{\includegraphics{contaminated_data.pdf}}
-       \caption{Scatterplot of a simulated contaminated data set generated such that a simple linear model produce a slope almost negligible, ie, if we fit model (Equation \ref{multi}) with $p=1$  to this data, the resulting estimate of $\beta_1$ would not be statistically significant. The conventional t-test $p$-value for the slope is 0.67 for this data set but visually we can see a convincing evidence of positive slope.
+       \caption{Scatterplot of a simulated contaminated data set generated such that a simple linear model produce a slope almost negligible, ie, if we fit model (Equation \ref{multi}) with $p=1$  to this data, the resulting estimate of $\beta_1$ would not be statistically significant. The conventional t-test $p$-value for the slope is 0.67 for this data set but visually we can see a convincing evidence of positive slope. 
 }
        \label{fig:cont_dat}
 \end{figure}
@@ -882,7 +882,8 @@ We fit model \ref{mixed} with effect $E=\beta*n/\sqrt(n)$ as the only fixed effe
 \begin{figure}[hbtp]
    \centering
        \scalebox{0.70}{\includegraphics{power_loess_effect.pdf}}
-       \caption{Observed power shown by loess smoother with simultaneous bootstrap confidence band and the power of conventional test. Responses are 1 and 0 depending on the success or failure respectively to identify the actual plot in the lineup. Size of the dots represents the number of responses for each lineup.}
+       \caption{Observed power shown by loess smoother with simultaneous bootstrap confidence band and the power of conventional test. Responses are 1 and 0 depending on the success or failure respectively to identify the actual plot in the lineup. Size of the dots represents the number of responses for each lineup. \blue{Response to the intuition of Di: We are overestimating the effect for experiment 3 here because to compute effect I used the beta values of the linear part of the contaminated data. True effect should be much smaller since overall contaminated data should have a smaller slope. Thus the effect of 5 that the plot is showing now would actually be effect 2 (may be). That means the  power that we see in the plot for effect 5 is actually the power for effect 2. How can we get true effect for this data?
+}}
        \label{fig:power_loess_effect}
 \end{figure}
 
