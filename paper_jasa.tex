@@ -944,15 +944,6 @@ The power curves obtained by fitting model \ref{mixed} to the data for all the e
 
 
 
-\hh{From figure \ref{fig:power_loess_effect} we see that identification of the data plot is high independently of the effect size for experiment 3. This might be an indication that participants were not considering slope as distinguishing feature for the data, but the apparent clustering, i.e. the null hypothesis is being rejected, but not for the reason of the slope -- which the experimental setup was asking for --  leading to a type III error of correctly rejecting the null hypothesis for the wrong reason', as defined by \citet{mosteller:48}.} \green{Not sure that this goes here, but something needs to be said about Type III.} \blue{We also see this feature in figure \ref{fig:choice_reason}}.
-
-\begin{figure}[hbtp]
-   \centering
-       \scalebox{0.60}{\includegraphics{choice_reason.pdf}}
-       \caption{Reasons for choosing the plot in a lineup for experiment 3. Reasons 1 = Most different plot,  2 = Visible trend,  3 = Clustering visible,  4= Other.  Reason 12 means both reasons 1 and 2 are chosen. Notice that 345 people choose only reason 3 out of whom 64\% got the actual plot (proportion correct = 0.64), which indicates there are number of people who choose the right plot for wrong reason (Type-III error). Those who chose reason 123 got the actual plot about 100\% times.}
-       \label{fig:choice_reason}
-\end{figure}
-
 \subsection{Subject-specific variation}
 
 In all the three experiments, each subject saw a lineup only once. This allows no random effect for lineup and this simplifies model \ref{mixed} as $\tau_{\ell  i}=\tau_i$.   This gives us the estimate of subject specific probability of successful evaluation of a lineup ($\hat p_i$) from model \ref{mixed}. Parameter estimates of the model is shown in table \ref{tbl:model_par}.  The estimated subject specific power curves are shown in figure \ref{fig:power_mixed_subject}. Subject specific power is quite different for three experiments. It appears that scatter plot serves better job compared to box plot as a visual test statistic. But subject to subject variability is larger in scatterplot as we see in figure \ref{fig:power_mixed_subject} for experiment 2 and 3.
@@ -1121,6 +1112,21 @@ This problem is further investigated in the paper \cite{waldo}.
        \scalebox{0.70}{\includegraphics{pval_difference.pdf}}
        \caption{Difference between the data plot's $p$-value and the  smallest $p$ value of a null plot vs proportion correct.}
        \label{fig:pval_difference}
+\end{figure}
+
+\subsection{Alternative - Type III error}
+
+\hh{From figure \ref{fig:power_loess_effect} we see that identification of the data plot is high independently of the effect size for experiment 3. This might be an indication that participants were not considering slope as distinguishing feature for the data, but the apparent clustering, i.e. the null hypothesis is being rejected, but not for the reason of the slope -- which the experimental setup was asking for --  leading to a type III error of correctly rejecting the null hypothesis for the wrong reason', as defined by \citet{mosteller:48}.} 
+
+%\green{Not sure that this goes here, but something needs to be said about Type III.} 
+
+\blue{We also see this feature in figure \ref{fig:choice_reason}}.
+
+\begin{figure}[hbtp]
+   \centering
+       \scalebox{0.60}{\includegraphics{choice_reason.pdf}}
+       \caption{Reasons for choosing the plot in a lineup for experiment 3. Reasons 1 = Most different plot,  2 = Visible trend,  3 = Clustering visible,  4= Other.  Reason 12 means both reasons 1 and 2 are chosen. Notice that 345 people choose only reason 3 out of whom 64\% got the actual plot (proportion correct = 0.64), which indicates there are number of people who choose the right plot for wrong reason (Type-III error). Those who chose reason 123 got the actual plot about 100\% times.}
+       \label{fig:choice_reason}
 \end{figure}
 
 
