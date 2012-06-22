@@ -946,7 +946,7 @@ The power curves obtained by fitting model \ref{mixed} to the data for all the e
 
 \subsection{Subject-specific variation}
 
-In all the three experiments, each subject saw a lineup only once. This allows no random effect for lineup and this simplifies model \ref{mixed} as $\tau_{\ell  i}=\tau_i$.   This gives us the estimate of subject specific probability of successful evaluation of a lineup ($\hat p_i$) from model \ref{mixed}. Parameter estimates of the model is shown in table \ref{tbl:model_par}.  The estimated subject specific power curves are shown in figure \ref{fig:power_mixed_subject}. Subject specific power is quite different for three experiments. It appears that scatter plot serves better job compared to box plot as a visual test statistic. But subject to subject variability is larger in scatterplot as we see in figure \ref{fig:power_mixed_subject} for experiment 2 and 3.
+In all the three experiments, each subject saw a lineup only once. This allows no random effect for lineup and this simplifies model \ref{mixed} as $\tau_{\ell  i}=\tau_i$.   This gives us the estimate of subject specific probability of successful evaluation of a lineup ($\hat p_i$) from model \ref{mixed}. Different subject performs differently depending on effect as well. So, we include a random interaction term with effect. Parameter estimates of the model is shown in table \ref{tbl:model_par}.  The estimated subject specific power curves are shown in figure \ref{fig:power_mixed_subject}. Subject specific power is quite different for three experiments. It appears that scatter plot serves better job compared to box plot as a visual test statistic. But subject to subject variability is larger in scatterplot as we see in figure \ref{fig:power_mixed_subject} for experiment 2 and 3.
 
 \begin{table}[hbtp]
 \caption{Parameter estimates of model \ref{mixed}.}
@@ -1125,7 +1125,7 @@ This problem is further investigated in the paper \cite{waldo}.
 \begin{figure}[hbtp]
    \centering
        \scalebox{0.60}{\includegraphics{choice_reason.pdf}}
-       \caption{Reasons for choosing the plot in a lineup for experiment 3. Reasons 1 = Most different plot,  2 = Visible trend,  3 = Clustering visible,  4= Other.  Reason 12 means both reasons 1 and 2 are chosen. Notice that 345 people choose only reason 3 out of whom 64\% got the actual plot (proportion correct = 0.64), which indicates there are number of people who choose the right plot for wrong reason (Type-III error). Those who chose reason 123 got the actual plot about 100\% times.}
+       \caption{Reasons for choosing the plot in a lineup for experiment 3. Reasons 1 = Most different plot,  2 = Visible trend,  3 = Clustering visible,  4= Other.  Reason 12 means both reasons 1 and 2 are chosen. Notice that 345 people choose only reason 3 out of whom 64\% got the actual plot (proportion correct = 0.64), which indicates there are number of people who choose the right plot for wrong reason (Type-III error). Those who chose reason 123 got the actual plot about 97\% times.}
        \label{fig:choice_reason}
 \end{figure}
 

@@ -47,12 +47,12 @@ calculate_ump_power3 <- function (beta, n, sigma,x){
 
 get_ump_power_by_effect <- function(){
   set.seed(2035)
-  ump <- rbind(data.frame(experiment="Experiment 1",effect=seq(0,18, by=.2),
-                pow= calculate_ump_power1(beta=seq(0,18, by=.2)/10, n=100, sigma=1)),
-               data.frame(experiment="Experiment 2",effect=seq(0,6, by=.2),
-                pow= calculate_ump_power2(beta=seq(0,6, by=.2)/10, n=100, sigma=1)),
-               data.frame(experiment="Experiment 3",effect=seq(0,5, by=.2),
-                pow= calculate_ump_power3(beta=seq(0,5, by=.2)/sqrt(115), n=115, sigma=1, x=getx(100))))
+  ump <- rbind(data.frame(experiment="Experiment 1",effect=seq(0,16, by=.2),
+                pow= calculate_ump_power1(beta=seq(0,16, by=.2)/10, n=100, sigma=1)),
+               data.frame(experiment="Experiment 2",effect=seq(0,5.5, by=.2),
+                pow= calculate_ump_power2(beta=seq(0,5.5, by=.2)/10, n=100, sigma=1)),
+               data.frame(experiment="Experiment 3",effect=seq(0,4.5, by=.2),
+                pow= calculate_ump_power3(beta=seq(0,4.5, by=.2)/sqrt(115), n=115, sigma=1, x=getx(100))))
   return(ump)
 }
 

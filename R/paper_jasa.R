@@ -12,6 +12,7 @@ library(stringr)
 raw.dat1 <- read.csv("../data/raw_data_turk1.csv")
 raw.dat2 <- read.csv("../data/raw_data_turk2.csv")
 raw.dat3 <- read.csv("../data/raw_data_turk3.csv")
+
 source("calculate_ump_power.R") # functions to compute power
 
 # cleaning the data based on criteria 6
@@ -848,8 +849,8 @@ loess.power <- rbind(data.frame(experiment="Experiment 1", get_power_loess(dat1)
                     data.frame(experiment="Experiment 2", get_power_loess(dat2)),
                     data.frame(experiment="Experiment 3", get_power_loess(dat3)))
 
-# the following codes generates bootstrap limits and takes 10 minutes to run
-# The limits are saved so without running this we can get the saved limit data
+#the following codes generates bootstrap limits and takes 10 minutes to run
+#The limits are saved so without running this we can get the saved limit data
 # loess.limts <- rbind(data.frame(experiment="Experiment 1", get_bootstrap_limit_loess(dat1)),
 #                      data.frame(experiment="Experiment 2", get_bootstrap_limit_loess(dat2)),
 #                      data.frame(experiment="Experiment 3", get_bootstrap_limit_loess(dat3)))
@@ -861,18 +862,19 @@ source("calculate_ump_power.R")
 ump.power <- get_ump_power_by_effect()
 power.dat <- rbind(data.frame(Test="Visual",loess.power),
                    data.frame(Test="Conventional", ump.power))                          
-
+power.dat$m <- NA
+power.dat$m[power.dat$Test=="Visual"] <- 20
 ggplot()+
-  geom_point(aes(effect,as.numeric(response), size=responses), data=effect.dat, alpha=.3) +
-  geom_line(aes(effect,pow,linetype=Test, colour=Test), data=power.dat, size=1.2) +
   geom_ribbon(aes(x = effect, ymin = limit1, ymax = limit2), 
               data = loess.limts, alpha=.3) +
+  geom_point(aes(effect,as.numeric(response), size=responses), data=effect.dat, alpha=.3) +
+  geom_line(aes(effect,pow,linetype=Test, colour=m), data=power.dat, size=1.2) +
   facet_grid(.~experiment, scales="free") + 
-  scale_colour_manual(values=c("Blue","Black")) +
+  scale_colour_gradient("Test",limits=c(10,30), guide="none") + 
+  #  scale_colour_manual(values=c("Blue","Black")) +
   ylab("Power") + xlab("Effect") + scale_size_continuous("# Responses") + 
   opts(asp.ratio=1)
 ggsave(filename = "../images/power_loess_effect.pdf", height = 4.5,width = 12)
-
 
 # examining dat3
 dat3$effect= with(dat3, sqrt(sample_size)*abs(beta)/sigma)
