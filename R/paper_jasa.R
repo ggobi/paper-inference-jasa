@@ -713,11 +713,13 @@ reason.dat3 <- ddply(dat3,.(choice_reason), summarise,
       prop_correct = mean(response),
       counts = length(response))
 reason.dat3$choice_reason <- with(reason.dat3, factor(choice_reason, 
-                             levels=choice_reason[order(counts, decreasing=T)]))
-qplot(choice_reason, counts, geom="bar", data=reason.dat3, fill=prop_correct) +
-  xlab("Reasons for choice") + ylab("Number of Subjects") +
-  scale_fill_continuous(name="Proportion \ncorrect")
-ggsave("../images/choice_reason.pdf", height = 4, width = 8)
+                             levels=choice_reason[order(prop_correct, decreasing=T)]))
+reason.dat3$n <- cut(reason.dat3$counts, breaks=c(0,50, 100, 150, 300, 500))
+qplot(choice_reason, prop_correct, geom="point", data=reason.dat3) +
+  xlab("Reasons for choice") + ylab("Proportion correct") + facet_wrap(~n) +
+ # opts(legend.position="none")
+ # scale_size_continuous(name="Number of \nsubjects")
+ggsave("../images/choice_reason.pdf", height = 4, width = 6)
 
 
 # ======================= p_value vs %correct =====================
