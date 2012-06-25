@@ -725,10 +725,11 @@ ggsave("../images/choice_reason.pdf", height = 4, width = 8)
 pdat <- NULL
 for (i in 1:3){
    dati <- eval(parse(text=paste("dat",i,sep="")))
-   pdati <- ddply(dati, .(p_value, sample_size), summarize,
+   pdati <- ddply(dati, .(pic_name), summarize,
 	  attempted = length(response),
 	  corrected = sum(response),
-	  percent_correct = mean(response)*100
+	  percent_correct = mean(response)*100,
+    p_value = p_value[1]
 	)
    pdati$experiment=paste("experiment",i)
    pdat <- rbind(pdat,pdati)
@@ -750,7 +751,7 @@ ggsave(p,file="../images/p_val_percent_correct.pdf", height = 4, width = 10)
 #pdat$strength <- 1 - (pdat$percent_correct/100)^(1/19) #previous estimation
 pdat$strength <- (1 - pdat$percent_correct/100)/19
 p <- ggplot(pdat) +
-     geom_point(aes(log(p_value),log(strength)),size=2) + 
+     geom_point(aes(p_value,strength),size=2) + 
      facet_grid(.~experiment) +
      xlab(expression(paste("Conventional test p-value (",p[D],") on ",log[10]," scale"))) +
      ylab(expression(paste("Estimate of visual p-value (", hat(p)[D],") on ",log[10]," scale"))) + 
