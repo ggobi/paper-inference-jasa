@@ -715,8 +715,9 @@ reason.dat3 <- ddply(dat3,.(choice_reason), summarise,
 reason.dat3$choice_reason <- with(reason.dat3, factor(choice_reason, 
                              levels=choice_reason[order(prop_correct, decreasing=T)]))
 reason.dat3$n <- cut(reason.dat3$counts, breaks=c(0,50, 100, 150, 300, 500))
-qplot(choice_reason, prop_correct, geom="point", data=reason.dat3) +
-  xlab("Reasons for choice") + ylab("Proportion correct") + facet_wrap(~n) +
+qplot(prop_correct,choice_reason,  geom="point", data=reason.dat3) +
+  ylab("Reasons for choice") + xlab("Proportion correct") +
+  facet_grid(.~n, scales="free", space="free_y")  + opts(strip.text.y = theme_text())
  # opts(legend.position="none")
  # scale_size_continuous(name="Number of \nsubjects")
 ggsave("../images/choice_reason.pdf", height = 4, width = 6)
