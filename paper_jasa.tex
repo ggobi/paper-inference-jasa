@@ -279,7 +279,7 @@ For visual inference, this corresponds to the choice of plot to use. Analysts ty
 
 \green{Notation changes $i$ to $j$, and $p$ to $\pi$. Can someone please decide which to use, and make the appropriate changes? How does the ``Let $X_{j\ell} \sim B_{1, \pi_{j\ell}}$...'' below relate to the ``let $X_i$ be a binary random variable...'' above? It looks like this is a repeat. One needs to go once notation is clarified.}
 
-\red{Here is what my suggestion for notation \\  Use $B$ for logistic model and $\beta$ for linear model \\ Use $X$ to indicate logistic model covariate matrix and $U$ to denote binomial variable \\ $Y$ to indicate observed data. \\ Use $\pi_i$ instead of $p_i$ since $p_i$ is used for p-value.  \\ Should I change everything accordingly? I see that we have been careful not to use $\beta$ for power! }
+\red{Here is what my suggestion for notation \\  Use $B$ for logistic model and $\beta$ for linear model \\ Use $X$ to indicate logistic model covariate matrix and $U$ to denote binomial variable \\ $Y$ to indicate observed data. \\ Use $\pi_i$ instead of $p_i$ since $p_i$ is used for $p$-value.  \\ Should I change everything accordingly? I see that we have been careful not to use $\beta$ for power! }
 
 \paragraph{Subject-specific abilities}
 Calculating the power  is intricately related to the probability to identify the data plot from the lineup. 
@@ -1002,6 +1002,14 @@ Figure \ref{fig:pval_plot_signal} shows the plot signal strengths in relation wi
 %       \caption{Percentage of correct responses decreases rapidly with the increase of p-value. After p-value exceeds 0.15 it is very unlikely to identify the actual plot. The theoretical justification of this is shown in figure \ref{fig:pval_power}. \blue{The scenario is different for experiment 3. $p$-value does not seem to have any effect on percent correct. This may be due to Type-III error.} \green{p-value on log scale?} }
 %       \label{fig:pval_pcorrect}
 %\end{figure*}
+
+\begin{figure*}[hbtp]
+   \centering
+       \scalebox{0.6}{\includegraphics{p_val_definition.pdf}}
+       \caption{Conventional test $p$-value ($p_D$) vs visual $p$-value obtained from the definition . p-values are shown on square root scale scale. }
+    %   \hh{Mahbub, another change: could you change the y label to 'estimate of visual p-value $\hat{p_D}$ ?}
+       \label{fig:pval_definition}
+\end{figure*}
 
 \begin{figure*}[hbtp]
    \centering

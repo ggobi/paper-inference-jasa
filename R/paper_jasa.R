@@ -708,18 +708,21 @@ calculate_ump_power3(beta=.1,n=100,sigma=5,x=getx(100))
 # 4. Other
 
 reason.exp3 <- c("Most different plot", "Visible trend","Clustering visible","Other")
-
 reason.dat3 <- ddply(dat3,.(choice_reason), summarise,
-      prop_correct = mean(response),
-      counts = length(response))
-reason.dat3$choice_reason <- with(reason.dat3, factor(choice_reason, 
-                             levels=choice_reason[order(prop_correct, decreasing=T)]))
+                     prop_correct = mean(response),
+                     counts = length(response))
+reason.dat3$choice_reason <- with(reason.dat3, factor(choice_reason,
+                                  levels=choice_reason[order(prop_correct,decreasing=T)]))
 reason.dat3$n <- cut(reason.dat3$counts, breaks=c(0,50, 100, 150, 300, 500))
-qplot(prop_correct,choice_reason,  geom="point", data=reason.dat3) +
-  ylab("Reasons for choice") + xlab("Proportion correct") +
-  facet_grid(.~n, scales="free", space="free_y")  + opts(strip.text.y = theme_text())
- # opts(legend.position="none")
- # scale_size_continuous(name="Number of \nsubjects")
+reason.dat3$n <- reorder(reason.dat3$n, reason.dat3$count, function(x) -max(x))
+reason.dat3$choice_reason <- factor(reason.dat3$choice_reason, levels=rev(levels(reason.dat3$choice_reason)))
+levels(reason.dat3$choice_reason)[c(7,3,5,1)] <- paste("(",1:4,") ",reason.exp3, sep="")
+levels(reason.dat3$choice_reason)[3] <- "Visible Gap"
+
+qplot(prop_correct,choice_reason, geom="point", data=reason.dat3, size=I(3)) +
+  ylab("Reasons for choice") + xlab("Proportion correct") + xlim(c(0,1)) +
+  facet_grid(n~., scales="free", space="free_y") + opts(strip.text.y = theme_text())
+
 ggsave("../images/choice_reason.pdf", height = 4, width = 6)
 
 
@@ -767,12 +770,31 @@ p <- ggplot(pdat) +
   geom_point(aes(p_value,strength),size=2) + 
   facet_grid(.~experiment) +
   xlab(expression(paste("Conventional test p-value (",p[D],") on square root scale"))) +
-  ylab(expression(paste("Visual p-value (", hat(p)[D],") on square root scale"))) + 
+  ylab(expression(paste("Plot signal Strength (", hat(p)[D],") on square root scale"))) + 
   geom_abline(aes(intercept=0,slope=1)) +
   scale_x_sqrt() +scale_y_sqrt()
 p
 
 ggsave(p,file="../images/p_val_plot_signal.pdf", height = 4, width = 10)
+
+
+# estimate visual p-value from definition
+
+pdat$visual_pval <- apply(pdat[,2:3],1,function(x)return(get_pval(m=20,K=x[1],x=x[2])))
+qplot(p_value,visual_pval, data=pdat) +
+  xlab(expression(paste("Conventional test p-value (",p[D],") on square root scale"))) +
+  ylab(expression(paste("Visual p-value on square root scale"))) +
+  facet_grid(.~experiment)+
+  scale_x_sqrt() +scale_y_sqrt()
+ggsave(file="../images/p_val_definition.pdf", height = 4, width = 10)
+
+
+
+qplot(strength,visual_pval, data=pdat) +
+  xlab(expression(paste("Plot signal strength on square root scale"))) +
+  ylab(expression(paste("Visual p-value on square root scale"))) +
+  facet_grid(.~experiment)+
+  scale_x_sqrt() +scale_y_sqrt()
 
 
 # correlation between visual and conventional p-value
