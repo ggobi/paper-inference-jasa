@@ -369,11 +369,14 @@ pi_subject <- rbind(data.frame(experiment="Experiment 1",get_predict_mixed(dat1,
                    data.frame(experiment="Experiment 2",get_predict_mixed(dat2, newdat=data.frame(effect=seq(0,6, by=.2)), intercept=T)),
                    data.frame(experiment="Experiment 3",get_predict_mixed(dat3, newdat=data.frame(effect=seq(0,5, by=.2)), intercept=T)))
 
+pi_effect$col <- 30
+pi_effect$col[1] <- NA
 ggplot()+
-  geom_line(aes(effect,pred, group=subject), data=pi_subject, colour="blue",alpha=.1) +
+  geom_line(aes(effect,pred, group=subject), data=pi_subject,alpha=.08) +
   geom_line(aes(effect,pow), data=ump, size=1, linetype=2) +
-  geom_line(aes(effect,pred), data=pi_effect, colour="skyblue", size=1) +
+  geom_line(aes(effect,pred, colour=col), data=pi_effect, size=1) +
   facet_grid(.~experiment, scales="free") +
+  scale_colour_gradient("Subject",limits=c(10,30), guide="none") +
   ylab("Power") + xlab("Effect")
 
 ggsave( file="../images/power_mixed_subject.pdf",height=4,width=10)

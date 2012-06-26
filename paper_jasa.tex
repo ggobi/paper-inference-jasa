@@ -836,9 +836,9 @@ An example lineup for slope $\beta=0.4$ is shown in Figure \ref{fig:test_contami
 % In this process of collecting data some participants did not provide demographic information as we see in Table \ref{tbl:summary} that male and female participants do not add up to total participants. It is not clear why they did not provide the information. Now the concern arises whether we should keep their responses in the study. It is also possible that participants were not serious enough to provide feedback. 
 %For each of the experiments we had a test plot (easy plot) for which they should have a correct evaluation without much effort.  This could be a criteria to determine their attentiveness in the study. For this we consider six different data cleaning criteria as shown below;
 
-{\bf Screening scenarios:} \hh{Amazon Mechanical Turk data often suffers from the problem that some participants are trying to 'game' the system -- in our situation, these are participants who did not put in a best effort to identify the data plot, but just randomly picked a plot to maximize their 'winnings'.  In order to avoid using those results, we are comparing six different screening methods for excluded participants from the data analysis.} 
+{\bf Screening scenarios:} Amazon Mechanical Turk data often suffers from the problem that some participants are trying to 'game' the system -- in our situation, these are participants who did not put in a best effort to identify the data plot, but just randomly picked a plot to maximize their 'winnings'.  In order to avoid using those results, we are comparing six different screening methods for excluded participants from the data analysis. 
 %There are six suggested approach to clean the data. 
-They are 
+They are
 \begin{enumerate}
 \item {\bf include all participants} and their evaluations
 \item exclude all participants' evaluations, who did {\bf not} share their {\bf demographic information} (age, gender education level -- all three pieces of information are either missing or all present).
@@ -870,13 +870,15 @@ criteria & Subj & Male & Fem & Total & Subj & Male & Fem & Total & Subj & Male &
 \label{tbl:summary}
 \end{table}
 
+Table \ref{tbl:summary} shows  the summary results after applying different screening on the data. For our analysis we picked criteria six (6) and present results based on this in the following sections.
+
 
 
 \subsection{Power comparison}
 
 For each parameter combination, the effect of the lineup is computed as $$E=\beta*\sqrt {n}/\sigma.$$ The experimental data is displayed in figure \ref{fig:power_loess_effect} for different effect sizes. The loess curves fitted to the response data provide the estimated observed power for each test. The corresponding power curves of conventional tests are shown for comparison. The observed power for experiment 2 (scatter plot) is better than what we observed for experiment 1 (box plot). For experiment 3, observed power is always above the conventional test power since for contaminated data we can visually see a trend while conventional test fail to address that.
 
-Figure \ref{fig:power_loess_effect} also reveals that at effect $E=0$, the power is close to 0.05 (Type-I error) for both experiment 1 and 2. For experiment 3 the scenario is different since visually we can easily notice this type of contamination in the data. Thus for fitting model \ref{mixed} to the data we set offset = $log(0.05/0.95)$ so that the estimated power has a fixed lower limit = 0.05 (Type-I error) for effect $E=0$. While fitting model \ref{mixed} we set $W_{\ell i} = E_{\ell i}$, the effect of lineup $\ell$ that subject $i$ has evaluated. Also $E$ is used as the only fixed effect covariate without intercept but offset for experiment 1 and 2. For experiment 3 we fit the intercept two allow the power curves to go above 0.05 as we see in figure \ref{fig:power_loess_effect}. 
+Figure \ref{fig:power_loess_effect} also reveals that at effect $E=0$, the power is close to 0.05 (Type-I error) for both experiment 1 and 2. For experiment 3 the scenario is different since contamination in the data is visible and this sets the lower limit of proportion correct at a higher value. Thus for fitting model \ref{mixed} to the data we set offset = $log(0.05/0.95)$ so that the estimated power has a fixed lower limit = 0.05 (Type-I error) for effect $E=0$. While fitting model \ref{mixed} we set $W_{\ell i} = E_{\ell i}$, the effect of lineup $\ell$ that subject $i$ has evaluated. Also $E$ is used as the only fixed effect covariate without intercept but offset for experiment 1 and 2. For experiment 3 we fit the intercept to allow the power curves to go above 0.05 as we see in figure \ref{fig:power_loess_effect}. 
 
 The power curves obtained by fitting model \ref{mixed} to the data for all the experiments applying different screening criteria is shown in figure \ref{fig:power_screening}. This shows how the screening criteria may affect the results. The corresponding power curves of conventional test are also shown. Notice that no mater what criteria we apply the result does not change much for experiment 2. Also, estimated power curve with criteria 5 for experiment 3 is above the conventional test power curve.
 
@@ -977,13 +979,13 @@ In all the three experiments, each subject saw a lineup only once. This allows n
 
 \subsection{Estimating $p$-value in Non-Classical Settings} 
 
-\green{third experiment doesn't really have a p-value, does it? Need to explain this. Why are there still so many small p-values in experiment 3?} \blue{$p$-values are computed fitting the full model to the contaminated data anyway.}
+\green{third experiment doesn't really have a p-value, does it? Need to explain this. Why are there still so many small p-values in experiment 3?} \blue{$p$-values are computed fitting the full model to the contaminated data anyway. So many small p-values are coming from the fact that contamination makes the slope negatively significant. For example, for some slope the contamination reverses the slope (positive to negative) and negative slope got significant. It is like the effect of influential outlier.}
 
 In the real setting, where visual inference is to be useful, there will be no conventional tests or traditional $p$-values. Yet, assessing the strength of the structure is a critical component of inference. For experiments 1 and 2, to assess the signal strength we examine the proportion of correct picks, with multiple users and the $p$-value of the actual data plot. For experiment 3 the \green{How is p-value calculated here?} Figure \ref{fig:pval_pcorrect} \blue{(should I bring this figure back?)}  displays scatterplots of these two variables for each experiment. As the $p$-value increases the proportion of correct responses falls, evidence of direct association between proportion of correct responses and conventional test $p$-values. When $p$-value is larger than 0.15, it is almost impossible to correctly identify the observed plot in the lineup. We observed this for both experiment 1 and 2. For experiment 3, the scenario is different, because there are two structures, the association between variables, and the cluster of contaminated points.% as in this case people might have observed something other than the effect $E$.
 
 \green{Should we use proportion of correct, rather than percentage? Wouldn't that work into the equations better?}
 
-Yet, it is possible to obtain an estimate the strength of the signal in the actual data plot, when there are multiple evaluations, using Lemma \ref{lemma}. From Equation \ref{fig:pval_plot_signal}  we can write $1 - E[N_m]/K \approx (m-1)E[p_D] $. This gives the signal strength estimate as  
+Yet, it is possible to obtain an estimate the strength of the signal in the actual data plot, when there are multiple evaluations, using Lemma \ref{lemma}. From Equation \ref{eqn:power_estimate}  we can write $1 - E[N_m]/K \approx (m-1)E[p_D] $. This gives the signal strength estimate as  
 \[
 \hat p_D= (1- {u}/{K})/({m-1})
 \]
