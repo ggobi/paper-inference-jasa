@@ -901,7 +901,9 @@ For each parameter combination, the effect is computed as
 E=\beta*\sqrt {n}/\sigma.
 \]
 
-\noindent Figure \ref{fig:power_loess_effect} shows the power against effect for the three experiments. Data values are represented as dots with size indicating count at this value. The loess curves fit the data, estimating the observed power for different effect sizes, with grey bands indicating simultaneous bootstrap confidence bands. For comparison, the dashed lines show the corresponding power curves of the conventional tests. The observed power for experiments 1 and 2 are lower than the power of the conventional test. This is not a surprise -- it is not expected that visual inference will beat conventional tests, in the scenario when assumptions are satisfied. It is encouraging to see that visual inference mirrors the power vs effect relationship of conventional testing, and comes quite close in experiment 2, where scatterplots are used as the test statistic. Results for experiment 3, are quite different. This is the situation where we expect to see the potential of visual inference, and indeed we do: the power of visual inference is always high, and much higher than the conventional test at small effect sizes.
+\noindent Figure \ref{fig:power_loess_effect} shows the power against effect for the three experiments. Data values are represented as dots with size indicating count at this value. The loess curves fit the data, estimating the observed power for different effect sizes, with grey bands indicating simultaneous bootstrap confidence bands. For comparison, the dashed lines show the corresponding power curves of the conventional tests. The observed power for experiments 1 and 2 are lower than the power of the conventional test. This is not a surprise -- it is not expected that visual inference will beat conventional tests, in the scenario when assumptions are satisfied. It is encouraging to see that visual inference mirrors the power vs effect relationship of conventional testing, and comes quite close in experiment 2, where scatterplots are used as the test statistic. 
+
+Results for experiment 3, are quite different. This is the situation where we expect to see the potential of visual inference, and indeed we do: the power of visual inference is always high, and much higher than the conventional test at small effect sizes. There is no actual conventional power in this situation, because assumptions are violated. It is computed assuming that there is no contamination, using the non-contaminated part of the simulation model. The crosses represent \green{... please fill this in}. It is really curious to see that the power of the visual test is really high when effect is small. These results are based on whether the subject correctly picked the actual data plot, regardless of reason. Although they were asked to select the plot that exhibited thr highest association between the two variables, it may have been that they were cueing to the cluster of contaminated data. This will be explored further in Section \ref{TypeIII}. 
 
 %(scatter plot) is better than what we observed for experiment 1 (box plot). For experiment 3, observed power is always above the conventional test power since for contaminated data we can visually see a trend while conventional test fail to address that.
 
@@ -913,8 +915,8 @@ It can also be seen that at effect $E=0$, the power is close to 0.05 (Type-I err
 \begin{figure}[hbtp]
    \centering
        \scalebox{0.55}{\includegraphics{power_loess_effect.pdf}}
-       \caption{Observed power shown by loess smoother with simultaneous bootstrap confidence band and the power of conventional test. Responses are 1 and 0 depending on the success or failure respectively to identify the actual plot in the lineup. Size of the dots represents the number of responses for each lineup. \blue{For experiment 3, the dotted line represents the conventional power based on the slopes of the linear part of the contaminated data. The cross marked points are the conventional power of true effect of the contaminated data. We obtain the estimated slope for the contaminated data and compute the estimated effect for which conventional power is calculated and plotted as cross marked points. Notice that the power structure is completely broken for contaminated data. For smaller original effect we get huge power and that explains why we see so many small $p$-values for experiment 3.
-}}
+       \caption{Power in comparison to effect for the three experiments. Points indicate subject responses, with size indicating count. Responses are 1 and 0 depending on the success or failure respectively to identify the actual plot in the lineup. The loess curve (blue) estimates the observed power, and grey bands show simultaneous bootstrap confidence band.  Conventional test power is drawn as a dashed line. For experiment 3, conventional power is based on the slopes of the linear part of the non-contaminated data. \green{These next two sentences are confusing. Maybe too much for caption, and should be moved to text.} Crosses mark points that are the conventional power of true effect of the contaminated data. We obtain the estimated slope for the contaminated data and compute the estimated effect for which conventional power is calculated and plotted as cross marked points. Notice that the power structure is completely broken for contaminated data. For smaller original effect we get huge power and that explains why we see so many small $p$-values for experiment 3.
+}
        \label{fig:power_loess_effect}
 \end{figure}
 
@@ -1088,29 +1090,27 @@ Experiment 3 does not have $p$-values associated with each plot, so the assumpti
 %\end{center}
 %\end{table}
 
-
-
-\begin{table}[hbtp]
-\caption{Number of lineups for which most people pick the plot with minimum $p$-value.  } 
-\begin{center}
-\begin{tabular}{ccc} \hline
-screening & \multicolumn{2}{c} {lineups picked by minimum $p$-value} \\
- \cline{2-3}
-criteria & Experiment 1 & Experiment 2 \\ 
-  \hline
-1 & 37 & 60 \\ 
-2 & 38 & 61 \\  
-3 & 38 & 60 \\ 
-4 & 41 & 60 \\ 
-5 & 39 & 60 \\
-6 & 40 & 60 \\ 
-\hline
-Total lineups & 60 & 70 \\  
-\hline
-\end{tabular}
-\end{center}
-\label{tbl:pval_assumption} 
-\end{table}
+%\begin{table}[hbtp]
+%\caption{Number of lineups for which most people pick the plot with minimum $p$-value.  } 
+%\begin{center}
+%\begin{tabular}{ccc} \hline
+%screening & \multicolumn{2}{c} {lineups picked by minimum $p$-value} \\
+% \cline{2-3}
+%criteria & Experiment 1 & Experiment 2 \\ 
+%  \hline
+%1 & 37 & 60 \\ 
+%2 & 38 & 61 \\  
+%3 & 38 & 60 \\ 
+%4 & 41 & 60 \\ 
+%5 & 39 & 60 \\
+%6 & 40 & 60 \\ 
+%\hline
+%Total lineups & 60 & 70 \\  
+%\hline
+%\end{tabular}
+%\end{center}
+%\label{tbl:pval_assumption} 
+%\end{table}
 
 %\begin{figure*}[hbtp]
 %   \centering
@@ -1151,7 +1151,7 @@ This problem is further investigated in the paper \cite{waldo}.
        \label{fig:pval_difference}
 \end{figure}
 
-\subsection{Alternative - Type III error}
+\subsection{Alternative - Type III error}~\label{TypeIII}
 
 \hh{From figure \ref{fig:power_loess_effect} we see that identification of the data plot is high independently of the effect size for experiment 3. This might be an indication that participants were not considering slope as distinguishing feature for the data, but the apparent clustering, i.e. the null hypothesis is being rejected, but not for the reason of the slope -- which the experimental setup was asking for --  leading to a type III error of correctly rejecting the null hypothesis for the wrong reason', as defined by \citet{mosteller:48}.} 
 
