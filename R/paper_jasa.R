@@ -291,6 +291,17 @@ xtable(sm)
 
 # --- fit mixed model with cleaned data
 #library(lme4)
+fit_model <- function(dat){
+  dat$alpha <- log(.05/0.95)
+  dat$effect <- with(dat,abs(beta)/sigma*sqrt(sample_size))
+  model <- as.formula(response ~ offset(alpha) + effect -1 + (effect-1|id))
+  fit <- lmer(model,family="binomial",data=dat)
+  return(summary(fit))
+}
+
+fit_model(dat1)
+fit_model(dat2)
+
 
 pred.mixed <- function(X, subject=0,fit) {
   alpha <- log(.05/0.95)
@@ -873,6 +884,13 @@ get_bootstrap_limit_loess <- function(dat){
 effect.dat <- rbind(data.frame(experiment="Experiment 1", get_response_by_effect(dat1)),
                     data.frame(experiment="Experiment 2", get_response_by_effect(dat2)),
                     data.frame(experiment="Experiment 3", get_response_by_effect(dat3)))
+dat3$effect_hat <- with(dat3,sqrt(sample_size)*abs(beta_hat)/sigma)
+dat3$effect <- with(dat3,sqrt(sample_size)*abs(beta)/sigma)
+effect_hat.dat <- ddply(dat3,.(effect_hat), summarize,
+                        experiment = "Experiment 3",
+                        effect = effect[1],
+                        pow = calculate_ump_power3(beta=effect_hat[1]/sqrt(115),n=115,sigma=1,x=getx(100))  
+                        )
 
 loess.power <- rbind(data.frame(experiment="Experiment 1", get_power_loess(dat1)),
                     data.frame(experiment="Experiment 2", get_power_loess(dat2)),
@@ -890,7 +908,8 @@ loess.limts <- read.csv('../data/loess_bootstrap_limits.txt')
 source("calculate_ump_power.R")
 ump.power <- get_ump_power_by_effect()
 power.dat <- rbind(data.frame(Test="Visual",loess.power),
-                   data.frame(Test="Conventional", ump.power))                          
+                   data.frame(Test="Conventional", ump.power)) 
+
 power.dat$m <- NA
 power.dat$m[power.dat$Test=="Visual"] <- 20
 ggplot()+
@@ -898,9 +917,9 @@ ggplot()+
               data = loess.limts, alpha=.3) +
   geom_point(aes(effect,as.numeric(response), size=responses), data=effect.dat, alpha=.3) +
   geom_line(aes(effect,pow,linetype=Test, colour=m), data=power.dat, size=1.2) +
+  geom_point(aes(effect,pow), data=effect_hat.dat, shape=4) +
   facet_grid(.~experiment, scales="free") + 
   scale_colour_gradient("Test",limits=c(10,30), guide="none") + 
-  #  scale_colour_manual(values=c("Blue","Black")) +
   ylab("Power") + xlab("Effect") + scale_size_continuous("# Responses") + 
   opts(asp.ratio=1)
 ggsave(filename = "../images/power_loess_effect.pdf", height = 4.5,width = 12)

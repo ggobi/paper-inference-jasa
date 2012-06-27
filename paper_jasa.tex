@@ -886,7 +886,7 @@ The power curves obtained by fitting model \ref{mixed} to the data for all the e
 \begin{figure}[hbtp]
    \centering
        \scalebox{0.55}{\includegraphics{power_loess_effect.pdf}}
-       \caption{Observed power shown by loess smoother with simultaneous bootstrap confidence band and the power of conventional test. Responses are 1 and 0 depending on the success or failure respectively to identify the actual plot in the lineup. Size of the dots represents the number of responses for each lineup. \blue{Response to the intuition of Di: We are overestimating the effect for experiment 3 here because to compute effect I used the beta values of the linear part of the contaminated data. True effect should be much smaller since overall contaminated data should have a smaller slope. Thus the effect of 5 that the plot is showing now would actually be effect 2 (may be). That means the  power that we see in the plot for effect 5 is actually the power for effect 2. How can we get true effect for this data?
+       \caption{Observed power shown by loess smoother with simultaneous bootstrap confidence band and the power of conventional test. Responses are 1 and 0 depending on the success or failure respectively to identify the actual plot in the lineup. Size of the dots represents the number of responses for each lineup. \blue{For experiment 3, the dotted line represents the conventional power based on the slopes of the linear part of the contaminated data. The cross marked points are the conventional power of true effect of the contaminated data. We obtain the estimated slope for the contaminated data and compute the estimated effect for which conventional power is calculated and plotted as cross marked points. Notice that the power structure is completely broken for contaminated data. For smaller original effect we get huge power and that explains why we see so many small $p$-values for experiment 3.
 }}
        \label{fig:power_loess_effect}
 \end{figure}
@@ -959,8 +959,8 @@ In all the three experiments, each subject saw a lineup only once. This allows n
  \cline{2-3}
  Experiment & Effect & inter subject correlation\\
   \hline
-  1 &  &  \\ 
-  2 &  &  \\ 
+  1 & 0.39 &  \\ 
+  2 & 1.22 &  \\ 
   3 &  & \\ 
    \hline
 \end{tabular}
