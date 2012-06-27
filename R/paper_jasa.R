@@ -781,11 +781,12 @@ p
 
 
 p <- ggplot(pdat) +
+  geom_abline(aes(intercept=0,slope=1), color="grey") +
   geom_point(aes(p_value,strength),size=2) + 
+  stat_smooth(aes(p_value,strength),method="loess", se=F, span=1)+
   facet_grid(.~experiment) +
   xlab(expression(paste("Conventional test p-value (",p[D],") on square root scale"))) +
   ylab(expression(paste("Plot signal Strength (", hat(p)[D],") on square root scale"))) + 
-  geom_abline(aes(intercept=0,slope=1)) +
   scale_x_sqrt() +scale_y_sqrt()
 p
 
@@ -796,6 +797,7 @@ ggsave(p,file="../images/p_val_plot_signal.pdf", height = 4, width = 10)
 
 pdat$visual_pval <- apply(pdat[,2:3],1,function(x)return(get_pval(m=20,K=x[1],x=x[2])))
 qplot(p_value,visual_pval, data=pdat) +
+  stat_smooth(method="loess", se=F, span=.4)+
   xlab(expression(paste("Conventional test p-value (",p[D],") on square root scale"))) +
   ylab(expression(paste("Visual p-value on square root scale"))) +
   facet_grid(.~experiment)+
@@ -814,11 +816,12 @@ qplot(strength,visual_pval, data=pdat) +
 # correlation between visual and conventional p-value
 
 get_corr <- function(dat){
-  d <- subset(dat,p_value < 1/19)
+  d <- subset(dat,p_value < .2)
   dd <- ddply(d, .(pic_id), summarize,
               conventional_p = p_value[1],
               visual_p = (1 - mean(response))/19
               )
+  dd <- subset(dd,visual_p < 0.05)
   n <- nrow(dd)
   corr_p <- cor(dd$conventional_p,dd$visual_p)
   return(data.frame(n,correlation=corr_p))
