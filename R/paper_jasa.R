@@ -294,7 +294,7 @@ xtable(sm)
 fit_model <- function(dat){
   dat$alpha <- log(.05/0.95)
   dat$effect <- with(dat,abs(beta)/sigma*sqrt(sample_size))
-  model <- as.formula(response ~ offset(alpha) + effect -1 + (effect-1|id))
+  model <- as.formula(response ~ offset(alpha) + effect -1 + (effect -1|id))
   fit <- lmer(model,family="binomial",data=dat)
   return(summary(fit))
 }
@@ -384,8 +384,8 @@ pi_effect$col <- 30
 pi_effect$col[1] <- NA
 ggplot()+
   geom_line(aes(effect,pred, group=subject), data=pi_subject,alpha=.08) +
-  geom_line(aes(effect,pow), data=ump, size=1, linetype=2) +
   geom_line(aes(effect,pred, colour=col), data=pi_effect, size=1) +
+  geom_line(aes(effect,pow), data=ump, size=1, linetype=2) +
   facet_grid(.~experiment, scales="free") +
   scale_colour_gradient("Subject",limits=c(10,30), guide="none") +
   ylab("Power") + xlab("Effect")
@@ -803,7 +803,6 @@ qplot(p_value,visual_pval, data=pdat) +
   facet_grid(.~experiment)+
   scale_x_sqrt() +scale_y_sqrt()
 ggsave(file="../images/p_val_definition.pdf", height = 4, width = 10)
-
 
 
 qplot(strength,visual_pval, data=pdat) +

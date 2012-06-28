@@ -293,7 +293,7 @@ We model $p_{\ell i} = E(X_{\ell i})$ as  a mixed effects logistic regression
 
 Let $X_{\ell i} \sim Binom_{1, p_{\ell i}}$ be the random variable, with $X_{ \ell i}= 1$, if  subject $i$ correctly identifies the data plot from lineup $\ell$, and 0 otherwise.
 We can model $p_{ \ell i}$ with a logistic regression with subject-specific random effects as:
-\begin{equation} \label{mixed}
+\begin{equation} \label{eqn:mixed}
 g( p_{\ell i} )= W_{\ell i} \delta +  Z_{\ell i}  \tau_{\ell i},  
 \end{equation}
 
@@ -305,12 +305,16 @@ $\delta$ & is a vector of parameters for fixed effects.\\
 $Z_{\ell i}$ & $1 \le i \le K$, $1 \le \ell \le L$  is a design matrix corresponding to random effects specific to individual $i$ and lineup $\ell$.  \\
 $\tau$ & is a vector of independent real-valued random variables $\tau_{\ell i}$,  $\tau  \sim  MVN(0,\sigma_\tau I_{KL \times KL})$. $\tau$ will usually include a component incorporating an individual's ability or skill to evaluate lineups.\\
 \end{tabular}
-
 }
 
+The model in equation \eqref{eqn:mixed} provides the subject and lineup specific probability of successful evaluation as 
+\begin{equation} \label{eqn:mixed_power}
+\hat p_{\ell i} = \frac{exp(\hat g_{\ell i})}{1+ exp(\hat g_{\ell i})}
+\end{equation}
+where $\hat g_{\ell i} = W_{\ell i} \hat {\delta} +  Z_{\ell i}  \hat {\tau}_{\ell i}$.
 
 
-%\red{This model is  described in more detail in equation \ref{mixed}.}
+%\red{This model is  described in more detail in equation \eqref{eqn:mixed}.}
 
 %\noindent For any single observer, the power of a visual test has a lower limit of $\frac1m$ since the probability that an observer will randomly pick the test statistic under $H_0$ is $\frac1m$. When $K$ individuals evaluate a lineup plot independently, the number of successful evaluations, $U \sim \text{Binom} (K,1/m)$  under $H_0$. This leads us to obtain the probability 
 %\begin{equation}\label{eqn:pvalue}
@@ -391,7 +395,7 @@ F{p_D}(p) &=& Pr(p_D \le p)=1-Pr(1-p_D \le 1-p) \nonumber \\
 %       \end{array} \right.     
 \end{eqnarray}
 
-%Thus the density of $p_D$ is Uniform(0,1)  under $H_0$. As noted by \cite{Ruppert:2007}, under $H_1$ the density of $p_D$ $$f_{p_D}(p_D; \delta)= \frac{f_{|t|}(F_{|t|}^{-1}(1-p_D);\delta)}{f_{|t|}(F_{|t|}^{-1}(1-p_D))}$$ derived from equation \ref{dist_p}  is a right skewed distribution.  
+%Thus the density of $p_D$ is Uniform(0,1)  under $H_0$. As noted by \cite{Ruppert:2007}, under $H_1$ the density of $p_D$ $$f_{p_D}(p_D; \delta)= \frac{f_{|t|}(F_{|t|}^{-1}(1-p_D);\delta)}{f_{|t|}(F_{|t|}^{-1}(1-p_D))}$$ derived from equation \eqref{dist_p}  is a right skewed distribution.  
 
 
 
@@ -477,7 +481,7 @@ By matching the expected values, we therefore get an expression for the $p$-valu
 \hh{1 - E[N_m]/K = (m-1)E[p_D] + O(E[p_D^2])}
 \end{equation}
 
-Note that the \hh{left}  hand side in Equation \ref{eqn:power_estimate} is independent of the parameter $\theta$, but just based on the lineup evaluation by independent observers. While this allows us to compute this value independently of the parametric setting, it also means that observers might pick out the data plot for a reason not related to the value of $\theta$. 
+Note that the \hh{left}  hand side in equation \eqref{eqn:power_estimate} is independent of the parameter $\theta$, but just based on the lineup evaluation by independent observers. While this allows us to compute this value independently of the parametric setting, it also means that observers might pick out the data plot for a reason not related to the value of $\theta$. 
 
 %Picking out the data plot is still a measure of how different the data plot is compared to the null plots, and therefore is a test statistic of the visual test.
 
@@ -503,7 +507,7 @@ Note that the \hh{left}  hand side in Equation \ref{eqn:power_estimate} is indep
 %\begin{equation}\label{power_est} Power(\beta)=\frac{u}{K} \hspace{1cm} 0 \le u \le K \end{equation}
 
 
-%From model \ref{mixed} we obtain %$\pi=Pr(Y=1|X_1, X_2, ..., X_p)$, 
+%From model \ref{eqn:mixed} we obtain %$\pi=Pr(Y=1|X_1, X_2, ..., X_p)$, 
 %the power of the underlying testing procedure as a population average %by ignoring the random effect part. 
 %%Thus we have the overall probability of success ($\pi$ or power) 
 %for specified sample size ($n$) and  variance ($\sigma$)  as 
@@ -512,7 +516,7 @@ Note that the \hh{left}  hand side in Equation \ref{eqn:power_estimate} is indep
 %Power(\beta) = \pi=Pr(Y=1|\beta, n, \sigma) 
 %\end{equation}
 %
-%The main covariate factors that determine the power of the test are sample size ($n$), $\sigma$ and the parameter $\beta$. combining these we obtain one single covariate effect denoted by $E$ and defined as $E = \beta/ \sigma*\sqrt{n}$. Using equation \ref{mixed}, we then have the power as
+%The main covariate factors that determine the power of the test are sample size ($n$), $\sigma$ and the parameter $\beta$. combining these we obtain one single covariate effect denoted by $E$ and defined as $E = \beta/ \sigma*\sqrt{n}$. Using equation \eqref{eqn:mixed}, we then have the power as
 %
 %\begin{equation}\label{eqn:effect} 
 %Power(E) = \pi=Pr(Y=1| E) 
@@ -575,7 +579,7 @@ Suppose $X_k$ is a categorical variable with two levels, and we test the hypothe
 %%       \end{array} \right.     
 %%\end{eqnarray}
 %%
-%%Thus the density of $p_D$ is Uniform(0,1)  under $H_0$. As noted by \cite{Ruppert:2007}, under $H_1$ the density $$f_{p_D}(p_D; \delta)= \frac{f_{|t|}(F_{|t|}^{-1}(1-p_D);\delta)}{f_{|t|}(F_{|t|}^{-1}(1-p_D))}$$ derived from equation \ref{dist_p}  is a right skewed distribution.  
+%%Thus the density of $p_D$ is Uniform(0,1)  under $H_0$. As noted by \cite{Ruppert:2007}, under $H_1$ the density $$f_{p_D}(p_D; \delta)= \frac{f_{|t|}(F_{|t|}^{-1}(1-p_D);\delta)}{f_{|t|}(F_{|t|}^{-1}(1-p_D))}$$ derived from equation \eqref{dist_p}  is a right skewed distribution.  
 %In a lineup plot we simulate $m-1$ residual data sets from null model where each of these $m-1$ null data sets produces a corresponding $p$-value $p_{0,i}$ and $p_{0,i} \sim \text{Uniform}(0,1)$ for $i = 1, ..., m-1$. Suppose  $p_0=\min_i(p_{0,i})$. Thus $p_0 \sim \text{Beta}(1,m-1)$. 
 
 The conventional test in this scenario uses $T= \hat{\beta_k}/ se(\hat{\beta_k})$ and rejects the null hypothesis if $T$ is extreme on the scale of a $t$ distribution with $n-p$ degrees of freedom.  It forms the benchmark upon which we evaluate the visual test. To calculate what we might expect for the power of the visual test, under perfect conditions, first assume that the observer is able to pick the plot with the smallest $p$-value from a lineup plot.  This leads to the decision to reject $H_0$ when $p_{D} < p_0$, where $p_{D}$ is the classical $p$-value as details given in Lemma \ref{lemma}. Thus the expected power of the visual test in this scenario is
@@ -583,11 +587,11 @@ The conventional test in this scenario uses $T= \hat{\beta_k}/ se(\hat{\beta_k})
 \begin{equation}\label{power_exp} 
    Power(\beta)=Pr(p_{D} < p_0)  \quad \text{for}  \quad \beta \ne 0
 \end{equation}
-Figure \ref{fig:power_expected} shows the power of the conventional test in comparison to the expected power of the visual test obtained from Equation \ref{power_exp}. Notice that the expected power of the visual test is almost as good as the power of conventional test. \green{What do you mean by this? Where does this ``fact'' come from?} In fact, the only loss we experience stems from comparing the test statistic to only a discrete number of  $m-1$ samples from the null distribution. 
+Figure \ref{fig:power_expected} shows the power of the conventional test in comparison to the expected power of the visual test obtained from equation \eqref{power_exp}. Notice that the expected power of the visual test is almost as good as the power of conventional test. \green{What do you mean by this? Where does this ``fact'' come from?} In fact, the only loss we experience stems from comparing the test statistic to only a discrete number of  $m-1$ samples from the null distribution. 
 
 %Theorem \ref{thm:power} helps to compute the expected power of visual inference.
 %\begin{thm}\label{thm:power}
-% Equation \ref{power_exp}  yields expected power of visual inference as Power($\beta$) = $E(1-p_D)^{m-1}$ .
+% equation \eqref{power_exp}  yields expected power of visual inference as Power($\beta$) = $E(1-p_D)^{m-1}$ .
 %\end{thm}
 % 
 %{ \em proof}
@@ -602,7 +606,7 @@ Figure \ref{fig:power_expected} shows the power of the conventional test in comp
 %
 %% verified this computation from http://www.wolframalpha.com using command int (m-1)*(1-p)^(m-2) dp, p=0,t
 %
-%Thus expected power in equation \ref{power_exp} be
+%Thus expected power in equation \eqref{power_exp} be
 %\begin{eqnarray*}
 % Pr(p_{B} < p_0) &=& 1- Pr( p_0 \le p_{B} ) \\
 %  &=& 1- \int_{0}^{1}{Pr( p_0 \le p_{B} |p_{B} =t) f_{p_{B} }(t)dt } \\
@@ -794,7 +798,7 @@ An example lineup for slope $\beta=0.4$ is shown in Figure \ref{fig:test_contami
 %\begin{figure*}[hbtp]
 %   \centering
 %       \scalebox{0.6}{\includegraphics{power_observed.pdf}}
-%       \caption{Observed power of visual test from Equation \ref{eqn:power_estimate} with pointwise 95\% confidence limits and the power of UMP test for sample size $n= 100,300$ and $\sigma = 12,5$ as per experiment 1.}
+%       \caption{Observed power of visual test from equation \eqref{eqn:power_estimate} with pointwise 95\% confidence limits and the power of UMP test for sample size $n= 100,300$ and $\sigma = 12,5$ as per experiment 1.}
 %       \label{fig:power_observed}
 %\end{figure*}
 
@@ -827,7 +831,7 @@ An example lineup for slope $\beta=0.4$ is shown in Figure \ref{fig:test_contami
 %\begin{figure*}[hbtp]
 %   \centering
 %       \scalebox{0.6}{\includegraphics{power_observed_exp3.pdf}}
-%       \caption{Observed power of visual test from Equation \ref{eqn:power_estimate} with pointwise 95\% confidence limits and the power of UMP test for sample size $n= 100$ and $\sigma = 5$ as per experiment 3. }
+%       \caption{Observed power of visual test from equation \eqref{eqn:power_estimate} with pointwise 95\% confidence limits and the power of UMP test for sample size $n= 100$ and $\sigma = 5$ as per experiment 3. }
 %       \label{fig:power_observed_exp3}
 %\end{figure*}
 
@@ -895,16 +899,24 @@ Amazon Mechanical Turk workers are paid for their efforts, not substantial, but 
 Table \ref{tbl:summary} tabulates the number of subjects, genders and lineups evaluated after applying the data screening procedure. 
 
 \subsection{Model fitting}
+For each parameter combination, the effect is computed as 
 
-The model in Equation \ref{mixed}is fit using \green{.... fill this in} Table \ref{tbl:model_par} shows the parameter estimates of the mixed effects model of the subject-specific variation. For all the three experiments, each subject saw a lineup just once. This doesn't allow fitting a lineup random effect, in addition to a subject random effect, but it does simplify the model since $\tau_{\ell
-  i}=\tau_i$. The subject-specific probability ($p_i$) of successful evaluation of a lineup can be estimated in the model as $\hat p_i= ....$. So, we include a random interaction term with effect.
+\[
+E=\beta (\sqrt {n}/\sigma).
+\]
 
-Different subjects are expected to have different skill levels in evaluating lineups. For this reason, when the subject-specific models (Equation \ref{mixed}) are fit to the data, in the next section, we set offset = $log(0.05/0.95)$ so that the estimated power has a fixed lower limit at 0.05 (Type-I error) when $E=0$. While fitting models (Equation \ref{mixed}) we set $W_{\ell i} = E_{\ell i}$, the effect of lineup $\ell$ that subject $i$ has evaluated. Also $E$ is used as the only fixed effect covariate without intercept but offset for experiment 1 and 2. For experiment 3 an intercept is estimated to allow the power curves to go above 0.05.
+The model in equation \eqref{eqn:mixed} is fit using $E$ as the only fixed effect covariate without intercept. we set offset = $log(0.05/0.95)$ so that the estimated power has a fixed lower limit at 0.05 (Type-I error) when $E=0$. Different subjects are expected to have different skill levels in evaluating lineups. To account for subject specific variation we use subject as random effect. We also use an interaction between subject and effect $E$ to allow for subject specific random slope. This leads to setting  $W_{\ell i} = E_{\ell i}$, the effect of lineup $\ell$ that subject $i$ has evaluated in equation \eqref{eqn:mixed}.  While for experiment 1 and 2 we don't allow intercept but offset, for experiment 3 an intercept is estimated to allow the power curves to go above 0.05 when $E=0$. This is because forcing power to be fixed at 0.05 for $E=0$ is not justified by the experiment 3 data (figure \ref{fig:power_loess_effect}). 
+
+For all the three experiments, each subject saw a lineup just once. This doesn't allow fitting a lineup random effect, in addition to a subject random effect, but it does simplify the model since $\tau_{\ell i} = \tau_i$. The subject-specific probability ($p_i$) of successful evaluation of a lineup is then estimated using equation \eqref{eqn:mixed_power}. For computation we use R \citep{R} package lme4.
+
+Table \ref{tbl:model_par} shows the parameter estimates of the mixed effects model of the subject-specific variation.  
+
+
 
 \green{This section needs to have sufficient detail of the model fitting, output and diagnostics to feed into the next few sections discussing the findings.}
 
 \begin{table}[hbtp]
-\caption{Parameter estimates of model \ref{mixed}.}
+\caption{Parameter estimates of model \ref{eqn:mixed}.}
 \begin{center}
 \begin{tabular}{ccc}
   \hline
@@ -922,12 +934,6 @@ Different subjects are expected to have different skill levels in evaluating lin
 \end{table}
 
 \subsection{Power comparison}
-
-For each parameter combination, the effect is computed as 
-
-\[
-E=\beta*\sqrt {n}/\sigma.
-\]
 
 \noindent Figure \ref{fig:power_loess_effect} shows the power against effect for the three experiments. Data values are represented as dots with size indicating count at this value. The loess curves fit the data, estimating the observed power for different effect sizes, with grey bands indicating simultaneous bootstrap confidence bands. For comparison, the dashed lines show the corresponding power curves of the conventional tests. The observed power for experiments 1 and 2 are lower than the power of the conventional test. This is not a surprise -- it is not expected that visual inference will beat conventional tests, in the scenario when assumptions are satisfied. It is encouraging to see that visual inference mirrors the power vs effect relationship of conventional testing, and comes quite close in experiment 2, where scatterplots are used as the test statistic. 
 
@@ -947,20 +953,20 @@ It is really curious to see in the results of experiment 3 that the power of the
 
 It can also be seen that at effect $E=0$, the power is close to 0.05 (Type-I error) for both experiments 1 and 2. For experiment 3 the scenario is different. The contamination in the data is visible which sets the lower limit of proportion correct at a higher value.  
 
-%The power curves obtained by fitting model \ref{mixed} to the data for all the experiments applying different screening criteria is shown in figure \ref{fig:power_screening}. This shows how the screening criteria may affect the results. The corresponding power curves of conventional test are also shown. Notice that no mater what criteria we apply the result does not change much for experiment 2. Also, estimated power curve with criteria 5 for experiment 3 is above the conventional test power curve.
+%The power curves obtained by fitting model \ref{eqn:mixed} to the data for all the experiments applying different screening criteria is shown in figure \ref{fig:power_screening}. This shows how the screening criteria may affect the results. The corresponding power curves of conventional test are also shown. Notice that no mater what criteria we apply the result does not change much for experiment 2. Also, estimated power curve with criteria 5 for experiment 3 is above the conventional test power curve.
 
 
 %
 %\begin{figure}[hbtp]
 %   \centering
 %       \scalebox{0.70}{\includegraphics{power_mixed.pdf}}
-%       \caption{The overall power estimated from model \ref{mixed} are shown. The corresponding power curve for conventional test is shown for comparison.}
+%       \caption{The overall power estimated from model \ref{eqn:mixed} are shown. The corresponding power curve for conventional test is shown for comparison.}
 %       \label{fig:power_mixed}
 %\end{figure}
 
 
 
-%Each participant was shown a sequence of 10 lineup plots.  In total, 3629 lineups were evaluated by 324 people coming from many different locations across the globe.  The results of the experiment are summarized in Figure \ref{fig:power_observed} which shows the observed power from the survey data calculated using Equation \ref{eqn:power_estimate} along with 95\% confidence interval calculated using Fisher's exact method.
+%Each participant was shown a sequence of 10 lineup plots.  In total, 3629 lineups were evaluated by 324 people coming from many different locations across the globe.  The results of the experiment are summarized in Figure \ref{fig:power_observed} which shows the observed power from the survey data calculated using equation \eqref{eqn:power_estimate} along with 95\% confidence interval calculated using Fisher's exact method.
 
 %\begin{figure*}[hbtp]
 %   \centering
@@ -974,7 +980,7 @@ It can also be seen that at effect $E=0$, the power is close to 0.05 (Type-I err
 %   \centering
 %       \scalebox{0.45}{\includegraphics{effect_power_subject_exp1.pdf}}
 %       \scalebox{0.45}{\includegraphics{effect_power_subject_exp2.pdf}}
-%       \caption{Subject specific power obtained from Equation \ref{eqn:effect} and the power of UMP test for different effect size $E$ as per experiment 1 and 2.}
+%       \caption{Subject specific power obtained from equation \eqref{eqn:effect} and the power of UMP test for different effect size $E$ as per experiment 1 and 2.}
 %       \label{fig:power_effect_subject1}
 %\end{figure*}
 
@@ -989,22 +995,22 @@ It can also be seen that at effect $E=0$, the power is close to 0.05 (Type-I err
 %\begin{figure}[hbtp]
 %   \centering
 %       \scalebox{0.40}{\includegraphics{power_model.pdf}}
-%       \caption{Estimated power curve from Equation \ref{eqn:power} along with 95\% confidence interval for sample size $n$ = 100 and $\sigma$ = 12.  The corresponding power curve for Uniformly Most powerful (UMP) test is shown for comparison.}
+%       \caption{Estimated power curve from equation \eqref{eqn:power} along with 95\% confidence interval for sample size $n$ = 100 and $\sigma$ = 12.  The corresponding power curve for Uniformly Most powerful (UMP) test is shown for comparison.}
 %       \label{fig:power_model}
 %\end{figure}
 
-%We fit model \eqref{mixed} to the survey data obtained from the simulation experiment. The estimated overall power curve obtained from equation \eqref{eqn:power} is shown in Figure \ref{fig:power_model}. Model \ref{mixed} also gives the subject specific power curves shown in Figure \ref{fig:power_subject}. The plot includes 20 randomly selected subject-specific power curves. Notice that the power curve estimated for one subject is above the UMP test power curve. 
+%We fit model \eqref{eqn:mixed} to the survey data obtained from the simulation experiment. The estimated overall power curve obtained from equation \eqref{eqn:power} is shown in Figure \ref{fig:power_model}. Model \ref{eqn:mixed} also gives the subject specific power curves shown in Figure \ref{fig:power_subject}. The plot includes 20 randomly selected subject-specific power curves. Notice that the power curve estimated for one subject is above the UMP test power curve. 
 
 %\begin{figure}[hbtp]
 %   \centering
 %       \scalebox{0.45}{\includegraphics{power_subject.pdf}}
-%       \caption{Estimated subject specific power curve from model \ref{mixed} for sample size $n$ = 100 and $\sigma$ = 12.  The corresponding power curve for Uniformly Most powerful (UMP) test is shown for comparison.}
+%       \caption{Estimated subject specific power curve from model \ref{eqn:mixed} for sample size $n$ = 100 and $\sigma$ = 12.  The corresponding power curve for Uniformly Most powerful (UMP) test is shown for comparison.}
 %       \label{fig:power_subject}
 %\end{figure}
 
 \subsection{Subject-specific variation}
 
-%Different subjects are expected to have different skill levels in evaluating lineups. This is accounted for in the mixed effects model (Equation \ref{mixed}).   
+%Different subjects are expected to have different skill levels in evaluating lineups. This is accounted for in the mixed effects model (Equation \ref{eqn:mixed}).   
  The estimated subject-specific power curves are shown in Figure \ref{fig:power_mixed_subject} (light grey lines). The blue curve is the overall average power estimated from the model, and for comparison, the grey dashed lines are the power curves for the conventional test. Subject-specific power is quite different for three experiments. In experiment 1 subjects performed similarly, and substantially worse than the conventional test. In experiment 2 there is more variability between subjects, with some doing better than the conventional test on small effects. In experiment 3 there is the most subject-specific variation. Some subjects performed substantially better than the conventional test, and on average the visual test was better. 
 
 \green{The dashed line cannot be seen in experiment 2 for small effect, and it is essential to see this at this point. What can you do to make the dashed line visible?}
@@ -1014,7 +1020,7 @@ It can also be seen that at effect $E=0$, the power is close to 0.05 (Type-I err
 \begin{figure}[hbtp]
    \centering
        \scalebox{0.60}{\includegraphics{power_mixed_subject.pdf}}
-       \caption{Subject-specific  power estimated from model \ref{mixed} are shown. The corresponding power curve for conventional test (dashed line) is shown for comparison. The overall average power curve estimated from the model is shown (light blue).}
+       \caption{Subject-specific  power estimated from model \ref{eqn:mixed} are shown. The corresponding power curve for conventional test (dashed line) is shown for comparison. The overall average power curve estimated from the model is shown (light blue).}
        \label{fig:power_mixed_subject}
 \end{figure}
 
@@ -1029,7 +1035,7 @@ In the real setting, where visual inference is to be useful, there will be no co
 
 \green{You need to explain visual $p$-value - how is this calculated. How is this different from the signal strength. And please say why you introduce a term signal strength.}
 
-With multiple observers it is possible to estimate the strength of the signal, using the proportion of correct picks. From Equation \ref{eqn:power_estimate}  we can write $1 - E[N_m]/K \approx (m-1)E[p_D] $. This gives the signal strength estimate as  
+With multiple observers it is possible to estimate the strength of the signal, using the proportion of correct picks. From equation \eqref{eqn:power_estimate}  we can write $1 - E[N_m]/K \approx (m-1)E[p_D] $. This gives the signal strength estimate as  
 \[
 \hat p_D= (1- {u}/{K})/({m-1})
 \]
@@ -1069,7 +1075,7 @@ Note that $\hat{p}_D$ is bounded within $(0, 1/(m-1))$. This estimate has to be 
 \begin{figure*}[hbtp]
    \centering
        \scalebox{0.6}{\includegraphics{p_val_plot_signal.pdf}}
-       \caption{Conventional test $p$-value ($p_D$) vs plot signal strength ($\hat p_D$) estimated using Lemma \ref{lemma}. The solid line is a 45 degree line which represents the equity shown in equation \ref{eqn:power_estimate}. p-values are shown on square root scale scale. \blue{Is it better now?}}
+       \caption{Conventional test $p$-value ($p_D$) vs plot signal strength ($\hat p_D$) estimated using Lemma \ref{lemma}. The solid line is a 45 degree line which represents the equity shown in equation \eqref{eqn:power_estimate}. p-values are shown on square root scale scale. \blue{Is it better now?}}
     %   \hh{Mahbub, another change: could you change the y label to 'estimate of visual p-value $\hat{p_D}$ ?}
        \label{fig:pval_plot_signal}
 \end{figure*}
@@ -1242,14 +1248,14 @@ Total &&&&&60&10\\
 \begin{figure}[hbtp]
    \centering
        \scalebox{0.70}{\includegraphics{power_screening.pdf}}
-       \caption{The overall power estimated from model \ref{mixed} are shown for various data sets obtained by applying 6 screening criteria.  The corresponding power curve for conventional test is shown in black solid lines for comparison.}
+       \caption{The overall power estimated from model \ref{eqn:mixed} are shown for various data sets obtained by applying 6 screening criteria.  The corresponding power curve for conventional test is shown in black solid lines for comparison.}
        \label{fig:power_screening}
 \end{figure}
 
 \begin{figure}[hbtp]
    \centering
        \scalebox{0.60}{\includegraphics{power_screening_subject.pdf}}
-      \caption{The subject-specific power estimated from model \ref{mixed} are shown for various data sets obtained by applying 6 screening criteria.  The corresponding power curve for conventional test is shown in pink lines for comparison.}
+      \caption{The subject-specific power estimated from model \ref{eqn:mixed} are shown for various data sets obtained by applying 6 screening criteria.  The corresponding power curve for conventional test is shown in pink lines for comparison.}
        \label{fig:power_screening_subject}	
 \end{figure}
 
