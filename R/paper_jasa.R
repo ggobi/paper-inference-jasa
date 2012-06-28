@@ -358,9 +358,9 @@ get_screened_predict <- function(dat, newdat,intercept=F){
   return(res)
 }
 get_screened_predict(raw.dat1, newdat=data.frame(effect))
-pi <- rbind(data.frame(experiment="Experiment 1",get_screened_predict(raw.dat1, newdat=data.frame(effect=seq(0,18, by=.2)))),
-            data.frame(experiment="Experiment 2",get_screened_predict(raw.dat2, newdat=data.frame(effect=seq(0,7, by=.2)))),
-            data.frame(experiment="Experiment 3",get_screened_predict(raw.dat3, newdat=data.frame(effect=seq(0,6, by=.2)))))
+pi <- rbind(data.frame(experiment="Experiment 1",get_screened_predict(raw.dat1, newdat=data.frame(effect=seq(0,16, by=.2)))),
+            data.frame(experiment="Experiment 2",get_screened_predict(raw.dat2, newdat=data.frame(effect=seq(0,5.5, by=.2)))),
+            data.frame(experiment="Experiment 3",get_screened_predict(raw.dat3, newdat=data.frame(effect=seq(0,4.5, by=.2)))))
 
 # source("calculate_ump_power.R")
 ump <- get_ump_power_by_effect()
@@ -395,9 +395,9 @@ ggsave( file="../images/power_mixed_subject.pdf",height=4,width=10)
 
 # ----- subject specific power for each screening criteria from mixed model
 
-pi <- rbind(data.frame(experiment="Experiment 1",get_screened_predict(raw.dat1, newdat=data.frame(effect=seq(0,18, by=.2)),intercept=T)),
-            data.frame(experiment="Experiment 2",get_screened_predict(raw.dat2, newdat=data.frame(effect=seq(0,7, by=.2)),intercept=T)),
-            data.frame(experiment="Experiment 3",get_screened_predict(raw.dat3, newdat=data.frame(effect=seq(0,6, by=.2)),intercept=T)))
+pi <- rbind(data.frame(experiment="Experiment 1",get_screened_predict(raw.dat1, newdat=data.frame(effect=seq(0,16, by=.2)),intercept=T)),
+            data.frame(experiment="Experiment 2",get_screened_predict(raw.dat2, newdat=data.frame(effect=seq(0,5.5, by=.2)),intercept=T)),
+            data.frame(experiment="Experiment 3",get_screened_predict(raw.dat3, newdat=data.frame(effect=seq(0,4.5, by=.2)),intercept=T)))
 
 ggplot()+
   geom_line(aes(effect,pred, group=subject), data=pi, alpha=.1) +
