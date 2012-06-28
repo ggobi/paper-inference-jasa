@@ -145,14 +145,16 @@ A \textbf{lineup} is a layout of $m$ randomly placed visual statistics, consisti
 independent observers follows;  observers are asked to point out the plot most different from the lineup. If the test statistic is identified in the lineup, this is considered as evidence against the null hypothesis. 
 %If it is not identified the conclusion is to not reject the null hypothesis. 
 
-This leads us to a definition for the $p$-value of a lineup: under the null hypothesis, each observer has a $1/m$ chance of picking the test statistic from the lineup.  For $K$ independent observers, let $X$ be  the number of observers picking the test statistic from the lineup. Under the null hypothesis $X \sim \text{Binom}({K, 1/m})$,  therefore: 
+This leads us to a definition for the $p$-value of a lineup: under the null hypothesis, each observer has a $1/m$ chance of picking the test statistic from the lineup.  For $K$ independent observers, let $X$ be  the number of observers picking the test statistic from the lineup. Under the null hypothesis $X \sim \text{Binom}_{K, 1/m}$,  therefore: 
 
 \begin{dfn}\label{dfn:pvalue}
 The $p$-value of a lineup of size $m$ is given as 
-\[
-P(X \ge x) = 1 - \text{Binom}({K, 1/m}) (x-1) = \sum_{i=x}^{K} {K \choose i} \left(\frac{1}{m}\right)^{i} \left(\frac{m-1}{m}\right)^{K-i},
-\]
-with $X$ defined as above. 
+
+\begin{equation}\label{binom}
+P(X \ge x) = 1 - \text{Binom}_{{K, 1/m}} (x-1) = \sum_{i=x}^{K} {K \choose i} \left(\frac{1}{m}\right)^{i} \left(\frac{m-1}{m}\right)^{K-i}
+\end{equation}
+
+\noindent with $X$ defined as above, and $x$ is the number of observers selecting the actual data plot. 
 \end{dfn}
 Note that for $x=0$ the $p$-value becomes --mathematically-- equal to 1. It might make more sense from a practical point of view to think of the $p$-value as
 being larger than $P(X \ge 1)$ in this situation. If we increase either $m$ or $K$, we would be able to determine the value at a higher precision.
@@ -206,7 +208,7 @@ The \textbf{Type I error} is the probability of rejecting $H_0$ when it is true,
 
 \green{Oh, we are using observed and observer, which might be confusing. May need to change observed data plot to something else. Will think about this. Will use ``actual'' for now.}
 
-\noindent Because $X$ takes only discrete values we can not always control exactly for $\alpha$, with an exact $x_{\alpha}$. For example, when there is only one observer, $1/m$ is the minimal value at which we can set $\alpha$. It can be set to be smaller, even arbitrarily small, by increasing $K$. Type II error is harder to calculate, as is usually the case. In visual inference, individual abilities need to be incorporated to calculate Type II error. This is not necessary for Type I error, because it is simply the chance that the observer picks the actual data plot, by chance. For Type II error, we need to calculate the chance that the observer sees that actual data plot as different, when it really is different. This involves understanding the individual's visual skills. Thus, let $X_i$ be a binary random variable with $X_i = 1$, if individual $i (=1, \dots , K)$ identifies the actual data plot from the lineup, and $X_i = 0$ otherwise, where $p_i$ is the probability that individual $i$ picks out the actual data plot from the lineup. If all individuals have the same ability, with the probability, $p$, for picking out the actual data plot, then $X = \sum_i X_i$ has distribution $\text{Binom}(K, p)$. We can estimate $p$ by $\hat{p} = x/K$, where $x$ is the number of observers (out of $K$), who pick out the actual data plot from the lineup. 
+\noindent Because $X$ takes only discrete values we can not always control exactly for $\alpha$, with an exact $x_{\alpha}$. For example, when there is only one observer, $1/m$ is the minimal value at which we can set $\alpha$. It can be set to be smaller, even arbitrarily small, by increasing $K$. Type II error is harder to calculate, as is usually the case. In visual inference, individual abilities need to be incorporated to calculate Type II error. This is not necessary for Type I error, because it is simply the chance that the observer picks the actual data plot, by chance. For Type II error, we need to calculate the chance that the observer sees that actual data plot as different, when it really is different. This involves understanding the individual's visual skills. Thus, let $X_i$ be a binary random variable with $X_i = 1$, if individual $i (=1, \dots , K)$ identifies the actual data plot from the lineup, and $X_i = 0$ otherwise, where $p_i$ is the probability that individual $i$ picks out the actual data plot from the lineup. If all individuals have the same ability, with the probability, $p$, for picking out the actual data plot, then $X = \sum_i X_i$ has distribution $\text{Binom}_{K, p}$. We can estimate $p$ by $\hat{p} = x/K$, where $x$ is the number of observers (out of $K$), who pick out the actual data plot from the lineup. 
 
 \hh{If there is evidence for individual skills influencing the probability $p_i$, then $X_i \sim Binom_{1, p+i}$ and $X$ is a sum of independent Bernoulli random variables with different success rates $p_i$. This makes the distribution of $X$ a Poisson-Binomial by definition, see \citet{butler93} for details. estimating $p_i$ will be one of the main concerns for the remainder of the paper.}
 
@@ -279,7 +281,7 @@ For visual inference, this corresponds to the choice of plot to use. Analysts ty
 
 \green{Notation changes $i$ to $j$, and $p$ to $\pi$. Can someone please decide which to use, and make the appropriate changes? How does the ``Let $X_{j\ell} \sim B_{1, \pi_{j\ell}}$...'' below relate to the ``let $X_i$ be a binary random variable...'' above? It looks like this is a repeat. One needs to go once notation is clarified.}
 
-\red{Here is what my suggestion for notation \\  Use $B$ for logistic model and $\beta$ for linear model \\ Use $X$ to indicate logistic model covariate matrix and $U$ to denote binomial variable \\ $Y$ to indicate observed data. \\ Use $\pi_i$ instead of $p_i$ since $p_i$ is used for $p$-value.  \\ Should I change everything accordingly? I see that we have been careful not to use $\beta$ for power! }
+\red{Here is what my suggestion for notation \\  Use $B$ for logistic model and $\beta$ for linear model \\ Use $X$ to indicate logistic model covariate matrix and $U$ to denote binomial variable \\ $Y$ to indicate actual data. \\ Use $\pi_i$ instead of $p_i$ since $p_i$ is used for $p$-value.  \\ Should I change everything accordingly? I see that we have been careful not to use $\beta$ for power! }
 
 \subsection{Subject-specific abilities}
 Calculating the power  is intricately related to the probability to identify the data plot from the lineup. 
@@ -307,7 +309,7 @@ $\tau$ & is a vector of independent real-valued random variables $\tau_{\ell i}$
 \end{tabular}
 }
 
-The model in equation \eqref{eqn:mixed} provides the subject and lineup specific probability of successful evaluation as 
+The model in Equation \ref{eqn:mixed} provides the subject and lineup specific probability of successful evaluation as 
 \begin{equation} \label{eqn:mixed_power}
 \hat p_{\ell i} = \frac{exp(\hat g_{\ell i})}{1+ exp(\hat g_{\ell i})}
 \end{equation}
@@ -481,7 +483,7 @@ By matching the expected values, we therefore get an expression for the $p$-valu
 \hh{1 - E[N_m]/K = (m-1)E[p_D] + O(E[p_D^2])}
 \end{equation}
 
-Note that the \hh{left}  hand side in equation \eqref{eqn:power_estimate} is independent of the parameter $\theta$, but just based on the lineup evaluation by independent observers. While this allows us to compute this value independently of the parametric setting, it also means that observers might pick out the data plot for a reason not related to the value of $\theta$. 
+Note that the left hand side in Equation \ref{eqn:power_estimate} is independent of the parameter $\theta$, but just based on the lineup evaluation by independent observers. While this allows us to compute this value independently of the parametric setting, it also means that observers might pick out the data plot for a reason not related to the value of $\theta$. 
 
 %Picking out the data plot is still a measure of how different the data plot is compared to the null plots, and therefore is a test statistic of the visual test.
 
@@ -587,9 +589,9 @@ The conventional test in this scenario uses $T= \hat{\beta_k}/ se(\hat{\beta_k})
 \begin{equation}\label{power_exp} 
    Power(\beta)=Pr(p_{D} < p_0)  \quad \text{for}  \quad \beta \ne 0
 \end{equation}
-Figure \ref{fig:power_expected} shows the power of the conventional test in comparison to the expected power of the visual test obtained from equation \eqref{power_exp}. 
+Figure \ref{fig:power_expected} shows the power of the conventional test in comparison to the expected power of the visual test obtained from Equation \ref{power_exp}. 
 Figure \ref{fig:power_expected} shows the power of the conventional test in comparison to the expected power of the visual test obtained from Equation \ref{power_exp}. Notice that the expected power of the visual test is %almost as good as 
-\hh{close to} the power of the conventional test. 
+close to the power of the conventional test. 
 
 
 %Theorem \ref{thm:power} helps to compute the expected power of visual inference.
@@ -908,9 +910,9 @@ For each parameter combination, the effect is computed as
 E=\beta (\sqrt {n}/\sigma).
 \]
 
-The model in equation \eqref{eqn:mixed} is fit using $E$ as the only fixed effect covariate without intercept. we set offset = $log(0.05/0.95)$ so that the estimated power has a fixed lower limit at 0.05 (Type-I error) when $E=0$. Different subjects are expected to have different skill levels in evaluating lineups. To account for subject specific variation we use subject as random effect. We also use an interaction between subject and effect $E$ to allow for subject specific random slope. This leads to setting  $W_{\ell i} = E_{\ell i}$, the effect of lineup $\ell$ that subject $i$ has evaluated in equation \eqref{eqn:mixed}.  While for experiment 1 and 2 we don't allow intercept but offset, for experiment 3 an intercept is estimated to allow the power curves to go above 0.05 when $E=0$. This is because forcing power to be fixed at 0.05 for $E=0$ is not justified by the experiment 3 data (figure \ref{fig:power_loess_effect}). 
+The model in Equation \ref{eqn:mixed} is fit using $E$ as the only fixed effect covariate without intercept. we set offset = $log(0.05/0.95)$ so that the estimated power has a fixed lower limit at 0.05 (Type-I error) when $E=0$. Different subjects are expected to have different skill levels in evaluating lineups. To account for subject specific variation we use subject as random effect. We also use an interaction between subject and effect $E$ to allow for subject specific random slope. This leads to setting  $W_{\ell i} = E_{\ell i}$, the effect of lineup $\ell$ that subject $i$ has evaluated in Equation \ref{eqn:mixed}.  While for experiment 1 and 2 we don't allow intercept but offset, for experiment 3 an intercept is estimated to allow the power curves to go above 0.05 when $E=0$. This is because forcing power to be fixed at 0.05 for $E=0$ is not justified by the experiment 3 data (Figure \ref{fig:power_loess_effect}). 
 
-For all the three experiments, each subject saw a lineup just once. This doesn't allow fitting a lineup random effect, in addition to a subject random effect, but it does simplify the model since $\tau_{\ell i} = \tau_i$. The subject-specific probability ($p_i$) of successful evaluation of a lineup is then estimated using equation \eqref{eqn:mixed_power}. For computation we use R \citep{R} package lme4.
+For all the three experiments, each subject saw a lineup just once. This doesn't allow fitting a lineup random effect, in addition to a subject random effect, but it does simplify the model since $\tau_{\ell i} = \tau_i$. The subject-specific probability ($p_i$) of successful evaluation of a lineup is then estimated using Equation \ref{eqn:mixed_power}. For computation we use R \citep{R} package lme4.
 
 Table \ref{tbl:model_par} shows the parameter estimates of the mixed effects model of the subject-specific variation.  
 
@@ -1038,7 +1040,9 @@ In the real setting, where visual inference is to be useful, there will be no co
 
 \green{You need to explain visual $p$-value - how is this calculated. How is this different from the signal strength. And please say why you introduce a term signal strength.}
 
-With multiple observers it is possible to estimate the strength of the signal, using the proportion of correct picks. From equation \eqref{eqn:power_estimate}  we can write $1 - E[N_m]/K \approx (m-1)E[p_D] $. This gives the signal strength estimate as  
+With multiple observers it is possible to estimate the visual $p$-value, and a measure of plot signal strength. The visual $p$-value is calculated from the binomial formula (Equation \ref{binom}). Assuming $H_o$ is true, the probability of picking the actual data plot by chance is $1/m$, and the visual $p$-value is the probability that $x$ or more observers select that plot. Figure \ref{fig:pval_definition} displays this visual $p$-value for each lineup against the conventional $p$value. 
+
+Similary, the strength of the signal, is calculated using the proportion of observers picking actual data plot. It is closely related to the power of the test. From Equation \ref{eqn:power_estimate}  we can write $1 - E[N_m]/K \approx (m-1)E[p_D] $. This gives the signal strength estimate as  
 \[
 \hat p_D= (1- {u}/{K})/({m-1})
 \]
@@ -1078,7 +1082,7 @@ Note that $\hat{p}_D$ is bounded within $(0, 1/(m-1))$. This estimate has to be 
 \begin{figure*}[hbtp]
    \centering
        \scalebox{0.6}{\includegraphics{p_val_plot_signal.pdf}}
-       \caption{Conventional test $p$-value ($p_D$) vs plot signal strength ($\hat p_D$) estimated using Lemma \ref{lemma}. The solid line is a 45 degree line which represents the equity shown in equation \eqref{eqn:power_estimate}. p-values are shown on square root scale scale. \blue{Is it better now?}}
+       \caption{Conventional test $p$-value ($p_D$) vs plot signal strength ($\hat p_D$). The solid line is a 45 degree line which represents the equity shown in Equation \ref{eqn:power_estimate}. p-values are shown on square root scale scale. \blue{Is it better now?}}
     %   \hh{Mahbub, another change: could you change the y label to 'estimate of visual p-value $\hat{p_D}$ ?}
        \label{fig:pval_plot_signal}
 \end{figure*}
