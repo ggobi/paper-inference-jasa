@@ -751,7 +751,7 @@ for (i in 1:3){
 	  percent_correct = mean(response)*100,
     p_value = p_value[1]
 	)
-   pdati$experiment=paste("experiment",i)
+   pdati$experiment=paste("Experiment",i)
    pdat <- rbind(pdat,pdati)
 }
 
