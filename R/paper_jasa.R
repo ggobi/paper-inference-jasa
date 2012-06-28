@@ -1,4 +1,4 @@
-# The complete R codes for JASA Paper
+# The complete R code for JASA Paper
 
 library(ggplot2)
 library(plyr)
@@ -783,7 +783,7 @@ p
 p <- ggplot(pdat) +
   geom_abline(aes(intercept=0,slope=1), color="grey") +
   geom_point(aes(p_value,strength),size=2) + 
-  stat_smooth(aes(p_value,strength),method="loess", se=F, span=1)+
+  stat_smooth(aes(p_value,strength),method="loess", se=F, span=1, degree=1)+
   facet_grid(.~experiment) +
   xlab(expression(paste("Conventional test p-value (",p[D],") on square root scale"))) +
   ylab(expression(paste("Plot signal Strength (", hat(p)[D],") on square root scale"))) + 
@@ -797,8 +797,10 @@ ggsave(p,file="../images/p_val_plot_signal.pdf", height = 4, width = 10)
 
 pdat$visual_pval <- apply(pdat[,2:3],1,function(x)return(get_pval(m=20,K=x[1],x=x[2])))
 qplot(p_value,visual_pval, data=pdat) +
-  stat_smooth(method="loess", se=F, span=.4)+
-  xlab(expression(paste("Conventional test p-value (",p[D],") on square root scale"))) +
+  geom_abline(colour="grey") +
+#  stat_smooth(method="loess", se=F, span=.4) + #5, degree=1)+
+  stat_smooth(method="loess", se=F, span=.45, degree=1)+
+    xlab(expression(paste("Conventional test p-value (",p[D],") on square root scale"))) +
   ylab(expression(paste("Visual p-value on square root scale"))) +
   facet_grid(.~experiment)+
   scale_x_sqrt() +scale_y_sqrt()
