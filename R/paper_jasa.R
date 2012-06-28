@@ -305,7 +305,7 @@ fit_model(dat2)
 
 pred.mixed <- function(X, subject=0,fit) {
   alpha <- log(.05/0.95)
-  eta <- alpha + X * fixef(fit) + subject
+  eta <- alpha + X * fixef(fit) + subject*X
   g.eta <- exp(eta)/(1+exp(eta))
   return(g.eta)
 }
@@ -329,9 +329,9 @@ effect <- seq(0.01,16, by=.2)
 get_predict_mixed(dat1, newdat=data.frame(effect))
 #get_predict_mixed(dat1, newdat=data.frame(effect), intercept=T)
 
-pi_effect <- rbind(data.frame(experiment="Experiment 1",get_predict_mixed(dat1, newdat=data.frame(effect=seq(0,18, by=.2)))),
-            data.frame(experiment="Experiment 2",get_predict_mixed(dat2, newdat=data.frame(effect=seq(0,6, by=.2)))),
-            data.frame(experiment="Experiment 3",get_predict_mixed(dat3, newdat=data.frame(effect=seq(0,5, by=.2)))))
+pi_effect <- rbind(data.frame(experiment="Experiment 1",get_predict_mixed(dat1, newdat=data.frame(effect=seq(0,16, by=.2)))),
+            data.frame(experiment="Experiment 2",get_predict_mixed(dat2, newdat=data.frame(effect=seq(0,5.5, by=.2)))),
+            data.frame(experiment="Experiment 3",get_predict_mixed(dat3, newdat=data.frame(effect=seq(0,4.5, by=.2)))))
 
 # source("calculate_ump_power.R")
 ump <- get_ump_power_by_effect()
@@ -376,9 +376,9 @@ ggsave( file="../images/power_screening.pdf",height=4,width=10)
 
 # subject specific power from mixed model
 
-pi_subject <- rbind(data.frame(experiment="Experiment 1",get_predict_mixed(dat1, newdat=data.frame(effect=seq(0,18, by=.2)), intercept=T)),
-                   data.frame(experiment="Experiment 2",get_predict_mixed(dat2, newdat=data.frame(effect=seq(0,6, by=.2)), intercept=T)),
-                   data.frame(experiment="Experiment 3",get_predict_mixed(dat3, newdat=data.frame(effect=seq(0,5, by=.2)), intercept=T)))
+pi_subject <- rbind(data.frame(experiment="Experiment 1",get_predict_mixed(dat1, newdat=data.frame(effect=seq(0,16, by=.2)), intercept=T)),
+                   data.frame(experiment="Experiment 2",get_predict_mixed(dat2, newdat=data.frame(effect=seq(0,5.5, by=.2)), intercept=T)),
+                   data.frame(experiment="Experiment 3",get_predict_mixed(dat3, newdat=data.frame(effect=seq(0,4.5, by=.2)), intercept=T)))
 
 pi_effect$col <- 30
 pi_effect$col[1] <- NA
@@ -786,7 +786,7 @@ p <- ggplot(pdat) +
   stat_smooth(aes(p_value,strength),method="loess", se=F, span=1, degree=1)+
   facet_grid(.~experiment) +
   xlab(expression(paste("Conventional test p-value (",p[D],") on square root scale"))) +
-  ylab(expression(paste("Plot signal Strength (", hat(p)[D],") on square root scale"))) + 
+  ylab(expression(paste("Plot signal strength (", hat(p)[D],") on square root scale"))) + 
   scale_x_sqrt() +scale_y_sqrt()
 p
 
