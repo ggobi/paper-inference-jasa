@@ -751,7 +751,7 @@ qplot(prop_correct,choice_reason, geom="point", data=reason.dat3, size=I(3)) +
 ggsave("../images/choice_reason.pdf", height = 4, width = 6)
 
 
-# ======================= p_value vs %correct =====================
+# ======================= p_value vs proportion correct =====================
 
 pdat <- NULL
 for (i in 1:3){
@@ -759,56 +759,51 @@ for (i in 1:3){
    pdati <- ddply(dati, .(pic_name), summarize,
 	  attempted = length(response),
 	  corrected = sum(response),
-	  percent_correct = mean(response)*100,
+	  prop_correct = mean(response),
+    strength = (1 - mean(response))/19,              
     p_value = p_value[1]
 	)
    pdati$experiment=paste("Experiment",i)
    pdat <- rbind(pdat,pdati)
 }
 
-# pdat$percent_correct <- pdat$corrected*100/pdat$attempted
+# uncontaminated p-value for experiment 3
+pdati <- ddply(dat3, .(pic_name), summarize,
+               attempted = length(response),
+               corrected = sum(response),
+               prop_correct = mean(response),
+               strength = (1 - mean(response))/19,              
+               p_value = uncontaminated_pvalue[1]
+               )
+pdati$experiment= "Experiment 3 uncontaminated"
+pdat <- rbind(pdat,pdati)
 
-p <- ggplot() +
-     geom_point(aes(p_value,percent_correct/100),data=subset(pdat, experiment !="Experiment 3"),size=2) + 
+
+p <- ggplot(subset(pdat, substr(experiment,1,12) !="Experiment 3")) +
+     geom_point(aes(p_value,prop_correct),size=2) + 
      facet_grid(.~experiment) +
      xlab(expression(paste("p-value(",p[D],") on squqre root scale"))) +
      ylab("Proportion correct on square root scale") +
      scale_x_sqrt()+ scale_y_sqrt()
 p 
+ggsave(p,file="../images/p_val_prop_correct.pdf", height = 4, width = 7.5)
 
-ggsave(p,file="../images/p_val_percent_correct.pdf", height = 4, width = 7.5)
 
-# uncontaminated p-value for experiment 3
 qplot(uncontaminated_pvalue,p_value, data=dat3) +
   scale_x_sqrt()+scale_y_sqrt()+
   ylab("Contaminated p-value") +
   xlab("Uncontaminated p-value")
 
-pval.exp3 <- ddply(dat3, .(pic_name), summarize,
-                   prop_correct = mean(response),
-                   strength = (1 - mean(response))/19,
-                   p_value_contaminated = p_value[1],
-                   p_value_uncontaminated = uncontaminated_pvalue[1])
-
-qplot( p_value_uncontaminated, prop_correct, data=pval.exp3)
-qplot( p_value_contaminated, prop_correct, data=pval.exp3)
-
-pval.exp3.m <- melt(pval.exp3[,-c(1,3)], id="prop_correct")
-qplot(value, prop_correct, data=pval.exp3.m) + 
-  facet_grid(.~variable) + xlab("p-value") +ylab("Proportion correct")+
-  scale_x_sqrt()
-
-pval.exp3.m <- melt(pval.exp3[,-c(1,2)], id="strength")
-qplot(value, strength, data=pval.exp3.m) + 
-  facet_grid(.~variable) + xlab("p-value") +ylab("Plot signal strength")+
+ggplot(subset(pdat, substr(experiment,1,12) =="Experiment 3")) + 
+  geom_point(aes(p_value,strength),size=2) +
+  facet_grid(.~experiment) + xlab("p-value") +ylab("Plot signal strength")+
   scale_x_sqrt()+ scale_y_sqrt()
 
 ggsave(file="../images/p_val_plot_signal_exp3.pdf", height = 4, width = 8)
 
 # ----- p-value vs plot signal strength (visual p-value) 
 
-#pdat$strength <- 1 - (pdat$percent_correct/100)^(1/19) #previous estimation
-pdat$strength <- (1 - pdat$percent_correct/100)/19
+
 p <- ggplot(pdat) +
      geom_point(aes(p_value,strength),size=2) + 
      facet_grid(.~experiment) +
@@ -829,7 +824,7 @@ p <- ggplot(pdat) +
   scale_x_sqrt() +scale_y_sqrt()
 p
 
-ggsave(p,file="../images/p_val_plot_signal.pdf", height = 4, width = 10)
+ggsave(p,file="../images/p_val_plot_signal.pdf", height = 4, width = 13)
 
 
 # estimate visual p-value from definition

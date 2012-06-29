@@ -589,7 +589,6 @@ The conventional test in this scenario uses $T= \hat{\beta_k}/ se(\hat{\beta_k})
 \begin{equation}\label{power_exp} 
    Power(\beta)=Pr(p_{D} < p_0)  \quad \text{for}  \quad \beta \ne 0
 \end{equation}
-Figure \ref{fig:power_expected} shows the power of the conventional test in comparison to the expected power of the visual test obtained from Equation \ref{power_exp}. 
 Figure \ref{fig:power_expected} shows the power of the conventional test in comparison to the expected power of the visual test obtained from Equation \ref{power_exp}. Notice that the expected power of the visual test is %almost as good as 
 close to the power of the conventional test. 
 
@@ -650,7 +649,7 @@ close to the power of the conventional test.
 
 \section{Human Subjects Experiments with Simulated Data} \label{sec:simulation}
 
-Three experiments were conducted to evaluate the effectiveness of the lineup protocol relative to the equivalent test statistic used in the regression scenario. There are three experiments. The first two are classical settings where we would not expect the lineup protocol to do better than the traditional test, but we hope it to perform favorably. The third experiment is a scenario where assumptions required for the traditional test are violated, and we would expect the lineup protocol to outperform the traditional test. (Data and lineups used in the experiments are available in the supplementary material.)
+Three experiments were conducted to evaluate the effectiveness of the lineup protocol relative to the equivalent test statistic used in the regression scenario. The first two are classical settings where we would not expect the lineup protocol to do better than the traditional test, but we hope it to perform favorably. The third experiment is a scenario where assumptions required for the traditional test are violated, and we would expect the lineup protocol to outperform the traditional test. (Data and lineups used in the experiments are available in the supplementary material.)
 
 After many small pilot studies with local personnel, it was clear that some care was needed to set up the human subjects experiments. It was best for a subject to see a block of 10 lineups with varying difficulty, with a reasonable number of ``easy'' lineups. The explanations about each experiment (below) includes an explanation of how the lineups were sampled and provided to the observers, for each of the three experiments.
 
@@ -1038,7 +1037,7 @@ In the real setting, where visual inference is to be useful, there will be no co
 
 \begin{figure*}[hbtp]
    \centering
-       \scalebox{0.6}{\includegraphics{p_val_percent_correct.pdf}}
+       \scalebox{0.6}{\includegraphics{p_val_prop_correct.pdf}}
        \caption{Proportion of correct responses decreases rapidly with the increase of p-value. After p-value exceeds 0.15 it is very unlikely to identify the actual plot. The theoretical justification of this is shown in figure \ref{fig:pval_power}. }
        \label{fig:pval_pcorrect}
 \end{figure*}
@@ -1082,7 +1081,7 @@ Note that $\hat{p}_D$ is bounded within $(0, 1/(m-1))$. This estimate has to be 
 
 \begin{figure*}[hbtp]
    \centering
-       \scalebox{0.6}{\includegraphics{p_val_plot_signal.pdf}}
+       \scalebox{0.5}{\includegraphics{p_val_plot_signal.pdf}}
        \caption{Conventional test $p$-value ($p_D$) vs plot signal strength ($\hat p_D$). The solid line is a 45 degree line which represents the equity shown in Equation \ref{eqn:power_estimate}. p-values are shown on square root scale scale.}
     %   \hh{Mahbub, another change: could you change the y label to 'estimate of visual p-value $\hat{p_D}$ ?}
        \label{fig:pval_plot_signal}
