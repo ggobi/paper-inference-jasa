@@ -309,7 +309,7 @@ $\tau$ & is a vector of independent real-valued random variables $\tau_{\ell i}$
 \end{tabular}
 }
 
-The model in Equation \ref{eqn:mixed} provides the subject and lineup specific probability of successful evaluation as 
+Using the inverse {\it logit} link function, $g^{-1}(.)$, from  Equation \ref{eqn:mixed} we obtain the the estimate of subject and lineup specific probability of successful evaluation as 
 \begin{equation} \label{eqn:mixed_power}
 \hat p_{\ell i} =  g^{-1}(W_{\ell i} \hat {\delta} +  Z_{\ell i}  \hat {\tau}_{\ell i}).
 \end{equation}
@@ -921,7 +921,7 @@ Table \ref{tbl:model_par} shows the parameter estimates of the mixed effects mod
 \green{This section needs to have sufficient detail of the model fitting, output and diagnostics to feed into the next few sections discussing the findings.}
 
 \begin{table}[hbtp]
-\caption{Parameter estimates of model in Equation \ref{eqn:mixed}.}
+\caption{Parameter estimates of model in Equation \ref{eqn:mixed}. Estimates are highly significant with $p$-value $<$  0.0001 for all three experiment data.}
 \begin{center}
 \begin{tabular}{cccc}
   \hline
