@@ -392,6 +392,17 @@ ggplot()+
 
 ggsave( file="../images/power_mixed_subject.pdf",height=4,width=10)
 
+# subjects having more power than ump
+
+subject_ump <- merge(pi_subject,ump, by=c("experiment","effect"))
+dd <- ddply(subject_ump, .(experiment, effect), summarize,
+      prop = mean(pred>pow))
+qplot(effect,prop, data=subset(dd, prop>0), geom="line", colour=experiment) +
+  ylab("Proportion of subject having  power \n above conventional test") +
+  scale_colour_discrete(name="Data") +xlab("Effect")
+ggsave( file="../images/subject_having_more_power.pdf",height=4,width=6)
+
+
 
 # ----- subject specific power for each screening criteria from mixed model
 
@@ -765,6 +776,33 @@ p <- ggplot() +
 p 
 
 ggsave(p,file="../images/p_val_percent_correct.pdf", height = 4, width = 10)
+
+# uncontaminated p-value for experiment 3
+qplot(uncontaminated_pvalue,p_value, data=dat3) +
+  scale_x_sqrt()+scale_y_sqrt()+
+  ylab("Contaminated p-value") +
+  xlab("Uncontaminated p-value")
+
+pval.exp3 <- ddply(dat3, .(pic_name), summarize,
+                   prop_correct = mean(response),
+                   strength = (1 - mean(response))/19,
+                   p_value_contaminated = p_value[1],
+                   p_value_uncontaminated = uncontaminated_pvalue[1])
+
+qplot( p_value_uncontaminated, prop_correct, data=pval.exp3)
+qplot( p_value_contaminated, prop_correct, data=pval.exp3)
+
+pval.exp3.m <- melt(pval.exp3[,-c(1,3)], id="prop_correct")
+qplot(value, prop_correct, data=pval.exp3.m) + 
+  facet_grid(.~variable) + xlab("p-value") +ylab("Proportion correct")+
+  scale_x_sqrt()
+
+pval.exp3.m <- melt(pval.exp3[,-c(1,2)], id="strength")
+qplot(value, strength, data=pval.exp3.m) + 
+  facet_grid(.~variable) + xlab("p-value") +ylab("Plot signal strength")+
+  scale_x_sqrt()+ scale_y_sqrt()
+
+ggsave(file="../images/p_val_plot_signal_exp3.pdf", height = 4, width = 8)
 
 # ----- p-value vs plot signal strength (visual p-value) 
 
