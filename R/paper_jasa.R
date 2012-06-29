@@ -769,13 +769,14 @@ for (i in 1:3){
 # pdat$percent_correct <- pdat$corrected*100/pdat$attempted
 
 p <- ggplot() +
-     geom_point(aes(log(p_value),percent_correct),data=pdat,size=2) + 
+     geom_point(aes(p_value,percent_correct/100),data=subset(pdat, experiment !="Experiment 3"),size=2) + 
      facet_grid(.~experiment) +
-     xlab(expression(paste(log[10], "(p-value(",p[D],"))"))) +
-     ylab("Percentage of correct responses") 
+     xlab(expression(paste("p-value(",p[D],") on squqre root scale"))) +
+     ylab("Proportion correct on square root scale") +
+     scale_x_sqrt()+ scale_y_sqrt()
 p 
 
-ggsave(p,file="../images/p_val_percent_correct.pdf", height = 4, width = 10)
+ggsave(p,file="../images/p_val_percent_correct.pdf", height = 4, width = 7.5)
 
 # uncontaminated p-value for experiment 3
 qplot(uncontaminated_pvalue,p_value, data=dat3) +

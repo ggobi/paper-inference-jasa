@@ -1036,7 +1036,14 @@ It can also be seen that at effect $E=0$, the power is close to 0.05 (Type-I err
 
 In the real setting, where visual inference is to be useful, there will be no conventional tests or traditional $p$-values. Assessing the strength of perceived structure is a critical component of visual inference. In experiments 1 and 2, there is a $p$-value associated with the actual data plot in each lineup. As the $p$-value increases the proportion of correct responses falls (Figure \ref{fig:pval_pcorrect}), which is evidence of direct association between proportion of correct responses and conventional test $p$-values. When $p$-value is larger than 0.15, it is very uncommon for subjects to correctly identify the actual data plot in the lineup.
 
-\green{Add figure showing proportion correct vs p-value of actual data plot for experiments 1 and 2.}
+\begin{figure*}[hbtp]
+   \centering
+       \scalebox{0.6}{\includegraphics{p_val_percent_correct.pdf}}
+       \caption{Proportion of correct responses decreases rapidly with the increase of p-value. After p-value exceeds 0.15 it is very unlikely to identify the actual plot. The theoretical justification of this is shown in figure \ref{fig:pval_power}. }
+       \label{fig:pval_pcorrect}
+\end{figure*}
+
+%\green{Add figure showing proportion correct vs p-value of actual data plot for experiments 1 and 2.}
 
 \green{You need to explain visual $p$-value - how is this calculated. How is this different from the signal strength. And please say why you introduce a term signal strength.}
 
@@ -1048,7 +1055,7 @@ Similary, the strength of the signal, is calculated using the proportion of obse
 \]
 where $K$ is the total number of independent evaluations on a lineup and $u$ is the number of successful evaluations. Figure \ref{fig:pval_plot_signal} shows the plot signal strengths in relation with conventional test $p$-values, on a square root scale. For experiment 3, technically, there are no conventional $p$-values, but the $p$-values are computed in the same manner as experiment 2, assuming that the data satifies the assumptions. The blue line is a loess fit to the data, and the grey line indicates equality of the two axes. The relationship between the conventional $p$-value and the plot signal strength is very strong, particularly when the values are small. As the conventional $p$-value increases, the estimated signal strength increases -- observers find it harder to detect the actual data plot at larger $p$-values. The rise is very sharp for experiment 1, which indicates that observers have a harder time detecting the actual data plot for even small $p$-values. 
 
-\green{Where is Figure \ref{fig:pval_definition} referred to and discussed?}
+\green{Where is Figure \ref{fig:pval_definition} referred to and discussed?} \blue{Are we going to keep both figures \ref{fig:pval_definition} and \ref{fig:pval_plot_signal}?}
 
 \green{Be consistent with capitalization of plot labels - check this everywhere - you have lower case signal and upper case Strength}
 
@@ -1064,12 +1071,6 @@ Note that $\hat{p}_D$ is bounded within $(0, 1/(m-1))$. This estimate has to be 
 
 
 
-%\begin{figure*}[hbtp]
-%   \centering
-%       \scalebox{0.6}{\includegraphics{p_val_percent_correct.pdf}}
-%       \caption{Percentage of correct responses decreases rapidly with the increase of p-value. After p-value exceeds 0.15 it is very unlikely to identify the actual plot. The theoretical justification of this is shown in figure \ref{fig:pval_power}. \blue{The scenario is different for experiment 3. $p$-value does not seem to have any effect on percent correct. This may be due to Type-III error.} \green{p-value on log scale?} }
-%       \label{fig:pval_pcorrect}
-%\end{figure*}
 
 \begin{figure*}[hbtp]
    \centering
