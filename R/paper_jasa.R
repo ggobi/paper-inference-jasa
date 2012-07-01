@@ -15,7 +15,8 @@ raw.dat3 <- read.csv("../data/raw_data_turk3.csv")
 
 source("calculate_ump_power.R") # functions to compute power
 
-# cleaning the data based on criteria 6
+# cleaning the data based on criteria 6 and removing the duplicated data
+# (id,pic_id) should be unique since no person gets a lineup more than once.
 clean_data <- function(raw_dat){
   easy_dat <- subset(raw_dat, p_value < 0.0002)
   if (raw_dat$experiment[1]=='turk3') easy_dat <- subset(raw_dat, difficulty==0)
@@ -31,7 +32,9 @@ clean_data <- function(raw_dat){
   excluded_lineup <- paste(raw_dat$id,"_",raw_dat$pic_id,sep="") %in% d$excluded_lineup
   indx[excluded_lineup] <- FALSE
   cleaned_dat <- subset(raw_dat,indx)
-  return(cleaned_dat)
+  indx_dup <- with(cleaned_dat, !duplicated(data.frame(id,pic_id))) #duplication index
+  # now returning cleaned data removing duplication
+  return(subset(cleaned_dat,indx_dup))
 }
 
 dat1 <- clean_data(raw.dat1)
@@ -248,7 +251,8 @@ get_summary <- function(dat){
   female <- g[2,2]
   total <- length(unique(dat$id))
   feedbacks <- nrow(dat)
-  return(data.frame(total,male,female, feedbacks))
+  lineups <- length(unique(dat$pic_id))
+  return(data.frame(total,male,female, feedbacks,lineups))
 }
 
 get_screening_index <- function(dat){
@@ -288,6 +292,13 @@ sm <- cbind(get_screened_summary(raw.dat1),
       get_screened_summary(raw.dat3))
 #library(xtable)
 xtable(sm)
+
+# summary of the cleaned data
+
+sm_clean <- rbind(get_summary(dat1),
+                  get_summary(dat2),
+                  get_summary(dat3))
+xtable(sm_clean)
 
 # --- fit mixed model with cleaned data
 #library(lme4)
@@ -580,8 +591,8 @@ get_all_pval_sam <- function(dat1,dat2,pval1,pval2){
 }
 
 
-indx1 <- get_sceering_index(raw.dat1)
-indx2 <- get_sceering_index(raw.dat2)
+indx1 <- get_screening_index(raw.dat1)
+indx2 <- get_screening_index(raw.dat2)
 pval_sm <- NULL
 for (i in 1:6) {
   d1 <- subset(raw.dat1,indx1[,i])
@@ -742,8 +753,8 @@ reason.dat3$choice_reason <- with(reason.dat3, factor(choice_reason,
 reason.dat3$n <- cut(reason.dat3$counts, breaks=c(0,50, 100, 150, 300, 500))
 reason.dat3$n <- reorder(reason.dat3$n, reason.dat3$count, function(x) -max(x))
 reason.dat3$choice_reason <- factor(reason.dat3$choice_reason, levels=rev(levels(reason.dat3$choice_reason)))
-levels(reason.dat3$choice_reason)[c(7,3,5,1)] <- paste("(",1:4,") ",reason.exp3, sep="")
-levels(reason.dat3$choice_reason)[3] <- "Visible Gap"
+levels(reason.dat3$choice_reason)[c(7,4,5,1)] <- paste("(",1:4,") ",reason.exp3, sep="")
+#levels(reason.dat3$choice_reason)[3] <- "Visible Gap"
 
 qplot(prop_correct,choice_reason, geom="point", data=reason.dat3, size=I(3)) +
   ylab("Reasons for choice") + xlab("Proportion correct") + xlim(c(0,1)) +
@@ -783,7 +794,7 @@ pdat <- rbind(pdat,pdati)
 p <- ggplot(subset(pdat, substr(experiment,1,12) !="Experiment 3")) +
      geom_point(aes(p_value,prop_correct),size=2) + 
      facet_grid(.~experiment) +
-     xlab(expression(paste("p-value(",p[D],") on squqre root scale"))) +
+     xlab(expression(paste("p-value(",p[D],") on square root scale"))) +
      ylab("Proportion correct on square root scale") +
      scale_x_sqrt()+ scale_y_sqrt()
 p 
@@ -971,3 +982,21 @@ d3 <- ddply(dat3, .(pic_name), summarize,
 qplot(effect, prop_correct, data=d3, size=num_responses) + geom_smooth(method="loess")
 
 qplot(effect,as.numeric(response), data=dat3)+ geom_smooth(method="loess")
+
+
+
+# checking duplicated data; (id,pic_id) should be unique.
+
+dd <- ddply(dat3,.(id), summarise,
+            total_reponses = length(id),
+            cnt_duplication = sum(duplicated(data.frame(id,pic_id))),
+            correct_duplication = sum(response[duplicated(data.frame(id,pic_id))])
+            )
+dd.m <- melt(dd[,c(1,3,4)], id="id")
+qplot(id, value, geom="line", data=dd.m, colour=variable)
+
+tt =data.frame(subset(dat3, id==119)[,1:8],duplicated=duplicated(subset(dat3, id==119)$pic_id))
+
+
+
+

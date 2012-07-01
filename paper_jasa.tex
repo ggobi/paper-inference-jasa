@@ -655,7 +655,7 @@ After many small pilot studies with local personnel, it was clear that some care
 
 Participants for all the experiments were recruited through \cite{turk} Amazon's Mechanical Turk. A summary of the data obtained for all three experiments are shown in Table \ref{tbl:summary}. Participants were asked to select the plot they think best matched the question given, provide a reason for their choice, and say how confident they are in their choice. Gender, age, education and geographic location of each participant are also collected. The data was collected through the web. For each of the experiments one of the lineups was used as a test plot (easy plot) which everyone should get correct, so that a measure of the quality of the subjects effort could be made. 
 
-\green{Something probably needs to be said about subjects who do multiple tests, what checks are done.}
+\green{Something probably needs to be said about subjects who do multiple tests, what checks are done.} \blue{We do have some data where we notice multiple responses for a lineup by a subject. This happens when subject accidentally use browser's ``back'' button and same data is saved twice. We made sure in the data cleaning process that we do not include more than one response on a lineup by a subject. For this we only keep the very first response.}
 
 \subsection{Discrete covariate}\label{sec:category}
 
@@ -885,15 +885,13 @@ Amazon Mechanical Turk workers are paid for their efforts, not substantial, but 
 %\end{table}
 
 \begin{table}[hbtp]
-\caption{Number of subjects, gender and total lineups seen, and number of distinct lineups for all three experimental data sets. Note that in some of the lines the number of male and female participants does not add up to the total number of participants due to missing demographic information. }
+\caption{Number of subjects, gender and total lineups seen, and number of distinct lineups for all three experimental data sets. Note that in some of the lines the number of male and female participants does not add up to the total number of participants due to missing demographic information. \blue{Notice that we do not have data on one lineup (so we have only 29 lineups) for experiment 3 due to the screening process.}}
 \begin{center}
 \begin{tabular}{ccrrcc}
    \hline 
  Experiment & Subject & Male & Female & Responses &Lineup\\ 
     \hline
-  1 & 239 & 121 & 107 & 2317 & 60 \\ 
-  2 & 351 & 185 & 164 & 3858 & 70 \\ 
-  3 & 156 & 106 &  50 & 1681 & 30 \\ 
+1 & 239 & 121 & 107 & 2249 &  60 \\   2 & 351 & 185 & 164 & 3636 &  70 \\   3 & 155 & 103 &  52 & 1511 &  29 \\  
    \hline
 \end{tabular}
 \end{center}
@@ -928,11 +926,11 @@ Table \ref{tbl:model_par} shows the parameter estimates of the mixed effects mod
  \cline{2-4}
  Experiment & \multicolumn{2}{l}{Estimate}  &Std. error & Variance\\
   \hline
-  1 & 0&39 & 0.0093 & 0.0077 \\ 
-  2 & 1&22 &  0.0196 &  0.0455 \\ 
-  3 & 0&39 (Intercept)  &   0.1073 & 0.1727\\ 
-     & 0&33 (Slope)    &  0.0592     & \\ 
-     &-0&69 (correlation) & & \\
+  1 & 0&39 & 0.0094 & 0.0080 \\ 
+  2 & 1&21 &  0.0197 &  0.0443 \\ 
+  3 & 0&31 (Intercept)  &   0.1110 & 0.1407\\ 
+     & 0&34 (Slope)    &  0.0581     & \\ 
+     &-0&72 (correlation) & & \\
    \hline
 \end{tabular}
 \end{center}
@@ -1062,7 +1060,7 @@ where $K$ is the total number of independent evaluations on a lineup and $u$ is 
 
 
 Note that $\hat{p}_D$ is bounded within $(0, 1/(m-1))$. This estimate has to be interpreted carefully, since the choice of a large lineup size, $m$, will make the value look `significant' in a traditional sense. Values close to the upper bound of $1/(m-1)$ should therefore be interpreted as `at least as high', rather than their actual numeric value.
-%\hh{For $p$-values below $1/(m-1)$ visual $p$-values are very similar to actual $p$-values, the correlation for those values is: 0.48, 0.85, and 0.11 based on $n_1 = 39, n_2 = 41$, and $n_3= 18$ lineups, respectively.  }  \blue{This is not happening as we see in figure \ref{fig:pval_plot_signal}. But it is true for experiment 2, right?. }
+%\hh{For $p$-values below $1/(m-1)$ visual $p$-values are very similar to actual $p$-values, the correlation for those values is: 0.36, 0.79, and -0.48 based on $n_1 = 44, n_2 = 45$, and $n_3= 26$ lineups, respectively.  }  \blue{This is not happening as we see in figure \ref{fig:pval_plot_signal}. But it is true for experiment 2, right?. }
 %is equivalent to classical test $p$-value when $p$-value is less than or equal to $1/(m-1)$.  
 %and beyond that the plot signal strength levels off on a point bigger than 0.05. Thus if plot signal strength is less than 0.05, we may decide to reject the null hypothesis.
 
