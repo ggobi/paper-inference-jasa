@@ -922,15 +922,17 @@ Table \ref{tbl:model_par} shows the parameter estimates of the mixed effects mod
 \begin{table}[hbtp]
 \caption{Parameter estimates of model in Equation \ref{eqn:mixed}. Estimates are highly significant with $p$-value $<$  0.0001 for all three experiment data.}
 \begin{center}
-\begin{tabular}{cccc}
+\begin{tabular}{cr@{.}lcc}
   \hline
- &  \multicolumn{2}{c} {Fixed effect}  & Random effect\\
- \cline{2-3}
- Experiment & Estimate & Std. error & Variance\\
+ &  \multicolumn{3}{c} {Fixed effect}  & Random effect\\
+ \cline{2-4}
+ Experiment & \multicolumn{2}{l}{Estimate}  &Std. error & Variance\\
   \hline
-  1 & 0.39 & 0.0093 & 0.0077 \\ 
-  2 & 1.22 &  0.0196 &  0.0455 \\ 
-  3 &  & & \\ 
+  1 & 0&39 & 0.0093 & 0.0077 \\ 
+  2 & 1&22 &  0.0196 &  0.0455 \\ 
+  3 & 0&39 (Intercept)  &   0.1073 & 0.1727\\ 
+     & 0&33 (Slope)    &  0.0592     & \\ 
+     &-0&69 (correlation) & & \\
    \hline
 \end{tabular}
 \end{center}
@@ -1017,7 +1019,7 @@ It can also be seen that at effect $E=0$, the power is close to 0.05 (Type-I err
 %Different subjects are expected to have different skill levels in evaluating lineups. This is accounted for in the mixed effects model (Equation \ref{eqn:mixed}).   
  The estimated subject-specific power curves are shown in Figure \ref{fig:power_mixed_subject} (light grey lines). The blue curve is the overall average power estimated from the model, and for comparison, the grey dashed lines are the power curves for the conventional test. Subject-specific power is quite different for three experiments. In experiment 1 subjects performed similarly, and substantially worse than the conventional test. In experiment 2 there is more variability between subjects, with some doing better than the conventional test on small effects. In experiment 3 there is the most subject-specific variation. Some subjects performed substantially better than the conventional test, and on average the visual test was better. 
 
-\green{The dashed line cannot be seen in experiment 2 for small effect, and it is essential to see this at this point. What can you do to make the dashed line visible?}
+\green{The dashed line cannot be seen in experiment 2 for small effect, and it is essential to see this at this point. What can you do to make the dashed line visible?} \blue{The dashed line layer is placed on top of all other layers. Still there is trouble to see it. Do you think it will work?}
 
 
 

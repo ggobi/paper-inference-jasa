@@ -251,7 +251,7 @@ get_summary <- function(dat){
   return(data.frame(total,male,female, feedbacks))
 }
 
-get_sceering_index <- function(dat){
+get_screening_index <- function(dat){
   indx1 <- dat$id==dat$id
   indx2 <- !is.na(dat$gender)
   d34 <- ddply(dat,.(id), summarise, percent_correct=mean(response)*100)
@@ -277,7 +277,7 @@ get_sceering_index <- function(dat){
 }
 
 get_screened_summary <- function(dat){
-  indx <- get_sceering_index(dat)
+  indx <- get_screening_index(dat)
   s <- NULL
   for (i in 1:6) s <-  rbind(s,get_summary(subset(dat,indx[,i])))
   return(s)
@@ -291,31 +291,32 @@ xtable(sm)
 
 # --- fit mixed model with cleaned data
 #library(lme4)
+
 fit_model <- function(dat){
   dat$alpha <- log(.05/0.95)
-  dat$effect <- with(dat,abs(beta)/sigma*sqrt(sample_size))
+  dat$effect <- with(dat,abs(beta)*sqrt(sample_size)/sigma)
   model <- as.formula(response ~ offset(alpha) + effect -1 + (effect -1|id))
+  if (dat$experiment[1]=='turk3')model <- as.formula(response ~  effect + (effect -1|id))
   fit <- lmer(model,family="binomial",data=dat)
   return(summary(fit))
 }
 
 fit_model(dat1)
 fit_model(dat2)
+fit_model(dat3)
 
 
 pred.mixed <- function(X, subject=0,fit) {
   alpha <- log(.05/0.95)
-  eta <- alpha + X * fixef(fit) + subject*X
+  if (length(fixef(fit))>1) { # true for experiment 3
+    eta <- fixef(fit)[1] + X * fixef(fit)[2] + subject*X
+  } else eta <- alpha + X * fixef(fit) + subject*X
   g.eta <- exp(eta)/(1+exp(eta))
   return(g.eta)
 }
 
 get_predict_mixed <- function(dat, newdat, intercept=F){
-  dat$effect <-  with(dat,abs(beta)/sigma*sqrt(sample_size))
-  dat$alpha <- log(.05/0.95)
-  fit.mixed <- lmer(response ~ offset(alpha) + effect -1 + (effect-1|id),
-                    family="binomial",
-                    data=dat) 
+  fit.mixed <- fit_model(dat)
   X <- newdat$effect
   if(intercept){
     subject <- ranef(fit.mixed)[[1]][,1]
@@ -349,7 +350,7 @@ ggsave( file="../images/power_mixed.pdf",height=4,width=10)
 # --- fit mixed model with each screening criteria and plot power
 
 get_screened_predict <- function(dat, newdat,intercept=F){
-  indx <- get_sceering_index(dat)
+  indx <- get_screening_index(dat)
   res <- NULL
   for (i in 1:6){
     pred <- get_predict_mixed(subset(dat,indx[,i]), newdat, intercept)
@@ -810,7 +811,7 @@ p <- ggplot(pdat) +
      xlab(expression(paste("Conventional test p-value (",p[D],") on ",log[10]," scale"))) +
      ylab(expression(paste("Estimate of visual p-value (", hat(p)[D],") on ",log[10]," scale"))) + 
      geom_abline(aes(intercept=0,slope=1)) +
-     scale_x_log10()
+     scale_x_log10() + scale_y_log10()
 p 
 
 
@@ -830,11 +831,10 @@ ggsave(p,file="../images/p_val_plot_signal.pdf", height = 4, width = 13)
 # estimate visual p-value from definition
 
 pdat$visual_pval <- apply(pdat[,2:3],1,function(x)return(get_pval(m=20,K=x[1],x=x[2])))
-qplot(p_value,visual_pval, data=pdat) +
+qplot(p_value,visual_pval, data=subset(pdat,nchar(experiment) < 13)) +
   geom_abline(colour="grey") +
-#  stat_smooth(method="loess", se=F, span=.4) + #5, degree=1)+
   stat_smooth(method="loess", se=F, span=.45, degree=1)+
-    xlab(expression(paste("Conventional test p-value (",p[D],") on square root scale"))) +
+  xlab(expression(paste("Conventional test p-value (",p[D],") on square root scale"))) +
   ylab(expression(paste("Visual p-value on square root scale"))) +
   facet_grid(.~experiment)+
   scale_x_sqrt() +scale_y_sqrt()
