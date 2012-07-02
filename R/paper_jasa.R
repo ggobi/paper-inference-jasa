@@ -896,17 +896,21 @@ get_corr(dat3)
 
 # -------- Hieke's code for power vs m and p-value------------------
 
-powerdf <- data.frame(expand.grid(m = 5:50,
-pb=c(seq(0.05,0.5, by=0.05), seq(0.25, 0.5, by=0.05))))
+powerdf <- data.frame(expand.grid(pd = seq(0.0001, 0.20, by=0.001), m = seq(10, 30, by=5)))
+powerdf$power <- with(powerdf, pbeta(pd, 1, m-1, lower.tail=FALSE))
+powerdf$size <- with(powerdf, I(.75+(m==20)))
+powerdf$labels <- paste("m =",powerdf$m)
+powerdf$hjust <- c(-0.15,1.15)[(powerdf$m > 20) + 1]
+powerdf$power <- with(powerdf, pmax(power, 1/m))
 
-powerdf$power <- with(powerdf, (1-pb)^(m-1))
+qplot(pd, power, data=powerdf, geom="line", group=m, size=size) + 
+  ylab("Probability that data plot has lowest p-value") + 
+  xlab(expression(p[D])) + scale_size_identity() +
+  geom_text(aes(x=pd, y=power, label=labels, hjust=hjust), size=3, 
+            data=subset(powerdf, abs(4*pd - power) < 0.005 )) + 
+  geom_hline(y=1/seq(15,30, by=5), linetype=2, alpha=0.3) 
 
-p <- qplot(m, power, geom="line", group=pb, data=powerdf, colour=pb) + 
-     geom_line(aes(m, 1/m), colour="grey30", lty=2) + 
-     geom_text(aes(label=sprintf("%.2f",pb)), data=subset(powerdf, m==5), hjust=1.1) + 
-     xlim(c(0,50)) + scale_colour_gradient(name=expression(p[B]))
-p     
-ggsave(p,file="../images/p_val_power_m.pdf", height = 4.25, width = 6)
+ggsave(file="../images/powerplot.pdf", height = 5, width = 5)
 
 
 # empirical power by effect with bootstrap confidence band
