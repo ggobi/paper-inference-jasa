@@ -632,6 +632,11 @@ ggplot(pval.diff) +
   ylab("Proportion correct")
 ggsave(file="../images/pval_difference.pdf", height=4, width=8)
 
+# investigating large differences between p-values and minimum p-value of null data
+
+dd <- subset(pval.dat, pic_name %in% subset(pval.diff,pval_diff >.8)[,1])
+
+
 # =================== Turk1 data analysis  ================================
 
 # ------function to calculate UMP power -----------------------
