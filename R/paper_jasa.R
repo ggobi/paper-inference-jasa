@@ -770,6 +770,15 @@ qplot(prop_correct,choice_reason, geom="point", data=reason.dat3, size=I(3)) +
 
 ggsave("../images/choice_reason.pdf", height = 4, width = 6)
 
+reason.clustring <- ddply(dat3,.(response), summarize,
+                          cnt = sum(choice_reason==3))
+reason.clustring$response <- factor(as.character(reason.clustring$response), labels=c("Data plot not picked", "Data plot picked"))
+qplot(response,cnt, data=reason.clustring, geom="bar", alpha=I(.7)) +
+  xlab("Responses of subjects choosing Clustering Visible") +
+  ylab("Number of subjects") + opts(legend.position="none")
+
+ggsave("../images/choice_reason_count.pdf", height = 4, width = 4.5)
+
 
 # ======================= p_value vs proportion correct =====================
 
