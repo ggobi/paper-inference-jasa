@@ -307,7 +307,7 @@ fit_model <- function(dat){
   dat$alpha <- log(.05/0.95)
   dat$effect <- with(dat,abs(beta)*sqrt(sample_size)/sigma)
   model <- as.formula(response ~ offset(alpha) + effect -1 + (effect -1|id))
-  if (dat$experiment[1]=='turk3')model <- as.formula(response ~  effect + (effect -1|id))
+  if (dat$experiment[1]=='turk3')model <- as.formula(response ~  effect + (effect |id))
   fit <- lmer(model,family="binomial",data=dat)
   return(summary(fit))
 }
@@ -320,7 +320,8 @@ fit_model(dat3)
 pred.mixed <- function(X, subject=0,fit) {
   alpha <- log(.05/0.95)
   if (length(fixef(fit))>1) { # true for experiment 3
-    eta <- fixef(fit)[1] + X * fixef(fit)[2] + subject*X
+    subject <- matrix(unlist(sapply(as.character(subject), strsplit, "_")), ncol=2, byrow=T)
+    eta <- fixef(fit)[1] + X * fixef(fit)[2] + as.numeric(subject[,1]) + as.numeric(subject[,2])*X
   } else eta <- alpha + X * fixef(fit) + subject*X
   g.eta <- exp(eta)/(1+exp(eta))
   return(g.eta)
@@ -330,15 +331,17 @@ get_predict_mixed <- function(dat, newdat, intercept=F){
   fit.mixed <- fit_model(dat)
   X <- newdat$effect
   if(intercept){
-    subject <- ranef(fit.mixed)[[1]][,1]
+    if (dat$experiment=="turk3"){
+      subject <- apply(ranef(fit.mixed)[[1]],1,paste,collapse="_")
+      } else subject <- ranef(fit.mixed)[[1]][,1]
     d <- data.frame(expand.grid(effect=X, subject=subject))
-    pred <- pred.mixed(d$effect, subject=d$subject, fit=fit.mixed)
+    pred <- pred.mixed(X=d$effect, subject=d$subject, fit=fit.mixed)
     res <- data.frame(effect=d$effect, subject=d$subject, pred)
   } else res <- data.frame(effect=X,pred=pred.mixed(X, fit=fit.mixed))
   return(res)
 }
 effect <- seq(0.01,16, by=.2)
-get_predict_mixed(dat1, newdat=data.frame(effect))
+get_predict_mixed(dat3, newdat=data.frame(effect))
 #get_predict_mixed(dat1, newdat=data.frame(effect), intercept=T)
 
 pi_effect <- rbind(data.frame(experiment="Experiment 1",get_predict_mixed(dat1, newdat=data.frame(effect=seq(0,16, by=.2)))),
