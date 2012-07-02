@@ -894,19 +894,20 @@ get_corr(dat2)
 get_corr(dat3)
 
 
-# -------- Hieke's code for power vs m and p-value------------------
+# -------- power vs m and p-value------------------
 
 powerdf <- data.frame(expand.grid(pd = seq(0.0001, 0.20, by=0.001), m = seq(10, 30, by=5)))
 powerdf$power <- with(powerdf, pbeta(pd, 1, m-1, lower.tail=FALSE))
 powerdf$size <- with(powerdf, I(.75+(m==20)))
 powerdf$labels <- paste("m =",powerdf$m)
 powerdf$hjust <- c(-0.15,1.15)[(powerdf$m > 20) + 1]
+powerdf$vjust <- c(.5,.5,.8,.5,1.5)[(powerdf$m/5)- 1]
 powerdf$power <- with(powerdf, pmax(power, 1/m))
 
 qplot(pd, power, data=powerdf, geom="line", group=m, size=size) + 
   ylab("Probability that data plot has lowest p-value") + 
   xlab(expression(p[D])) + scale_size_identity() +
-  geom_text(aes(x=pd, y=power, label=labels, hjust=hjust), size=3, 
+  geom_text(aes(x=pd, y=power, label=labels, hjust=hjust, vjust=vjust), size=3, 
             data=subset(powerdf, abs(4*pd - power) < 0.005 )) + 
   geom_hline(y=1/seq(15,30, by=5), linetype=2, alpha=0.3) 
 
