@@ -415,10 +415,11 @@ P(p_D < p_{0}) &=& 1 - P(p_{0} \le p_D) = 1- \int_0^1  P(p_{0} \le p_D \mid p_D=
 \end{eqnarray*}
 
 
-This proves the statement above. We further see:
-\[
-E\left[ (1 - p_D)^{m-1}\right] =  \sum_{k=0}^{m-1} {m-1 \choose k} (-1)^k E[p_D^k] = 1-(m-1)E[p_D] + O(E[p_D^2]).
-\]
+This proves the statement above. 
+%We further see:
+%\[
+%E\left[ (1 - p_D)^{m-1}\right] =  \sum_{k=0}^{m-1} {m-1 \choose k} (-1)^k E[p_D^k] = 1-(m-1)E[p_D] + O(E[p_D^2]).
+%\]
 This implies that as $p_D$, the $p$-value, becomes smaller, the probability that the observer identifies the data plot goes up and,
 conversely, as $m$, the number of choices given in the lineup, goes up the probability to pick the data plot  goes down. 
 }
@@ -464,31 +465,31 @@ Figure \ref{fig:pval_power} gives an overview of the probability of picking the 
    \label{fig:pval_power}
 \end{figure}
 
-Now assume that the same lineup plot is evaluated by $K$ independent observers. %W.l.o.g.\green{Can we get rid of cliches like WLOG?} 
-Let the last plot be the data plot and plots 1 through $m-1$ the null plots. Let $n_i$ be the number of observers who picked plot $i$ as the plot with the structure least consistent with the null hypothesis, corresponding to random variable $N_i$.  Then  $(N_1, N_2, ..., N_m) \sim$ Mult$_{\pi_1, ..., \pi_m}$ with $\sum_i \pi_i = 1$ and $\sum_{k=1}^{m} n_k = K$. We can estimate $\pi_i$ as $\widehat{\pi_i} = n_i/K$. 
-
-For the distribution of $N_m$, %the number of times out of $K$ that observers picked the last plot to show the structure least consistent with the null hypothesis, 
-we get
-\[
-N_m\sim \left \{ 
-\begin{array}{ll}
-B_{K, \hh{E\left[ (1 - p_D)^{m-1}\right]}} & \text { under } H_1\\
-B_{K, 1/m} & \text { under } H_0
-\end{array}
-\right .
-\]
-
-By matching the expected values, we therefore get an expression  for the $p$-value $p_D$ in the data 
-%under $H_1$  %% no such thing aas $p$-value under H_1 - even though it's just an unfortunate choice of word.
-as:
-\begin{equation}\label{eqn:power_estimate}
-%{E[p_D]} = 1- \left(\frac{E[N_m]}{K}\right)^{1/(m-1)}.
-\hh{1 - E[N_m]/K = (m-1)E[p_D] + O(E[p_D^2])}
-\end{equation}
-
-Note that the left hand side in Equation \ref{eqn:power_estimate} is independent of the parameter $\theta$, but just based on the lineup evaluation by independent observers. While this allows us to compute this value independently of the parametric setting, it also means that observers might pick out the data plot for a reason not related to the value of $\theta$. 
-\hh{Also note, that this equation yields an estimate of $p_D$ that is bounded by $1/(m-1)$. We should therefore not make the decision of significance depend on this estimate, but only use this equation after the fact. 
-Both of these topics are further highlighted in the application section.}
+%Now assume that the same lineup plot is evaluated by $K$ independent observers. %W.l.o.g.\green{Can we get rid of cliches like WLOG?} 
+%Let the last plot be the data plot and plots 1 through $m-1$ the null plots. Let $n_i$ be the number of observers who picked plot $i$ as the plot with the structure least consistent with the null hypothesis, corresponding to random variable $N_i$.  Then  $(N_1, N_2, ..., N_m) \sim$ Mult$_{\pi_1, ..., \pi_m}$ with $\sum_i \pi_i = 1$ and $\sum_{k=1}^{m} n_k = K$. We can estimate $\pi_i$ as $\widehat{\pi_i} = n_i/K$. 
+%
+%For the distribution of $N_m$, %the number of times out of $K$ that observers picked the last plot to show the structure least consistent with the null hypothesis, 
+%we get
+%\[
+%N_m\sim \left \{ 
+%\begin{array}{ll}
+%B_{K, \hh{E\left[ (1 - p_D)^{m-1}\right]}} & \text { under } H_1\\
+%B_{K, 1/m} & \text { under } H_0
+%\end{array}
+%\right .
+%\]
+%
+%By matching the expected values, we therefore get an expression  for the $p$-value $p_D$ in the data 
+%%under $H_1$  %% no such thing aas $p$-value under H_1 - even though it's just an unfortunate choice of word.
+%as:
+%\begin{equation}\label{eqn:power_estimate}
+%%{E[p_D]} = 1- \left(\frac{E[N_m]}{K}\right)^{1/(m-1)}.
+%\hh{1 - E[N_m]/K = (m-1)E[p_D] + O(E[p_D^2])}
+%\end{equation}
+%
+%Note that the left hand side in Equation \ref{eqn:power_estimate} is independent of the parameter $\theta$, but just based on the lineup evaluation by independent observers. While this allows us to compute this value independently of the parametric setting, it also means that observers might pick out the data plot for a reason not related to the value of $\theta$. 
+%\hh{Also note, that this equation yields an estimate of $p_D$ that is bounded by $1/(m-1)$. We should therefore not make the decision of significance depend on this estimate, but only use this equation after the fact. 
+%Both of these topics are further highlighted in the application section.}
 
 %Picking out the data plot is still a measure of how different the data plot is compared to the null plots, and therefore is a test statistic of the visual test.
 
@@ -1057,16 +1058,17 @@ Similary, the strength of the signal, is calculated using the proportion of obse
 \]
 where $K$ is the total number of independent evaluations on a lineup and $u$ is the number of successful evaluations. Figure \ref{fig:pval_plot_signal} shows the plot signal strengths in relation with conventional test $p$-values, on a square root scale. For experiment 3, technically, there are no conventional $p$-values, but the $p$-values are computed in the same manner as experiment 2, assuming that the data satifies the assumptions. The blue line is a loess fit to the data, and the grey line indicates equality of the two axes. The relationship between the conventional $p$-value and the plot signal strength is very strong, particularly when the values are small. As the conventional $p$-value increases, the estimated signal strength increases -- observers find it harder to detect the actual data plot at larger $p$-values. The rise is very sharp for experiment 1, which indicates that observers have a harder time detecting the actual data plot for even small $p$-values. 
 
-\green{Where is Figure \ref{fig:pval_definition} referred to and discussed?} \blue{Are we going to keep both figures \ref{fig:pval_definition} and \ref{fig:pval_plot_signal}?}
-
-\green{Explain why the term ``plot signal'' is introduced}
+\green{Where is Figure \ref{fig:pval_definition} referred to and discussed?}
+% \blue{Are we going to keep both figures \ref{fig:pval_definition} and \ref{fig:pval_plot_signal}?}
+%
+%\green{Explain why the term ``plot signal'' is introduced}
 
 %, to assess the signal strength we examine the proportion of correct picks, with multiple users and the $p$-value of the actual data plot. For experiment 3 the \green{How is p-value calculated here?} Figure \ref{fig:pval_pcorrect} \blue{(should I bring this figure back?)}  displays scatterplots of these two variables for each experiment. As the $p$-value increases the proportion of correct responses falls, evidence of direct association between proportion of correct responses and conventional test $p$-values. When $p$-value is larger than 0.15, it is almost impossible to correctly identify the observed plot in the lineup. We observed this for both experiment 1 and 2. For experiment 3, the scenario is different, because there are two structures, the association between variables, and the cluster of contaminated points.% as in this case people might have observed something other than the effect $E$.
 
 %Yet, it is possible to obtain an estimate the strength of the signal in the actual data plot, when there are multiple evaluations, using Lemma \ref{lemma}. 
 
 
-Note that $\hat{p}_D$ is bounded within $(0, 1/(m-1))$. This estimate has to be interpreted carefully, since the choice of a large lineup size, $m$, will make the value look `significant' in a traditional sense. Values close to the upper bound of $1/(m-1)$ should therefore be interpreted as `at least as high', rather than their actual numeric value.
+%Note that $\hat{p}_D$ is bounded within $(0, 1/(m-1))$. This estimate has to be interpreted carefully, since the choice of a large lineup size, $m$, will make the value look `significant' in a traditional sense. Values close to the upper bound of $1/(m-1)$ should therefore be interpreted as `at least as high', rather than their actual numeric value.
 %\hh{For $p$-values below $1/(m-1)$ visual $p$-values are very similar to actual $p$-values, the correlation for those values is: 0.36, 0.79, and -0.48 based on $n_1 = 44, n_2 = 45$, and $n_3= 26$ lineups, respectively.  }  \blue{This is not happening as we see in figure \ref{fig:pval_plot_signal}. But it is true for experiment 2, right?. }
 %is equivalent to classical test $p$-value when $p$-value is less than or equal to $1/(m-1)$.  
 %and beyond that the plot signal strength levels off on a point bigger than 0.05. Thus if plot signal strength is less than 0.05, we may decide to reject the null hypothesis.
@@ -1082,13 +1084,13 @@ Note that $\hat{p}_D$ is bounded within $(0, 1/(m-1))$. This estimate has to be 
        \label{fig:pval_definition}
 \end{figure*}
 
-\begin{figure*}[hbtp]
-   \centering
-       \scalebox{0.5}{\includegraphics{p_val_plot_signal.pdf}}
-       \caption{Conventional test $p$-value ($p_D$) vs plot signal strength ($\hat p_D$). The solid line is a 45 degree line which represents the equity shown in Equation \ref{eqn:power_estimate}. p-values are shown on square root scale scale.}
-    %   \hh{Mahbub, another change: could you change the y label to 'estimate of visual p-value $\hat{p_D}$ ?}
-       \label{fig:pval_plot_signal}
-\end{figure*}
+%\begin{figure*}[hbtp]
+%   \centering
+%       \scalebox{0.5}{\includegraphics{p_val_plot_signal.pdf}}
+%       \caption{Conventional test $p$-value ($p_D$) vs plot signal strength ($\hat p_D$). The solid line is a 45 degree line which represents the equity shown in Equation \ref{eqn:power_estimate}. p-values are shown on square root scale scale.}
+%    %   \hh{Mahbub, another change: could you change the y label to 'estimate of visual p-value $\hat{p_D}$ ?}
+%       \label{fig:pval_plot_signal}
+%\end{figure*}
 
 \subsection{Do people tend to pick the lowest $p$-value?}
 
