@@ -865,7 +865,17 @@ qplot(p_value,visual_pval, data=subset(pdat,nchar(experiment) < 13)) +
   ylab(expression(paste("Visual p-value on square root scale"))) +
   facet_grid(.~experiment)+
   scale_x_sqrt() +scale_y_sqrt()
-ggsave(file="../images/p_val_definition.pdf", height = 4, width = 10)
+
+pdat$visual_pval <- apply(pdat[,2:3],1,function(x)return(get_pval(m=20,K=x[1],x=x[2])))
+qplot(p_value,visual_pval, data=pdat) +
+  geom_abline(colour="grey") +
+  stat_smooth(method="loess", se=F, span=.45, degree=1)+
+  xlab(expression(paste("Conventional test p-value (",p[D],") on square root scale"))) +
+  ylab(expression(paste("Visual p-value on square root scale"))) +
+  facet_grid(.~experiment)+
+  scale_x_sqrt() +scale_y_sqrt()
+
+ggsave(file="../images/p_val_definition.pdf", height = 4, width = 11.5)
 
 
 qplot(strength,visual_pval, data=pdat) +
