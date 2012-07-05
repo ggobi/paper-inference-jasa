@@ -1247,15 +1247,30 @@ At right is a simplified view, containing just the four possible reasons -- if t
        \label{fig:choice_reason}
 \end{figure}
 
-For visual inference, making a Type III, is not actually a problem. It is only a possibility in this ecperiment because we are working with known structure. In the real setting, we are excited to see observers detecting the actual data plot, and curious about how they detect it, with all possible reasons encapsulated in the alternative hypothesis. This does show the importance of the qualitative answers that observers give for their choices.
+For visual inference, making a Type III, is not actually a problem. It is only a possibility in this experiment because we are working with known structure. In the real setting, we are excited to see observers detecting the actual data plot, and curious about how they detect it, with all possible reasons encapsulated in the alternative hypothesis. This does show the importance of the qualitative answers that observers give for their choices.
 
 \section{Conclusions}
 
 \green{
 \begin{itemize} \itemsep 0in
 \item Summarize the key pieces of the paper again, especially the major findings
+
+\blue{It is widely accepted that statistical graphics has important use in exploratory data analysis and model diagnostics. But this paper demonstrates that statistical graphics could also be used in statistical inference and establishes a formal framework to accomplish that. The simulation study reveals that even in a situation where conventional test has its all the convenient assumptions met, visual inference is still comparable to conventional test. Also, for some trained observers/subjects visual inference may produce even better power. On the other hand when the underlying assumptions of a conventional test do not satisfy and the test fails to produce enough power, visual inference performs extremely well. 
+
+We obtain the estimation of the power of visual test in different ways and present the results in this paper. The experimental data suggests that observers usually pick the plot which has the minimum $p$-value or maximum signal strength in the plot. If we assume it to be true in general,  the power of visual test is then obtained theoretically.  Interestingly the theoretical power of visual test is also very close to that of conventional test even though the situation of the experiment is worse for visual test and best for conventional test.}
+
 \item Explain caveats, nuances, advantages with the work
+
+\blue{One of the most critical steps in visual test would be select an appropriate test statistic for the hypothesis of interest.  A good test statistic should show a very specific pattern if the null hypothesis is not true. A small difference in color template or orientation of the plot could make a difference. This is the part of our ongoing and future research.
+
+Even though a single observer can make a decision we recommend having multiple observer to evaluate a lineup to obtain a definitive $p$-value to make a decision confidently.
+
+The experimental subjects that we recruited came from a various level of education and not necessarily well aware of statistical plots. But still we achieve the power of visual test comparable to the conventional test. This suggests that visual statistical technique could be a smart tool for high school students to get to know the first course of statistical inference. The major advantage of visual statical inference is its intuitive concept of testing technique which is easy to be grasped and fun to learn. 
+}
+
 \item Describe the next steps of the work, and possible ideas for future extensions
+
+\blue {When there is no conventional test available, we can conveniently use visual testing procedure due to its flexibility of having no assumption restrictions. Such a scenario could be the inference with small sample size with large number of covariates, data mining findings or even in genetic research where many covariates restrict the available inference very conservative for simultaneous testing (required $p$-value is very small to be able to reject $H_0$). The direction of future research would be to study that and apply the methods in those areas.}
 \end{itemize}
 }
 
