@@ -1206,9 +1206,9 @@ In practice, $p$-value is not going to be a valid way to compare plots. Rather m
 
 \subsection{Type III error}~\label{sec:TypeIII}
 
-A little known error amongst statisticians is what was coined as Type III in \citet{mosteller:48}. This occurs when the null hypothesis is rejected for thw rong reason. Experiment 3 is prone to this type of error. Observers were asked to identify the plot that had the largest slope, either positive or negative. But the actual data plot had a cluster of points, the contamination that forced the conventional test to fail to see the association. For the human eye this cluster of points is probably as visible as the association between the remaining points, leading the observer to detect the actual data plot by looking for the cluster instead of the slope. This would be considered to be a Type III error because it is not what was requested, but it still gives the correct answer. This is not a problem with the lineup protocol, because we want observers to react to anything that sets the the actual data plot apart. Here, in the controlled but simple setting, it is of interest to see what observers cued to in the actual data plot. 
+A little known error amongst statisticians is what was coined as Type III error in \citet{mosteller:48}. This occurs when the null hypothesis is rejected for thw rong reason. Experiment 3 is prone to this type of error. Observers were asked to identify the plot that had the largest slope, either positive or negative. But the actual data plot had a cluster of points, the contamination that forced the conventional test to fail to see any trend. For the human eye this cluster of points is probably as visible as the association between the remaining points, leading the observer to detect the actual data plot by looking for the cluster instead of the slope. This would be considered to be a Type III error because it is not what was requested, but it still gives the correct answer. This is not a problem with the lineup protocol, because we want observers to react to anything that sets the the actual data plot apart. Here, in the controlled but simple setting, it is of interest to see what observers cued to in the actual data plot. 
 
-Figure \ref{fig:power_loess_effect} indicates that Type III error might be occurring in experiment 3: correct identification of the actual data plot is not positively associated with effect size. Teasing this out of the results is possible by looking at the reasons observers gave for their choices. Observers were provided with four possible choices
+Figure \ref{fig:power_loess_effect} indicates that Type III error might be occurring in experiment 3: correct identification of the actual data plot is not positively associated with effect size. Teasing this out of the results is possible by looking at the reasons observers gave for their choices. Observers were provided with four possible reasons to use for their choice:
 
 \begin{enumerate} \itemsep 0in
 \item Most different plot
@@ -1217,7 +1217,9 @@ Figure \ref{fig:power_loess_effect} indicates that Type III error might be occur
 \item Other
 \end{enumerate}
 
-\noindent It was possible to choose more than one reason. The question begged for ``visible trend'' (2) to be the reason that observers gave for correctly choosing the actual data plot. Either reasons 1 or 3 would be indicative of Type III error. It is interesting to calculate the proportion of observers who choose the correct plot, but use reasons 1 or 3, relative to reason 2. Figure \ref{fig:choice_reason} examines this. For observers who chose the actual data plot, the proportions for the three reasons are shown. It can be seen that the most common reason was ``most different plot'' (1), followed by clustering visible (3), with ``visible trend'' coming in third. \green{What about other??} \blue{Not many people chose other as we see in Figure \ref{fig:choice_reason}.}
+\noindent with the possibility to use more than one. The task requested subjects to identify the plot that had the largest slope, which would correspond to choosing ``visible trend'' (2) as the reason for thier choice. Reasons 1 or 3 would be indicative of Type III error. Figure \ref{fig:choice_reason} explores the reasons subjects gave for their choices. If there were no Type III errors committed, we would expect that people overwhelmingly using ``visible trend'' as their reason. 
+
+It is interesting to calculate the proportion of observers who choose the correct plot, but use reasons 1 or 3, relative to reason 2. Figure \ref{fig:choice_reason} examines this. For observers who chose the actual data plot, the proportions for the three reasons are shown. It can be seen that the most common reason was ``most different plot'' (1), followed by clustering visible (3), with ``visible trend'' coming in third. \green{What about other??} \blue{Not many people chose other as we see in Figure \ref{fig:choice_reason}.}
 
 %This might be an indication that participants were not considering slope as distinguishing feature for the data, but the apparent clustering, i.e. the null hypothesis is being rejected, but not for the reason of the slope -- which the experimental setup was asking for --  leading to a type III error of correctly rejecting the null hypothesis for the wrong reason', as defined by \citet{mosteller:48}
 
@@ -1226,15 +1228,12 @@ Figure \ref{fig:power_loess_effect} indicates that Type III error might be occur
 %\blue{We also see this feature in figure \ref{fig:choice_reason}}.
 %\hh{Mahbub, it's not directly fig \ref{fig:choice_reason} - it's actually the lineup corresponding to the large outlier at (0.2,  0.6) in the left panel of fig \ref{fig:choice_reason}.}
 
-\green{I find this plot really confusing! Can we just look at whether they selected choice ``clustering visible'' or not, if they were correct?} \blue{Is the right hand side plot in Figure \ref{fig:choice_reason} ok? Should we remove the left plot?}
-
-
 \begin{figure}[hbtp]
    \centering
 %       \scalebox{0.60}{\includegraphics{choice_reason.pdf}}
 %       \scalebox{0.60}{\includegraphics{choice_reason_count.pdf}}
-       \includegraphics[width=0.45\textwidth]{choice_reason2.pdf}
        \includegraphics[width=0.45\textwidth]{choice_reason3.pdf}
+       \includegraphics[width=0.45\textwidth]{choice_reason2.pdf}
        \caption{Reasons for choosing the plot in a lineup for experiment 3. Reason 12 means both reasons 1 and 2 are chosen. Number of subjects choosing that reason are shown on the right hand side. Notice that 345 people choose only reason (3) "Clustering visible", out of whom 64\% got the actual plot (proportion correct = 0.64), which indicates there are number of people who choose the right plot for wrong reason (Type-III error). Those who chose reason 123 got the actual plot about 97\% times.}
        \label{fig:choice_reason}
 \end{figure}
