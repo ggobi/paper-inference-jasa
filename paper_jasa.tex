@@ -90,7 +90,7 @@ The paper is organized as follows. Section \ref{sec:visual_test} defines terms a
 Table \ref{tbl:compare} illustrates the lineup protocol in relation to traditional hypothesis testing. Both start from the same place, the same null hypothesis. The conventional test statistic is the $t$-statistic, where the parameter estimate is divided by its standard error. In the lineup protocol, the test statistic is a plot of the data, here side-by-side boxplots are used, because the variable of interest is categorical and takes just two values. In traditional hypothesis testing the value of the test statistic is compared with all possible values of the sampling distribution, the distribution of the statistic if the null hypothesis is true. If it is extreme on this scale then the null hypothesis is rejected. In contrast in visual inference, the plot of the data is compared with plots of a finite number of samples drawn from the null distribution. If the actual data plot is selected as the most different, then this results in rejection of the null hypothesis.
 
 \begin{table*}[hbtp]
-\caption{Comparison of visual inference with existing inference technique.  }
+\caption{Comparison of visual inference with conventional inference.}
 \centering 
 \begin{tabular}{llll} 
 \hline
@@ -1251,28 +1251,27 @@ For visual inference, making a Type III, is not actually a problem. It is only a
 
 \section{Conclusions}
 
-\green{
-\begin{itemize} \itemsep 0in
-\item Summarize the key pieces of the paper again, especially the major findings
 
-\blue{It is widely accepted that statistical graphics has important use in exploratory data analysis and model diagnostics. But this paper demonstrates that statistical graphics could also be used in statistical inference and establishes a formal framework to accomplish that. The simulation study reveals that even in a situation where conventional test has its all the convenient assumptions met, visual inference is still comparable to conventional test. Also, for some trained observers/subjects visual inference may produce even better power. On the other hand when the underlying assumptions of a conventional test do not satisfy and the test fails to produce enough power, visual inference performs extremely well. 
+%\begin{itemize} \itemsep 0in
+%\item Summarize the key pieces of the paper again, especially the major findings
 
-We obtain the estimation of the power of visual test in different ways and present the results in this paper. The experimental data suggests that observers usually pick the plot which has the minimum $p$-value or maximum signal strength in the plot. If we assume it to be true in general,  the power of visual test is then obtained theoretically.  Interestingly the theoretical power of visual test is also very close to that of conventional test even though the situation of the experiment is worse for visual test and best for conventional test.}
+It is widely accepted that statistical graphics has important use in exploratory data analysis and model diagnostics. This paper has demonstrated that statistical graphics can be used in statistical inference and validates the lineup protocol proposed by \citet{buja:2009} as a formal framework to accomplish that. The simulation study showed that even in the situation where the conventional test has its assumptions met, visual inference is comparable. It is possible that, for some trained observers visual inference may produce even better power. The results also suggest that when the underlying assumptions of a conventional test do not hold, visual inference will perform well. 
 
-\item Explain caveats, nuances, advantages with the work
+Power of visual tests can be estimated in different ways, which was explained in this paper. If it is assumed that observers tend to pick the plot with the strongest signal, which was consistent with the experimental data, the power of visual test can be obtained theoretically.  Interestingly, the theoretical power of visual test is close to that of conventional test in the conditions tested in this paper.
 
-\blue{One of the most critical steps in visual test would be select an appropriate test statistic for the hypothesis of interest.  A good test statistic should show a very specific pattern if the null hypothesis is not true. A small difference in color template or orientation of the plot could make a difference. This is the part of our ongoing and future research.
+%\item Explain caveats, nuances, advantages with the work
+
+One of the most critical steps in visual test would be select an appropriate test statistic for the hypothesis of interest.  A good test statistic should show a very specific pattern if the null hypothesis is not true. A small difference in color template or orientation of the plot could make a difference. This is the part of our ongoing and future research.
 
 Even though a single observer can make a decision we recommend having multiple observer to evaluate a lineup to obtain a definitive $p$-value to make a decision confidently.
 
 The experimental subjects that we recruited came from a various level of education and not necessarily well aware of statistical plots. But still we achieve the power of visual test comparable to the conventional test. This suggests that visual statistical technique could be a smart tool for high school students to get to know the first course of statistical inference. The major advantage of visual statical inference is its intuitive concept of testing technique which is easy to be grasped and fun to learn. 
-}
 
-\item Describe the next steps of the work, and possible ideas for future extensions
 
-\blue {When there is no conventional test available, we can conveniently use visual testing procedure due to its flexibility of having no assumption restrictions. Such a scenario could be the inference with small sample size with large number of covariates, data mining findings or even in genetic research where many covariates restrict the available inference very conservative for simultaneous testing (required $p$-value is very small to be able to reject $H_0$). The direction of future research would be to study that and apply the methods in those areas.}
-\end{itemize}
-}
+%\item Describe the next steps of the work, and possible ideas for future extensions
+
+When there is no conventional test available, we can conveniently use visual testing procedure due to its flexibility of having no assumption restrictions. Such a scenario could be the inference with small sample size with large number of covariates, data mining findings or even in genetic research where many covariates restrict the available inference very conservative for simultaneous testing (required $p$-value is very small to be able to reject $H_0$). The direction of future research would be to study that and apply the methods in those areas.
+
 
 The purpose of this paper has been to examine the effectiveness of visual inference methods in direct comparison to existing inference methods. We need to be clear that this is not the purpose of visual inference generally: visual methods should not be seen as competitors to traditional inference.  The purpose here, is to  establish properties and  efficacy of visual testing procedures in order to use them in situations where traditional tests cannot be used. For this experiment the effect of $\beta_2$ was examined using side-by-side boxplots. Future experiments will be conducted to compare other regression parameters as described in Table \ref{tbl:stat_multiple} and assess sensitivity of power to modeling conditions.
 
