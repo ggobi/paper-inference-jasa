@@ -609,6 +609,7 @@ print(xtable(pval_sm), include.rownames=FALSE)
 # Difference between data plot p-value and minimum null plot p-value 
 
 get_pval_success <- function (dat){
+  dat <- subset(dat, abs(beta)>0)
   res <- ddply(dat, .(pic_name), summarize,      
         prop_correct=mean(response),
         p_value=p_value[1],
