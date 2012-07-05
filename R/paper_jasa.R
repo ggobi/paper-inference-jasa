@@ -900,7 +900,8 @@ qplot(p_value,visual_pval, data=subset(pdat,nchar(experiment) < 13)) +
   facet_grid(.~experiment)+
   scale_x_sqrt() +scale_y_sqrt()
 
-pdat$visual_pval <- apply(pdat[,2:3],1,function(x)return(get_pval(m=20,K=x[1],x=x[2])))
+ggsave(file="../images/p_val_definition.pdf", height = 4, width = 10)
+
 qplot(p_value,visual_pval, data=pdat) +
   geom_abline(colour="grey") +
   stat_smooth(method="loess", se=F, span=.45, degree=1)+
@@ -909,7 +910,7 @@ qplot(p_value,visual_pval, data=pdat) +
   facet_grid(.~experiment)+
   scale_x_sqrt() +scale_y_sqrt()
 
-ggsave(file="../images/p_val_definition.pdf", height = 4, width = 11.5)
+
 
 
 qplot(strength,visual_pval, data=pdat) +
