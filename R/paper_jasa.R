@@ -770,6 +770,39 @@ qplot(prop_correct,choice_reason, geom="point", data=reason.dat3, size=I(3)) +
 
 ggsave("../images/choice_reason.pdf", height = 4, width = 6)
 
+# Di's changes
+reason.dat3.sub<-subset(reason.dat3, counts>10)
+reason.dat3$choice_reason <- factor(reason.dat3$choice_reason)
+ord<-order(reason.dat3.sub$prop_correct)
+reason.dat3$choice_reason <- factor(reason.dat3$choice_reason, levels=levels(reason.dat3$choice_reason)[ord])
+qplot(prop_correct, choice_reason, geom="point", data=reason.dat3.sub, size=counts) +
+  ylab("Reasons for choice") + xlab("Proportion correct") + xlim(c(0,1)) + scale_size("Number", limits=c(0, 500))
+ggsave("../images/choice_reason2.pdf", height = 4, width = 6)
+
+# Now focus on "marginals"
+dat3$choice_reason1 <- grepl("1", as.character(dat3$choice_reason))
+dat3$choice_reason2 <- grepl("2", as.character(dat3$choice_reason))
+dat3$choice_reason3 <- grepl("3", as.character(dat3$choice_reason))
+dat3$choice_reason4 <- grepl("4", as.character(dat3$choice_reason))
+reason.any1.dat3 <- ddply(dat3,.(choice_reason1), summarise,
+                     prop_correct = mean(response),
+                     counts = length(response))
+reason.any2.dat3 <- ddply(dat3,.(choice_reason2), summarise,
+                     prop_correct = mean(response),
+                     counts = length(response))
+reason.any3.dat3 <- ddply(dat3,.(choice_reason3), summarise,
+                     prop_correct = mean(response),
+                     counts = length(response))
+reason.any4.dat3 <- ddply(dat3,.(choice_reason4), summarise,
+                     prop_correct = mean(response),
+                     counts = length(response))
+reason.any.dat3 <- data.frame(choice_reason=c("Most different plot", "Visible trend","Clustering visible","Other"), prop_correct=c(reason.any1.dat3$prop_correct[2], reason.any2.dat3$prop_correct[2], reason.any3.dat3$prop_correct[2], reason.any4.dat3$prop_correct[2]), counts=c(reason.any1.dat3$counts[2], reason.any2.dat3$counts[2], reason.any3.dat3$counts[2], reason.any4.dat3$counts[2]))
+ord<-order(reason.any.dat3$prop_correct)
+reason.any.dat3$choice_reason <- factor(reason.any.dat3$choice_reason, levels=reason.any.dat3$choice_reason[ord])
+qplot(prop_correct, choice_reason, geom="point", data=reason.any.dat3, size=counts) +
+  ylab("Reasons for choice") + xlab("Proportion correct") + xlim(c(0,1)) + scale_size("Number", limits=c(0, 700))
+ggsave("../images/choice_reason3.pdf", height = 4, width = 6)
+
 reason.clustring <- ddply(dat3,.(response), summarize,
                           cnt = sum(choice_reason==3))
 reason.clustring$response <- factor(as.character(reason.clustring$response), labels=c("Data plot not picked", "Data plot picked"))
