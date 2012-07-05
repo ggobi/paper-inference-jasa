@@ -917,9 +917,9 @@ E=\beta (\sqrt {n}/\sigma).
 
 The model in Equation \ref{eqn:mixed} is fit using $E$ as the only fixed effect covariate without intercept. we set offset = $log(0.05/0.95)$ so that the estimated power has a fixed lower limit at 0.05 (Type-I error) when $E=0$. Different subjects are expected to have different skill levels in evaluating lineups. To account for subject specific variation we use subject as random effect. We do not include random intercept, instead, we use an interaction between subject and effect $E$ to allow for subject specific random slope. This leads to setting  $W_{\ell i} = E_{\ell i}$, the effect of lineup $\ell$ that subject $i$ has evaluated in Equation \ref{eqn:mixed}.  While for experiment 1 and 2 we don't allow intercept but offset, for experiment 3 an intercept is estimated to allow the power curves to go above 0.05 when $E=0$. This is because forcing power to be fixed at 0.05 for $E=0$ is not justified by the experiment 3 data (Figure \ref{fig:power_loess_effect}). 
 
-For all the three experiments, each subject saw a lineup just once. This doesn't allow fitting a lineup random effect, in addition to a subject random effect, but it does simplify the model since $\tau_{\ell i} = \tau_i$. The subject-specific probability ($p_i$) of successful evaluation of a lineup is then estimated using Equation \ref{eqn:mixed_power}. For computation we use R \citep{R} package lme4.
+For all the three experiments, each subject saw a lineup just once. This doesn't allow fitting a lineup random effect, in addition to a subject random effect, but it does simplify the model since $\tau_{\ell i} = \tau_i$. The subject-specific probability ($p_i$) of successful evaluation of a lineup is then estimated using Equation \ref{eqn:mixed_power}. For computation we use R \citep{R} package lme4 \citep{who are the authors of this package?}.
 
-Table \ref{tbl:model_par} shows the parameter estimates of the mixed effects model of the subject-specific variation.  
+Table \ref{tbl:model_par} shows the parameter estimates of the mixed effects model of the subject-specific variation.  \green{What do we learn about the models from these parameter estimates? Explain this here too.}
 
 
 
@@ -1116,11 +1116,11 @@ Figures \ref{fig:P-val_log} and \ref{fig:P-val_log2} show the selection counts a
 \end{figure*}
 
 
-There are some noticeable exceptions to this rule. In experiment 1, when $\beta=5, n=300, sd=12, rep=3$, people tended to pick the plot with the second smallest $p$-value.  Same experiment, when $\beta=0, n=100, sd=5, rep=1$ people overwhelming chose a plot with much larger $p$-value. For several of these exceptions, along with several easy lineups, we followed up with a new experiment using an eye-tracker to examine what the observers were looking at in making their choices. \cite{*** yifan's CC needs to be made into a tech report, and referenced here.}
-Lineups chosen for the follow up eye-tracker experiment were (experiment 1) (1) $n=100, \beta=3, \sigma=5$, rep=1 (2) $n=100, \beta=5, \sigma=5$, rep=1 (3) $n=100, \beta=10, \sigma=12$, rep=1 and (4) $n=300, \beta=5, \sigma=5$, rep=1, and  (experiment 2) (5) $n=100, \beta=3.5, \sigma=12$, rep=1 (6) $n=100, \beta=4.5, \sigma=12$, rep=2 (7) $n=300, \beta=1, \sigma=5$, rep=1 and (8) $n=300, \beta=1, \sigma=5$, rep=2.
+There are some noticeable exceptions to this rule. In experiment 1, when $\beta=5, n=300, \sigma=12, rep=3$, people tended to pick the plot with the second smallest $p$-value.  Same experiment, when $\beta=0, n=100, \sigma=5, rep=1$ people overwhelming chose a plot with much larger $p$-value. For several of these exceptions, along with several easy lineups, we followed up with a new experiment using an eye-tracker to examine what the observers were looking at in making their choices \citep{zhao2012}.
+(Lineups chosen for the eye-tracker experiment were in experiment 1, (1) $n=100, \beta=3, \sigma=5, rep=1$ (2) $n=100, \beta=5, \sigma=5, rep=1$ (3) $n=100, \beta=10, \sigma=12, rep=1$ and (4) $n=300, \beta=5, \sigma=5, rep=1$, and in experiment 2, (5) $n=100, \beta=3.5, \sigma=12, rep=1$ (6) $n=100, \beta=4.5, \sigma=12, rep=2$ (7) $n=300, \beta=1, \sigma=5, rep=1$ and (8) $n=300, \beta=1, \sigma=5, rep=2$.)
 
 
-Experiment 3 does not have $p$-values associated with each plot, so the assumption can only be tested with the first two experiments. Practically, this is not an assumption that is explicitly made, because there will not be a $p$-value available. Rather it is assumed that the subject has the ability to select the plot with the most extreme structure. A few of the lineups indicated that occasionally people cue on different patterns, for example, in experiment 1 the lineup $\beta=0, n=100, sd=5, rep=1$ (first row, fourth column) many subjects chose the same plot, that had a higher $p$-value. Some of these anomalous lineups were selected for follow-up studies using an eye-tracker to investigate what people were looking at.
+Experiment 3 does not have $p$-values associated with each plot, so the assumption can only be tested with the first two experiments. Practically, this is not an assumption that is explicitly made, because there will not be a $p$-value available. Rather it is assumed that the subject has the ability to select the plot with the most extreme structure. A few of the lineups indicated that occasionally people cue on different patterns, for example, in experiment 1 the lineup $\beta=0, n=100, \sigma=5, rep=1$ (first row, fourth column) many subjects chose the same plot, that had a higher $p$-value. Some of these anomalous lineups were selected for follow-up studies using an eye-tracker to investigate what people were looking at.
 
 %Number of lineups for which most of the subjects picked the data plot based on the minimum $p$-values are shown in Table \ref{tbl:pval_assumption} for both experiment 1 and 2. The $p$-values of lineups which were not chosen based on minimum $p$-value are also very small (close to minimum) as we see in both Figures \ref{fig:P-val_log} and \ref{fig:P-val_log2}. We see the same pattern in Figure \ref{fig:P-val_rank} where the median number of people who pick the data plot with minimum $p$-value (rank 1) are much higher than other ranks.
 
@@ -1251,6 +1251,14 @@ For visual inference, making a Type III, is not actually a problem. It is only a
 
 \section{Conclusions}
 
+\green{
+\begin{itemize} \itemsep 0in
+\item Summarize the key pieces of the paper again, especially the major findings
+\item Explain caveats, nuances, advantages with the work
+\item Describe the next steps of the work, and possible ideas for future extensions
+\end{itemize}
+}
+
 The purpose of this paper has been to examine the effectiveness of visual inference methods in direct comparison to existing inference methods. We need to be clear that this is not the purpose of visual inference generally: visual methods should not be seen as competitors to traditional inference.  The purpose here, is to  establish properties and  efficacy of visual testing procedures in order to use them in situations where traditional tests cannot be used. For this experiment the effect of $\beta_2$ was examined using side-by-side boxplots. Future experiments will be conducted to compare other regression parameters as described in Table \ref{tbl:stat_multiple} and assess sensitivity of power to modeling conditions.
 
 \green{Mention the possibility of a visual skills test, to select the workers that are better qualified, to implement the lineup protocol in practice. Along the lines of the Army tests that Susan brought to the working group.
@@ -1263,7 +1271,7 @@ What are your suggestions for future experiments, and next steps of the research
 
 \paragraph{Acknowledgement:}
 
-This work was funded by National Science Foundation grant DMS 1007697.
+This work was funded in part by National Science Foundation grant DMS 1007697.
 
 %\bibliographystyle{plain}
 %\bibliographystyle{plainnat}
