@@ -1024,10 +1024,6 @@ It can also be seen that at effect $E=0$, the power is close to 0.05 (Type-I err
 %Different subjects are expected to have different skill levels in evaluating lineups. This is accounted for in the mixed effects model (Equation \ref{eqn:mixed}).   
  The estimated subject-specific power curves are shown in Figure \ref{fig:power_mixed_subject} (light grey lines). The blue curve is the overall average power estimated from the model, and for comparison, the grey dashed lines are the power curves for the conventional test. Subject-specific power is quite different for three experiments. In experiment 1 subjects performed similarly, and substantially worse than the conventional test. In experiment 2 there is more variability between subjects, with some doing better than the conventional test on small effects. In experiment 3 there is the most subject-specific variation. Some subjects performed substantially better than the conventional test, and on average the visual test was better. 
 
-\green{The dashed line cannot be seen in experiment 2 for small effect, and it is essential to see this at this point. What can you do to make the dashed line visible?} \blue{The dashed line layer is placed on top of all other layers. Still there is trouble to see it. Do you think it will work?}
-
-
-
 \begin{figure}[hbtp]
    \centering
        \scalebox{0.60}{\includegraphics{power_mixed_subject.pdf}}
@@ -1198,7 +1194,7 @@ In the previous section we noticed that observers tend to pick the plot with the
 
 %Mahbub, could you have a look at the lineups, and compute the difference between the data plot's $p$-value and the  smallest $p$ value of a null plot, and plot that in a scatterplot against proportion correct? Thanks! 
 
-In practice, $p$-value is not going to be a valid way to compare plots. Rather metrics that can measure how graphical elements from one plot to another are perceived similarly are needed. This is investigated in the paper \cite{waldo}. Here numerical measures of the similarity between plots are proposed to provide quality metrics for lineups.
+In practice, $p$-value is not going to be a valid way to compare plots. Rather metrics that can measure how graphical elements from one plot to another are perceived similarly are needed. This is investigated in \citet{niladri:2012}. Here numerical measures of the similarity between plots are proposed to provide quality metrics for lineups.
 
 
 \begin{figure}[hbtp]
@@ -1221,7 +1217,7 @@ Figure \ref{fig:power_loess_effect} indicates that Type III error might be occur
 \item Other
 \end{enumerate}
 
-\noindent It was possible to choose more than one reason. The question begged for ``visible trend'' (2) to be the reasons that observers gave for correctly choosing the actual data plot. Either reasons 1 or 3 would be indicative of Type III error. It is interesting to calculate the proportion of observers who choose the correct plot, but use reasons 1 or 3, relative to reason 2. Figure \ref{fig:choice_reason} examines this. For observers who chose the actual data plot, the proportions for the three reasons are shown. It can be seen that the most common reason was ``most different plot'' (1), followed by clustering visible (3), with ``visible trend'' coming in third. \green{What about other??} \blue{Not many people chose other as we see in Figure \ref{fig:choice_reason}.}
+\noindent It was possible to choose more than one reason. The question begged for ``visible trend'' (2) to be the reason that observers gave for correctly choosing the actual data plot. Either reasons 1 or 3 would be indicative of Type III error. It is interesting to calculate the proportion of observers who choose the correct plot, but use reasons 1 or 3, relative to reason 2. Figure \ref{fig:choice_reason} examines this. For observers who chose the actual data plot, the proportions for the three reasons are shown. It can be seen that the most common reason was ``most different plot'' (1), followed by clustering visible (3), with ``visible trend'' coming in third. \green{What about other??} \blue{Not many people chose other as we see in Figure \ref{fig:choice_reason}.}
 
 %This might be an indication that participants were not considering slope as distinguishing feature for the data, but the apparent clustering, i.e. the null hypothesis is being rejected, but not for the reason of the slope -- which the experimental setup was asking for --  leading to a type III error of correctly rejecting the null hypothesis for the wrong reason', as defined by \citet{mosteller:48}
 
