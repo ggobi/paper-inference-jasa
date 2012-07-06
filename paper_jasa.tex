@@ -365,7 +365,7 @@ We need to make two crucial assumptions:
 \end{enumerate}
 We will be able to show evidence for the second assumption with the help of the study discussed in Section~\ref{sec:simulation}, \hh{the degree to which the first assumption is fulfilled is reflected} by the power of a lineup. The better suited a design is for a particular task, the higher its power will be.
 
-\hh{In order to compare power of conventional tests and lineups side-by-side, we will have to assume, that we are in the controlled environment of a simulation with tests corresponding to a known parameter value $\theta \in R$ and associated distribution function $F_t$ of the test statistic. }
+\hh{In order to compare power of conventional and visual tests side-by-side, we will have to assume, that we are in the controlled environment of a simulation with tests corresponding to a known parameter value $\theta \in R$ and associated distribution function $F_t$ of the test statistic. }
 
 \begin{lemma}~\label{lemma}
 Suppose $F_{|t|}(.)$ is the distribution function of an absolute value of $t$, the conventional test statistic. Suppose the associated test statistic in a conventional test is observed as  $t_{obs}$ with $p$-value $p_D$. 
@@ -919,11 +919,9 @@ The model in Equation \ref{eqn:mixed} is fit using $E$ as the only fixed effect 
 
 For all the three experiments, each subject saw a lineup just once. This doesn't allow fitting a lineup random effect, in addition to a subject random effect, but it does simplify the model since $\tau_{\ell i} = \tau_i$. The subject-specific probability ($p_i$) of successful evaluation of a lineup is then estimated using Equation \ref{eqn:mixed_power}. For computation we use R \citep{R} package lme4 \citep{lme4:2011}.
 
-Table \ref{tbl:model_par} shows the parameter estimates of the mixed effects model of the subject-specific variation.  \green{What do we learn about the models from these parameter estimates? Explain this here too.}
+Table \ref{tbl:model_par} shows the parameter estimates of the mixed effects model of the subject-specific variation. The larger variability in the response data for experiment 3 as we see in Figure \ref{fig:power_loess_effect} contributes the random effect variance estimate be much larger compared to those of other experiments. Because fo the same reason we see the standard error for intercept estimate is much higher as well. Also notice the slope estimate for experiment three is lowest as well. It is because for small parameter values the power is much higher for experiment 3.  % \green{What do we learn about the models from these parameter estimates? Explain this here too.}
 
-
-
-\green{This section needs to have sufficient detail of the model fitting, output and diagnostics to feed into the next few sections discussing the findings.}
+%\green{This section needs to have sufficient detail of the model fitting, output and diagnostics to feed into the next few sections discussing the findings.}
 
 \begin{table}[hbtp]
 \caption{Parameter estimates of model in Equation \ref{eqn:mixed}. Estimates are highly significant with $p$-value $<$  0.0001 for all three experiment data.}
@@ -1262,6 +1260,8 @@ Power of visual tests can be estimated in different ways, which was explained in
 %\item Explain caveats, nuances, advantages with the work
 
 One of the critical parts in visual testing is appropriate selection of a statistic for the hypothesis of interest -- that means an appropriate choice of plot for the analytical purpose.  A good test statistic is expected to reveal structure if the null hypothesis is not true. Small differences in plot choices such as color, orientation, and mapping of data values to graphical elements of the plot can make a difference. This is related to research in a grammar of graphics \citep{wilkinson:1999,hadley:2009}, which helps to ensure good practices. %This is the part of our ongoing and future research.
+
+\blue{Another critical part is the specific question that the observer needs to answer evaluating the lineup. The question should be more than just asking to find the most different plot. Selecting the appropriate word to describe the pattern we may see when alternative hypothesis is true is important to help the observers understand what pattern they should look for. By delivering an appropriate question may reduce the type III error in an appropriate scenario.}
 
 Even though a single observer can evaluate a lineup, as suggested in the initial lineup protocol, this work recommends having multiple observers. This ensures the ability to obtain a good estimate of the $p$-value for the test, and more confidence in the decision.
 
