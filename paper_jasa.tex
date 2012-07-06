@@ -420,9 +420,13 @@ This proves the statement above.
 %\[
 %E\left[ (1 - p_D)^{m-1}\right] =  \sum_{k=0}^{m-1} {m-1 \choose k} (-1)^k E[p_D^k] = 1-(m-1)E[p_D] + O(E[p_D^2]).
 %\]
-This implies that as $p_D$, the $p$-value, becomes smaller, the probability that the observer identifies the data plot goes up and \blue{(How can we say that from this? The term  $E\left[ (1 - p_D)^{m-1}\right]$ is definitely not a function of $p_D$ since $p_D$ should be eliminated after the expectation. Instead, its a function of $m$ and the distribution of $p_D$ ! If the density of $p$-value is very right skewed, the expectation term would be large. The distribution function would be highly right skewed when there would be strong signal in the data plot.Thats where the distribution function of $p$-value under alternative comes in. Should we add that in Equation \ref{dist_p}? )},
-conversely, as $m$, the number of choices given in the lineup, goes up the probability to pick the data plot  goes down. 
+
 }
+% If the density of $p$-value is very right skewed, the expectation term would be large. The distribution function would be highly right skewed when there would be strong signal in the data plot.Thats where the distribution function of $p$-value under alternative comes in. Should we add that in Equation \ref{dist_p}? )},
+%conversely, as $m$, the number of choices given in the lineup, goes up the probability to pick the data plot  goes down. 
+%}
+%\blue{This shows that the lineup size $m$ has an effect on the power of the visual test: it is the $m-1$th moment of the distribution of $1-p_D$. 
+
 %
 %
 %
@@ -447,8 +451,13 @@ conversely, as $m$, the number of choices given in the lineup, goes up the proba
 
 %\red{pull the results for $P(p_D < p_{i,0})$ and $P(p_D < p_0)$ to the front, including the Figure on $1/m$ versus power. These results are independent of the regression setting - they don't make any assumptions in terms of regression.}
 
+\blue{
+The above statement allows two immediate conclusions for the use of lineups:
+The probability that the observer correctly identifies the data plot is closely connected to the size of the lineup $m$: since the right hand side of the above equation decreases for larger $m$, the probability of correctly identifying the data plot decreases with it. 
 
-Figure \ref{fig:pval_power} gives an overview of the probability of picking the actual data plot for lineups of different size: as $m$ increases we have an increased probability to observe a more highly structured null plot by chance. We see that for a $p$-value $p_D$ of about 0.15 for the data plot the signal in the plot is so weak, that we cannot distinguish the actual data plot from null plots in a lineup of size $m=20$. % This pattern is confirmed by our findings described in Section~\ref{sec:simulation}.
+Further we see, that the rate of this decrease depends strongly on the distribution of $p_D$; 
+if the density of $p_D$ is very right skewed, the  expectation term on right hand side will be large and  less affected by an increase in $m$. This can also be seen in Figure \ref{fig:pval_power}, which 
+visualizes the statement of lemma \ref{lemma}: }  Figure \ref{fig:pval_power} gives an overview of the probability of picking the actual data plot for lineups of different size: as $m$ increases we have an increased probability to observe a more highly structured null plot by chance. We see that for a $p$-value $p_D$ of about 0.15 for the data plot the signal in the plot is so weak, that we cannot distinguish the actual data plot from null plots in a lineup of size $m=20$. % This pattern is confirmed by our findings described in Section~\ref{sec:simulation}.
 %also seen in our experiments as shown in Figure \ref{fig:pval_pcorrect}.
 
 
