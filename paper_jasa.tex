@@ -209,7 +209,7 @@ The \textbf{Type I error} associated with visual test $V_{\theta}$ is the probab
 %\green{Oh, we are using observed and observer, which might be confusing. May need to change observed data plot to something else. Will think about this. Will use ``actual'' for now.} \hh{I think that change is done}
 
 \noindent Because $X$ takes only discrete values we can not always control exactly for $\alpha$, with an exact $x_{\alpha}$. For example, when there is only one observer, $1/m$ is the minimal value at which we can set $\alpha$. It can be set to be smaller, even arbitrarily small, by increasing $K$, the number of observers. 
-Type II error is harder to calculate, as is usually the case \blue{(Is it true? For conventional test it is easy to compute Type II error !)}. In visual inference, individual abilities need to be incorporated to calculate Type II error. This is not necessary for Type I error, because it is simply the chance that the observer picks the actual data plot, by chance. For Type II error, we need to calculate the chance that the observer sees that actual data plot as different, when it really is different. This involves understanding the individual's visual skills. Thus, let $X_i$ be a binary random variable with $X_i = 1$, if individual $i (=1, \dots , K)$ identifies the actual data plot from the lineup, and $X_i = 0$ otherwise, where $p_i$ is the probability that individual $i$ picks out the actual data plot from the lineup. If all individuals have the same ability, with the probability, $p$, for picking out the actual data plot, then $X = \sum_i X_i$ has distribution $\text{Binom}_{K, p}$, and we can estimate $p$ by $\hat{p} = x/K$, where $x$ is the number of observers (out of $K$), who pick out the actual data plot from the lineup. 
+Type II error is harder to calculate, as is usually the case. In visual inference, individual abilities need to be incorporated to calculate Type II error. This is not necessary for Type I error, because it is simply the chance that the observer picks the actual data plot, by chance. For Type II error, we need to calculate the chance that the observer sees that actual data plot as different, when it really is different. This involves understanding the individual's visual skills. Thus, let $X_i$ be a binary random variable with $X_i = 1$, if individual $i (=1, \dots , K)$ identifies the actual data plot from the lineup, and $X_i = 0$ otherwise, where $p_i$ is the probability that individual $i$ picks out the actual data plot from the lineup. If all individuals have the same ability, with the probability, $p$, for picking out the actual data plot, then $X = \sum_i X_i$ has distribution $\text{Binom}_{K, p}$, and we can estimate $p$ by $\hat{p} = x/K$, where $x$ is the number of observers (out of $K$), who pick out the actual data plot from the lineup. 
 
 \hh{If there is evidence for individual skills influencing the probability $p_i$, then $X_i \sim Binom_{1, p+i}$ and $X$ is a sum of independent Bernoulli random variables with different success rates $p_i$. This makes the distribution of $X$ a Poisson-Binomial by definition, see \citet{butler93} for details. Estimating $p_i$ will be one of the main concerns for the remainder of the paper.} One way we can estimate this is fitting a generalized mixed effect model as described in Section \ref{sec:model}.
 
@@ -256,14 +256,14 @@ The \textbf{power} of a visual test $V_{\theta}$ is defined as the probability t
     \end{equation*}
 \end{dfn}
 
-\hh{\noindent An important difference between conventional testing and the lineup scenarios \blue{(Can we just say 'visual test'?)} is that lineups always depend on observers -- this brings the number of people evaluating a particular lineup into the actual evaluation of power, i.e. we are assuming, again, that $X$ counts the number of observers (out of $K$) who identify the data plot from the lineup.
+\hh{\noindent An important difference between conventional and visual testing  is that lineups always depend on observers -- this brings the number of people evaluating a particular lineup into the actual evaluation of power, i.e. we are assuming, again, that $X$ counts the number of observers (out of $K$) who identify the data plot from the lineup.
 Then power is calculated as
 \[
 \widehat{Power}_{V} (\theta) = {Power}_{V, K} (\theta) = 1 - F_{X, \theta} (x_{\alpha} - 1),
 \] 
 where $F_{X, \theta}$ is the distribution of $X$ -- this depends on which hypothesis is true:
 
-Under the null hypothesis $X \sim Binom_{K, 1/m}$, leading to a power of \blue{(Is this power or Type I error?)}
+Under the null hypothesis $X \sim Binom_{K, 1/m}$, leading to a type I error of:
 \[
 \text{Power}_V(\theta, K)= 1 - Binom_{K, 11/m} (x_\alpha - 1),
 \]
