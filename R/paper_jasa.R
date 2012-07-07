@@ -630,7 +630,7 @@ ggplot(pval.diff) +
   geom_point(aes(pval_diff, prop_correct)) +
   facet_grid(.~experiment) +
   xlab("Difference between p-value of actual data and minimum p-value of null data") +
-  ylab("Proportion correct")
+  ylab("Proportion correct") +xlim(-.2,.2)
 ggsave(file="../images/pval_difference.pdf", height=4, width=8)
 
 # investigating large differences between p-values and minimum p-value of null data
