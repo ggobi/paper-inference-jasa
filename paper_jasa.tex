@@ -306,7 +306,8 @@ where $g(.)$ denotes the {\it logit} link function $g(\pi)=\log(\pi) - \log(1-\p
 $W$  & is a design matrix of covariates corresponding to specifics of lineup $\ell$ and subject $i$. Covariates could include  demographic information of individuals, such as age, gender, education level etc. as well lineup-specific elements, e.g. difficulty level. \\
 $\delta$ & is a vector of parameters for fixed effects.\\
 $Z_{\ell i}$ & $1 \le i \le K$, $1 \le \ell \le L$  is a design matrix corresponding to random effects specific to individual $i$ and lineup $\ell$.  \\
-$\tau$ & is a vector of independent real-valued random variables $\tau_{\ell i}$,  $\tau  \sim  MVN(0,\sigma_\tau I_{KL \times KL})$. $\tau$ will usually include a component incorporating an individual's ability or skill to evaluate lineups.\\
+$\tau$ & is a vector of independent real-valued random variables $\tau_{\ell i}$,  $\tau  \sim  MVN(0,\sigma_\tau I_{KL \times KL})$. $\tau$ will usually include a component incorporating an individual's ability or skill to evaluate lineups. 
+Note that $t_{\ell i }$ usually only includes a partial interaction; for a full interaction of subjects' skills and lineup-specific difficulty we would need replicates of the same subject evaluating the same lineup, which in practice is not feasible without loosing independence.\\
 \end{tabular}
 }
 
@@ -314,7 +315,6 @@ Using the inverse {\it logit} link function, $g^{-1}(.)$, from  Equation \ref{eq
 \begin{equation} \label{eqn:mixed_power}
 \hat p_{\ell i} =  g^{-1}(W_{\ell i} \hat {\delta} +  Z_{\ell i}  \hat {\tau}_{\ell i}).
 \end{equation}
-
 
 
 %\red{This model is  described in more detail in equation \eqref{eqn:mixed}.}
