@@ -511,11 +511,21 @@ prr.min<-ddply(prr, "pic_name", summarise,
                    n=n[1],
                    sd=sd[1],
                    rep=rep[1])
+prr.actual<-ddply(prr, "pic_name", summarise,
+                   lpvalue=lpvalue[obs_pvalue==pvalue],
+                   rfreq=rfreq[obs_pvalue==pvalue],
+                   beta=beta[1],
+                   n=n[1],
+                   sd=sd[1],
+                   rep=rep[1])
+prr.actual <- subset(prr.actual, !(prr.actual$pic_name == prr.min$pic_name & prr.actual$lpvalue == prr.min$lpvalue))
 p <- qplot(lpvalue, rfreq, geom="point", data=prr) +
   geom_segment(mapping=aes(xend=lpvalue, yend=0)) +
   geom_segment(mapping=aes(xend=lpvalue, yend=0, colour="hotpink"), data=prr.min) + 
   geom_point(mapping=aes(xend=lpvalue, yend=0, colour="hotpink"), data=prr.min) + 
   xlab(expression(paste("P-value on ",log[10]," scale"))) + ylab("Relative frequency of picks") +
+  geom_segment(mapping=aes(xend=lpvalue, yend=0, colour="turquoise"), data=prr.actual) + 
+  geom_point(mapping=aes(xend=lpvalue, yend=0, colour="turquoise"), data=prr.actual) + 
   facet_grid(beta~n+sd+rep, labeller="label_both") + scale_x_continuous(limits=c(-2.1,0.1), breaks=c(-2,-1,0), labels=c("0.01","0.1","0")) + 
   opts(legend.position="none")
 p
@@ -553,11 +563,21 @@ prr2.min<-ddply(prr2, "pic_name", summarise,
                    n=n[1],
                    sd=sd[1],
                    rep=rep[1])
+prr2.actual<-ddply(prr2, "pic_name", summarise,
+                   lpvalue=lpvalue[obs_pvalue==pvalue],
+                   rfreq=rfreq[obs_pvalue==pvalue],
+                   b=b[1],
+                   n=n[1],
+                   sd=sd[1],
+                   rep=rep[1])
+prr2.actual <- subset(prr2.actual, !(prr2.actual$pic_name == prr2.min$pic_name & prr2.actual$lpvalue == prr2.min$lpvalue))
 p <- qplot(lpvalue, rfreq, geom="point", data=prr2) +
   geom_segment(mapping=aes(xend=lpvalue, yend=0)) +
   geom_segment(mapping=aes(xend=lpvalue, yend=0, colour="hotpink"), data=prr2.min) + 
   geom_point(mapping=aes(xend=lpvalue, yend=0, colour="hotpink"), data=prr2.min) + 
   xlab(expression(paste("p-value on ",log[10]," scale"))) + ylab("Relative frequency of picks") +
+  geom_segment(mapping=aes(xend=lpvalue, yend=0, colour="turquoise"), data=prr2.actual) + 
+  geom_point(mapping=aes(xend=lpvalue, yend=0, colour="turquoise"), data=prr2.actual) + 
   facet_grid(b~n+sd+rep, labeller="label_both") + scale_x_continuous(limits=c(-2.1,0.1), breaks=c(-2,-1,0), labels=c("0.01","0.1","")) + scale_y_continuous(limits=c(0,1.1), breaks=c(0,0.5,1), labels=c("","0.5","1")) +
   opts(legend.position="none")
 p
@@ -630,7 +650,7 @@ ggplot(pval.diff) +
   geom_point(aes(pval_diff, prop_correct)) +
   facet_grid(.~experiment) +
   xlab("Difference between p-value of actual data and minimum p-value of null data") +
-  ylab("Proportion correct") +xlim(-.2,.2)
+  ylab("Proportion correct") +xlim(-.15,.15)
 ggsave(file="../images/pval_difference.pdf", height=4, width=8)
 
 # investigating large differences between p-values and minimum p-value of null data
