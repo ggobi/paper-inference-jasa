@@ -695,7 +695,7 @@ The experiment is designed to study the ability of human subjects to detect the 
 
 The number of evaluations required for each lineup to provide reasonable estimates of the power is determined by the variance of the estimated power. Suppose $\gamma$ denotes the conventional test power for each parameter combination shown in Table \ref{tbl:experiment_params}. Since the expected power of visual inference is very close to the power of conventional test (Figure \ref{fig:power_expected}) the proportion of successful evaluations of lineups should give a rough estimate for  $\gamma$. For a given proportion $\gamma$ it is desired to have a margin of error (ME) less than or equal to 0.05. Thus we have $ME =1.96 \sqrt{ \gamma(1-\gamma) / n_{\gamma} } \le 0.05$ which gives us the estimation of minimum number of evaluations $$n_{\gamma} \geq \frac{\gamma(1-\gamma)}{(0.05/1.96)^2}.$$  
 
-Each subject viewed at least 10 lineups and we allowed them to provide more evaluations if they wanted. Depending on the parameter combinations we group the lineups in different difficulty levels such as easy, medium, hard and mixed (actual numbers are given in the Appendix). For each difficulty level a specific number of lineups were randomly picked to show for evaluation. This number is chosen so that total number of evaluations for each lineup for that group exceed the threshold $n_{\gamma}$. To satisfy this plan we needed to recruit at least 300 subjects. 
+Each subject viewed at least 10 lineups and we allowed them to provide more evaluations if they wanted. Depending on the parameter combinations we group the lineups in different difficulty levels such as easy, medium, hard and mixed (actual numbers are given in the supplementary material). For each difficulty level a specific number of lineups were randomly picked to show for evaluation. This number is chosen so that total number of evaluations for each lineup for that group exceed the threshold $n_{\gamma}$. To satisfy this plan we needed to recruit at least 300 subjects. 
 
 \begin{table}[hbtp]
 \caption{Combination of parameter values, $\beta_2$,  $n$ and $\sigma$, used for each of the simulation experiments.} % title name of the table
@@ -908,7 +908,7 @@ Amazon Mechanical Turk workers are paid for their efforts, not substantial, but 
 %\end{table}
 
 \begin{table}[hbtp]
-\caption{Number of subjects, gender and total lineups seen, and number of distinct lineups for all three experimental data sets. Note that in some of the lines the number of male and female participants does not add up to the total number of participants due to missing demographic information. \blue{Notice that we do not have data on one lineup (so we have only 29 lineups) for experiment 3 due to the screening process.}}
+\caption{Number of subjects, gender and total lineups seen, and number of distinct lineups for all three experimental data sets. Note that in some of the lines the number of male and female participants does not add up to the total number of participants due to missing demographic information. }%\blue{Notice that we do not have data on one lineup (so we have only 29 lineups) for experiment 3 due to the screening process.}}
 \begin{center}
 \begin{tabular}{ccrrcc}
    \hline 
@@ -1320,6 +1320,11 @@ When there is no conventional test available, visual testing procedures can be u
 \bibliography{references}
 
 %\end{multicols}
+
+\end{document}  %End of document.
+
+
+
 \section*{Appendix}
 
 \begin{table}[hbtp]
@@ -1353,28 +1358,10 @@ Total &&&&&60&10\\
 \label{tbl:dist_lineup1}
 \end{table} 
 
-\begin{figure}[hbtp]
-   \centering
-       \scalebox{0.70}{\includegraphics{power_screening.pdf}}
-       \caption{The overall power estimated from model \ref{eqn:mixed} are shown for various data sets obtained by applying 6 screening criteria.  The corresponding power curve for conventional test is shown in black solid lines for comparison.}
-       \label{fig:power_screening}
-\end{figure}
-
-\begin{figure}[hbtp]
-   \centering
-       \scalebox{0.60}{\includegraphics{power_screening_subject.pdf}}
-      \caption{The subject-specific power estimated from model \ref{eqn:mixed} are shown for various data sets obtained by applying 6 screening criteria.  The corresponding power curve for conventional test is shown in pink lines for comparison.}
-       \label{fig:power_screening_subject}	
-\end{figure}
-
-\end{document}  %End of document.
 
 
-
-
-
-\begin {abstract} 
-Statistical graphics play a crucial role in exploratory data analysis, model checking and diagnosis. Until recently, there were no formal visual methods in place for determining statistical significance of findings. This changed when Buja et al. (2009) conceptually introduced the lineup protocol for formal tests of visual findings. In this paper this is taken a step further by refining the terminology of visual inference, framing the protocol in a context that allows direct comparison with conventional tests, in scenarios when a conventional test exists, and it is used to compare the performance of the lineup protocol against conventional statistical testing in the scenario of fitting linear models. A human subjects experiment is conducted using simulated data to provide controlled conditions. Results suggest that the lineup protocol provides results comparable to the conventional tests, out-performs them when data is contaminated, and, there may be some super-individuals who yield better power than the conventional test even in the most difficult trials.
-\end {abstract}
+%\begin {abstract} 
+%Statistical graphics play a crucial role in exploratory data analysis, model checking and diagnosis. Until recently, there were no formal visual methods in place for determining statistical significance of findings. This changed when Buja et al. (2009) conceptually introduced the lineup protocol for formal tests of visual findings. In this paper this is taken a step further by refining the terminology of visual inference, framing the protocol in a context that allows direct comparison with conventional tests, in scenarios when a conventional test exists, and it is used to compare the performance of the lineup protocol against conventional statistical testing in the scenario of fitting linear models. A human subjects experiment is conducted using simulated data to provide controlled conditions. Results suggest that the lineup protocol provides results comparable to the conventional tests, out-performs them when data is contaminated, and, there may be some super-individuals who yield better power than the conventional test even in the most difficult trials.
+%\end {abstract}
 
 \end{document}
