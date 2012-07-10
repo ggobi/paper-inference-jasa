@@ -310,7 +310,7 @@ g( p_{\ell i} )= W_{\ell i} \delta +  Z_{\ell i}  \tau_{\ell i},
 where $g(.)$ denotes the {\it logit} link function $g(\pi)=\log(\pi) - \log(1-\pi); 0 \le \pi \le 1$ and
 
 \begin{tabular}{lp{5.5in}}
-$W$  & is a design matrix of covariates corresponding to specifics of lineup $\ell$ and subject $i$. Covariates could include  demographic information of individuals, such as age, gender, education level etc. as well lineup-specific elements, e.g. difficulty level. \\
+$W$  & is a design matrix of covariates corresponding to specifics of lineup $\ell$ and subject $i$. Covariates could include  demographic information of individuals, such as age, gender, education level etc. as well lineup-specific elements, e.g. effect size or difficulty level. \\
 $\delta$ & is a vector of parameters for fixed effects.\\
 $Z_{\ell i}$ & $1 \le i \le K$, $1 \le \ell \le L$  is a design matrix corresponding to random effects specific to individual $i$ and lineup $\ell$.  \\
 $\tau$ & is a vector of independent real-valued random variables $\tau_{\ell i}$,  $\tau  \sim  MVN(0,\sigma_\tau I_{KL \times KL})$. $\tau$ will usually include a component incorporating an individual's ability or skill to evaluate lineups. 
@@ -1374,7 +1374,7 @@ Total &&&&&60&10\\
 
 
 \begin {abstract} 
-Statistical graphics play a crucial role in exploratory data analysis, model checking and diagnosis. Until recently there were no formal visual methods in place for determining statistical significance of findings. This changed, when Buja et al.(2009) conceptually introduced two protocols for formal tests of visual findings. In this paper we take this a step further by comparing the lineup protocol (Buja et al.2009) against conventional statistical testing  of the significance of regression model parameters. A human subjects experiment is conducted using simulated data to provide controlled conditions. Results suggest that the lineup protocol provides results equivalent to the conventional test and for some scenarios yields better power than the conventional test.
+Statistical graphics play a crucial role in exploratory data analysis, model checking and diagnosis. Until recently, there were no formal visual methods in place for determining statistical significance of findings. This changed when Buja et al. (2009) conceptually introduced the lineup protocol for formal tests of visual findings. In this paper this is taken a step further by refining the terminology of visual inference, framing the protocol in a context that allows direct comparison with conventional tests, in scenarios when a conventional test exists, and it is used to compare the performance of the lineup protocol against conventional statistical testing in the scenario of fitting linear models. A human subjects experiment is conducted using simulated data to provide controlled conditions. Results suggest that the lineup protocol provides results comparable to the conventional tests, out-performs them when data is contaminated, and, there may be some super-individuals who yield better power than the conventional test even in the most difficult trials.
 \end {abstract}
 
 \end{document}
