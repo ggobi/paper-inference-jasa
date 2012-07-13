@@ -282,29 +282,24 @@ where $x_\alpha$ is such that $P(X \ge x_{\alpha}) < \alpha$. On the other hand,
 \green{Power is an important consideration in deciding which test to use for solving a problem. %In conventional testing, new test procedures are examined for their power under a variety of scenarios. 
 Here we use it to compare the performance of the visual test with the conventional test, but in practice for visual inference it will mostly be important in deciding on the choice of plot to use.} Analysts typically have a choice of plots to make, and a myriad of possible options such as reference grids, for any particular purpose. This is akin to different choices of statistics in conventional hypothesis testing, for example, mean, median, or trimmed mean. One is typically better than another. For two different visual test statistics of the same actual data, one is considered to be better, if $T(y)$ is more easily distinguishable to the observer. Power is typically used to measure this characteristic of a test. %Power is the probability of rejecting $H_0$ when it is not true.  We can assess power therefore both empirically based on experimental data and through theoretical considerations. 
 
-\section{Effect of Lineup Size and Number of Observers}~\label{sec:size}
+\section{Effect of Observer Skills and Lineup Size}~\label{sec:size}
 
 \green{Notation changes $i$ to $j$, and $p$ to $\pi$. Can someone please decide which to use, and make the appropriate changes? How does the ``Let $X_{j\ell} \sim B_{1, \pi_{j\ell}}$...'' below relate to the ``let $X_i$ be a binary random variable...'' above? It looks like this is a repeat. One needs to go once notation is clarified.}
 
 \red{Here is what my suggestion for notation \\  Use $B$ for logistic model and $\beta$ for linear model \\ Use $X$ to indicate logistic model covariate matrix and $U$ to denote binomial variable \\ $Y$ to indicate actual data. \\ Use $\pi_i$ instead of $p_i$ since $p_i$ is used for $p$-value.  \\ Should I change everything accordingly? I see that we have been careful not to use $\beta$ for power! }
 
 \subsection{Subject-specific abilities}~\label{sec:model}
-Calculating the power  is intricately related to the probability to identify the data plot from the lineup. 
+%Calculating the power  is intricately related to the probability to identify the actual data plot from the lineup. 
 
-Suppose each of $K$ independent observers gives evaluations on multiple lineups and responses are associated with binary random variable $X_{\ell i}$, where  $X_{\ell i} = 1$, if subject $i$ correctly identifies the test statistic on lineup $\ell$,  $\ell = 1, ..., L$, and 0 otherwise.
+Suppose each of $K$ independent observers gives evaluations on multiple lineups, and responses are considered to be binary random variable, $X_{\ell i}$, where $X_{\ell i} = 1$, if subject $i$ correctly identifies the actual data plot on lineup $\ell$, $\ell = 1, ..., L$, and 0 otherwise. A mixed effects logistic regression model is used for $p_{\ell i} = E(X_{\ell i})$, accommodating both for different abilities of observers as well as differences in the difficulty of lineups.
 
-\hh{
-We model $p_{\ell i} = E(X_{\ell i})$ as  a mixed effects logistic regression
- accommodating both for different abilities of individuals as well as differences in the difficulty of lineups: 
-
-
-Let $X_{\ell i} \sim Binom_{1, p_{\ell i}}$ be the random variable, with $X_{ \ell i}= 1$, if  subject $i$ correctly identifies the data plot from lineup $\ell$, and 0 otherwise.
-We can model $p_{ \ell i}$ with a logistic regression with subject-specific random effects as:
+Let $X_{\ell i} \sim Binom_{1, p_{\ell i}}$ be the random variable, with $X_{ \ell i}= 1$, if  subject $i$ correctly identifies the actual data plot from lineup $\ell$, and 0 otherwise.
+The model can be  fit as:% $p_{ \ell i}$ with a logistic regression with subject-specific random effects as:
 \begin{equation} \label{eqn:mixed}
 g( p_{\ell i} )= W_{\ell i} \delta +  Z_{\ell i}  \tau_{\ell i},  
 \end{equation}
 
-where $g(.)$ denotes the {\it logit} link function $g(\pi)=\log(\pi) - \log(1-\pi); 0 \le \pi \le 1$ and
+\noindent where $g(.)$ denotes the {\it logit} link function $g(\pi)=\log(\pi) - \log(1-\pi); 0 \le \pi \le 1$ and
 
 \begin{tabular}{lp{5.5in}}
 $W$  & is a design matrix of covariates corresponding to specifics of lineup $\ell$ and subject $i$. Covariates could include  demographic information of individuals, such as age, gender, education level etc. as well lineup-specific elements, e.g. effect size or difficulty level. \\
@@ -313,9 +308,8 @@ $Z_{\ell i}$ & $1 \le i \le K$, $1 \le \ell \le L$  is a design matrix correspon
 $\tau$ & is a vector of independent real-valued random variables $\tau_{\ell i}$,  $\tau  \sim  MVN(0,\sigma_\tau I_{KL \times KL})$. $\tau$ will usually include a component incorporating an individual's ability or skill to evaluate lineups. 
 Note that $t_{\ell i }$ usually only includes a partial interaction; for a full interaction of subjects' skills and lineup-specific difficulty we would need replicates of the same subject evaluating the same lineup, which in practice is not feasible without loosing independence.\\
 \end{tabular}
-}
 
-Using the inverse {\it logit} link function, $g^{-1}(.)$, from  Equation \ref{eqn:mixed} we obtain the estimate of subject and lineup specific probability of successful evaluation as 
+\noindent Using the inverse {\it logit} link function, $g^{-1}(.)$, from  Equation \ref{eqn:mixed} leands to the estimate of the subject and the lineup specific probability of successful evaluation as 
 \begin{equation} \label{eqn:mixed_power}
 \hat p_{\ell i} =  g^{-1}(W_{\ell i} \hat {\delta} +  Z_{\ell i}  \hat {\tau}_{\ell i}).
 \end{equation}
@@ -355,27 +349,25 @@ Using the inverse {\it logit} link function, $g^{-1}(.)$, from  Equation \ref{eq
 %\red{HH: the following paragraph needs some adjustment in terms of t and $\theta$ - could you try to take of that, Mahbub?}\\
 %\red{For the following paragraph, we wanted to get rid of the absolute value of $t$ and instead look at $t \in R$ and $t \in R^c$.}
 
-\noindent
+%\noindent
 \subsection{Lineup size, $m$}
 
-One of the big differences between visual inference and the conventional testing situation is the use of a finite number $m-1$ of representatives of the null distribution as comparison against the test statistic. The choice of $m$ has an obvious impact on the test, and we will discuss this in the following paragraph.
+The finite number $m-1$ of representatives of the null distribution used  as comparison against the test statistic, is a major difference between visual inference and the conventional testing. The choice of $m$ has an obvious impact on the test.
 
-The following properties are only derived for the situation of a  fully parameterized  simulation study. This allows us to directly compare lineup tests against their conventional counterparts and also identify  properties relevant for a quality assessment of  lineups, which are typically used  in non-parametric situations.
-
-We need to make two crucial assumptions:
+The following properties can only be derived for the situation of a fully parameterized  simulation study, as conducted in this paper. They allow for a direct comparison of lineup tests against the conventional counterparts, and also to identify properties relevant for a quality assessment of lineups, for when they are used in practical settings. Two assumptions are critical:
 \begin{enumerate} \itemsep 0in
-\item  the plot setup is structured in a way that makes it possible for observer to identify a deviation from the null hypothesis,
+\item  the plot setup is structured in a way that makes it possible for an observer to identify a deviation from the null hypothesis,
 \item an observer is able to identify the plot with the strongest `signal' (or deviation from $H_0$)  from a lineup.
 \end{enumerate}
-We will be able to show evidence for the second assumption with the help of the study discussed in Section~\ref{sec:simulation}, \hh{the degree to which the first assumption is fulfilled is reflected} by the power of a lineup. The better suited a design is for a particular task, the higher its power will be.
+Evidence in support of the second assumption will be seen in the data from the study discussed in Section~\ref{sec:simulation}, the degree to which the first assumption is fulfilled is reflected by the power of a lineup. The better suited a design is for a particular task, the higher its power will be.
 
-\hh{In order to compare power of conventional and visual tests side-by-side, we will have to assume, that we are in the controlled environment of a simulation with tests corresponding to a known parameter value $\theta \in R$ and associated distribution function $F_t$ of the test statistic. }
+In order to compare the power of conventional and visual tests side-by-side, it is necessary to assume, that we are in the controlled environment of a simulation with tests corresponding to a known parameter value $\theta \in R$ and associated distribution function $F_t$ of the test statistic. 
 
 \begin{lemma}~\label{lemma}
 Suppose $F_{|t|}(.)$ is the distribution function of an absolute value of $t$, the conventional test statistic. Suppose the associated test statistic in a conventional test is observed as  $t_{obs}$ with $p$-value $p_D$. 
 
 The probability of picking the data plot from a lineup depends on the size $m$ of the lineup and the strength of the signal in the data plot. 
-Under the above assumptions, we can express the probability as:
+Under the above assumptions, the probability is expressed as:
 \[
 P(p_D < p_0) =  E\left[ (1 - p_D)^{m-1}\right]
 \]
@@ -383,17 +375,17 @@ where $p_D$ is the $p$-value associated with the data in the test statistic, and
 \end{lemma}
 
 \begin{proof}
-We will now make use of properties of the data going into the lineup and assume that the properties are reflected in the lineup display:
+%We will now make use of properties of the data going into the lineup and assume that the properties are reflected in the lineup display:
 
- By definition we have 
+ By definition  
 
 $$p_D=Pr\left(|t| \ge t_{obs} \mid H_0\right)=1-F_{|t|}(t_{obs}) \ \ \Rightarrow \ \  |t_{obs}|=F_{|t|}^{-1}(1-p_D)$$
 
 %Now suppose $F_{|t|}(.;\delta)$ denotes the distribution function of an absolute value of $t$, the conventional test statistic.
 %, with non-centrality parameter $\delta$. 
-Then the distribution function of the $p$-value $p_D$ under $H_0$ is uniform, since:  
+\noindent Then the distribution function of the $p$-value, $p_D$, under $H_0$, is uniform, since:  
 \begin{eqnarray}\label{dist_p}
-F{p_D}(p) &=& Pr(p_D \le p)=1-Pr(1-p_D \le 1-p) \nonumber \\
+\green{F_{p_D}}(p) &=& Pr(p_D \le p)=1-Pr(1-p_D \le 1-p) \nonumber \\
   &=& 1-Pr\left(F_{|t|}^{-1}(1-p_D) \le F_{|t|}^{-1}(1-p) \right) \nonumber \\
   &=& 1-Pr\left(|t_{obs}| \le F_{|t|}^{-1}(1-p)\right) \nonumber \\
   &=&%\left\{ \begin{array}{ll}
@@ -406,12 +398,12 @@ F{p_D}(p) &=& Pr(p_D \le p)=1-Pr(1-p_D \le 1-p) \nonumber \\
 
 
 
-Let $p_{0,i}$, $i=1, ..., m-1$ denote the  $p$-values associated with data corresponding to the $m-1$ null plots. Since this data is generated consistently with the null hypothesis,  the $p$-values are independent and  follow a standard Uniform distribution, $p_{i,0} \sim U[0,1], i= 1, ..., m-1$.
-
-\hh{Their minimum $p_0 = \min_{1 \le i \le m-1}  \ p_{0,i}$ then follows a Beta distribution with shape parameters 1 and $m-1$, and corresponding distribution function 
+Let $p_{0,i}$, $i=1, ..., m-1$ denote the  $p$-values associated with data corresponding to the $m-1$ null plots. Since this data is generated consistently with the null hypothesis,  the $p$-values are independent and  follow a standard Uniform distribution, $p_{i,0} \sim U[0,1], i= 1, ..., m-1$. The minimum $p_0 = \min_{1 \le i \le m-1}  \ p_{0,i}$ then follows a Beta distribution with shape parameters 1 and $m-1$, and corresponding distribution function 
 \[
 F_{p_0} (x) =  1- (1- x) ^{m-1}  \text{ for } x \in [0,1].
 \]
+
+\noindent Thus
 \begin{eqnarray*}
 P(p_D < p_{0}) &=& 1 - P(p_{0} \le p_D) = 1- \int_0^1  P(p_{0} \le p_D \mid p_D=t) f_{p_D}(t) dt   \\
 &=& 1 - \int_0^1 F_{p_{0}}(t) f_{p_D}(t) dt = 1 - \int_0^1 f_{p_D}(t) dt + \int_0^1 (1-t)^{m-1} f_{p_D}(t) dt  \\
@@ -419,13 +411,13 @@ P(p_D < p_{0}) &=& 1 - P(p_{0} \le p_D) = 1- \int_0^1  P(p_{0} \le p_D \mid p_D=
 \end{eqnarray*}
 
 
-This proves the statement above. 
+%\noindent This proves the statement above. 
 %We further see:
 %\[
 %E\left[ (1 - p_D)^{m-1}\right] =  \sum_{k=0}^{m-1} {m-1 \choose k} (-1)^k E[p_D^k] = 1-(m-1)E[p_D] + O(E[p_D^2]).
 %\]
 
-}
+
 % If the density of $p$-value is very right skewed, the expectation term would be large. The distribution function would be highly right skewed when there would be strong signal in the data plot.Thats where the distribution function of $p$-value under alternative comes in. Should we add that in Equation \ref{dist_p}? )},
 %conversely, as $m$, the number of choices given in the lineup, goes up the probability to pick the data plot  goes down. 
 %}
@@ -455,13 +447,8 @@ This proves the statement above.
 
 %\red{pull the results for $P(p_D < p_{i,0})$ and $P(p_D < p_0)$ to the front, including the Figure on $1/m$ versus power. These results are independent of the regression setting - they don't make any assumptions in terms of regression.}
 
-\blue{
-The above statement allows two immediate conclusions for the use of lineups:
-The probability that the observer correctly identifies the data plot is closely connected to the size of the lineup $m$: since the right hand side of the above equation decreases for larger $m$, the probability of correctly identifying the data plot decreases with it. 
-
-Further we see, that the rate of this decrease depends strongly on the distribution of $p_D$; 
-if the density of $p_D$ is very right skewed, the  expectation term on right hand side will be large and  less affected by an increase in $m$. This can also be seen in Figure \ref{fig:pval_power}, which 
-visualizes the statement of lemma \ref{lemma}: }  Figure \ref{fig:pval_power} gives an overview of the probability of picking the actual data plot for lineups of different size: as $m$ increases we have an increased probability to observe a more highly structured null plot by chance. We see that for a $p$-value $p_D$ of about 0.15 for the data plot the signal in the plot is so weak, that we cannot distinguish the actual data plot from null plots in a lineup of size $m=20$. % This pattern is confirmed by our findings described in Section~\ref{sec:simulation}.
+\green{The above lemma allows two immediate conclusions for the use of lineups.
+The probability that the observer correctly identifies the data plot is closely connected to the size of the lineup $m$, since the right hand side of the above equation decreases for larger $m$, the probability of correctly identifying the actual data plot decreases with $m$. This may seem counterintuitive, but it makes sense. With fewer null plots the actual data plot will stand out, when the alternative hypothesis is true. Further we see, that the rate of this decrease depends strongly on the distribution of $p_D$ -- if the density of $p_D$ is very right skewed, the  expectation term on right hand side will be large and less affected by an increase in $m$. This can also be seen in Figure \ref{fig:pval_power}, which illustrates lemma \ref{lemma}.   Figure \ref{fig:pval_power} shows the probability of picking the actual data plot for lineups of different size: as $m$ increases we have an increased probability to observe a more highly structured null plot by chance. It can also be seen that for a $p$-value, $p_D$, of about 0.15 for the data plot, the signal in the plot is so weak, that it cannot be distinguished from null plots in a lineup of size $m=20$.} % This pattern is confirmed by our findings described in Section~\ref{sec:simulation}.
 %also seen in our experiments as shown in Figure \ref{fig:pval_pcorrect}.
 
 
