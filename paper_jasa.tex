@@ -100,7 +100,7 @@ Table \ref{tbl:compare} illustrates the lineup protocol in relation to conventio
 \caption{Comparison of visual inference with conventional inference.}
 \centering 
 \begin{tabular}{llll} 
-\hline
+\hline \hline
   & Conventional Inference &  Lineup Protocol \\ %[0.5ex] % inserts table %heading 
 \hline
   Hypothesis & $H_0: \beta=0$ vs $H_1: \beta > 0$& $H_0: \beta=0$ vs $H_1: \beta > 0$\\
@@ -171,6 +171,7 @@ being larger than $P(X \ge 1)$ in this situation. If we increase either $m$ or $
 \begin{table}[htp]
 \caption{Possible $p$-values for different numbers of observers, $K$, for fixed size $m = 20$ lineups.}
 \begin{center}
+\scalebox{.9}{
 \begin{tabular}{rrrrrrrrrrrrrrrrrrr}
 $K$ &  $x$ & $p$-value && $K$ &  $x$ & $p$-value && $K$ &  $x$ & $p$-value && $K$  & $x$ & $p$-value && $K$  & $x$ & $p$-value\\ \cline{1-3} \cline{5-7}\cline{9-11}\cline{13-15}\cline{17-19}
 1 &  1 & 0.0500 && 2 &  1 & 0.0975 && 3 & 1 & 0.1426 && 4 & 1 & 0.1855 && 5 & 1 & 0.2262 \\%\cline{1-3}
@@ -178,6 +179,7 @@ $K$ &  $x$ & $p$-value && $K$ &  $x$ & $p$-value && $K$ &  $x$ & $p$-value && $K
 &&&& &&&& 3 & 3 & 0.0001 && 4 & 3 & 0.0005 && 5 & 3 & 0.0012 \\%\cline{1-6}
 &&&&  &    &        &   &   &        &&& 4 & 4 & $< 0.0001$ && 5 & 4 & $< 0.0001$ 
 \end{tabular}
+}
 \end{center}
 \label{pvalue}
 \end{table}
@@ -202,7 +204,7 @@ The \textbf{visual test}, $V_{\theta}$  of size $\alpha$, is defined to be
 \item \textbf{Reject} $H_0$ if out of $K$ observers at least $x_{\alpha}$ correctly identify the actual data plot in the lineup, and
 \item \textbf{Fail to reject} $H_0$  otherwise. 
 \end{itemize}
-where $x_{\alpha}$ is such that $P(X \ge x_{\alpha}) < \alpha$. 
+where $x_{\alpha}$ is such that $P(X \ge x_{\alpha}) \le \alpha$. 
 \end{dfn}
 
 \noindent
@@ -218,7 +220,7 @@ The \textbf{Type I error} associated with visual test $V_{\theta}$ is the probab
 \noindent Because $X$ takes only discrete values we can not always control exactly for $\alpha$, with an exact $x_{\alpha}$. For example, when there is only one observer, $1/m$ is the minimal value at which we can set $\alpha$. It can be set to be smaller, even arbitrarily small, by increasing $K$, the number of observers. 
 Type II error is harder to calculate, as is usually the case. In visual inference, individual abilities need to be incorporated to calculate Type II error. This is not necessary for Type I error, because it is simply the chance that the observer picks the actual data plot, by chance. For Type II error, we need to calculate the chance that the observer sees that actual data plot as different, when it really is different. This involves understanding the individual's visual skills. Thus, let $X_i$ be a binary random variable with $X_i = 1$, if individual $i (=1, \dots , K)$ identifies the actual data plot from the lineup, and $X_i = 0$ otherwise, where $p_i$ is the probability that individual $i$ picks out the actual data plot from the lineup. If all individuals have the same ability, with the probability, $p$, for picking out the actual data plot, then $X = \sum_i X_i$ has distribution $\text{Binom}_{K, p}$, and we can estimate $p$ by $\hat{p} = x/K$, where $x$ is the number of observers (out of $K$), who pick out the actual data plot from the lineup. 
 
-\hh{If there is evidence for individual skills influencing the probability $p_i$, then $X_i \sim Binom_{1, p+i}$ and $X$ is a sum of independent Bernoulli random variables with different success rates $p_i$. This makes the distribution of $X$ a Poisson-Binomial by definition, see \citet{butler93} for details. Estimating $p_i$ will be one of the main concerns for the remainder of the paper.} One way we can estimate this is fitting a generalized mixed effect model as described in Section \ref{sec:model}.
+\hh{If there is evidence for individual skills influencing the probability $p_i$, then $X_i \sim Binom_{1, p_i}$ and $X$ is a sum of independent Bernoulli random variables with different success rates $p_i$. This makes the distribution of $X$ a Poisson-Binomial by definition, see \citet{butler93} for details. Estimating $p_i$ will be one of the main concerns for the remainder of the paper.} One way we can estimate this is fitting a generalized mixed effect model as described in Section \ref{sec:model}.
 
 %\green{WHY??? And how does this relate to the logistic model below?} 
 %This leads to the definition of the power of the visual test, as follows:
@@ -272,9 +274,9 @@ where $F_{X, \theta}$ is the distribution of $X$ -- this depends on which hypoth
 
 Under the null hypothesis $X \sim Binom_{K, 1/m}$, leading to a type I error of:
 \[
-\text{Power}_V(\theta, K)= 1 - Binom_{K, 11/m} (x_\alpha - 1),
+\text{Power}_V(\theta, K)= 1 - Binom_{K, 1/m} (x_\alpha - 1),
 \]
-where $x_\alpha$ is defined as in (\ref{dfn:test}), as  $P(X \ge x_{\alpha}) < \alpha$.
+where $x_\alpha$ is defined as in (\ref{dfn:test}), as  $P(X \ge x_{\alpha}) \le \alpha$.
 
 If the alternative hypothesis is true with a fixed parameter value $\theta$, we can assume that an individual's probability to identify the data plot depends on the parameter value, and $X_i \sim Binom_{1, p_i(\theta)}$. Again, assessing an individual's probability to identify the data plot  is central to the actual calculation .
 }
@@ -287,9 +289,9 @@ For visual inference, this corresponds to the choice of plot to use. Analysts ty
 
 \section{Effect of Lineup Size and Number of Observers}~\label{sec:size}
 
-\green{Notation changes $i$ to $j$, and $p$ to $\pi$. Can someone please decide which to use, and make the appropriate changes? How does the ``Let $X_{j\ell} \sim B_{1, \pi_{j\ell}}$...'' below relate to the ``let $X_i$ be a binary random variable...'' above? It looks like this is a repeat. One needs to go once notation is clarified.}
+%\green{Notation changes $i$ to $j$, and $p$ to $\pi$. Can someone please decide which to use, and make the appropriate changes? How does the ``Let $X_{j\ell} \sim B_{1, \pi_{j\ell}}$...'' below relate to the ``let $X_i$ be a binary random variable...'' above? It looks like this is a repeat. One needs to go once notation is clarified.}
 
-\red{Here is what my suggestion for notation \\  Use $B$ for logistic model and $\beta$ for linear model \\ Use $X$ to indicate logistic model covariate matrix and $U$ to denote binomial variable \\ $Y$ to indicate actual data. \\ Use $\pi_i$ instead of $p_i$ since $p_i$ is used for $p$-value.  \\ Should I change everything accordingly? I see that we have been careful not to use $\beta$ for power! }
+%\red{Here is what my suggestion for notation \\  Use $B$ for logistic model and $\beta$ for linear model \\ Use $X$ to indicate logistic model covariate matrix and $U$ to denote binomial variable \\ $Y$ to indicate actual data. \\ Use $\pi_i$ instead of $p_i$ since $p_i$ is used for $p$-value.  \\ Should I change everything accordingly? I see that we have been careful not to use $\beta$ for power! }
 
 \subsection{Subject-specific abilities}~\label{sec:model}
 Calculating the power  is intricately related to the probability to identify the data plot from the lineup. 
@@ -700,7 +702,7 @@ Each subject viewed at least 10 lineups and we allowed them to provide more eval
 \begin{table}[hbtp]
 \caption{Combination of parameter values, $\beta_2$,  $n$ and $\sigma$, used for each of the simulation experiments.} % title name of the table
 \centering
-% centering table
+\scalebox{.9}{
 \begin{tabular}{c c c c c}
 % creating 10 columns
 \hline\hline
@@ -728,6 +730,7 @@ Sample size  & Error SD  &  \multicolumn{1}{c} {Experiment 1}  & \multicolumn{1}
 \hline
 % inserts single-line
 \end{tabular}
+}
 \label{tbl:experiment_params}
 \end{table} 
 
@@ -911,7 +914,7 @@ Amazon Mechanical Turk workers are paid for their efforts, not substantial, but 
 \caption{Number of subjects, gender and total lineups seen, and number of distinct lineups for all three experimental data sets. Note that in some of the lines the number of male and female participants does not add up to the total number of participants due to missing demographic information. }%\blue{Notice that we do not have data on one lineup (so we have only 29 lineups) for experiment 3 due to the screening process.}}
 \begin{center}
 \begin{tabular}{ccrrcc}
-   \hline 
+   \hline \hline
  Experiment & Subject & Male & Female & Responses &Lineup\\ 
     \hline
 1 & 239 & 121 & 107 & 2249 &  60 \\ 
@@ -945,7 +948,7 @@ Table \ref{tbl:model_par} shows the parameter estimates of the mixed effects mod
 \caption{Parameter estimates of model in Equation \ref{eqn:mixed}. Estimates are highly significant with $p$-value $<$  0.0001 for all three experiment data.}
 \begin{center}
 \begin{tabular}{cr@{.}lcc}
-  \hline
+  \hline \hline
  &  \multicolumn{3}{c} {Fixed effect}  & Random effect\\
  \cline{2-4}
  Experiment & \multicolumn{2}{l}{Estimate}  &Std. error & Variance\\
@@ -968,7 +971,7 @@ Table \ref{tbl:model_par} shows the parameter estimates of the mixed effects mod
 \begin{figure}[hbtp]
    \centering
        \scalebox{0.55}{\includegraphics{power_loess_effect.pdf}}
-       \caption{Power in comparison to effect for the three experiments. Points indicate subject responses, with size indicating count. Responses are 1 and 0 depending on the success or failure respectively to identify the actual plot in the lineup. The loess curve (blue) estimates the observed power, and grey bands show simultaneous bootstrap confidence band.  Conventional test power is drawn as a dashed line. For experiment 3, conventional power is based on the slopes of the linear part of the non-contaminated data. Power for contaminated data is shown by cross mark.}
+       \caption{Power in comparison to effect for the three experiments. Points indicate subject responses, with size indicating count. Responses are 1 and 0 depending on the success or failure respectively to identify the actual plot in the lineup. \blue{The loess curve (blue) estimates the observed power}, and grey bands show simultaneous bootstrap confidence band.  Conventional test power is drawn as a dashed line. For experiment 3, conventional power is based on the slopes of the linear part of the non-contaminated data. Power for contaminated data is shown by cross mark.}
        \label{fig:power_loess_effect}
 \end{figure}
 
@@ -1038,7 +1041,7 @@ It can also be seen that at effect $E=0$, the power is close to 0.05 (Type-I err
 \subsection{Subject-specific variation}
 
 %Different subjects are expected to have different skill levels in evaluating lineups. This is accounted for in the mixed effects model (Equation \ref{eqn:mixed}).   
- The estimated subject-specific power curves are shown in Figure \ref{fig:power_mixed_subject} (light grey lines). The blue curve is the overall average power estimated from the model, and for comparison, the grey dashed lines are the power curves for the conventional test. Subject-specific power is quite different for three experiments. In experiment 1 subjects performed similarly, and substantially worse than the conventional test. In experiment 2 there is more variability between subjects, with some doing better than the conventional test on small effects. In experiment 3 there is the most subject-specific variation. Some subjects performed substantially better than the conventional test, and on average the visual test was better. 
+ The estimated subject-specific power curves are shown in \blue{Figure \ref{fig:power_mixed_subject} (light grey lines). The blue curve is the overall} average power estimated from the model, and for comparison, the grey dashed lines are the power curves for the conventional test. Subject-specific power is quite different for three experiments. In experiment 1 subjects performed similarly, and substantially worse than the conventional test. In experiment 2 there is more variability between subjects, with some doing better than the conventional test on small effects. In experiment 3 there is the most subject-specific variation. Some subjects performed substantially better than the conventional test, and on average the visual test was better. 
 
 \begin{figure}[hbtp]
    \centering
@@ -1221,7 +1224,7 @@ In practice, $p$-value is not going to be a valid way to compare plots. Rather m
 \begin{figure}[hbtp]
    \centering
        \scalebox{0.70}{\includegraphics{pval_difference.pdf}}
-       \caption{Investigating how does the strength of structure in the null plots affects the choice of the actual data plot. Difference between the data plot's $p$-value and the  smallest $p$ value of a null plot vs proportion correct. Negative values indicate the $p$-value of the actual data plot are smaller than those of all of the null plots. Close to zero shows a wide range in the proportion correct, suggesting that when at least one null plot has structure almost as strong as the actual data plot, subjects had a difficult time in making their choice.}
+       \caption{Investigating how the strength of structure in the null plots affects the choice of the actual data plot. Difference between the data plot's $p$-value and the  smallest $p$ value of a null plot vs proportion correct. Negative values indicate the $p$-value of the actual data plot are smaller than those of all of the null plots. Close to zero shows a wide range in the proportion correct, suggesting that when at least one null plot has structure almost as strong as the actual data plot, subjects had a difficult time in making their choice.}
        \label{fig:pval_difference}
 \end{figure}
 
@@ -1288,7 +1291,7 @@ The question that is posed to observers can affect the abililty to evaluate line
 
 Even though a single observer can evaluate a lineup, as suggested in the initial lineup protocol, this work recommends having multiple observers. This ensures the ability to obtain a good estimate of the $p$-value for the test, and more confidence in the decision.
 
-Experimental subjects in the simulation study came from various level of education, both genders and many different ages. Many subjects had little background in statistics, and were not necessarily aware of statistical plots. Yet the results were good. We expect that visual inference could a useful tool for high school students to learn about randomness as a primer to statistical thinking. A major advantage of visual statistical inference is that it is intuitive, as illustrated by the performance of subjects with limited education, and it is may make statistics fun to learn. 
+Experimental subjects in the simulation study came from various level of education, both genders and many different ages. Many subjects had little background in statistics, and were not necessarily aware of statistical plots. Yet the results were good. We expect that visual inference could be a useful tool for high school students to learn about randomness as a primer to statistical thinking. A major advantage of visual statistical inference is that it is intuitive, as illustrated by the performance of subjects with limited education, and it is may make statistics fun to learn. 
 
 The performance of subjects was quite varied, but consistent. No restrictions were placed on Turk workers, in terms of abilities. There were clearly some subjects who performed very badly, but it was very interesting to see that there were some super-observers, people who detected the actual data plot at a rate better than that of the power of the best conventional test. 
  It would be interesting to see how well trained subjects might perform. Prior to the Turk experiments, we conducted pilot studies using local graphics experts and obtained good results, indicating that training in data visualization might be helpful for visual inference. Future work might explore this.
