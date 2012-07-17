@@ -1098,7 +1098,7 @@ In the real setting, where visual inference is to be useful, there will be no co
 From the experimental data the visual $p$-values are estimated based on Definition \ref{dfn:pvalue}. Figure \ref{fig:pval_definition} displays resulting estimates for each lineup against the conventional $p$-value.  The pattern of visual $p$-values is interesting: for small $p$-values the visual estimates tend to be very small, while lineups with larger $p$-values result in very large visual estimate, 
 % If there is a signal in the data plot, visual $p$-value has a tendency to take a smaller value (small enough to reject $H_0$) and if not it takes a larger value (large enough to not reject $H_0$) 
 % 
- giving a clear indication to reject $H_0$ or not. This is why we do not see lot of visual $p$-values in between 0.05 and 0.8 especially for experiment 2. This guide the researcher to make decision confidently while conventional $p$-values take some marginal $p$-values for which researchers get confused whether to reject or 'not reject' $H_0$. For visual test this is not common.  
+ giving a clear indication to reject $H_0$ or not. This is why we do not see lot of visual $p$-values  between 0.05 and 0.8 especially for experiment 2. This guides the researcher to make decision confidently while conventional $p$-values take some marginal $p$-values for which researchers get confused whether to reject or 'not reject' $H_0$. For visual test this is not common.  
 
 \begin{figure*}[hbtp]
    \centering
@@ -1159,8 +1159,9 @@ Figures \ref{fig:P-val_log} and \ref{fig:P-val_log2} show the selection counts a
       \includegraphics[width=0.95\textwidth]{p_val_log_counts-a.pdf}
        \includegraphics[width=0.95\textwidth]{p_val_log_counts-b.pdf}
   %      \includegraphics[width=0.95\textwidth]{p_val_log_counts.pdf}
-       \caption{Relative frequency of plot picks compared to other plots in the lineup plotted against the $p$-value (on log$_{10}$ scale) of each plot for all of the sixty (60) individual lineups for experiment 1. %\blue{Red indicates the} plot with the lowest $p$-value, and 
-       \blue{blue indicates the} actual data plot, when it is different from that with the lowest $p$-value. The columns of both top and bottom panel are ordered according to effect size, rows within panels show replicates for each parameter combination.
+       \caption{Relative frequency of plot picks compared to other plots in the lineup plotted against the $p$-value (on log$_{10}$ scale) of each plot for all of the sixty (60) individual lineups for experiment 1. \blue{Red indicates the} plot with the lowest $p$-value, and 
+       \blue{blue indicates the} actual data plot. %, when it is different from that with the lowest $p$-value. 
+       The columns of both top and bottom panel are ordered according to effect size, rows within panels show replicates for each parameter combination.
        %Rows correspond to $\beta$, smallest to largest values from top to bottom. Columns correspond to other experimental treatments, sample size $(n)$, error standard deviation $(\sigma)$, and replicate. Empty cells indicate no lineup for that combination of parameters. Highest counts tend to be the plot in the lineup having the lowest $p$-value.
        }
        \label{fig:P-val_log}
@@ -1168,8 +1169,16 @@ Figures \ref{fig:P-val_log} and \ref{fig:P-val_log2} show the selection counts a
 
 \begin{figure*}[hbtp]
    \centering
-       \includegraphics[width=0.95\textwidth]{p_val_log_counts2.pdf}
-       \caption{Relative frequency of plot picks compared to other plots in the lineup plotted against the $p$-value (on log$_{10}$ scale) of each plot for all of the seventy (70) individual lineups for experiment 2. \blue{Red indicates the} plot with the lowest $p$-value, and \blue{blue indicates} the actual data plot, when it is different from that with the lowest $p$-value. Rows correspond to $\beta$, smallest to largest values from top to bottom. Columns correspond to other experimental treatments, sample size $(n)$, error standard deviation $(\sigma)$, and replicate. Empty cells indicate no lineup for that combination of parameters. Highest counts tend to be the plot in the lineup having the lowest $p$-value, even more so than for experiment 1.}
+%       \includegraphics[width=0.95\textwidth]{p_val_log_counts2.pdf}
+       \includegraphics[width=0.75\textwidth]{p_val_log_counts2-a.pdf}       
+       \includegraphics[width=0.75\textwidth]{p_val_log_counts2-b.pdf}
+       \caption{Relative frequency of plot picks compared to other plots in the lineup plotted against the $p$-value (on log$_{10}$ scale) of each plot for all of the seventy (70) individual lineups for experiment 2. \blue{Red indicates the} plot with the lowest $p$-value. %, and \blue{blue indicates} the actual data plot, when it is different from that with the lowest $p$-value. 
+       %Rows correspond to $\beta$, smallest to largest values from top to bottom. Columns correspond to other experimental treatments, sample size $(n)$, error standard deviation $(\sigma)$, and replicate. 
+%       
+Columns are ordered according to effect size, with rows showing replicates of the same parameter combination on top of each other.
+       Empty cells indicate combination of parameters with fewer than five replicates. 
+       Highest counts tend to be the plot in the lineup having the lowest $p$-value, even more so than for experiment 1.
+       }
        \label{fig:P-val_log2}
 \end{figure*}
 
