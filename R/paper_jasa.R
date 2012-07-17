@@ -519,6 +519,7 @@ prr.actual<-ddply(prr, "pic_name", summarise,
                    sd=sd[1],
                    rep=rep[1])
 prr.actual <- subset(prr.actual, !(prr.actual$pic_name == prr.min$pic_name & prr.actual$lpvalue == prr.min$lpvalue))
+
 p <- qplot(lpvalue, rfreq, geom="point", data=prr) +
   geom_segment(mapping=aes(xend=lpvalue, yend=0)) +
   geom_segment(mapping=aes(xend=lpvalue, yend=0, colour="hotpink"), data=prr.min) + 
@@ -526,11 +527,44 @@ p <- qplot(lpvalue, rfreq, geom="point", data=prr) +
   xlab(expression(paste("P-value on ",log[10]," scale"))) + ylab("Relative frequency of picks") +
   geom_segment(mapping=aes(xend=lpvalue, yend=0, colour="turquoise"), data=prr.actual) + 
   geom_point(mapping=aes(xend=lpvalue, yend=0, colour="turquoise"), data=prr.actual) + 
-  facet_grid(beta~n+sd+rep, labeller="label_both") + scale_x_continuous(limits=c(-2.1,0.1), breaks=c(-2,-1,0), labels=c("0.01","0.1","0")) + 
+  facet_grid(beta~n+sd+rep, labeller="label_both") + scale_x_continuous(limits=c(-2.1,0.1), breaks=c(-2,-1,0), labels=c("0.01","0.1","1")) + 
   opts(legend.position="none")
 p
 
 ggsave(file="../images/p_val_log_counts.pdf", height=10, width=12)
+
+# alternative ordering for the previous plot
+prr$facets <- with(prr, paste("beta:", beta,"\n n:", n,"\n sd:",sd, paste=""))
+prr$effect <- with(prr, sqrt(as.numeric(as.character(n)))*as.numeric(as.character(beta))/as.numeric(as.character(sd)))
+prr$facets <- reorder(prr$facets, prr$effect, median)
+
+prr.actual <- subset(prr, pvalue==obs_pvalue)
+
+p1 <- qplot(lpvalue, rfreq, geom="point", data=subset(prr, as.numeric(facets) <= 10)) +
+  geom_segment(mapping=aes(xend=lpvalue, yend=0)) +
+  #  geom_segment(mapping=aes(xend=lpvalue, yend=0), colour="hotpink", data=subset(prr.min, as.numeric(facets) > 10)) + 
+  #  geom_point(mapping=aes(xend=lpvalue, yend=0), colour="hotpink", data=subset(prr.min, as.numeric(facets) > 10)) +
+  xlab(" ") + ylab("Relative frequency of picks") +
+  geom_segment(mapping=aes(xend=lpvalue, yend=0), colour="turquoise", data=subset(prr.actual, as.numeric(facets) <= 10)) +
+  geom_point(mapping=aes(xend=lpvalue, yend=0), colour="turquoise", data=subset(prr.actual, as.numeric(facets) <= 10)) +
+  facet_grid(rep~facets) + scale_x_continuous(limits=c(-2.1,0.1), breaks=c(-2,-1,0), labels=c("0.01","0.1","1")) + 
+  opts(legend.position="none")
+p1
+ggsave(file="../images/p_val_log_counts-a.pdf", height=4, width=12)
+
+p2 <- qplot(lpvalue, rfreq, geom="point", data=subset(prr, as.numeric(facets) > 10)) +
+  geom_segment(mapping=aes(xend=lpvalue, yend=0)) +
+#  geom_segment(mapping=aes(xend=lpvalue, yend=0), colour="hotpink", data=subset(prr.min, as.numeric(facets) > 10)) + 
+#  geom_point(mapping=aes(xend=lpvalue, yend=0), colour="hotpink", data=subset(prr.min, as.numeric(facets) > 10)) +
+  xlab(expression(paste("P-value on ",log[10]," scale"))) + ylab("Relative frequency of picks") +
+  geom_segment(mapping=aes(xend=lpvalue, yend=0), colour="turquoise", data=subset(prr.actual, as.numeric(facets) > 10)) +
+  geom_point(mapping=aes(xend=lpvalue, yend=0), colour="turquoise", data=subset(prr.actual, as.numeric(facets) > 10)) +
+  facet_grid(rep~facets) + scale_x_continuous(limits=c(-2.1,0.1), breaks=c(-2,-1,0), labels=c("0.01","0.1","1")) + 
+  opts(legend.position="none")
+p2
+ggsave(file="../images/p_val_log_counts-b.pdf", height=4, width=12)
+
+
 
 # now same plot for turk2 data
 prr2 <- get_merged_pvalue(dat2,pval2)
