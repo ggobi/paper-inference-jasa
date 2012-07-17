@@ -62,11 +62,11 @@ Statistical graphics play a crucial role in exploratory data analysis, model che
 
 %\checkmark
 
-Statistical graphics nourishes the discovery process in data analysis: revealing unexpected things,  finding structure that was not previously anticipated,  or orthogonally contrasting prevailing hypotheses. It is often associated with exploratory data analysis, which was pioneered by \cite{tukey:eda} and, is particularly pertinent in today's data-rich world where discovery during data mining has become an important activity. Graphics are also used in many places where numerical summaries simply do not suffice: model checking, diagnosis, and in the communication of findings. 
+Statistical graphics nourish the discovery process in data analysis by revealing unexpected things,  finding structure that was not previously anticipated,  or orthogonally by contrasting prevailing hypotheses. The area of graphics is often associated with exploratory data analysis, which was pioneered by \cite{tukey:eda} and, is particularly pertinent in today's data-rich world where discovery during data mining has become an important activity. Graphics are also used in many places where numerical summaries simply do not suffice: model checking, diagnosis, and in the communication of findings. 
 
 Statistical graphics research and development is agreeably established now, and has been cemented by several new developments in recent years. Early studies on evaluating how well statistical plots are perceived and read by the human eye \citep{cleveland:1984}, have been repeated and expanded \citep{simkin:1987,spence:1991, heer:2010} with findings supporting the original results. This body of work provides a framework for evaluating new statistical graphics.  In a complementary direction, new research on formalizing statistical graphics with language characteristics makes it easier to abstractly define, compare and contrast data plots. \cite{wilkinson:1999} developed a grammar of graphics that is enhanced by \cite{hadley:2009}. These methods provide a mechanism to abstract the way data is mapped to graphical form. Finally, technology advances make it simple and easy for everyone to draw plots of data, and particularly the existence of software systems, such as R \citep{R}, enable making beautiful data graphics that can be tightly coupled with statistical modeling.
 
-However, measuring the strength of patterns seen in plots, and differences in individual perceptual ability, is something that is difficult and perhaps handicaps graphics  use among statisticians, where measuring probabilities is of primary importance. This has also been addressed in recent research. \citet{buja:2009} proposes a protocol that allow the testing of discoveries made from statistical graphics. This work represents a major advance for graphics, because it bridges the gulf between conventional statistical inference procedures and exploratory data analysis. One of the protocols, the lineup, places the actual data plot among  a page of plots of null data, and asks a human judge to pick the plot that is different. Figure \ref{fig:test_category} shows an example lineup. Which plot do you think is the most different from the others? (The position of the actual data plot is provided in Section \ref{sec:category}.) Wrapped in a process that mirrors conventional inference, where there is an explicit, a priori, null hypothesis, picking the plot of the data from the null plots represents a rejection of that null hypothesis. The null hypothesis typically derives from the task at hand, or the type of plot being made. The alternative encompasses all possible antitheses, all types of patterns that might be detected in the actual data plot, accounting for all possible deviations from the null without the requirement to specify these ahead of time. The probability of rejection can be quantified, along with Type I, and Type II error, and $p$-value and power can be defined and estimated. 
+However, measuring the strength of patterns seen in plots, and differences in individual perceptual ability, is something that is difficult and perhaps handicaps graphics  use among statisticians, where measuring probabilities is of primary importance. This has also been addressed in recent research. \citet{buja:2009} proposes a protocol that allows the testing of discoveries made from statistical graphics. This work represents a major advance for graphics, because it bridges the gulf between conventional statistical inference procedures and exploratory data analysis. One of the protocols, the lineup, places the actual data plot among  a page of plots of null data, and asks a human judge to pick the plot that is different. Figure \ref{fig:test_category} shows an example lineup. Which plot do you think is the most different from the others? (The position of the actual data plot is provided in Section \ref{sec:category}.) Wrapped in a process that mirrors conventional inference, where there is an explicit, a priori, null hypothesis, picking the plot of the data from the null plots represents a rejection of that null hypothesis. The null hypothesis typically derives from the task at hand, or the type of plot being made. The alternative encompasses all possible antitheses, all types of patterns that might be detected in the actual data plot, accounting for all possible deviations from the null without the requirement to specify these ahead of time. The probability of rejection can be quantified, along with Type I, and Type II error, and $p$-value and power can be defined and estimated. 
 
 
 \begin{figure}[htp]
@@ -78,7 +78,7 @@ However, measuring the strength of patterns seen in plots, and differences in in
 \end{figure}
 %\end{figurehere}
 
-The protocol has only been informally tested until now. In the work described in this paper, the lineup protocol is compared head to head with the equivalent conventional test. Specifically, the lineup is examined in the context of a linear model setting, where we are determining the importance of including a variable in the model. This is not the envisioned environment for the use of the lineup -- actually it is likely the worst case scenario for visual inference. The intended use of lineups is where there is no existing test, and unlikely to be ever any numerical test. The thought is though, that the conventional setting provides a benchmark for how well the lineup protocol works under controlled conditions, and will provide some assurance that they will work in scenarios where there is no benchmark. Testing is done using a human-subjects experiment using Amazon's Mechanical Turk \citep{turk}, using simulation to provide controlled conditions for assessing lineups. The results are compared with those of the conventional test. 
+The protocol has only been informally tested until now. In the work described in this paper, the lineup protocol is compared head to head with the equivalent conventional test. Specifically, the lineup is examined in the context of a linear model setting, where we are determining the importance of including a variable in the model. This is not the envisioned environment for the use of the lineup -- actually it is likely the worst case scenario for visual inference. The intended use of lineups is where there is no existing test, and unlikely to be ever any numerical test. The thought is though, that the conventional setting provides a benchmark for how well the lineup protocol works under controlled conditions, and will provide some assurance that they will work in scenarios where there is no benchmark. Testing is done based on a human-subjects experiment using Amazon's Mechanical Turk \citep{turk}, using simulation to provide controlled conditions for assessing lineups. The results are compared with those of the conventional test. 
 
 %, analysis requires plots of data. For exploratory data analysis, statistical graphics play an invaluable role in model checking and diagnostics. Even though we have established mathematical procedures to obtain various statistics, we need to support the results by also producing the relevant plots. 
 
@@ -94,7 +94,7 @@ The paper is organized as follows. Section \ref{sec:visual_test} defines terms a
 
 \section{Definitions and Explanations for Visual Statistical Inference} \label{sec:visual_test} 
 
-Table \ref{tbl:compare} illustrates the lineup protocol in relation to conventional hypothesis testing. Both start from the same place, the same null hypothesis. The conventional test statistic is the $t$-statistic, where the parameter estimate is divided by its standard error. In the lineup protocol, the test statistic is a plot of the data, here side-by-side boxplots are used, because the variable of interest is categorical and takes just two values. In conventional hypothesis testing the value of the test statistic is compared with all possible values of the sampling distribution, the distribution of the statistic if the null hypothesis is true. If it is extreme on this scale then the null hypothesis is rejected. In contrast in visual inference, the plot of the data is compared with plots of a finite number of samples drawn from the null distribution. If the actual data plot is selected as the most different, then this results in rejection of the null hypothesis.
+Table \ref{tbl:compare} illustrates the lineup protocol in relation to conventional hypothesis testing. Both start from the same place, the same set of hypotheses. The conventional test statistic is the $t$-statistic, where the parameter estimate is divided by its standard error. In the lineup protocol, the test statistic is a plot of the data. Here, side-by-side boxplots are used, because the variable of interest is categorical and takes just two values. In conventional hypothesis testing the value of the test statistic is compared with all possible values of the sampling distribution, the distribution of the statistic if the null hypothesis is true. If it is extreme on this scale then the null hypothesis is rejected. In contrast in visual inference, the plot of the data is compared with plots of a finite number of samples drawn from the null distribution. If the actual data plot is selected as the most different, then this results in rejection of the null hypothesis.
 
 \begin{table*}[hbtp]
 \caption{Comparison of visual inference with conventional inference.}
@@ -135,10 +135,12 @@ In general, we define $\theta$ to be a population parameter of interest, with $\
 For visual inference, unlike in the conventional hypothesis test, the statistic is not a single value, but a graphical representation of the data chosen to display the strength of the parameter of interest, $\theta$. When the alternative hypothesis is true, it is expected that the plot of the actual data, the test statistic, will have visible feature(s) consistent with $\theta \in \Theta_0^c$, and that visual artifacts will not distinguish the test statistic as different when $H_1$ is not true. We will call a plot with this property a {\it visual statistic} for $\theta$. More formally, 
 
 \begin{dfn} \label{dfn:test}
-A \textbf{visual test statistic}, $T(.)$, is a function of a sample that makes a plot. $T(y)$ maps the actual data to the plot, and we call this the \textbf{actual data plot}, and $T(y_0)$ maps samples drawn from the null distribution into the same plot form, and these are called \textbf{null plots}. 
+A \textbf{visual test statistic}, $T(.)$, is a function of a sample that produces a plot. $T(y)$ maps the actual data to the plot, and we call this the \textbf{(actual) data plot}, and $T(y_0)$ maps a sample drawn from the null distribution into the same plot form. These type of plots are called \textbf{null plots}. 
 \end{dfn}
 
-\noindent Ideally, the visual test statistic is defined and constructed using the grammar of graphics \citep{wilkinson:1999,hadley:2009}, consisting of type, and specification of aesthetics, necessary for complete reproducibility. The visual test statistic is compared with values $T(y_0)$ using a lineup, which is defined as:
+\noindent Ideally, the visual test statistic is defined and constructed using the grammar of graphics \citep{wilkinson:1999,hadley:2009}, consisting of type, and specification of aesthetics, necessary for complete reproducibility. \\
+\noindent
+The visual test statistic is compared with values $T(y_0)$ using a lineup, which is defined as:
 
 \begin{dfn}\label{dfn:lplot}
 A \textbf{lineup} is a layout of $m$ randomly placed visual statistics, consisting of 
@@ -148,14 +150,15 @@ A \textbf{lineup} is a layout of $m$ randomly placed visual statistics, consisti
 \end{itemize}
 \end{dfn}
 
-\noindent The $(m-1)$ null plots can be members of the sampling distribution of the test statistic assuming that the null hypothesis is true. If $H_1$ is true, we expect this to be reflected as a feature in the test statistic, i.e. the plot of the data, that makes it visually distinguishable from the null plots. A careful visual inspection of the lineup by %\strikethrough{an} 
+\noindent The $(m-1)$ null plots are % can be 
+members of the sampling distribution of the test statistic assuming that the null hypothesis is true. If $H_1$ is true, we expect this to be reflected as a feature in the test statistic, i.e. the plot of the data, that makes it visually distinguishable from the null plots. A careful visual inspection of the lineup by %\strikethrough{an} 
 independent observers follows;  observers are asked to point out the plot most different from the lineup. If the test statistic is identified in the lineup, this is considered as evidence against the null hypothesis. 
 %If it is not identified the conclusion is to not reject the null hypothesis. 
 
 This leads us to a definition for the $p$-value of a lineup: under the null hypothesis, each observer has a $1/m$ chance of picking the test statistic from the lineup.  For $K$ independent observers, let $X$ be  the number of observers picking the test statistic from the lineup. Under the null hypothesis $X \sim \text{Binom}_{K, 1/m}$,  therefore: 
 
 \begin{dfn}\label{dfn:pvalue}
-The $p$-value of a lineup of size $m$ is given as 
+The $p$-value of a lineup of size $m$ is  estimated as %given as 
 
 \begin{equation}\label{binom}
 P(X \ge x) = 1 - \text{Binom}_{{K, 1/m}} (x-1) = \sum_{i=x}^{K} {K \choose i} \left(\frac{1}{m}\right)^{i} \left(\frac{m-1}{m}\right)^{K-i}
@@ -199,7 +202,7 @@ $K$ &  $x$ & $p$-value & $K$ &  $x$ & $p$-value & $K$ &  $x$ & $p$-value & $K$  
 %\red{alternative definition of visual test where $type-I$ error $\alpha$ is attached.}
 
 \begin{dfn}\label{dfn:test}
-The \textbf{visual test}, $V_{\theta}$  of size $\alpha$, is defined to be 
+The \textbf{visual test}, $V_{\theta}$  of  size $m$ and significance level $\alpha$, is defined to  
 \begin{itemize}\itemsep-3pt
 \item \textbf{Reject} $H_0$ if out of $K$ observers at least $x_{\alpha}$ correctly identify the actual data plot in the lineup, and
 \item \textbf{Fail to reject} $H_0$  otherwise. 
@@ -211,14 +214,16 @@ where $x_{\alpha}$ is such that $P(X \ge x_{\alpha}) \le \alpha$.
 Associated with any test is the risk of  Type I or II errors, which for visual inference are defined as follows: 
 
 \begin{dfn}\label{dfn:error}
-The \textbf{Type I error} associated with visual test $V_{\theta}$ is the probability of rejecting $H_0$ when it is true; the probability for that is $P(X \ge x_{\alpha})$, which is controlled by $\alpha$.
-\textbf{Type II error} is the probability of failing to identify the actual data plot, when $H_0$ is not true, $P( X <  x_{\alpha})$.
+The \textbf{Type I error} associated with visual test $V_{\theta}$ is the probability of rejecting $H_0$ when it is true; the probability for that is $P(X \ge x_{\alpha})$, which is controlled by $\alpha$.\\ \noindent
+The \textbf{Type II error} is the probability of failing to identify the actual data plot, when $H_0$ is not true, $P( X <  x_{\alpha})$.
 \end{dfn}
 
 %\green{Oh, we are using observed and observer, which might be confusing. May need to change observed data plot to something else. Will think about this. Will use ``actual'' for now.} \hh{I think that change is done}
 
-\noindent Because $X$ takes only discrete values we can not always control exactly for $\alpha$, with an exact $x_{\alpha}$. For example, when there is only one observer, $1/m$ is the minimal value at which we can set $\alpha$. It can be set to be smaller, even arbitrarily small, by increasing $K$, the number of observers. 
-Type II error is harder to calculate, as is usually the case. In visual inference, individual abilities need to be incorporated to calculate Type II error. This is not necessary for Type I error, because it is simply the chance that the observer picks the actual data plot, by chance. For Type II error, we need to calculate the chance that the observer sees that actual data plot as different, when it really is different. This involves understanding the individual's visual skills. Thus, let $X_i$ be a binary random variable with $X_i = 1$, if individual $i (=1, \dots , K)$ identifies the actual data plot from the lineup, and $X_i = 0$ otherwise, where $p_i$ is the probability that individual $i$ picks out the actual data plot from the lineup. If all individuals have the same ability, with the probability, $p$, for picking out the actual data plot, then $X = \sum_i X_i$ has distribution $\text{Binom}_{K, p}$, and we can estimate $p$ by $\hat{p} = x/K$, where $x$ is the number of observers (out of $K$), who pick out the actual data plot from the lineup. 
+\noindent Because $X$ takes only discrete values we can not always control exactly for $\alpha$. %, with an exact $x_{\alpha}$. 
+For example, when there is only one observer, $1/m$ is the minimal value at which we can set $\alpha$. It can be set to be smaller, even arbitrarily small, by increasing $K$, the number of observers. 
+Type II error is harder to calculate, as is usually the case. In visual inference, individual abilities need to be incorporated to calculate Type II error. %This is not necessary for Type I error, because it is simply the chance that the observer picks the actual data plot, by chance. 
+Here, we need to estimate the probability that an observer sees the actual data plot as different, when it really is different. This involves understanding the individual's visual skills. Thus, let $X_i$ be a binary random variable with $X_i = 1$, if individual $i \ (=1, \dots , K)$ identifies the actual data plot from the lineup, and $X_i = 0$ otherwise. Let $p_i$ be the probability that individual $i$ picks out the actual data plot from the lineup. If all individuals have the same ability, with the probability, $p$, for picking out the actual data plot, then $X = \sum_i X_i$ has distribution $\text{Binom}_{K, p}$, and we can estimate $p$ by $\hat{p} = x/K$, where $x$ is the number of observers (out of $K$), who pick out the actual data plot from the lineup. 
 
 
 If there is evidence for individual skills influencing the probability $p_i$, then \green{$X_i \sim Binom_{1, p_i}$} and $X$ is a sum of independent Bernoulli random variables with different success rates $p_i$. This makes the distribution of $X$ a Poisson-Binomial by definition (see \citet{butler93} for details). \green{Ways to estimate $p_i$ will be be discussed in the following sections.}
@@ -268,7 +273,7 @@ The \textbf{power} of a visual test, $V_{\theta}$, is defined as the probability
     \end{equation*}
 \end{dfn}
 
-\noindent \green{An important difference between conventional and visual testing is that lineups will depend on observers evaluation. Thus, the number of observers affects the estimation of power, where $X$ is the number of observers (out of $K$) who identify the actual data plot from the lineup, and power is estimated by
+\noindent An important difference between conventional and visual testing is that lineups will depend on observers evaluation. Thus, the number of observers affects the estimation of power, where $X$ is the number of observers (out of $K$) who identify the actual data plot from the lineup, and power is estimated by
 \[
 \widehat{Power}_{V} (\theta) = {Power}_{V, K} (\theta) = 1 - F_{X, \theta} (x_{\alpha} - 1),
 \] 
@@ -277,15 +282,16 @@ Under the null hypothesis, $X \sim Binom_{K, 1/m}$, leading to:
 \[
 \widehat{Power}_V(\theta, K)= 1 - Binom_{K, 1/m} (x_\alpha - 1),
 \]
-where $x_\alpha$ is such that $P(X \ge x_{\alpha}) < \alpha$. On the other hand, if the alternative hypothesis is true, with a fixed parameter value $\theta$, we can assume that an individual's probability to identify the data plot depends on the parameter value, and $X_i \sim Binom_{1, p_i(\theta)}$. Assessing an individual's probability to identify the actual data plot will require that an individual evaluate multiple lineups, which may not always be feasible.}
+where $x_\alpha$ is such that $P(X \ge x_{\alpha}) < \alpha$. 
+If the alternative hypothesis is true, with a fixed parameter value $\theta$, we can assume that an individual's probability to identify the data plot depends on the parameter value, and $X_i \sim Binom_{1, p_i(\theta)}$. Assessing an individual's skill to identify the actual data plot will require that an individual evaluates multiple lineups.
 
 
 %\noindent Note that $F_{X, \theta}$ is the distribution of $X$ under the alternative with given parameter value $\theta$.
 
 %\red{there may be a flow in this definition. Due to the discrete nature of binomial (specially $x_{\alpha}$) this definition would only give a conservative lower limit of the actual power. I feel like we should not define power using binomial.}
 
-\green{Power is an important consideration in deciding which test to use for solving a problem. %In conventional testing, new test procedures are examined for their power under a variety of scenarios. 
-Here we use it to compare the performance of the visual test with the conventional test, but in practice for visual inference it will mostly be important in deciding on the choice of plot to use.} Analysts typically have a choice of plots to make, and a myriad of possible options such as reference grids, for any particular purpose. This is akin to different choices of statistics in conventional hypothesis testing, for example, mean, median, or trimmed mean. One is typically better than another. For two different visual test statistics of the same actual data, one is considered to be better, if $T(y)$ is more easily distinguishable to the observer. Power is typically used to measure this characteristic of a test. %Power is the probability of rejecting $H_0$ when it is not true.  We can assess power therefore both empirically based on experimental data and through theoretical considerations. 
+Power is an important consideration in deciding which test to use for solving a problem. %In conventional testing, new test procedures are examined for their power under a variety of scenarios. 
+Here we use it to compare the performance of the visual test with the conventional test, but in practice for visual inference it will mostly be important in deciding on the choice of plot to use. Analysts typically have a choice of plots to make, and a myriad of possible options such as reference grids, for any particular purpose. This is akin to different choices of statistics in conventional hypothesis testing, for example, mean, median, or trimmed mean. One is typically better than another. For two different visual test statistics of the same actual data, one is considered to be better, if $T(y)$ is more easily distinguishable to the observer. Power is typically used to measure this characteristic of a test. %Power is the probability of rejecting $H_0$ when it is not true.  We can assess power therefore both empirically based on experimental data and through theoretical considerations. 
 
 \section{Effect of Observer Skills and Lineup Size}~\label{sec:size}
 
@@ -296,9 +302,9 @@ Here we use it to compare the performance of the visual test with the convention
 \subsection{Subject-specific abilities}~\label{sec:model}
 %Calculating the power  is intricately related to the probability to identify the actual data plot from the lineup. 
 
-Suppose each of $K$ independent observers gives evaluations on multiple lineups, and responses are considered to be binary random variable, $X_{\ell i}$, where $X_{\ell i} = 1$, if subject $i$ correctly identifies the actual data plot on lineup $\ell$, $\ell = 1, ..., L$, and 0 otherwise. A mixed effects logistic regression model is used for $p_{\ell i} = E(X_{\ell i})$, accommodating both for different abilities of observers as well as differences in the difficulty of lineups.
+Suppose each of $K$ independent observers gives evaluations on multiple lineups, and responses are considered to be binary random variable, $X_{\ell i} \sim  Binom_{1, p_{\ell i}}$, where $X_{\ell i} = 1$, if subject $i$ correctly identifies the actual data plot on lineup $\ell$, $1 \le \ell \le L$, and 0 otherwise. A mixed effects logistic regression model is used for $P(X_{\ell i} = 1) =  p_{\ell i} = E(X_{\ell i})$, accommodating both for different abilities of observers as well as differences in the difficulty of lineups.
 
-Let $X_{\ell i} \sim Binom_{1, p_{\ell i}}$ be the random variable, with $X_{ \ell i}= 1$, if  subject $i$ correctly identifies the actual data plot from lineup $\ell$, and 0 otherwise.
+%Let $X_{\ell i} \sim Binom_{1, p_{\ell i}}$ be the random variable, with $X_{ \ell i}= 1$, if  subject $i$ correctly identifies the actual data plot from lineup $\ell$, and 0 otherwise.
 The model can be  fit as:% $p_{ \ell i}$ with a logistic regression with subject-specific random effects as:
 \begin{equation} \label{eqn:mixed}
 g( p_{\ell i} )= W_{\ell i} \delta +  Z_{\ell i}  \tau_{\ell i},  
@@ -310,11 +316,11 @@ g( p_{\ell i} )= W_{\ell i} \delta +  Z_{\ell i}  \tau_{\ell i},
 $W$  & is a design matrix of covariates corresponding to specifics of lineup $\ell$ and subject $i$. Covariates could include  demographic information of individuals, such as age, gender, education level etc. as well lineup-specific elements, e.g. effect size or difficulty level. \\
 $\delta$ & is a vector of parameters for fixed effects.\\
 $Z_{\ell i}$ & $1 \le i \le K$, $1 \le \ell \le L$  is a design matrix corresponding to random effects specific to individual $i$ and lineup $\ell$.  \\
-$\tau$ & is a vector of independent real-valued random variables $\tau_{\ell i}$,  $\tau  \sim  MVN(0,\sigma_\tau I_{KL \times KL})$. $\tau$ will usually include a component incorporating an individual's ability or skill to evaluate lineups. 
+$\tau$ & is a vector of independent normally distributed random variables $\tau_{\ell i}$, with  $\tau  \sim  MVN(0,\sigma_\tau I_{KL \times KL})$. $\tau$ will usually include a component incorporating an individual's ability or skill to evaluate lineups. 
 Note that $t_{\ell i }$ usually only includes a partial interaction; for a full interaction of subjects' skills and lineup-specific difficulty we would need replicates of the same subject evaluating the same lineup, which in practice is not feasible without loosing independence.\\
 \end{tabular}
 
-\noindent Using the inverse {\it logit} link function, $g^{-1}(.)$, from  Equation \ref{eqn:mixed} leands to the estimate of the subject and the lineup specific probability of successful evaluation as 
+\noindent Using the inverse {\it logit} link function, $g^{-1}(.)$, from  Equation \ref{eqn:mixed} leads to the estimate of the subject and the lineup specific probability of successful evaluation as 
 \begin{equation} \label{eqn:mixed_power}
 \hat p_{\ell i} =  g^{-1}(W_{\ell i} \hat {\delta} +  Z_{\ell i}  \hat {\tau}_{\ell i}).
 \end{equation}
@@ -359,7 +365,7 @@ Note that $t_{\ell i }$ usually only includes a partial interaction; for a full 
 
 The finite number $m-1$ of representatives of the null distribution used  as comparison against the test statistic, is a major difference between visual inference and the conventional testing. The choice of $m$ has an obvious impact on the test.
 
-The following properties can only be derived for the situation of a fully parameterized  simulation study, as conducted in this paper. They allow for a direct comparison of lineup tests against the conventional counterparts, and also to identify properties relevant for a quality assessment of lineups, for when they are used in practical settings. Two assumptions are critical:
+The following properties can only be derived for the situation of a fully parameterized  simulation study, as conducted in this paper. They allow for a direct comparison of lineup tests against the conventional counterparts, and also to identify properties relevant for a quality assessment of lineups when they are used in practical settings. Two assumptions are critical:
 \begin{enumerate} \itemsep 0in
 \item  the plot setup is structured in a way that makes it possible for an observer to identify a deviation from the null hypothesis,
 \item an observer is able to identify the plot with the strongest `signal' (or deviation from $H_0$)  from a lineup.
@@ -390,7 +396,7 @@ $$p_D=Pr\left(|t| \ge t_{obs} \mid H_0\right)=1-F_{|t|}(t_{obs}) \ \ \Rightarrow
 %, with non-centrality parameter $\delta$. 
 \noindent Then the distribution function of the $p$-value, $p_D$, under $H_0$, is uniform, since:  
 \begin{eqnarray}\label{dist_p}
-\green{F_{p_D}}(p) &=& Pr(p_D \le p)=1-Pr(1-p_D \le 1-p) \nonumber \\
+F_{p_D}(p) &=& Pr(p_D \le p)=1-Pr(1-p_D \le 1-p) \nonumber \\
   &=& 1-Pr\left(F_{|t|}^{-1}(1-p_D) \le F_{|t|}^{-1}(1-p) \right) \nonumber \\
   &=& 1-Pr\left(|t_{obs}| \le F_{|t|}^{-1}(1-p)\right) \nonumber \\
   &=&%\left\{ \begin{array}{ll}
@@ -452,8 +458,10 @@ P(p_D < p_{0}) &=& 1 - P(p_{0} \le p_D) = 1- \int_0^1  P(p_{0} \le p_D \mid p_D=
 
 %\red{pull the results for $P(p_D < p_{i,0})$ and $P(p_D < p_0)$ to the front, including the Figure on $1/m$ versus power. These results are independent of the regression setting - they don't make any assumptions in terms of regression.}
 
-\green{The above lemma allows two immediate conclusions for the use of lineups.
-The probability that the observer correctly identifies the data plot is closely connected to the size of the lineup $m$, since the right hand side of the above equation decreases for larger $m$, the probability of correctly identifying the actual data plot decreases with $m$. This may seem counterintuitive, but it makes sense. With fewer null plots the actual data plot will stand out, when the alternative hypothesis is true. Further we see, that the rate of this decrease depends strongly on the distribution of $p_D$ -- if the density of $p_D$ is very right skewed, the  expectation term on right hand side will be large and less affected by an increase in $m$. This can also be seen in Figure \ref{fig:pval_power}, which illustrates lemma \ref{lemma}.   Figure \ref{fig:pval_power} shows the probability of picking the actual data plot for lineups of different size: as $m$ increases we have an increased probability to observe a more highly structured null plot by chance. It can also be seen that for a $p$-value, $p_D$, of about 0.15 for the data plot, the signal in the plot is so weak, that it cannot be distinguished from null plots in a lineup of size $m=20$.} % This pattern is confirmed by our findings described in Section~\ref{sec:simulation}.
+The above lemma allows two immediate conclusions for the use of lineups.
+The probability that the observer correctly identifies the data plot is closely connected to the size of the lineup $m$, since the right hand side of the above equation decreases for larger $m$, the probability of correctly identifying the actual data plot decreases with $m$. %This may seem counterintuitive, but it makes sense. 
+%With fewer null plots the actual data plot will stand out, when the alternative hypothesis is true. 
+Further we see, that the rate of this decrease depends strongly on the distribution of $p_D$ -- if the density of $p_D$ is very right skewed, the  expectation term on right hand side will be large and less affected by an increase in $m$. This can also be seen in Figure \ref{fig:pval_power}, which illustrates lemma \ref{lemma}.   Figure \ref{fig:pval_power} shows the probability of picking the actual data plot for lineups of different size: as $m$ increases we have an increased probability to observe a more highly structured null plot by chance. It can also be seen that for a $p$-value, $p_D$, of about 0.15 for the data plot, the signal in the plot is so weak, that it cannot be distinguished from null plots in a lineup of size $m=20$. % This pattern is confirmed by our findings described in Section~\ref{sec:simulation}.
 %also seen in our experiments as shown in Figure \ref{fig:pval_pcorrect}.
 
 
@@ -542,7 +550,9 @@ To make these concepts more concrete consider how this would operate in the line
 \end{equation}
 where $\epsilon_i \stackrel{iid}{ \sim } N(0,\sigma^2)$, $i=1,2, .., n$. The covariates ($X_j, j=1,..,p$) can be continuous or discrete.
 
-In this setting, there are many established graphics that are used to evaluate and diagnose the fit of a regression model (e.g. \citet{cook:99}). Table \ref{tbl:stat_multiple} lists several common hypotheses related to the regression setting, and the visual test statistic that might be used for testing these hypotheses. These plots should be familiar, because they are all in common use. For example, to examine the effect of variable $X_j$ on $Y$, we would plot $Y$ against $X_j$ (cases 1-4). To assess whether the linear assumption is appropriate we would make a plot of residuals against fitted values (case 5). For the purposes of comparing visual against conventional inference, we focus on cases 2 and 3, with a continuous and catgorical explanatory variable respectively. 
+In this setting, there are many established graphics that are used to evaluate and diagnose the fit of a regression model (e.g. \citet{cook:99}). Table \ref{tbl:stat_multiple} lists several common hypotheses related to the regression setting, and commonly used statistical plots that might be used as corresponding visual test statistics.
+%These plots should be familiar, because they are all in common use. 
+For example, to examine the effect of variable $X_j$ on $Y$, we would plot $Y$ against $X_j$ (cases 1-4). To assess whether the linear assumption is appropriate we would draw a plot of residuals against fitted values (case 5). For the purposes of comparing visual against conventional inference, we focus on cases 2 and 3, with a continuous and categorical explanatory variable respectively. 
 
 %Note that some charts can be associated with several different testing situations. In our paper, we pick the examples for situation 2 and 3 as candidates.
 
@@ -567,7 +577,7 @@ Case & Null Hypothesis & Statistic & Test Statistic & Description \\ [0.5ex] % i
 \label{tbl:stat_multiple} 
 \end{table*} 
 
-Suppose $X_k$ is a categorical variable with two levels, and we test the hypothesis $H_0:\beta_k=0$ vs $H_1: \beta_k \ne 0$. If the responses for the two levels of the categorical variable $X_k$ in the model are different and we fit the null model to the actual data, the resulting residuals should show a significant difference between the two groups. To test this boxplots of the residuals conditioned on the two levels of $X_k$ are made, as the observed test statistic. If $\beta_k\ne 0$ the boxplots should show a vertical displacement. 
+Suppose $X_k$ is a categorical variable with two levels, and we test the hypothesis $H_0:\beta_k=0$ vs $H_1: \beta_k \ne 0$. If the responses for the two levels of the categorical variable $X_k$ in the model are different, the  residuals from fitting the null model should show a significant difference between the two groups. For a visual test, we draw boxplots of the residuals conditioned on the two levels of $X_k$. If $\beta_k\ne 0$ the boxplots should show a vertical displacement. 
 
 %A lineup including the test statistic  for a binary $X_k$ is shown in Figure \ref{fig:test_category}. The 19 null plots are generated  by simulating residuals from $N(0,\hat{\sigma}^2)$. The test statistic, the plot containing the actual data, is randomly placed among these null plots. If the test statistic is identifiable the null hypothesis is rejected. % with a $p$-value of at most 0.05.
 
@@ -595,7 +605,7 @@ Suppose $X_k$ is a categorical variable with two levels, and we test the hypothe
 %%Thus the density of $p_D$ is Uniform(0,1)  under $H_0$. As noted by \cite{Ruppert:2007}, under $H_1$ the density $$f_{p_D}(p_D; \delta)= \frac{f_{|t|}(F_{|t|}^{-1}(1-p_D);\delta)}{f_{|t|}(F_{|t|}^{-1}(1-p_D))}$$ derived from equation \eqref{dist_p}  is a right skewed distribution.  
 %In a lineup plot we simulate $m-1$ residual data sets from null model where each of these $m-1$ null data sets produces a corresponding $p$-value $p_{0,i}$ and $p_{0,i} \sim \text{Uniform}(0,1)$ for $i = 1, ..., m-1$. Suppose  $p_0=\min_i(p_{0,i})$. Thus $p_0 \sim \text{Beta}(1,m-1)$. 
 
-The conventional test in this scenario uses $T= \hat{\beta_k}/ se(\hat{\beta_k})$ and rejects the null hypothesis if $T$ is extreme on the scale of a $t$ distribution with $n-p$ degrees of freedom.  It forms the benchmark upon which we evaluate the visual test. To calculate what we might expect for the power of the visual test, under perfect conditions, first assume that the observer is able to pick the plot with the smallest $p$-value from a lineup plot.  This leads to the decision to reject $H_0$ when $p_{D} < p_0$, where $p_{D}$ is the conventional $p$-value as details given in Lemma \ref{lemma}. Thus the expected power of the visual test in this scenario is
+The conventional test in this scenario uses $T= \hat{\beta_k}/ se(\hat{\beta_k})$ and rejects the null hypothesis, if $T$ is extreme on the scale of a $t$ distribution with $n-p$ degrees of freedom.  It forms the benchmark upon which we evaluate the visual test. To calculate what we might expect for the power of the visual test, under perfect conditions, first assume that the observer is able to pick the plot with the smallest $p$-value from a lineup plot.  This leads to the decision to reject $H_0$ when $p_{D} < p_0$, where $p_{D}$ is the conventional $p$-value as details given in Lemma \ref{lemma}. Thus the expected power of the visual test in this scenario is
 
 \begin{equation}\label{power_exp} 
    Power(\beta)=Pr(p_{D} < p_0)  \quad \text{for}  \quad \beta \ne 0
@@ -664,14 +674,15 @@ Three experiments were conducted to evaluate the effectiveness of the lineup pro
 
 After many small pilot studies with local personnel, it was clear that some care was needed to set up the human subjects experiments. It was best for a observer or a subject to see a block of 10 lineups with varying difficulty, with a reasonable number of ``easy'' lineups. The explanations about each experiment (below) includes an explanation of how the lineups were sampled and provided to the subjects, for each of the three experiments.
 
-Participants for all the experiments were recruited through \cite{turk} Amazon's Mechanical Turk. A summary of the data obtained for all three experiments are shown in Table \ref{tbl:summary}. Participants were asked to select the plot they think best matched the question given, provide a reason for their choice, and say how confident they are in their choice. Gender, age, education and geographic location of each participant are also collected. The data was collected through the web. For each of the experiments one of the lineups was used as a test plot (easy plot) which everyone should get correct, so that a measure of the quality of the subjects effort could be made. 
+Participants for all the experiments were recruited through Amazon's online web service, Mechanical Turk  \citep{turk}. A summary of the data obtained for all three experiments are shown in Table \ref{tbl:summary}. Participants were asked to select the plot they think best matched the question given, provide a reason for their choice, and say how confident they are in their choice. Gender, age, education and geographic location of each participant are also collected. %The data was collected through the web. 
+For each of the experiments one of the lineups was used as a test plot (easy plot) which everyone should get correct, so that a measure of the quality of the subjects effort could be made. 
 
 Note that no participant was shown the same lineup twice.
 %\green{Something probably needs to be said about subjects who do multiple tests, what checks are done.} \blue{We do have some data where we notice multiple responses for a lineup by a subject. This happens when subject accidentally use browser's ``back'' button and same data is saved twice. We made sure in the data cleaning process that we do not include more than one response on a lineup by a subject. For this we only keep the very first response.}
 
 \subsection{Discrete covariate}\label{sec:category}
 
-The experiment is designed to study the ability of human subjects to detect the effect of a single categorical variable $X_2$ (corresponding to parameter $\beta_2$) in a two variable ($p=2$) regression model (Equation \ref{multi}). Data is simulated a range of values of $\beta_2~ (=0, 1, 3, 5, 7, 8, 10, 16)$, two different sample sizes ($n=100, 300$) and two standard deviations of the error ($\sigma=5, 12$). The range of $\beta_2$ values was chosen so that estimates of the power would produce reasonably continuous power curves, comparable to that calculated for the theoretical conventional test. Values were fixed for other regression parameters, $\beta_0 = 5$,  $\beta_1=15$, and the values for $X_1$ were randomly generated from a Poisson $(\lambda=30)$ distribution, which is almost Gaussian. Data sets were generated with parameter values shown in Table \ref{tbl:experiment_params}. Three replicates at each level were generated. These produced 60 different ``actual data sets'', and thus, 60 different lineups. To produce the lineups, the null model was fit to each actual data set, to obtain residuals and parameter estimates. The actual data plot was generated by making a side-by-side boxplot of the residuals (Table \ref{tbl:stat_multiple}, case 3). The 19 null data sets were generated by simulating from  $N(0, {\hat{\sigma}}^2)$, and these were plotted in the same way as side-by-side boxplots. The actual data plot was randomly placed among these null data plots to produce the lineup. Figure \ref{fig:test_category} is an example of one of these lineups. The actual data plot is number 11 which was generated for $n$=300, $\beta_2$=15 and $\sigma$=12.  
+The experiment is designed to study the ability of human subjects to detect the effect of a single categorical variable $X_2$ (corresponding to parameter $\beta_2$) in a two variable ($p=2$) regression model (Equation \ref{multi}). Data is simulated a range of values of $\beta_2~ (=0, 1, 3, 5, 7, 8, 10, 16)$, two different sample sizes ($n=100, 300$) and two standard deviations of the error ($\sigma=5, 12$). The range of $\beta_2$ values was chosen so that estimates of the power would produce reasonably continuous power curves, comparable to that calculated for the theoretical conventional test. Values were fixed for other regression parameters, $\beta_0 = 5$,  $\beta_1=15$, and the values for $X_1$ were randomly generated from a Poisson $(\lambda=30)$ distribution, which is almost Gaussian. Data sets were generated with parameter values shown in Table \ref{tbl:experiment_params}. Three replicates at each level were generated. These produced 60 different ``actual data sets'', and thus, 60 different lineups. To produce the lineups, the null model was fit to each actual data set, to obtain residuals and parameter estimates. The actual data plot was generated by making  side-by-side boxplots of the residuals (Table \ref{tbl:stat_multiple}, case 3). The 19 null data sets were generated by simulating from  $N(0, {\hat{\sigma}}^2)$, and  plotted in the same way. The actual data plot was randomly placed among these null data plots to produce the lineup. Figure \ref{fig:test_category} is an example of one of these lineups. The actual data plot is number 11 which was generated for $n$=300, $\beta_2$=15 and $\sigma$=12.  
 
 %{\bf Steps to obtain lineup}
 %\begin{enumerate}
@@ -682,9 +693,13 @@ The experiment is designed to study the ability of human subjects to detect the 
 %	\item Finally randomly place 19 null plots and one actual plot in a layout (4X5) to get a lineup 
 %\end{enumerate}
 
-The number of evaluations required for each lineup to provide reasonable estimates of the power is determined by the variance of the estimated power. Suppose $\gamma$ denotes the conventional test power for each parameter combination shown in Table \ref{tbl:experiment_params}. Since the expected power of visual inference is very close to the power of conventional test (Figure \ref{fig:power_expected}) the proportion of successful evaluations of lineups should give a rough estimate for  $\gamma$. For a given proportion $\gamma$ it is desired to have a margin of error (ME) less than or equal to 0.05. Thus we have $ME =1.96 \sqrt{ \gamma(1-\gamma) / n_{\gamma} } \le 0.05$ which gives us the estimation of minimum number of evaluations $$n_{\gamma} \geq \frac{\gamma(1-\gamma)}{(0.05/1.96)^2}.$$  
+The number of evaluations required for each lineup to provide reasonable estimates of the power is determined by the variance of the estimated power. Suppose $\gamma$ denotes the conventional test power for each parameter combination shown in Table \ref{tbl:experiment_params}. Since the expected power of visual inference is very close to the power of conventional test (Figure \ref{fig:power_expected}) the proportion of successful evaluations of lineups should give a rough estimate for  $\gamma$. 
+For a given proportion $\gamma$ it is desired to have a margin of error (ME) less than or equal to 0.05. Thus we have $ME =1.96 \sqrt{ \gamma(1-\gamma) / n_{\gamma} } \le 0.05$ which gives us the estimation of minimum number of evaluations $$n_{\gamma} \geq \frac{\gamma(1-\gamma)}{(0.05/1.96)^2}.$$  
+% \hh{we're not even close to $n_\gamma$ with ten lineups .... we need more in the order of 400. Let's not emphasize this so much.}
 
-Each subject viewed at least 10 lineups and we allowed them to provide more evaluations if they wanted. Depending on the parameter combinations we group the lineups in different difficulty levels such as easy, medium, hard and mixed (actual numbers are given in the supplementary material). For each difficulty level a specific number of lineups were randomly picked to show for evaluation. This number is chosen so that total number of evaluations for each lineup for that group exceed the threshold $n_{\gamma}$. To satisfy this plan we needed to recruit at least 300 subjects. 
+Each subject viewed at least 10 lineups with the option to evaluate more.
+%and we allowed them to provide more evaluations if they wanted. 
+Depending on the parameter combinations we group the lineups in different difficulty levels  as easy, medium, hard and mixed (actual numbers are given in the supplementary material). For each difficulty level a specific number of lineups was randomly picked  for evaluation. This number is chosen so that total number of evaluations for each lineup for that group exceed the threshold $n_{\gamma}$. To satisfy this plan we needed to recruit at least 300 subjects. 
 
 \begin{table}[hbtp]
 \caption{Combination of parameter values, $\beta_2$,  $n$ and $\sigma$, used for each of the simulation experiments.} % title name of the table
@@ -732,10 +747,15 @@ Sample size  & Error SD  &  \multicolumn{1}{c} {Experiment 1}  & \multicolumn{1}
 This experiment is very similar to the previous one, except that there is a single continuous covariate and no second covariate (Equation \ref{multi} with $p=1$), following the test in Table \ref{tbl:stat_multiple}, case 2. Data is simulated with two sample sizes ($n=100, 300$), two standard deviations of the error ($\sigma=5, 12$), a variety of slopes ($\beta$), as given in Table  \ref{tbl:experiment_params}. We arbitrarily fix $\beta_0 = 6$ and values for $X_1$ are simulated from $N(0,1)$. For each combination of parameters, three different actual data sets are produced, yielding a total of 65 lineups. For some parameter combinations we have more than three replications, because additional lineups were produced for values of the parameters that exhibited large variation in the initial data.
 
 The actual data plot is generated by making a scatterplot of $Y$ vs $X_1$ with the least squares regression line overlaid. To produce the null plots in the lineup null data was simulated from $N(X \hat{\beta}, {\hat{\sigma}}^2$) and plotted using the same scatterplot method as the actual data. 
-An example lineup from this experiment is shown in Figure \ref{fig:test_continuous}.  This lineup is generated using sample size ($n$)=100, slope($\beta$)=1.25 and and error SD($\sigma$)=5. The actual data plot location is 11. This lineup, we think, is a difficult one. To select 10 lineups for a subject, each combination of sample size ($n$) and error SD ($\sigma$) is given a difficulty value based on the slope ($\beta$) parameters. For the smallest slopes the difficulty is 4 (hardest) and for the largest slopes the difficulty is 0 (easiest). For one combination of sample size and standard deviation, the subject sees a randomly selected lineup of each difficulty level, all the slopes, giving 5 lineups. Another four lineups are chosen from a second choice of sample size and standard deviation, with difficulty levels 0-3, and the last lineup shown was a randomly selected lineup with difficulty 0. The order that the lineups are shown to participants is randomized. Each subject saw a substantial number of difficult lineups. \hh{While this allows us a better estimation for the power in small slopes, }
-%The intention was noble, to get a better handle on the power of the lineups for small slopes, 
-but practically this made the study very tiring for the participants. %It would be better to provide the subjects with a larger selection of easier lineups and just a few difficult ones. 
-\green{perhaps should go into so much detail about this, or keep this for the conclusions section.}  
+To select 10 lineups for a subject, each combination of sample size ($n$) and error SD ($\sigma$) is given a difficulty value based on the slope ($\beta$) parameters. For the smallest slopes the difficulty is 4 (hardest) and for the largest slopes the difficulty is 0 (easiest). 
+Figure \ref{fig:test_continuous} shows an example lineup for this experiment from difficulty level 4.  This lineup is generated using sample size ($n$)=100, slope($\beta$)=1.25 and and error SD($\sigma$)=5. The actual data plot location is 11. 
+
+For each combination of sample size and standard deviation, the subject sees a randomly selected lineup of each difficulty level, all the slopes, giving 5 lineups. Another four lineups are chosen from a second choice of sample size and standard deviation, with difficulty levels 0-3, and the last lineup shown was a randomly selected lineup with difficulty 0. The order that the lineups are shown to participants is randomized. Each subject saw a substantial number of difficult lineups. 
+
+%\hh{While this allows us a better estimation for the power in small slopes, }
+%%The intention was noble, to get a better handle on the power of the lineups for small slopes, 
+%but practically this made the study very tiring for the participants. %It would be better to provide the subjects with a larger selection of easier lineups and just a few difficult ones. 
+%\green{perhaps should go into so much detail about this, or keep this for the conclusions section.}  
 
 %{\bf Steps to obtain lineup}
 %\begin{enumerate}
@@ -767,16 +787,17 @@ but practically this made the study very tiring for the participants. %It would 
 
 \subsection{Contaminated data}
 
-The first two simulation experiments use data generated with a normal error model, satisfying the conditions for conventional test procedures. In these situations there exists a test, and there would, in general, be no need to use visual inference. The simulation is conducted with the hopes that the visual test procedure, although not expected to beat the conventional test, will compare favorably with it. This third simulation is closer to the mark for the purpose of visual inference. The assumptions for the conventional test are violated, by contaminating the data. The contamination makes the estimated slopes effectively 0, yet the true value of slope parameter is not.  The data is generated from the following model:
+The first two simulation experiments use data generated under a normal error model, satisfying the conditions for conventional test procedures. In these situations there exists a test, and there would, in general, be no need to use visual inference. The simulation is conducted with the hopes that the visual test procedure,  will at least compare favorably with the conventional test -- without any ambition of performing equally well.
+ This third simulation is closer to the mark for the purpose of visual inference. The assumptions for the conventional test are violated, by contaminating the data. The contamination makes the estimated slopes effectively 0, yet the true value of slope parameter is not.  The data is generated from the following model:
 
 \[
   Y_i = \left\{
   \begin{array}{l l}
     \alpha+\beta X_i + \epsilon_i  & \quad  X_i \sim N(0,1) \quad  i =1,...,n\\
-    \lambda+ \eta_i & \quad X_i \sim N(\mu,1/3) \quad  i=n+1, ...,n*c\\
+    \lambda+ \eta_i & \quad X_i \sim N(\mu,1/3) \quad  i=1, ...,n_c\\
   \end{array} \right.
 \]
-where $\epsilon_i \stackrel{iid}\sim N(0,\sigma)$, $\eta_i \stackrel{iid}\sim N(0,\sigma/3)$ and $\mu = -1.75$, $c$ is the proportion of contaminated data. For the experiment we consider $n=100$, $c=0.15$ producing actual data with $115$ points. Also $\alpha=0$ and $\lambda=10$, and $\sigma$ is chosen to be approximately 3.5, so that error standard deviation across both groups of the data is $5$. %Figure \ref{fig:cont_dat} shows an example of contaminated data, generated by this model for $\beta=5$.  
+where $\epsilon_i \stackrel{iid}\sim N(0,\sigma)$, $\eta_i \stackrel{iid}\sim N(0,\sigma/3)$ and $\mu = -1.75$. $n_c$ is the size of thecontaminated data. For the experiment we consider $n=100$ and $n_c=15$ producing actual data with $115$ points. Further, $\alpha=0$, $\lambda=10$, and $\sigma$ is chosen to be approximately 3.5, so that error standard deviation across both groups of the data is $5$. %Figure \ref{fig:cont_dat} shows an example of contaminated data, generated by this model for $\beta=5$.  
 A linear model (Equation \ref{multi} with $p=1$  and intercept $\beta_0=0$) is fit to the contaminated data. This experiment also follows the test in Table \ref{tbl:stat_multiple}, case 2. The actual data plot shows a scatterplot of the residuals vs $X_1$, and the null data plots are scatterplots of null data generated by simulating residuals from $N(0, {\hat{\sigma}}^2$) and plotting against $X_1$. 
 
 Five replications of actual data sets for each slope value shown in Table \ref{tbl:experiment_params}, producing 30 lineups. Six groups of difficulty level based on slope are defined, difficulty = 0 for largest slope and difficulty = 5 for the smallest slope.    Eight (8) lineups with two from each of the difficulty group from 0 through 3 and two(2) lineups with one from each difficulty group 4 and 5 were randomly picked for each subject. 
