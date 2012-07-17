@@ -548,7 +548,7 @@ p1 <- qplot(lpvalue, rfreq, geom="point", data=subset(prr, as.numeric(facets) <=
   geom_segment(mapping=aes(xend=lpvalue, yend=0), colour="turquoise", data=subset(prr.actual, as.numeric(facets) <= 10)) +
   geom_point(mapping=aes(xend=lpvalue, yend=0), colour="turquoise", data=subset(prr.actual, as.numeric(facets) <= 10)) +
   facet_grid(rep~facets) + scale_x_continuous(limits=c(-2.1,0.1), breaks=c(-2,-1,0), labels=c("0.01","0.1","1")) + 
-  opts(legend.position="none")
+  opts(legend.position="none") + scale_y_continuous(limits=c(0,1))
 p1
 ggsave(file="../images/p_val_log_counts-a.pdf", height=4, width=12)
 
@@ -560,7 +560,7 @@ p2 <- qplot(lpvalue, rfreq, geom="point", data=subset(prr, as.numeric(facets) > 
   geom_segment(mapping=aes(xend=lpvalue, yend=0), colour="turquoise", data=subset(prr.actual, as.numeric(facets) > 10)) +
   geom_point(mapping=aes(xend=lpvalue, yend=0), colour="turquoise", data=subset(prr.actual, as.numeric(facets) > 10)) +
   facet_grid(rep~facets) + scale_x_continuous(limits=c(-2.1,0.1), breaks=c(-2,-1,0), labels=c("0.01","0.1","1")) + 
-  opts(legend.position="none")
+  opts(legend.position="none") + scale_y_continuous(limits=c(0,1))
 p2
 ggsave(file="../images/p_val_log_counts-b.pdf", height=4, width=12)
 
@@ -589,6 +589,48 @@ p <- qplot(lpvalue, counts, geom="point", data=subset(prr2,lpvalue != lobs_pvalu
   facet_grid(b~n+sd+rep, scales="free_y", labeller="label_both") +
   opts(legend.position="none")
 p
+
+# alternative to previous plot with different ordering
+prr2 <- get_merged_pvalue(dat2,pval2)
+prr2$facets = with(prr2, paste("beta: ",b, "\nn:",n,"\nsd: ",sd))
+prr2$effect <- with(prr2, sqrt(as.numeric(as.character(n)))*as.numeric(as.character(b))/as.numeric(as.character(sd)))
+prr2$facets <- reorder(prr2$facets, prr2$effect, median)
+
+
+prr2$pic_name2 <- str_sub(prr2$pic_name, 12, -5L)
+x <- str_split(prr2$pic_name2, "_")
+prr2$rep <-  unlist(lapply(x, function(x) x[4]))
+prr2$pic_name3 <- factor(paste(prr2$b, prr2$n, prr2$sd, prr2$rep, sep="."))
+
+prr2$lpvalue<-log10(prr2$pvalue+0.01)
+prr2$lobs_pvalue<-log10(prr2$obs_pvalue+0.01)
+
+
+prr2.actual <- subset(prr2,as.numeric(facets) <= 10 & (lpvalue == lobs_pvalue))
+p1 <- qplot(lpvalue, counts, geom="point", data=subset(prr2,as.numeric(facets) <= 10)) +
+  geom_segment(mapping=aes(xend=lpvalue, yend=0)) +
+  geom_segment(mapping=aes(xend=lobs_pvalue, yend=0), colour="turquoise", data= prr2.actual)+ 
+  geom_point(mapping=aes(xend=lobs_pvalue, yend=0), colour="turquoise", data= prr2.actual)+ 
+  xlab(" ") + ylab("Number of subjects") +
+  facet_grid(rep~facets) +
+  opts(legend.position="none") + 
+  scale_x_continuous(limits=c(-2.1,0.1), breaks=c(-2,-1,0), labels=c("0.01","0.1","1")) 
+p1
+
+prr2.actual <- subset(prr2,as.numeric(facets) > 10 & (lpvalue == lobs_pvalue))
+p2 <- qplot(lpvalue, counts, geom="point", data=subset(prr2,as.numeric(facets) > 10)) +
+  geom_segment(mapping=aes(xend=lpvalue, yend=0)) +
+  geom_segment(mapping=aes(xend=lobs_pvalue, yend=0), colour="turquoise", data= prr2.actual)+ 
+  geom_point(mapping=aes(xend=lobs_pvalue, yend=0), colour="turquoise", data= prr2.actual)+ 
+  xlab(expression(paste(log[10], " p-value"))) + ylab("Number of subjects") +
+  facet_grid(rep~facets) +
+  opts(legend.position="none") + 
+  scale_x_continuous(limits=c(-2.1,0.1), breaks=c(-2,-1,0), labels=c("0.01","0.1","1")) 
+
+p2
+
+ggsave(p1, file="../images/p_val_log_counts2-a.pdf", height=6, width=12)
+ggsave(p2, file="../images/p_val_log_counts2-b.pdf", height=6, width=12)
 
 prr2.min<-ddply(prr2, "pic_name", summarise,
                    lpvalue=min(lpvalue),
