@@ -885,8 +885,8 @@ An example lineup for slope $\beta=0.4$ is shown in Figure \ref{fig:test_contami
 %For each of the experiments we had a test plot (easy plot) for which they should have a correct evaluation without much effort.  This could be a criteria to determine their attentiveness in the study. For this we consider six different data cleaning criteria as shown below;
 
 %{\bf Screening scenarios:}
-Amazon Mechanical Turk workers are paid for their efforts, not substantial, but on the scale of the minimum wage of the USA. Some workers will try to maximize their earnings for minimum effort, which can affect the results from the data. For example, some workers may simply randomly pick a plot, without actively examining the plots in the lineup. For the purpose of identifying these participants and cleaning the data, we make use of one of the very easy lineups that every subject was exposed to.
-For each subject we use a randomly selected easy lineup. If the subject failed to identify the actual data plot, we remove all of this subject's data from the analysis. If the answer on the lineup is correct, we remove this lineup from the analysis, but keep all of the remaining answers.
+Amazon Mechanical Turk workers are paid for their efforts, not substantial, but on the scale of the minimum wage of the USA. Some workers will try to maximize their earnings for minimum effort, which can affect the results from the data. For example, some workers may simply randomly pick a plot, without actively examining the plots in the lineup. For the purpose of identifying these participants and cleaning the data, we take action based on a subject's answer to one of the very easy lineups that everybody was exposed to:
+if the subject failed to identify the actual data plot, we remove all of this subject's data from the analysis. If the answer on the lineup is correct, we remove this lineup from the analysis, but keep all of the remaining answers.
 Table \ref{tbl:summary} tabulates the number of subjects, genders and lineups evaluated after applying the data screening procedure. 
 
 %
@@ -950,20 +950,20 @@ Table \ref{tbl:summary} tabulates the number of subjects, genders and lineups ev
 \[
 E=\sqrt {n} \cdot \beta/\sigma.
 \]
+\noindent
+The model in Equation \ref{eqn:mixed} is fit using $E$ as the only fixed effect covariate without intercept, i.e. 
+ $W_{\ell i} = E_{\ell i}$. Instead of fitting an intercept, we make use of a fixed  offset of $\log(0.05/0.95)$ so that the estimated power has a fixed lower limit at 0.05 (Type-I error) when $E=0$. Different skill levels of subjects are accounted for  by allowing subject-specific random  slopes for  effect ($E$). 
 
-The model in Equation \ref{eqn:mixed} is fit using $E$ as the only fixed effect covariate without intercept., i.e. 
- $W_{\ell i} = E_{\ell i}$ in Equation \ref{eqn:mixed}. 
-Instead of fitting an intercept, we make use of a fixed  offset of $\log(0.05/0.95)$ so that the estimated power has a fixed lower limit at 0.05 (Type-I error) when $E=0$. Different subjects are expected to have different skill levels in evaluating lineups. We account for this by using subject-specific random  slopes for  effect ($E$). 
-
-For experiment 3 we so fit intercepts: both a fixed effect and subject-specific random intercepts, since forcing power
+For experiment 3 we do fit intercepts: both a fixed  and subject-specific random effects, since forcing power
 %While for experiment 1 and 2 we don't allow intercept but offset, for experiment 3 an intercept is estimated to allow the power curves to go above 0.05 when $E=0$. This is because forcing power 
-to be fixed at 0.05 for $E=0$ is not justified by the data from experiment 3.% (Figure \ref{fig:power_loess_effect}). *** You cannot reference the figure before you explain it!!!
+to be fixed at 0.05 for $E=0$ is not justified by the data. % (Figure \ref{fig:power_loess_effect}). *** You cannot reference the figure before you explain it!!!
 
 %For all the three experiments, each subject saw a lineup just once. This does not allow fitting a lineup random effect, in addition to a subject random effect, but it does simplify the model since $\tau_{\ell i} = \tau_i$. 
 
-The subject-specific probability, $p_i$, of successful evaluation of a lineup is then estimated using Equation \ref{eqn:mixed_power}. For computation we use R \citep{R} package lme4 \citep{lme4:2011}.
+%The subject-specific probability, $p_i$, of successful evaluation of a lineup is then estimated using Equation \ref{eqn:mixed_power}. 
+For computation we use package {\tt lme4} \citep{lme4:2011} and software R 2.15.0 \citep{R}. $p$-value calculations are based on asymptotic normality.
 
-Table \ref{tbl:model_par} shows the parameter estimates of the mixed effects model of the subject-specific variation. \green{The fixed effects estimates indicate that for all experiments as the effect increases the proportion correct increases. For experiment 3 it is very weak. The subject-specific variability is smaller for experiment 1, and relatively large for experiment 3.} %The larger variability in the response data for experiment 3% as we see in Figure \ref{fig:power_loess_effect}  *** You cannot reference the figure before you explain it!!!
+Table \ref{tbl:model_par} shows the parameter estimates of the mixed effects model of the subject-specific variation. The fixed effects estimates indicate that for all experiments  the proportion of correct responses increases as the effect increases. This effect is less pronounced  for experiment 3. The subject-specific variability is smaller for experiment 1, and relatively large for experiment 3. %The larger variability in the response data for experiment 3% as we see in Figure \ref{fig:power_loess_effect}  *** You cannot reference the figure before you explain it!!!
 %contributes to the random effect variance estimate be much larger compared to those of other experiments. For the same reason we see the standard error for intercept estimate is much higher as well. Also notice the slope estimate for experiment three is lowest as well. It is because for small parameter values the power is much higher for experiment 3.  % \green{What do we learn about the models from these parameter estimates? Explain this here too.}
 
 %\green{This section needs to have sufficient detail of the model fitting, output and diagnostics to feed into the next few sections discussing the findings.}
@@ -990,22 +990,29 @@ Table \ref{tbl:model_par} shows the parameter estimates of the mixed effects mod
 
 \subsection{Power comparison}
 
-\noindent Figure \ref{fig:power_loess_effect} shows the power against effect for the three experiments. Data values are represented as dots with size indicating count at this value. The loess curves fit the data, estimating the observed power for different effect sizes, with grey bands indicating simultaneous bootstrap confidence bands. For comparison, the dashed lines show the corresponding power curves of the conventional tests. The observed power for experiments 1 and 2 are lower than the power of the conventional test. This is not a surprise -- it is not expected that visual inference will beat conventional tests, in the scenario when assumptions are satisfied. It is encouraging to see that visual inference mirrors the power vs effect relationship of conventional testing, and comes quite close in experiment 2, where scatterplots are used as the test statistic. 
+\noindent Figure \ref{fig:power_loess_effect} shows an overview of estimated power  against effect for the three experiments.  Responses from each experiment are summarized by effect size and represented as dots,  with size indicating the number of responses.
+A loess  fit to the data gives an estimate of  the observed power for different effect sizes, with grey bands indicating simultaneous bootstrap confidence bands \citep{buja}. For comparison, the dashed lines show the corresponding power curves of the conventional tests. Not surprisingly, the observed power for experiments 1 and 2 is lower than the power of the conventional test.  It is encouraging to see that visual inference mirrors the power vs effect relationship of conventional testing, and comes quite close in experiment 2, where scatterplots are used as the test statistic. 
+Note that for effect $E=0$, the power is close to 0.05 (Type-I error) for both experiments 1 and 2, making the fixed offset a reasonable assumption.  
+
 
 \begin{figure}[hbtp]
    \centering
        \scalebox{0.55}{\includegraphics{power_loess_effect.pdf}}
-       \caption{Power in comparison to effect for the three experiments. Points indicate subject responses, with size indicating count. Responses are 1 and 0 depending on the success or failure respectively to identify the actual plot in the lineup. \blue{The loess curve (blue) estimates the observed power}, and grey bands show simultaneous bootstrap confidence band.  Conventional test power is drawn as a dashed line. For experiment 3, conventional power is based on the slopes of the linear part of the non-contaminated data. Power for contaminated data is shown by cross mark.}
+       \caption{Power in comparison to effect for the three experiments. Points indicate subject responses, with size indicating count. Responses are 1 and 0 depending on the success or failure respectively to identify the actual plot in the lineup. The loess curve (continuous line) estimates the observed power, and surrounding bands show simultaneous bootstrap confidence band.  Conventional test power is drawn as a dashed line. For experiment 3, conventional power is based on the slopes of the linear part of the non-contaminated data. Power for contaminated data is shown by cross mark.}
        \label{fig:power_loess_effect}
 \end{figure}
 
-Results for experiment 3, are quite different. This is the situation where we expect to see the potential of visual inference, and indeed we do: the power of visual inference is always high, and much higher than the conventional test at small effect sizes. There is no actual conventional power in this situation, because assumptions are violated. It is computed assuming that there is no contamination, using the non-contaminated part of the simulation model. The  conventional power of true effect of the contaminated data is computed anyway and presented in figure \ref{fig:power_loess_effect} by cross marks. For this we obtain the estimated slope for the contaminated data and compute the estimated effect for which conventional power is calculated. Notice that the power structure is completely broken for contaminated data. For smaller original effect we get huge power and that explains why we see so many small $p$-values for experiment 3
+Results for experiment 3 are quite different. This is the situation where we expect to see the potential of visual inference, and indeed we do: the power of visual inference is always high, and much higher than the conventional test at small effect sizes. There is no actual conventional power in this situation, because assumptions are violated.
+The dashed line shows conventional power based on uncontaminated data, whereas the cross marks show effective power based on the coefficient estimated from the contaminated data.
+% It is computed assuming that there is no contamination, using the non-contaminated part of the simulation model. The  conventional power of true effect of the contaminated data is computed anyway and presented in figure \ref{fig:power_loess_effect} by cross marks. For this we obtain the estimated slope for the contaminated data and compute the estimated effect for which conventional power is calculated. 
+% 
+%Note that the power structure is completely broken for contaminated data. %For smaller original effect we get huge power and that explains why we see so many small $p$-values for experiment 3
 
-It is really curious to see in the results of experiment 3 that the power of the visual test is really high when effect is small. These results are based on whether the subject correctly picked the actual data plot, regardless of reason. Although they were asked to select the plot that exhibited the highest association between the two variables, it may have been that they were cueing to the cluster of contaminated data. This will be explored further in Section \ref{sec:TypeIII}. 
+It is really curious to see in the results of experiment 3 that the power of the visual test  high independent of effect size. 
+These results are based on whether the subject correctly picked the actual data plot, regardless of reason. Although subjects were asked to select the plot that exhibited the highest association between the two variables, they might have cued in on the cluster of contaminated data. This will be explored further in Section \ref{sec:TypeIII}. 
 
 %(scatter plot) is better than what we observed for experiment 1 (box plot). For experiment 3, observed power is always above the conventional test power since for contaminated data we can visually see a trend while conventional test fail to address that.
 
-It can also be seen that at effect $E=0$, the power is close to 0.05 (Type-I error) for both experiments 1 and 2. For experiment 3 the scenario is different. The contamination in the data is visible which sets the lower limit of proportion correct at a higher value.  
 
 %The power curves obtained by fitting model \ref{eqn:mixed} to the data for all the experiments applying different screening criteria is shown in figure \ref{fig:power_screening}. This shows how the screening criteria may affect the results. The corresponding power curves of conventional test are also shown. Notice that no mater what criteria we apply the result does not change much for experiment 2. Also, estimated power curve with criteria 5 for experiment 3 is above the conventional test power curve.
 
