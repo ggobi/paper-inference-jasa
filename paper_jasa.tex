@@ -62,11 +62,11 @@ Statistical graphics play a crucial role in exploratory data analysis, model che
 
 %\checkmark
 
-Statistical graphics nourishes the discovery process in data analysis: revealing unexpected things,  finding structure that was not previously anticipated,  or orthogonally contrasting prevailing hypotheses. It is often associated with exploratory data analysis, which was pioneered by \cite{tukey:eda} and, is particularly pertinent in today's data-rich world where discovery during data mining has become an important activity. Graphics are also used in many places where numerical summaries simply do not suffice: model checking, diagnosis, and in the communication of findings. 
+Statistical graphics nourish the discovery process in data analysis by revealing unexpected things,  finding structure that was not previously anticipated,  or orthogonally by contrasting prevailing hypotheses. The area of graphics is often associated with exploratory data analysis, which was pioneered by \cite{tukey:eda} and, is particularly pertinent in today's data-rich world where discovery during data mining has become an important activity. Graphics are also used in many places where numerical summaries simply do not suffice: model checking, diagnosis, and in the communication of findings. 
 
 Statistical graphics research and development is agreeably established now, and has been cemented by several new developments in recent years. Early studies on evaluating how well statistical plots are perceived and read by the human eye \citep{cleveland:1984}, have been repeated and expanded \citep{simkin:1987,spence:1991, heer:2010} with findings supporting the original results. This body of work provides a framework for evaluating new statistical graphics.  In a complementary direction, new research on formalizing statistical graphics with language characteristics makes it easier to abstractly define, compare and contrast data plots. \cite{wilkinson:1999} developed a grammar of graphics that is enhanced by \cite{hadley:2009}. These methods provide a mechanism to abstract the way data is mapped to graphical form. Finally, technology advances make it simple and easy for everyone to draw plots of data, and particularly the existence of software systems, such as R \citep{R}, enable making beautiful data graphics that can be tightly coupled with statistical modeling.
 
-However, measuring the strength of patterns seen in plots, and differences in individual perceptual ability, is something that is difficult and perhaps handicaps graphics  use among statisticians, where measuring probabilities is of primary importance. This has also been addressed in recent research. \citet{buja:2009} proposes a protocol that allow the testing of discoveries made from statistical graphics. This work represents a major advance for graphics, because it bridges the gulf between conventional statistical inference procedures and exploratory data analysis. One of the protocols, the lineup, places the actual data plot among  a page of plots of null data, and asks a human judge to pick the plot that is different. Figure \ref{fig:test_category} shows an example lineup. Which plot do you think is the most different from the others? (The position of the actual data plot is provided in Section \ref{sec:category}.) Wrapped in a process that mirrors conventional inference, where there is an explicit, a priori, null hypothesis, picking the plot of the data from the null plots represents a rejection of that null hypothesis. The null hypothesis typically derives from the task at hand, or the type of plot being made. The alternative encompasses all possible antitheses, all types of patterns that might be detected in the actual data plot, accounting for all possible deviations from the null without the requirement to specify these ahead of time. The probability of rejection can be quantified, along with Type I, and Type II error, and $p$-value and power can be defined and estimated. 
+However, measuring the strength of patterns seen in plots, and differences in individual perceptual ability, is something that is difficult and perhaps handicaps graphics  use among statisticians, where measuring probabilities is of primary importance. This has also been addressed in recent research. \citet{buja:2009} proposes a protocol that allows the testing of discoveries made from statistical graphics. This work represents a major advance for graphics, because it bridges the gulf between conventional statistical inference procedures and exploratory data analysis. One of the protocols, the lineup, places the actual data plot among  a page of plots of null data, and asks a human judge to pick the plot that is different. Figure \ref{fig:test_category} shows an example lineup. Which plot do you think is the most different from the others? (The position of the actual data plot is provided in Section \ref{sec:category}.) Wrapped in a process that mirrors conventional inference, where there is an explicit, a priori, null hypothesis, picking the plot of the data from the null plots represents a rejection of that null hypothesis. The null hypothesis typically derives from the task at hand, or the type of plot being made. The alternative encompasses all possible antitheses, all types of patterns that might be detected in the actual data plot, accounting for all possible deviations from the null without the requirement to specify these ahead of time. The probability of rejection can be quantified, along with Type I, and Type II error, and $p$-value and power can be defined and estimated. 
 
 
 \begin{figure}[htp]
@@ -78,7 +78,7 @@ However, measuring the strength of patterns seen in plots, and differences in in
 \end{figure}
 %\end{figurehere}
 
-The protocol has only been informally tested until now. In the work described in this paper, the lineup protocol is compared head to head with the equivalent conventional test. Specifically, the lineup is examined in the context of a linear model setting, where we are determining the importance of including a variable in the model. This is not the envisioned environment for the use of the lineup -- actually it is likely the worst case scenario for visual inference. The intended use of lineups is where there is no existing test, and unlikely to be ever any numerical test. The thought is though, that the conventional setting provides a benchmark for how well the lineup protocol works under controlled conditions, and will provide some assurance that they will work in scenarios where there is no benchmark. Testing is done using a human-subjects experiment using Amazon's Mechanical Turk \citep{turk}, using simulation to provide controlled conditions for assessing lineups. The results are compared with those of the conventional test. 
+The protocol has only been informally tested until now. In the work described in this paper, the lineup protocol is compared head to head with the equivalent conventional test. Specifically, the lineup is examined in the context of a linear model setting, where we are determining the importance of including a variable in the model. This is not the envisioned environment for the use of the lineup -- actually it is likely the worst case scenario for visual inference. The intended use of lineups is where there is no existing test, and unlikely to be ever any numerical test. The thought is though, that the conventional setting provides a benchmark for how well the lineup protocol works under controlled conditions, and will provide some assurance that they will work in scenarios where there is no benchmark. Testing is done based on a human-subjects experiment using Amazon's Mechanical Turk \citep{turk}, using simulation to provide controlled conditions for assessing lineups. The results are compared with those of the conventional test. 
 
 %, analysis requires plots of data. For exploratory data analysis, statistical graphics play an invaluable role in model checking and diagnostics. Even though we have established mathematical procedures to obtain various statistics, we need to support the results by also producing the relevant plots. 
 
@@ -94,7 +94,7 @@ The paper is organized as follows. Section \ref{sec:visual_test} defines terms a
 
 \section{Definitions and Explanations for Visual Statistical Inference} \label{sec:visual_test} 
 
-Table \ref{tbl:compare} illustrates the lineup protocol in relation to conventional hypothesis testing. Both start from the same place, the same null hypothesis. The conventional test statistic is the $t$-statistic, where the parameter estimate is divided by its standard error. In the lineup protocol, the test statistic is a plot of the data, here side-by-side boxplots are used, because the variable of interest is categorical and takes just two values. In conventional hypothesis testing the value of the test statistic is compared with all possible values of the sampling distribution, the distribution of the statistic if the null hypothesis is true. If it is extreme on this scale then the null hypothesis is rejected. In contrast in visual inference, the plot of the data is compared with plots of a finite number of samples drawn from the null distribution. If the actual data plot is selected as the most different, then this results in rejection of the null hypothesis.
+Table \ref{tbl:compare} illustrates the lineup protocol in relation to conventional hypothesis testing. Both start from the same place, the same set of hypotheses. The conventional test statistic is the $t$-statistic, where the parameter estimate is divided by its standard error. In the lineup protocol, the test statistic is a plot of the data. Here, side-by-side boxplots are used, because the variable of interest is categorical and takes just two values. In conventional hypothesis testing the value of the test statistic is compared with all possible values of the sampling distribution, the distribution of the statistic if the null hypothesis is true. If it is extreme on this scale then the null hypothesis is rejected. In contrast in visual inference, the plot of the data is compared with plots of a finite number of samples drawn from the null distribution. If the actual data plot is selected as the most different, then this results in rejection of the null hypothesis.
 
 \begin{table*}[hbtp]
 \caption{Comparison of visual inference with conventional inference.}
@@ -135,10 +135,12 @@ In general, we define $\theta$ to be a population parameter of interest, with $\
 For visual inference, unlike in the conventional hypothesis test, the statistic is not a single value, but a graphical representation of the data chosen to display the strength of the parameter of interest, $\theta$. When the alternative hypothesis is true, it is expected that the plot of the actual data, the test statistic, will have visible feature(s) consistent with $\theta \in \Theta_0^c$, and that visual artifacts will not distinguish the test statistic as different when $H_1$ is not true. We will call a plot with this property a {\it visual statistic} for $\theta$. More formally, 
 
 \begin{dfn} \label{dfn:test}
-A \textbf{visual test statistic}, $T(.)$, is a function of a sample that makes a plot. $T(y)$ maps the actual data to the plot, and we call this the \textbf{actual data plot}, and $T(y_0)$ maps samples drawn from the null distribution into the same plot form, and these are called \textbf{null plots}. 
+A \textbf{visual test statistic}, $T(.)$, is a function of a sample that produces a plot. $T(y)$ maps the actual data to the plot, and we call this the \textbf{(actual) data plot}, and $T(y_0)$ maps a sample drawn from the null distribution into the same plot form. These type of plots are called \textbf{null plots}. 
 \end{dfn}
 
-\noindent Ideally, the visual test statistic is defined and constructed using the grammar of graphics \citep{wilkinson:1999,hadley:2009}, consisting of type, and specification of aesthetics, necessary for complete reproducibility. The visual test statistic is compared with values $T(y_0)$ using a lineup, which is defined as:
+\noindent Ideally, the visual test statistic is defined and constructed using the grammar of graphics \citep{wilkinson:1999,hadley:2009}, consisting of type, and specification of aesthetics, necessary for complete reproducibility. \\
+\noindent
+The visual test statistic is compared with values $T(y_0)$ using a lineup, which is defined as:
 
 \begin{dfn}\label{dfn:lplot}
 A \textbf{lineup} is a layout of $m$ randomly placed visual statistics, consisting of 
@@ -148,14 +150,15 @@ A \textbf{lineup} is a layout of $m$ randomly placed visual statistics, consisti
 \end{itemize}
 \end{dfn}
 
-\noindent The $(m-1)$ null plots can be members of the sampling distribution of the test statistic assuming that the null hypothesis is true. If $H_1$ is true, we expect this to be reflected as a feature in the test statistic, i.e. the plot of the data, that makes it visually distinguishable from the null plots. A careful visual inspection of the lineup by %\strikethrough{an} 
+\noindent The $(m-1)$ null plots are % can be 
+members of the sampling distribution of the test statistic assuming that the null hypothesis is true. If $H_1$ is true, we expect this to be reflected as a feature in the test statistic, i.e. the plot of the data, that makes it visually distinguishable from the null plots. A careful visual inspection of the lineup by %\strikethrough{an} 
 independent observers follows;  observers are asked to point out the plot most different from the lineup. If the test statistic is identified in the lineup, this is considered as evidence against the null hypothesis. 
 %If it is not identified the conclusion is to not reject the null hypothesis. 
 
 This leads us to a definition for the $p$-value of a lineup: under the null hypothesis, each observer has a $1/m$ chance of picking the test statistic from the lineup.  For $K$ independent observers, let $X$ be  the number of observers picking the test statistic from the lineup. Under the null hypothesis $X \sim \text{Binom}_{K, 1/m}$,  therefore: 
 
 \begin{dfn}\label{dfn:pvalue}
-The $p$-value of a lineup of size $m$ is given as 
+The $p$-value of a lineup of size $m$ is  estimated as %given as 
 
 \begin{equation}\label{binom}
 P(X \ge x) = 1 - \text{Binom}_{{K, 1/m}} (x-1) = \sum_{i=x}^{K} {K \choose i} \left(\frac{1}{m}\right)^{i} \left(\frac{m-1}{m}\right)^{K-i}
@@ -199,7 +202,7 @@ $K$ &  $x$ & $p$-value & $K$ &  $x$ & $p$-value & $K$ &  $x$ & $p$-value & $K$  
 %\red{alternative definition of visual test where $type-I$ error $\alpha$ is attached.}
 
 \begin{dfn}\label{dfn:test}
-The \textbf{visual test}, $V_{\theta}$  of size $\alpha$, is defined to be 
+The \textbf{visual test}, $V_{\theta}$  of  size $m$ and significance level $\alpha$, is defined to  
 \begin{itemize}\itemsep-3pt
 \item \textbf{Reject} $H_0$ if out of $K$ observers at least $x_{\alpha}$ correctly identify the actual data plot in the lineup, and
 \item \textbf{Fail to reject} $H_0$  otherwise. 
@@ -211,14 +214,16 @@ where $x_{\alpha}$ is such that $P(X \ge x_{\alpha}) \le \alpha$.
 Associated with any test is the risk of  Type I or II errors, which for visual inference are defined as follows: 
 
 \begin{dfn}\label{dfn:error}
-The \textbf{Type I error} associated with visual test $V_{\theta}$ is the probability of rejecting $H_0$ when it is true; the probability for that is $P(X \ge x_{\alpha})$, which is controlled by $\alpha$.
-\textbf{Type II error} is the probability of failing to identify the actual data plot, when $H_0$ is not true, $P( X <  x_{\alpha})$.
+The \textbf{Type I error} associated with visual test $V_{\theta}$ is the probability of rejecting $H_0$ when it is true; the probability for that is $P(X \ge x_{\alpha})$, which is controlled by $\alpha$.\\ \noindent
+The \textbf{Type II error} is the probability of failing to identify the actual data plot, when $H_0$ is not true, $P( X <  x_{\alpha})$.
 \end{dfn}
 
 %\green{Oh, we are using observed and observer, which might be confusing. May need to change observed data plot to something else. Will think about this. Will use ``actual'' for now.} \hh{I think that change is done}
 
-\noindent Because $X$ takes only discrete values we can not always control exactly for $\alpha$, with an exact $x_{\alpha}$. For example, when there is only one observer, $1/m$ is the minimal value at which we can set $\alpha$. It can be set to be smaller, even arbitrarily small, by increasing $K$, the number of observers. 
-Type II error is harder to calculate, as is usually the case. In visual inference, individual abilities need to be incorporated to calculate Type II error. This is not necessary for Type I error, because it is simply the chance that the observer picks the actual data plot, by chance. For Type II error, we need to calculate the chance that the observer sees that actual data plot as different, when it really is different. This involves understanding the individual's visual skills. Thus, let $X_i$ be a binary random variable with $X_i = 1$, if individual $i (=1, \dots , K)$ identifies the actual data plot from the lineup, and $X_i = 0$ otherwise, where $p_i$ is the probability that individual $i$ picks out the actual data plot from the lineup. If all individuals have the same ability, with the probability, $p$, for picking out the actual data plot, then $X = \sum_i X_i$ has distribution $\text{Binom}_{K, p}$, and we can estimate $p$ by $\hat{p} = x/K$, where $x$ is the number of observers (out of $K$), who pick out the actual data plot from the lineup. 
+\noindent Because $X$ takes only discrete values we can not always control exactly for $\alpha$. %, with an exact $x_{\alpha}$. 
+For example, when there is only one observer, $1/m$ is the minimal value at which we can set $\alpha$. It can be set to be smaller, even arbitrarily small, by increasing $K$, the number of observers. 
+Type II error is harder to calculate, as is usually the case. In visual inference, individual abilities need to be incorporated to calculate Type II error. %This is not necessary for Type I error, because it is simply the chance that the observer picks the actual data plot, by chance. 
+Here, we need to estimate the probability that an observer sees the actual data plot as different, when it really is different. This involves understanding the individual's visual skills. Thus, let $X_i$ be a binary random variable with $X_i = 1$, if individual $i \ (=1, \dots , K)$ identifies the actual data plot from the lineup, and $X_i = 0$ otherwise. Let $p_i$ be the probability that individual $i$ picks out the actual data plot from the lineup. If all individuals have the same ability, with the probability, $p$, for picking out the actual data plot, then $X = \sum_i X_i$ has distribution $\text{Binom}_{K, p}$, and we can estimate $p$ by $\hat{p} = x/K$, where $x$ is the number of observers (out of $K$), who pick out the actual data plot from the lineup. 
 
 
 If there is evidence for individual skills influencing the probability $p_i$, then \green{$X_i \sim Binom_{1, p_i}$} and $X$ is a sum of independent Bernoulli random variables with different success rates $p_i$. This makes the distribution of $X$ a Poisson-Binomial by definition (see \citet{butler93} for details). \green{Ways to estimate $p_i$ will be be discussed in the following sections.}
@@ -268,7 +273,7 @@ The \textbf{power} of a visual test, $V_{\theta}$, is defined as the probability
     \end{equation*}
 \end{dfn}
 
-\noindent \green{An important difference between conventional and visual testing is that lineups will depend on observers evaluation. Thus, the number of observers affects the estimation of power, where $X$ is the number of observers (out of $K$) who identify the actual data plot from the lineup, and power is estimated by
+\noindent An important difference between conventional and visual testing is that lineups will depend on observers evaluation. Thus, the number of observers affects the estimation of power, where $X$ is the number of observers (out of $K$) who identify the actual data plot from the lineup, and power is estimated by
 \[
 \widehat{Power}_{V} (\theta) = {Power}_{V, K} (\theta) = 1 - F_{X, \theta} (x_{\alpha} - 1),
 \] 
@@ -277,7 +282,8 @@ Under the null hypothesis, $X \sim Binom_{K, 1/m}$, leading to:
 \[
 \widehat{Power}_V(\theta, K)= 1 - Binom_{K, 1/m} (x_\alpha - 1),
 \]
-where $x_\alpha$ is such that $P(X \ge x_{\alpha}) < \alpha$. On the other hand, if the alternative hypothesis is true, with a fixed parameter value $\theta$, we can assume that an individual's probability to identify the data plot depends on the parameter value, and $X_i \sim Binom_{1, p_i(\theta)}$. Assessing an individual's probability to identify the actual data plot will require that an individual evaluate multiple lineups, which may not always be feasible.}
+where $x_\alpha$ is such that $P(X \ge x_{\alpha}) < \alpha$. 
+If the alternative hypothesis is true, with a fixed parameter value $\theta$, we can assume that an individual's probability to identify the data plot depends on the parameter value, and $X_i \sim Binom_{1, p_i(\theta)}$. Assessing an individual's skill to identify the actual data plot will require that an individual evaluates multiple lineups.
 
 
 %\noindent Note that $F_{X, \theta}$ is the distribution of $X$ under the alternative with given parameter value $\theta$.
