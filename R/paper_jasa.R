@@ -537,6 +537,8 @@ ggsave(file="../images/p_val_log_counts.pdf", height=10, width=12)
 prr$facets <- with(prr, paste("beta:", beta,"\n n:", n,"\n sd:",sd, paste=""))
 prr$effect <- with(prr, sqrt(as.numeric(as.character(n)))*as.numeric(as.character(beta))/as.numeric(as.character(sd)))
 prr$facets <- reorder(prr$facets, prr$effect, median)
+prr$rep <- with(prr, paste("rep:", rep))
+
 
 prr.actual <- subset(prr, pvalue==obs_pvalue)
 prr.min<-ddply(prr, "pic_name", summarise,
@@ -569,7 +571,7 @@ p2 <- qplot(lpvalue, rfreq, geom="point", data=subset(prr, as.numeric(facets) > 
 p2
 ggsave(file="../images/p_val_log_counts-b.pdf", height=4, width=12)
 
-
+ 
 
 # now same plot for turk2 data
 prr2 <- get_merged_pvalue(dat2,pval2)
@@ -626,15 +628,15 @@ ggsave(file="../images/p_val_log_counts2.pdf", height=10, width=14)
 
 
 # alternative to previous plot with different ordering
-prr2 <- get_merged_pvalue(dat2,pval2)
-prr2$facets = with(prr2, paste("beta: ",b, "\nn:",n,"\nsd: ",sd))
+prr2$facets <- with(prr2, paste("beta: ",b, "\nn:",n,"\nsd: ",sd))
 prr2$effect <- with(prr2, sqrt(as.numeric(as.character(n)))*as.numeric(as.character(b))/as.numeric(as.character(sd)))
 prr2$facets <- reorder(prr2$facets, prr2$effect, median)
+prr2$rep <- with(prr2, paste("rep:", rep))
 
 
 prr2$pic_name2 <- str_sub(prr2$pic_name, 12, -5L)
 x <- str_split(prr2$pic_name2, "_")
-prr2$rep <-  unlist(lapply(x, function(x) x[4]))
+#prr2$rep <-  unlist(lapply(x, function(x) x[4]))
 prr2$pic_name3 <- factor(paste(prr2$b, prr2$n, prr2$sd, prr2$rep, sep="."))
 
 prr2$lpvalue<-log10(prr2$pvalue+0.01)
