@@ -547,11 +547,11 @@ prr.min<-ddply(prr, "pic_name", summarise,
 
 p1 <- qplot(lpvalue, rfreq, geom="point", data=subset(prr, as.numeric(facets) <= 10)) +
   geom_segment(mapping=aes(xend=lpvalue, yend=0)) +
+  geom_segment(mapping=aes(xend=lpvalue, yend=0), colour="turquoise", data=subset(prr.actual, as.numeric(facets) <= 10)) +
+  geom_point(mapping=aes(xend=lpvalue, yend=0), colour="turquoise", data=subset(prr.actual, as.numeric(facets) <= 10)) +
   geom_segment(mapping=aes(xend=lpvalue, yend=0), colour="hotpink", data=subset(prr.min, as.numeric(facets) <= 10)) + 
   geom_point(mapping=aes(xend=lpvalue, yend=0), colour="hotpink", data=subset(prr.min, as.numeric(facets) <= 10)) +
   xlab(" ") + ylab("Relative frequency of picks") +
-  geom_segment(mapping=aes(xend=lpvalue, yend=0), colour="turquoise", data=subset(prr.actual, as.numeric(facets) <= 10)) +
-  geom_point(mapping=aes(xend=lpvalue, yend=0), colour="turquoise", data=subset(prr.actual, as.numeric(facets) <= 10)) +
   facet_grid(rep~facets) + scale_x_continuous(limits=c(-2.1,0.1), breaks=c(-2,-1,0), labels=c("0.01","0.1","1")) + 
   opts(legend.position="none") + scale_y_continuous(limits=c(0,1))
 p1
@@ -559,11 +559,11 @@ ggsave(file="../images/p_val_log_counts-a.pdf", height=4, width=12)
 
 p2 <- qplot(lpvalue, rfreq, geom="point", data=subset(prr, as.numeric(facets) > 10)) +
   geom_segment(mapping=aes(xend=lpvalue, yend=0)) +
+  geom_segment(mapping=aes(xend=lpvalue, yend=0), colour="turquoise", data=subset(prr.actual, as.numeric(facets) > 10)) +
+  geom_point(mapping=aes(xend=lpvalue, yend=0), colour="turquoise", data=subset(prr.actual, as.numeric(facets) > 10)) +
   geom_segment(mapping=aes(xend=lpvalue, yend=0), colour="hotpink", data=subset(prr.min, as.numeric(facets) > 10)) + 
   geom_point(mapping=aes(xend=lpvalue, yend=0), colour="hotpink", data=subset(prr.min, as.numeric(facets) > 10)) +
   xlab(expression(paste("P-value on ",log[10]," scale"))) + ylab("Relative frequency of picks") +
-  geom_segment(mapping=aes(xend=lpvalue, yend=0), colour="turquoise", data=subset(prr.actual, as.numeric(facets) > 10)) +
-  geom_point(mapping=aes(xend=lpvalue, yend=0), colour="turquoise", data=subset(prr.actual, as.numeric(facets) > 10)) +
   facet_grid(rep~facets) + scale_x_continuous(limits=c(-2.1,0.1), breaks=c(-2,-1,0), labels=c("0.01","0.1","1")) + 
   opts(legend.position="none") + scale_y_continuous(limits=c(0,1))
 p2
@@ -613,11 +613,11 @@ prr2.actual<-ddply(prr2, "pic_name", summarise,
 prr2.actual <- subset(prr2.actual, !(prr2.actual$pic_name == prr2.min$pic_name & prr2.actual$lpvalue == prr2.min$lpvalue))
 p <- qplot(lpvalue, rfreq, geom="point", data=prr2) +
   geom_segment(mapping=aes(xend=lpvalue, yend=0)) +
+  geom_segment(mapping=aes(xend=lpvalue, yend=0), colour="turquoise", data=prr2.actual) + 
+  geom_point(mapping=aes(xend=lpvalue, yend=0), colour="turquoise", data=prr2.actual) + 
   geom_segment(mapping=aes(xend=lpvalue, yend=0), colour="hotpink", data=prr2.min) + 
   geom_point(mapping=aes(xend=lpvalue, yend=0), colour="hotpink", data=prr2.min) + 
   xlab(expression(paste("p-value on ",log[10]," scale"))) + ylab("Relative frequency of picks") +
-  geom_segment(mapping=aes(xend=lpvalue, yend=0), colour="turquoise", data=prr2.actual) + 
-  geom_point(mapping=aes(xend=lpvalue, yend=0), colour="turquoise", data=prr2.actual) + 
   facet_grid(b~n+sd+rep, labeller="label_both") + scale_x_continuous(limits=c(-2.1,0.1), breaks=c(-2,-1,0), labels=c("0.01","0.1","1")) + scale_y_continuous(limits=c(0,1.1), breaks=c(0,0.5,1), labels=c("","0.5","1")) +
   opts(legend.position="none")
 p
@@ -664,10 +664,13 @@ p1 <- qplot(lpvalue, counts, geom="point", data=subset(prr2,as.numeric(facets) <
 p1
 
 prr2.actual <- subset(prr2,as.numeric(facets) > 10 & (lpvalue == lobs_pvalue))
+prr2.minb <- subset(prr2.min, as.numeric(facets) > 10)
 p2 <- qplot(lpvalue, counts, geom="point", data=subset(prr2,as.numeric(facets) > 10)) +
   geom_segment(mapping=aes(xend=lpvalue, yend=0)) +
   geom_segment(mapping=aes(xend=lobs_pvalue, yend=0), colour="turquoise", data= prr2.actual)+ 
   geom_point(mapping=aes(xend=lobs_pvalue, yend=0), colour="turquoise", data= prr2.actual)+ 
+  geom_segment(mapping=aes(xend=lpvalue, yend=0), colour="hotpink", data= prr2.minb)+ 
+  geom_point(mapping=aes(xend=lpvalue, yend=0), colour="hotpink", data= prr2.minb)+ 
   xlab(expression(paste(log[10], " p-value"))) + ylab("Number of subjects") +
   facet_grid(rep~facets) +
   opts(legend.position="none") + 
