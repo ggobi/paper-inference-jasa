@@ -92,7 +92,7 @@ The protocol has only been informally tested until now. In the work described in
 
 %In this paper we compare the lineup protocol to conventional statistical inference, specifically applied to the regression framework. We also present results of a human-subject study assessing the performance of individuals on lineup plots \citep{buja:2009} for testing significance of regression parameters. 
 
-The paper is organized as follows. Section \ref{sec:visual_test} defines terms as used in visual inference, and describes how to estimate the important quantities from experimental data. The effect of the lineup size and number of observers on the power of the test is discussed in Section \ref{sec:size}. Section \ref{sec:regression} focuses on the application of  visual inference to linear models.  Section \ref{sec:simulation} describes the results of the three simulation experiments conducted to compare the power of the lineup protocol with the equivalent conventional test and an analysis of the resulting data. The last section describes the next steps in this research.
+The paper is organized as follows. Section \ref{sec:visual_test} defines terms as used in visual inference, and describes how to estimate the important quantities from experimental data. The effect of the lineup size and number of observers on the power of the test is discussed in Section \ref{sec:size}. Section \ref{sec:regression} focuses on the application of  visual inference to linear models.  \blue{Section \ref{sec:simulation} describes the three simulation experiments conducted to compare the power of the lineup protocol with the equivalent conventional test and  Section \ref{sec:results} presents the results of the experiments with analysis of the resulting data.} The last section describes the next steps in this research.
 
 
 \section{Definitions and Explanations for Visual Statistical Inference} \label{sec:visual_test} 
@@ -877,9 +877,9 @@ An example lineup for slope $\beta=0.4$ is shown in Figure \ref{fig:test_contami
 %\end{figure*}
 
 
-\section{Results}
+\section{Results} \label{sec:results}
 
-\subsection{Data Cleaning}
+\subsection{Data Cleaning}  
 
 % In this process of collecting data some participants did not provide demographic information as we see in Table \ref{tbl:summary} that male and female participants do not add up to total participants. It is not clear why they did not provide the information. Now the concern arises whether we should keep their responses in the study. It is also possible that participants were not serious enough to provide feedback. 
 %For each of the experiments we had a test plot (easy plot) for which they should have a correct evaluation without much effort.  This could be a criteria to determine their attentiveness in the study. For this we consider six different data cleaning criteria as shown below;
@@ -1165,21 +1165,20 @@ Red indicates the plot with the lowest $p$-value in the lineup. Blue indicates t
  %This is less so the case when $\beta$ is small, when standard deviation is large and sample size is small. 
  The results are clearer for experiment 2, that used a continuous covariate. But even when subjects did not pick the plot with the lowest $p$-value they tended to oscillate their choices between the several low $p$-value plots. So for most subjects, the assumption that they pick the plot with the smallest $p$-value would appear to be reasonable, and the actual power of the visual test should be close to the expected power.
 
+
 \begin{figure*}[hbtp]
    \centering
       \includegraphics[width=0.95\textwidth]{p_val_log_counts-a.pdf}
        \includegraphics[width=0.95\textwidth]{p_val_log_counts-b.pdf}
-       \caption{Relative frequency of plot picks compared to other plots in the lineup plotted against the $p$-value (on log$_{10}$ scale) of each plot for all of the 60 individual lineups for experiment 1. Red indicates the plot with the lowest $p$-value, and 
-       blue indicates the actual data plot, when it is different from that with the lowest $p$-value. 
-       The columns of both top and bottom panel are ordered according to effect size, rows within panels show replicates for each parameter combination.
-       }
+       \caption{Relative frequency of plot picks compared to other plots in the lineup plotted against the $p$-value (on log$_{10}$ scale) of each plot for all of the 60 individual lineups for experiment 1. Red indicates the plot with the lowest $p$-value, and blue indicates the actual data plot, when it is different from that with the lowest $p$-value. The columns of both top and bottom panel are ordered according to effect size, rows within panels show replicates for each parameter combination.}
        \label{fig:P-val_log}
 \end{figure*}
 
+
 \begin{figure*}[hbtp]
    \centering
-       \includegraphics[width=0.75\textwidth]{p_val_log_counts2-a.pdf}       
-       \includegraphics[width=0.75\textwidth]{p_val_log_counts2-b.pdf}
+       \includegraphics[width=0.95\textwidth]{p_val_log_counts2-a.pdf}       
+       \includegraphics[width=0.95\textwidth]{p_val_log_counts2-b.pdf}
        \caption{Relative frequency of plot picks compared to other plots in the lineup plotted against the $p$-value (on log$_{10}$ scale) of each plot for all of the 70 individual lineups for experiment 2. Red indicates the plot with the lowest $p$-value, and blue indicates the actual data plot, when it is different from that with the lowest $p$-value. 
 Columns are ordered according to effect size, with rows showing replicates of the same parameter combination on top of each other.
        Empty cells indicate combination of parameters with fewer than five replicates. 
