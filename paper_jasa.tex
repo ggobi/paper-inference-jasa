@@ -92,7 +92,7 @@ The protocol has only been informally tested until now. In the work described in
 
 %In this paper we compare the lineup protocol to conventional statistical inference, specifically applied to the regression framework. We also present results of a human-subject study assessing the performance of individuals on lineup plots \citep{buja:2009} for testing significance of regression parameters. 
 
-The paper is organized as follows. Section \ref{sec:visual_test} defines terms as used in visual inference, and describes how to estimate the important quantities from experimental data. The effect of the lineup size and number of observers on the power of the test is discussed in Section \ref{sec:size}. Section \ref{sec:regression} focuses on the application of  visual inference to linear models.  \blue{Section \ref{sec:simulation} describes the three simulation experiments conducted to compare the power of the lineup protocol with the equivalent conventional test and  Section \ref{sec:results} presents the results of the experiments with analysis of the resulting data.} The last section describes the next steps in this research.
+The paper is organized as follows. Section \ref{sec:visual_test} defines terms as used in visual inference, and describes how to estimate the important quantities from experimental data. The effect of the lineup size and number of observers on the power of the test is discussed in Section \ref{sec:size}. Section \ref{sec:regression} focuses on the application of  visual inference to linear models.  Section \ref{sec:simulation} describes  three  user studies based on simulation experiments conducted to compare the power of the lineup protocol with the equivalent conventional test and  Section \ref{sec:results} presents an analysis of the resulting data. %The last section describes the next steps in this research.
 
 
 \section{Definitions and Explanations for Visual Statistical Inference} \label{sec:visual_test} 
@@ -161,7 +161,7 @@ independent observers follows;  observers are asked to point out the plot most d
 This leads us to a definition for the $p$-value of a lineup: under the null hypothesis, each observer has a $1/m$ chance of picking the test statistic from the lineup.  For $K$ independent observers, let $X$ be  the number of observers picking the test statistic from the lineup. Under the null hypothesis $X \sim \text{Binom}_{K, 1/m}$,  therefore: 
 
 \begin{dfn}\label{dfn:pvalue}
-The $p$-value of a lineup of size $m$ is  estimated as %given as 
+The $p$-value of a lineup of size $m$ evaluated by $K$ observers is  given as 
 
 \begin{equation}\label{binom}
 P(X \ge x) = 1 - \text{Binom}_{{K, 1/m}} (x-1) = \sum_{i=x}^{K} {K \choose i} \left(\frac{1}{m}\right)^{i} \left(\frac{m-1}{m}\right)^{K-i}
@@ -280,12 +280,12 @@ The \textbf{power} of a visual test, $V_{\theta}$, is defined as the probability
 \[
 \widehat{Power}_{V} (\theta) = {Power}_{V, K} (\theta) = 1 - F_{X, \theta} (x_{\alpha} - 1),
 \] 
-Here $F_{X, \theta}$ is the distribution of $X$, and this depends on which hypothesis is true.
-Under the null hypothesis, $X \sim Binom_{K, 1/m}$, leading to:
+Here $F_{X, \theta}$ is the distribution of $X$ and $x_\alpha$ is such that $P(X \ge x_{\alpha}) \le \alpha$. Note that the distribution  $F_X$ depends on which hypothesis is true:
+under the null hypothesis, $X \sim Binom_{K, 1/m}$, leading to:
 \[
-\widehat{Power}_V(\theta, K)= 1 - Binom_{K, 1/m} (x_\alpha - 1),
+Power_V(\theta, K)= 1 - Binom_{K, 1/m} (x_\alpha - 1),
 \]
-where $x_\alpha$ is such that $P(X \ge x_{\alpha}) < \alpha$. 
+%where $x_\alpha$ is such that $P(X \ge x_{\alpha}) \le \alpha$. 
 If the alternative hypothesis is true, with a fixed parameter value $\theta$, we can assume that an individual's probability to identify the data plot depends on the parameter value, and $X_i \sim Binom_{1, p_i(\theta)}$. Assessing an individual's skill to identify the actual data plot will require that an individual evaluates multiple lineups.
 
 
