@@ -318,7 +318,7 @@ $W$ is a design matrix of covariates corresponding to specifics of lineup $\ell$
 %
 $Z_{\ell i}$,  $1 \le i \le K$, $1 \le \ell \le L$,  is a design matrix corresponding to random effects specific to individual $i$ and lineup $\ell$; and 
 $\tau$  is a vector of independent normally distributed random variables $\tau_{\ell i}$ with  variance matrix $\sigma_\tau I_{KL \times KL}$. $\tau$ will usually include a component incorporating an individual's ability or skill to evaluate lineups. 
-Note that $t_{\ell i }$ usually only includes a partial interaction; for a full interaction of subjects' skills and lineup-specific difficulty we would need replicates of the same subject evaluating the same lineup, which in practice is not feasible without loosing independence.
+Note that $\tau_{\ell i }$ usually only includes a partial interaction; for a full interaction of subjects' skills and lineup-specific difficulty we would need replicates of the same subject evaluating the same lineup, which in practice is not feasible without loosing independence.
 
 \noindent Using the inverse {\it logit} link function, $g^{-1}(.)$, from  Equation \ref{eqn:mixed} leads to the estimate of the subject and the lineup specific probability of successful evaluation as 
 \begin{equation} \label{eqn:mixed_power}
@@ -552,7 +552,7 @@ where $\epsilon_i \stackrel{iid}{ \sim } N(0,\sigma^2)$, $i=1,2, .., n$. The cov
 
 In this setting, there are many established graphics that are used to evaluate and diagnose the fit of a regression model (e.g. \citet{cook:99}). Table \ref{tbl:stat_multiple} lists several common hypotheses related to the regression setting, and commonly used statistical plots that might be used as corresponding visual test statistics.
 %These plots should be familiar, because they are all in common use. 
-For example, to examine the effect of variable $X_j$ on $Y$, we would plot $Y$ against $X_j$ (cases 1-4). To assess whether the linear assumption is appropriate we would draw a plot of residuals against fitted values (case 5). For the purposes of comparing visual against conventional inference, we focus on cases 2 and 3, with a continuous and categorical explanatory variable respectively. 
+For example, to examine the effect of variable $X_j$ on $Y$, we would plot $Y$ against $X_j$ \blue{(cases 1-4)}. To assess whether the linear assumption is appropriate we would draw a plot of residuals against fitted values (case 5). For the purposes of comparing visual against conventional inference, we focus on cases 2 and 3, with a continuous and categorical explanatory variable respectively. 
 
 %Note that some charts can be associated with several different testing situations. In our paper, we pick the examples for situation 2 and 3 as candidates.
 
@@ -742,7 +742,7 @@ Sample size  & Error SD  &  \multicolumn{1}{c} {Experiment 1}  & \multicolumn{1}
 
 %\green{Did you in fact bin like this???}\red{For each parameter combination a set of 1000 actual data are generated and their associated p-values were computed. This produces an empirical distribution of p-value under alternative hypothesis. Finally, three data sets that have 16th, 50th and 84th quantile of the p-values were taken. Similar procedure was used to generate 19 null plots based on the empirical distribution of p-value under null hypothesis}. For added control, to ensure a signal in the simulated actual data a blocking structure was used to filter data sets. A 1000 sets were generated for each parameter combination and the conventional $t$-statistic and $p$-value associated with $H_0: \beta_2=0$ were calculated. The 3 replicates were drawn from each of three blocks of $p$-values: (0.0-$q_{33}$), ($q_{33}$-$q_{66}$), ($q_{66}$-1) where $q_i$ is the $i$th percentile in the distribution of the $p$-values. Additional control was applied to the 19 null plots. Because the distribution of these $p$-values should follow a Uniform(0,1) distribution, data sets were binned on this range by $p$-value, and a data set was randomly selected from each bin.
   
-\subsection{Continuous covariate} 
+\subsection{Continuous covariate}  \label{sec:continuous}
 
 This experiment is very similar to the previous one, except that there is a single continuous covariate and no second covariate (Equation \ref{multi} with $p=1$), following the test in Table \ref{tbl:stat_multiple}, case 2. Data is simulated with two sample sizes ($n=100, 300$), two standard deviations of the error ($\sigma=5, 12$), a variety of slopes ($\beta$), as given in Table  \ref{tbl:experiment_params}. We arbitrarily fix $\beta_0 = 6$ and values for $X_1$ are simulated from $N(0,1)$. For each combination of parameters, three different actual data sets are produced, yielding a total of 65 lineups. For some parameter combinations we have more than three replications, because additional lineups were produced for values of the parameters that exhibited large variation in the initial data.
 
@@ -781,11 +781,11 @@ For each combination of sample size and standard deviation, the subject sees a r
 %\begin{figurehere}
    \centering
        \includegraphics[width=0.95\textwidth]{lineup_continuous.pdf}
-       \caption{Lineup plot ($m=20$) using scatter plots for testing $H_0: \beta_k=0$ where covariate $X_k$ is continuous. One of these plots is the plot of the actual data, and the remaining are null plots, produced by simulating data from a null model that assumes $H_0$ is true. Which plot is the most different from the others, in the sense that there is the steepest slope?}
+       \caption{Lineup plot ($m=20$) using scatter plots for testing $H_0: \beta_k=0$ where covariate $X_k$ is continuous. One of these plots is the plot of the actual data, and the remaining are null plots, produced by simulating data from a null model that assumes $H_0$ is true. Which plot is the most different from the others, in the sense that there is the steepest slope? (The position of the actual data plot is provided in Section \ref{sec:continuous}.)}
        \label{fig:test_continuous}
 \end{figure}
 
-\subsection{Contaminated data}
+\subsection{Contaminated data} \label{sec:contamination}
 
 The first two simulation experiments use data generated under a normal error model, satisfying the conditions for conventional test procedures. In these situations there exists a test, and there would, in general, be no need to use visual inference. The simulation is conducted with the hopes that the visual test procedure,  will at least compare favorably with the conventional test -- without any ambition of performing equally well.
  This third simulation is closer to the mark for the purpose of visual inference. The assumptions for the conventional test are violated, by contaminating the data. The contamination makes the estimated slopes effectively 0, yet the true value of slope parameter is not.  The data is generated from the following model:
@@ -826,7 +826,7 @@ An example lineup for slope $\beta=0.4$ is shown in Figure \ref{fig:test_contami
 %\begin{figurehere}
    \centering
        \includegraphics[width=0.95\textwidth]{lineup_contaminated.pdf}
-       \caption{Lineup plot ($m=20$) using scatter plots for testing $H_0: \beta_k=0$ where covariate $X_k$ is continuous but the inclusion of some contamination with the data spoils the normality assumption of error structure. One of these plots is the plot of the actual data, and the remaining are null plots, produced by simulating data from a null model that assumes $H_0$ is true. Which plot is the most different from the others, in the sense that there is the steepest slope?}
+       \caption{Lineup plot ($m=20$) using scatter plots for testing $H_0: \beta_k=0$ where covariate $X_k$ is continuous but the inclusion of some contamination with the data spoils the normality assumption of error structure. One of these plots is the plot of the actual data, and the remaining are null plots, produced by simulating data from a null model that assumes $H_0$ is true. Which plot is the most different from the others, in the sense that there is the steepest slope? \blue{(The position of the actual data plot is provided in Section \ref{sec:contamination}.)}}
        \label{fig:test_contaminated}
 \end{figure}
 
