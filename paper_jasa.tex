@@ -552,7 +552,7 @@ where $\epsilon_i \stackrel{iid}{ \sim } N(0,\sigma^2)$, $i=1,2, .., n$. The cov
 
 In this setting, there are many established graphics that are used to evaluate and diagnose the fit of a regression model (e.g. \citet{cook:99}). Table \ref{tbl:stat_multiple} lists several common hypotheses related to the regression setting, and commonly used statistical plots that might be used as corresponding visual test statistics.
 %These plots should be familiar, because they are all in common use. 
-For example, to examine the effect of variable $X_j$ on $Y$, we would plot $Y$ against $X_j$ \blue{(cases 1-4)}. To assess whether the linear assumption is appropriate we would draw a plot of residuals against fitted values (case 5). For the purposes of comparing visual against conventional inference, we focus on cases 2 and 3, with a continuous and categorical explanatory variable respectively. 
+For example, to examine the effect of variable $X_j$ on $Y$, we would plot $Y$ against $X_j$ (cases 1-4). To assess whether the linear assumption is appropriate we would draw a plot of residuals against fitted values (case 5). For the purposes of comparing visual against conventional inference, we focus on cases 2 and 3, with a continuous and categorical explanatory variable respectively. 
 
 %Note that some charts can be associated with several different testing situations. In our paper, we pick the examples for situation 2 and 3 as candidates.
 
@@ -811,7 +811,7 @@ Experiment three consists of a total of 30 lineups, made up of five replicates f
 %	\item Finally randomly place 19 null plots and one actual plot in a layout (4X5) to get a lineup 
 %\end{enumerate}
 
-An example lineup for slope $\beta=0.4$ is shown in Figure \ref{fig:test_contaminated}.  Can you pick which plot is different? %Plot 7 is the actual data plot. 
+An example lineup for slope $\beta=0.4$ is shown in Figure \ref{fig:test_contaminated}.  Can you pick which plot is different? The actual data plot location is 7. 
 
 %\begin{figure}[hbt]
 %\begin{figurehere}
@@ -826,7 +826,7 @@ An example lineup for slope $\beta=0.4$ is shown in Figure \ref{fig:test_contami
 %\begin{figurehere}
    \centering
        \includegraphics[width=0.95\textwidth]{lineup_contaminated.pdf}
-       \caption{Lineup plot ($m=20$) using scatter plots for testing $H_0: \beta_k=0$ where covariate $X_k$ is continuous but the inclusion of some contamination with the data spoils the normality assumption of error structure. One of these plots is the plot of the actual data, and the remaining are null plots, produced by simulating data from a null model that assumes $H_0$ is true. Which plot is the most different from the others, in the sense that there is the steepest slope? \blue{(The position of the actual data plot is provided in Section \ref{sec:contamination}.)}}
+       \caption{Lineup plot ($m=20$) using scatter plots for testing $H_0: \beta_k=0$ where covariate $X_k$ is continuous but the inclusion of some contamination with the data spoils the normality assumption of error structure. One of these plots is the plot of the actual data, and the remaining are null plots, produced by simulating data from a null model that assumes $H_0$ is true. Which plot is the most different from the others, in the sense that there is the steepest slope? (The position of the actual data plot is provided in Section \ref{sec:contamination}.)}
        \label{fig:test_contaminated}
 \end{figure}
 
