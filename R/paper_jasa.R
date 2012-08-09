@@ -37,9 +37,20 @@ clean_data <- function(raw_dat){
   return(subset(cleaned_dat,indx_dup))
 }
 
-dat1 <- clean_data(raw.dat1)
-dat2 <- clean_data(raw.dat2)
-dat3 <- clean_data(raw.dat3)
+indx1 <- c(3,6,7,8,9,17,18,20)
+indx2 <- c(4,7,8,9,10,17,18,20)
+
+dat1 <- clean_data(raw.dat1)[,-indx1]
+dat2 <- clean_data(raw.dat2)[,-indx1]
+dat3 <- clean_data(raw.dat3)[,-indx2]
+
+
+# saving cleaned data as suplementary materials
+write.csv(dat1, file='../submission_initial/suplementary/data/data_turk1.csv',row.names=F)
+write.csv(dat2, file='../submission_initial/suplementary/data/data_turk2.csv',row.names=F)
+write.csv(dat3, file='../submission_initial/suplementary/data/data_turk3.csv',row.names=F)
+
+
 
 
 # =================== mathematical test t distribution  ===================
@@ -331,7 +342,7 @@ get_predict_mixed <- function(dat, newdat, intercept=F){
   fit.mixed <- fit_model(dat)
   X <- newdat$effect
   if(intercept){
-    if (dat$experiment=="turk3"){
+    if (dat$experiment[1]=="turk3"){
       subject <- apply(ranef(fit.mixed)[[1]],1,paste,collapse="_")
       } else subject <- ranef(fit.mixed)[[1]][,1]
     d <- data.frame(expand.grid(effect=X, subject=subject))
@@ -758,100 +769,6 @@ ggsave(file="../images/pval_difference.pdf", height=4, width=8)
 dd <- subset(pval.dat, pic_name %in% subset(pval.diff,pval_diff >.8)[,1])
 
 
-# =================== Turk1 data analysis  ================================
-
-# ------function to calculate UMP power -----------------------
-
-# source("calculate_ump_power.R")
-calculate_ump_power1(3, 100, 5)
-
-# ---------------------- fitting loess smoother  ------------
-
-get_smooth_power <- function(dat.n, test = "Empirical") {
-    betas <- seq(0.01, 16, by = 0.2)
-    dat_smooth <- NULL
-    for (s in c(5, 12)) {
-        for (n in c(100, 300)) {
-            dats <- subset(dat.n, sigma == s & sample_size == n)
-            dats$y <- as.numeric(dats$response)
-            fit <- loess(y ~ beta, data = dats, span = 1 + (n == 100) * 0.2)
-            dat_smooth <- rbind(dat_smooth, cbind(betas, predict(fit, betas), n, s))
-        }
-    }
-    colnames(dat_smooth) <- c("beta", "pow", "sample_size", "sigma")
-    dat_empirical <- data.frame(rbind(dat_smooth, cbind(-dat_smooth[, 
-        1], dat_smooth[, -1])))
-    dat_empirical$test <- test
-    return(dat_empirical)
-}
-
-get_ump_power1 <- function(dat, test = "UMP") {
-    beta <- seq(0.01, 16, by = 0.2)
-    dat_pow <- NULL
-    for (n in c(100, 300)) {
-        for (sg in c(5, 12)) {
-            pow <- NULL
-            for (i in beta) pow <- c(pow, calculate_ump_power1(beta = i, n = n, sigma = sg))
-            dat_ump <- data.frame(beta = c(-beta, beta), pow = c(pow, pow))
-            dat_ump$sample_size <- n
-            dat_ump$sigma <- sg
-            #head(dat_ump)
-            dat_pow <- rbind(dat_pow, dat_ump)
-        }
-    }
-    dat_pow$test <- test
-    return(dat_pow)
-}
-
-dat_emp_pow <- get_smooth_power(dat1)
-dat_ump_pow <- get_ump_power1(dat1)
-p <- ggplot(dat_emp_pow, aes(beta, pow)) + geom_line(aes(colour = test))
-p <- p + geom_line(aes(beta, pow, colour = test), data = dat_ump_pow)
-p <- p + facet_grid(sample_size ~ sigma)
-p + xlab(expression(beta)) + ylab("Power")
-
-# ---------- bootstrap band for empirical power -----------------------
-set.seed(56)
-dat_boot_pow <- NULL
-for (i in 1:1000){
-dat.b <- ddply(dat1,.(beta,sample_size,sigma), summarize,
-           response = sample(response,replace=T)
-           )
-dat_boot_pow <-
-  rbind(dat_boot_pow,get_smooth_power(dat.b,test=paste('smooth',i,sep='')))
-}
-
-write.csv(dat_boot_pow,file='../data/dat_bootstrap_power.txt',row.names=F)
-
-dat_boot_pow <- read.csv("../data/dat_bootstrap_power.txt")
-
-dat_boot_limit <- ddply(dat_boot_pow, .(beta, sample_size, sigma), summarize, 
-                        limit1 = quantile(pow, 0.025, na.rm = T), 
-                        limit2 = quantile(pow, 0.975, na.rm = T))
-dat_boot_pow_limit <- melt(dat_boot_limit, id = c("beta", "sample_size", "sigma"))
-colnames(dat_boot_pow_limit) <- c("beta", "sample_size", "sigma", "test", "pow")
-dat_obs_val <- ddply(dat1, .(beta, sample_size, sigma, response), summarize, 
-                     responses = length(response))
-dat_obs_val <- rbind(dat_obs_val, cbind(beta = -dat_obs_val[,1], dat_obs_val[, -1]))
-dat_obs_pow <- ddply(dat1, .(beta, sample_size, sigma, replica), summarize, 
-                     pow = sum(response == "TRUE")/sum(response == response))
-dat_obs_pow <- rbind(dat_obs_pow, cbind(beta = -dat_obs_pow[,1], dat_obs_pow[, -1]))
-dat_boot_ribbon <- ddply(dat_boot_pow, .(beta, sample_size, sigma), summarize, 
-                         limit1 = quantile(pow, 0.025, na.rm = T), 
-                         limit2 = quantile(pow, 0.975, na.rm = T))
-dat_boot_ribbon <- rbind(dat_boot_ribbon, cbind(beta = -dat_boot_ribbon[,1], dat_boot_ribbon[, -1]))
-p <- ggplot() + 
-  geom_point(aes(beta, as.numeric(response),size = responses), 
-             data = dat_obs_val, alpha=.3) + 
-  geom_ribbon(aes(x = beta, ymin = limit1, ymax = limit2), 
-              data = dat_boot_ribbon, alpha=.3) + 
-  geom_line(aes(beta, pow, colour = test), data = dat_emp_pow) + 
-  facet_grid(sample_size ~ sigma) + 
-  xlab(expression(beta)) + ylab("Power")
-p
-ggsave(p, filename = "../images/power_loess_exp1.pdf", height = 5.5,width = 8.5)
-
-# ------------------- Expected visual power calculations --------
 
 # Following code will produce figure power_expected.pdf by simulation
 source("generate_expected_visual_power_simulation-hh.R")
