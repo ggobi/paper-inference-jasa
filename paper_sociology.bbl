@@ -1,0 +1,35 @@
+\begin{thebibliography}{5}
+\newcommand{\enquote}[1]{``#1''}
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+
+\bibitem[{Buja et~al.(2009)Buja, Cook, Hofmann, Lawrence, Lee, Swayne, and
+  Wickham}]{buja:2009}
+Buja, A., Cook, D., Hofmann, H., Lawrence, M., Lee, E.-K., Swayne, D.~F., and
+  Wickham, H. (2009), \enquote{Statistical Inference for Exploratory Data
+  Analysis and Model Diagnostics,} \textit{Royal Society Philosophical
+  Transactions A}, 367, 4361--4383.
+
+\bibitem[{Heike et~al.(2012)Heike, Follet, Majumder, and Cook}]{heike:2012}
+Heike, H., Follet, L., Majumder, M., and Cook, D. (2012), \enquote{Graphical
+  Tests for Power Comparison of Competing Designs,} \textit{IEEE Transactions
+  on Visualization and Computer Graphics, InfoVis 2012}, accepted for
+  publication.
+
+\bibitem[{Majumder et~al.(2012)Majumder, Heike, and Cook}]{majumder:2012}
+Majumder, M., Heike, H., and Cook, D. (2012), \enquote{Validation of Visual
+  Statistical Inference, Applied to Linear Models,} \textit{Journal of the
+  American Statistical Association}, submitted.
+
+\bibitem[{{Roy Chowdhury} et~al.(2012){Roy Chowdhury}, Cook, Hofmann, Majumder,
+  and Zhao}]{niladri:2012}
+{Roy Chowdhury}, N., Cook, D., Hofmann, H., Majumder, M., and Zhao, Y. (2012),
+  \enquote{Where's Waldo: Looking closely at a Lineup,} Tech. Rep.~2, Iowa
+  State University, Department of Statistics.
+
+\bibitem[{Zhao et~al.(2012)Zhao, Cook, Hofmann, Majumder, and {Roy
+  Chowdhury}}]{zhao:2012}
+Zhao, Y., Cook, D., Hofmann, H., Majumder, M., and {Roy Chowdhury}, N. (2012),
+  \enquote{Mind Reading Using an Eyetracker to See How People Are Looking at
+  Lineups,} Tech. Rep.~10, Iowa State University, Department of Statistics.
+
+\end{thebibliography}

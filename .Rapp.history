@@ -1,0 +1,1042 @@
+  (t>0)
+n <- 300#
+beta <- 3#
+sigma <- 12
+ncp <- beta* sqrt(n)/(2*sigma) # refer to documentation for derivation of power (xbar=1/2 here)
+f.abs.t=function(t,df,ncp=0){#
+  (t>0)*dt(t,df=df,ncp=ncp)+dt(-t,df=df,ncp=ncp)#
+}
+f=function(p,df,ncp=0)#
+{#
+  tt=qt(1-p/2,df=df)#
+  f.abs.t(tt,df=df,ncp=ncp)/f.abs.t(tt,df=df)#
+}
+df <- n-3
+p=seq(0.01,1,by=.01)#
+y=f(p,df=df,ncp=ncp)#
+plot(p,y,type="l",ylim=c(0,max(y)))
+library(ggplot2)#
+qplot(p,y,geom="line",ylim=c(0,max(y))) +xlab("p-value") +ylab("density")
+#
+mypow <- function (beta){#
+	# n <- 100#
+	# sigmasq <- 12^2#
+	sigmasq <- sigma^2#
+	beta_not <- 0#
+	se_beta <- sqrt(sigmasq/(n*(.5^2)))    # refer to Jon Hobbs document in gmail#
+	mu <- beta/se_beta#
+	alpha <- 0.05#
+	t_n <- qt(p=0.975,df=n-3)#
+	res <- pt(q=-t_n, df=n-3, ncp=mu)-pt(q=t_n, df=n-3, ncp=mu)+1#
+	return(res)#
+}#
+#
+betas <- seq(0.01,16,by=.3)
+n <- 100#
+sigma <- 12#
+expected_power <- function(beta){#
+  #beta <- 3#
+  ncp <-  beta* sqrt(n)/(2*sigma)#
+  df <- n-3#
+  p <- seq(0.00001,1,by=.0001)#
+  N <- length(p)#
+  y <- f(p,df=df,ncp=ncp)#
+  x <- sample(p,prob=y,replace=T)#
+  z <- rbeta(n=N, shape1=1,shape2=19)#
+  return(sum(x<z)/N)#
+}#
+#
+expected_power(16)
+mypow <- function (beta){#
+	# n <- 100#
+	# sigmasq <- 12^2#
+	sigmasq <- sigma^2#
+	beta_not <- 0#
+	se_beta <- sqrt(sigmasq/(n*(.5^2)))    # refer to Jon Hobbs document in gmail#
+	mu <- beta/se_beta#
+	alpha <- 0.05#
+	t_n <- qt(p=0.975,df=n-3)#
+	res <- pt(q=-t_n, df=n-3, ncp=mu)-pt(q=t_n, df=n-3, ncp=mu)+1#
+	return(res)#
+}#
+#
+betas <- seq(0.01,16,by=.3)
+pow0 <- sapply(betas,expected_power)#
+pow1 <- sapply(betas,expected_power)#
+pow2 <- sapply(betas,expected_power)#
+pow <- (pow0 + pow1 + pow2 )/3#
+pw <- sapply(betas,mypow)#
+power <- c(rep(pow,2),rep(pw,2))#
+bt <- c(-betas,betas,-betas,betas)#
+test <- c(rep("Visual",length(betas)*2),rep("UMP", length(betas)*2))#
+qplot(bt,power,geom="line",colour=test) + xlab(expression(beta))
+n <- 100#
+sigma <- 12#
+expected_power_thm <- function(beta){#
+  #beta <- 3#
+  m <- 20#
+  ncp <-  beta* sqrt(n)/(2*sigma)#
+  df <- n-3#
+  p <- runif(n=1000)#
+  N <- length(p)#
+  fy <- f(p,df=df,ncp=ncp)#
+  y <- (1-p)^(m-1)#
+  return(mean(y*fy))#
+}#
+#
+expected_power_thm(16)
+sigma <- 12#
+expected_power <- function(beta){#
+  #beta <- 3#
+  ncp <-  beta* sqrt(n)/(2*sigma)#
+  df <- n-3#
+  p <- seq(0.00001,1,by=.0001)#
+  N <- length(p)#
+  y <- f(p,df=df,ncp=ncp)#
+  x <- sample(p,prob=y,replace=T)#
+  z <- rbeta(n=N, shape1=1,shape2=19)#
+  return(sum(x<z)/N)#
+}#
+#
+expected_power(16)
+  p <- seq(0.00001,1,by=.0001)
+  y <- f(p,df=df,ncp=ncp)
+y
+n <- 100#
+sigma <- 12#
+expected_power <- function(beta){#
+  #beta <- 3#
+  ncp <-  beta* sqrt(n)/(2*sigma)#
+  df <- n-3#
+  p <- seq(0.00001,1,by=.0001)#
+  N <- length(p)#
+  y <- f(p,df=df,ncp=ncp)#
+  x <- sample(p,prob=y,replace=T)#
+  z <- rbeta(n=N, shape1=1,shape2=19)#
+  return(sum(x<z)/N)#
+}#
+#
+expected_power(16)
+n <- 100#
+sigma <- 12#
+expected_power_thm <- function(beta){#
+  #beta <- 3#
+  m <- 20#
+  ncp <-  beta* sqrt(n)/(2*sigma)#
+  df <- n-3#
+  p <- runif(n=1000)#
+  return(mean(((1-p)^(m-1))*f(p,df=df,ncp=ncp)))#
+}#
+#
+expected_power_thm(16)
+n <- 100#
+sigma <- 12#
+expected_power_thm <- function(beta){#
+  #beta <- 3#
+  m <- 20#
+  ncp <-  beta* sqrt(n)/(2*sigma)#
+  df <- n-3#
+  p <- runif(n=1000)#
+  return(mean(((1-p)^(m-1))*f(p,df=df,ncp=ncp)))#
+}#
+#
+expected_power_thm(16)
+n <- 100#
+sigma <- 12#
+expected_power_thm <- function(beta){#
+  #beta <- 3#
+  m <- 20#
+  ncp <-  beta* sqrt(n)/(2*sigma)#
+  df <- n-3#
+  p <- runif(n=10000)#
+  return(mean(((1-p)^(m-1))*f(p,df=df,ncp=ncp)))#
+}#
+#
+expected_power_thm(16)
+n <- 100#
+sigma <- 12#
+expected_power_thm <- function(beta){#
+  #beta <- 3#
+  m <- 20#
+  ncp <-  beta* sqrt(n)/(2*sigma)#
+  df <- n-3#
+  p <- runif(n=10000)#
+  return(mean(((1-p)^(m-1))*f(p,df=df,ncp=ncp)))#
+}#
+#
+expected_power_thm(16)
+n <- 100#
+sigma <- 12#
+expected_power_thm <- function(beta){#
+  #beta <- 3#
+  m <- 20#
+  ncp <-  beta* sqrt(n)/(2*sigma)#
+  df <- n-3#
+  p <- runif(n=10000)#
+  return(mean(((1-p)^(m-1))*f(p,df=df,ncp=ncp)))#
+}#
+#
+expected_power_thm(16)
+n <- 100#
+sigma <- 12#
+expected_power_thm <- function(beta){#
+  #beta <- 3#
+  m <- 20#
+  ncp <-  beta* sqrt(n)/(2*sigma)#
+  df <- n-3#
+  p <- runif(n=10000)#
+  return(mean(((1-p)^(m-1))*f(p,df=df,ncp=ncp)))#
+}#
+#
+expected_power_thm(16)
+n <- 100#
+sigma <- 12#
+expected_power_thm <- function(beta){#
+  #beta <- 3#
+  m <- 20#
+  ncp <-  beta* sqrt(n)/(2*sigma)#
+  df <- n-3#
+  p <- runif(n=10000)#
+  return(mean(((1-p)^(m-1))*f(p,df=df,ncp=ncp)))#
+}#
+#
+expected_power_thm(16)
+n <- 100#
+sigma <- 12#
+expected_power_thm <- function(beta){#
+  #beta <- 3#
+  m <- 20#
+  ncp <-  beta* sqrt(n)/(2*sigma)#
+  df <- n-3#
+  p <- runif(n=10000)#
+  return(mean(((1-p)^(m-1))*f(p,df=df,ncp=ncp)))#
+}#
+#
+expected_power_thm(16)
+n <- 100#
+sigma <- 12#
+expected_power_thm <- function(beta){#
+  #beta <- 3#
+  m <- 20#
+  ncp <-  beta* sqrt(n)/(2*sigma)#
+  df <- n-3#
+  p <- runif(n=10000)#
+  return(mean(((1-p)^(m-1))*f(p,df=df,ncp=ncp)))#
+}#
+#
+expected_power_thm(16)
+n <- 100#
+sigma <- 12#
+expected_power_thm <- function(beta){#
+  #beta <- 3#
+  m <- 20#
+  ncp <-  beta* sqrt(n)/(2*sigma)#
+  df <- n-3#
+  p <- runif(n=10000)#
+  return(mean(((1-p)^(m-1))*f(p,df=df,ncp=ncp)))#
+}#
+#
+expected_power_thm(16)
+n <- 100#
+sigma <- 12#
+expected_power_thm <- function(beta){#
+  #beta <- 3#
+  m <- 20#
+  ncp <-  beta* sqrt(n)/(2*sigma)#
+  df <- n-3#
+  p <- runif(n=1000000)#
+  return(mean(((1-p)^(m-1))*f(p,df=df,ncp=ncp)))#
+}#
+#
+expected_power_thm(16)
+n <- 100#
+sigma <- 12#
+expected_power <- function(beta){#
+  #beta <- 3#
+  ncp <-  beta* sqrt(n)/(2*sigma)#
+  df <- n-3#
+  p <- seq(0.00001,1,by=.0001)#
+  N <- length(p)#
+  y <- f(p,df=df,ncp=ncp)#
+  x <- sample(p,prob=y,replace=T)#
+  z <- rbeta(n=N, shape1=1,shape2=19)#
+  return(sum(x<z)/N)#
+}#
+#
+expected_power(16)
+n <- 100#
+sigma <- 12#
+expected_power <- function(beta){#
+  #beta <- 3#
+  m <- 19#
+  ncp <-  beta* sqrt(n)/(2*sigma)#
+  df <- n-3#
+  p <- seq(0.00001,1,by=.0001)#
+  N <- length(p)#
+  y <- f(p,df=df,ncp=ncp)#
+  x <- sample(p,prob=y,replace=T)#
+  z <- rbeta(n=N, shape1=1,shape2=m-1)#
+  return(sum(x<z)/N)#
+}#
+#
+expected_power(16)
+n <- 100#
+sigma <- 12#
+expected_power <- function(beta){#
+  #beta <- 3#
+  m <- 19#
+  ncp <-  beta* sqrt(n)/(2*sigma)#
+  df <- n-3#
+  p <- seq(0.00001,1,by=.0001)#
+  N <- length(p)#
+  y <- f(p,df=df,ncp=ncp)#
+  x <- sample(p,prob=y,replace=T)#
+  z <- rbeta(n=N, shape1=1,shape2=m-1)#
+  return(sum(x<z)/N)#
+}#
+#
+expected_power(16)
+n <- 100#
+sigma <- 12#
+expected_power <- function(beta){#
+  #beta <- 3#
+  m <- 19#
+  ncp <-  beta* sqrt(n)/(2*sigma)#
+  df <- n-3#
+  p <- seq(0.00001,1,by=.0001)#
+  N <- length(p)#
+  y <- f(p,df=df,ncp=ncp)#
+  x <- sample(p,prob=y,replace=T)#
+  z <- rbeta(n=N, shape1=1,shape2=m-1)#
+  return(sum(x<z)/N)#
+}#
+#
+expected_power(16)
+n <- 100#
+sigma <- 12#
+expected_power <- function(beta){#
+  #beta <- 3#
+  m <- 19#
+  ncp <-  beta* sqrt(n)/(2*sigma)#
+  df <- n-3#
+  p <- seq(0.00001,1,by=.0001)#
+  N <- length(p)#
+  y <- f(p,df=df,ncp=ncp)#
+  x <- sample(p,prob=y,replace=T)#
+  z <- rbeta(n=N, shape1=1,shape2=m-1)#
+  return(sum(x<z)/N)#
+}#
+#
+expected_power(16)
+n <- 100#
+sigma <- 12#
+expected_power <- function(beta){#
+  #beta <- 3#
+  m <- 19#
+  ncp <-  beta* sqrt(n)/(2*sigma)#
+  df <- n-3#
+  p <- seq(0.00001,1,by=.0001)#
+  N <- length(p)#
+  y <- f(p,df=df,ncp=ncp)#
+  x <- sample(p,prob=y,replace=T)#
+  z <- rbeta(n=N, shape1=1,shape2=m-1)#
+  return(sum(x<z)/N)#
+}#
+#
+expected_power(16)
+n <- 100#
+sigma <- 12#
+expected_power <- function(beta){#
+  #beta <- 3#
+  m <- 19#
+  ncp <-  beta* sqrt(n)/(2*sigma)#
+  df <- n-3#
+  p <- seq(0.00001,1,by=.0001)#
+  N <- length(p)#
+  y <- f(p,df=df,ncp=ncp)#
+  x <- sample(p,prob=y,replace=T)#
+  z <- rbeta(n=N, shape1=1,shape2=m-1)#
+  return(sum(x<z)/N)#
+}#
+#
+expected_power(16)
+n <- 100#
+sigma <- 12#
+expected_power <- function(beta){#
+  #beta <- 3#
+  m <- 19#
+  ncp <-  beta* sqrt(n)/(2*sigma)#
+  df <- n-3#
+  p <- seq(0.00001,1,by=.0001)#
+  N <- length(p)#
+  y <- f(p,df=df,ncp=ncp)#
+  x <- sample(p,prob=y,replace=T)#
+  z <- rbeta(n=N, shape1=1,shape2=m-1)#
+  return(sum(x<z)/N)#
+}#
+#
+expected_power(16)
+n <- 100#
+sigma <- 12#
+expected_power <- function(beta){#
+  #beta <- 3#
+  m <- 19#
+  ncp <-  beta* sqrt(n)/(2*sigma)#
+  df <- n-3#
+  p <- seq(0.00001,1,by=.0001)#
+  N <- length(p)#
+  y <- f(p,df=df,ncp=ncp)#
+  x <- sample(p,prob=y,replace=T)#
+  z <- rbeta(n=N, shape1=1,shape2=m-1)#
+  return(sum(x<z)/N)#
+}#
+#
+expected_power(16)
+n <- 100#
+sigma <- 12#
+expected_power <- function(beta){#
+  #beta <- 3#
+  m <- 19#
+  ncp <-  beta* sqrt(n)/(2*sigma)#
+  df <- n-3#
+  p <- seq(0.00001,1,by=.0001)#
+  N <- length(p)#
+  y <- f(p,df=df,ncp=ncp)#
+  x <- sample(p,prob=y,replace=T)#
+  z <- rbeta(n=N, shape1=1,shape2=m-1)#
+  return(sum(x<z)/N)#
+}#
+#
+expected_power(16)
+n <- 100#
+sigma <- 12#
+expected_power <- function(beta){#
+  #beta <- 3#
+  m <- 19#
+  ncp <-  beta* sqrt(n)/(2*sigma)#
+  df <- n-3#
+  p <- seq(0.00001,1,by=.0001)#
+  N <- length(p)#
+  y <- f(p,df=df,ncp=ncp)#
+  x <- sample(p,prob=y,replace=T)#
+  z <- rbeta(n=N, shape1=1,shape2=m-1)#
+  return(sum(x<z)/N)#
+}#
+#
+expected_power(16)
+n <- 100#
+sigma <- 12#
+expected_power <- function(beta){#
+  #beta <- 3#
+  m <- 19#
+  ncp <-  beta* sqrt(n)/(2*sigma)#
+  df <- n-3#
+  p <- seq(0.00001,1,by=.0001)#
+  N <- length(p)#
+  y <- f(p,df=df,ncp=ncp)#
+  x <- sample(p,prob=y,replace=T)#
+  z <- rbeta(n=N, shape1=1,shape2=m-1)#
+  return(sum(x<z)/N)#
+}#
+#
+expected_power(16)
+n <- 100#
+sigma <- 12#
+expected_power <- function(beta){#
+  #beta <- 3#
+  m <- 19#
+  ncp <-  beta* sqrt(n)/(2*sigma)#
+  df <- n-3#
+  p <- seq(0.00001,1,by=.0001)#
+  N <- length(p)#
+  y <- f(p,df=df,ncp=ncp)#
+  x <- sample(p,prob=y,replace=T)#
+  z <- rbeta(n=N, shape1=1,shape2=m-1)#
+  return(sum(x<z)/N)#
+}#
+#
+expected_power(16)
+n <- 100#
+sigma <- 12#
+expected_power <- function(beta){#
+  #beta <- 3#
+  m <- 19#
+  ncp <-  beta* sqrt(n)/(2*sigma)#
+  df <- n-3#
+  p <- seq(0.00001,1,by=.00001)#
+  N <- length(p)#
+  y <- f(p,df=df,ncp=ncp)#
+  x <- sample(p,prob=y,replace=T)#
+  z <- rbeta(n=N, shape1=1,shape2=m-1)#
+  return(sum(x<z)/N)#
+}#
+#
+expected_power(16)
+n <- 100#
+sigma <- 12#
+expected_power <- function(beta){#
+  #beta <- 3#
+  m <- 19#
+  ncp <-  beta* sqrt(n)/(2*sigma)#
+  df <- n-3#
+  p <- seq(0.00001,1,by=.00001)#
+  N <- length(p)#
+  y <- f(p,df=df,ncp=ncp)#
+  x <- sample(p,prob=y,replace=T)#
+  z <- rbeta(n=N, shape1=1,shape2=m-1)#
+  return(sum(x<z)/N)#
+}#
+#
+expected_power(16)
+n <- 100#
+sigma <- 12#
+expected_power <- function(beta){#
+  #beta <- 3#
+  m <- 19#
+  ncp <-  beta* sqrt(n)/(2*sigma)#
+  df <- n-3#
+  p <- seq(0.00001,1,by=.00001)#
+  N <- length(p)#
+  y <- f(p,df=df,ncp=ncp)#
+  x <- sample(p,prob=y,replace=T)#
+  z <- rbeta(n=N, shape1=1,shape2=m-1)#
+  return(sum(x<z)/N)#
+}#
+#
+expected_power(16)
+n <- 100#
+sigma <- 12#
+expected_power <- function(beta){#
+  #beta <- 3#
+  m <- 19#
+  ncp <-  beta* sqrt(n)/(2*sigma)#
+  df <- n-3#
+  p <- seq(0.00001,1,by=.00001)#
+  N <- length(p)#
+  y <- f(p,df=df,ncp=ncp)#
+  x <- sample(p,prob=y,replace=T)#
+  z <- rbeta(n=N, shape1=1,shape2=m-1)#
+  return(sum(x<z)/N)#
+}#
+#
+expected_power(16)
+n <- 100#
+sigma <- 12#
+expected_power <- function(beta){#
+  #beta <- 3#
+  m <- 19#
+  ncp <-  beta* sqrt(n)/(2*sigma)#
+  df <- n-3#
+  p <- seq(0.00001,1,by=.00001)#
+  N <- length(p)#
+  y <- f(p,df=df,ncp=ncp)#
+  x <- sample(p,prob=y,replace=T)#
+  z <- rbeta(n=N, shape1=1,shape2=m-1)#
+  return(sum(x<z)/N)#
+}#
+#
+expected_power(16)
+n <- 100#
+sigma <- 12#
+expected_power <- function(beta){#
+  #beta <- 3#
+  m <- 19#
+  ncp <-  beta* sqrt(n)/(2*sigma)#
+  df <- n-3#
+  p <- seq(0.00001,1,by=.00001)#
+  N <- length(p)#
+  y <- f(p,df=df,ncp=ncp)#
+  x <- sample(p,prob=y,replace=T)#
+  z <- rbeta(n=N, shape1=1,shape2=m-1)#
+  return(sum(x<z)/N)#
+}#
+#
+expected_power(16)
+n <- 100#
+sigma <- 12#
+expected_power <- function(beta){#
+  #beta <- 3#
+  m <- 19#
+  ncp <-  beta* sqrt(n)/(2*sigma)#
+  df <- n-3#
+  p <- seq(0.00001,1,by=.00001)#
+  N <- length(p)#
+  y <- f(p,df=df,ncp=ncp)#
+  x <- sample(p,prob=y,replace=T)#
+  z <- rbeta(n=N, shape1=1,shape2=m-1)#
+  return(sum(x<z)/N)#
+}#
+#
+expected_power(16)
+n <- 100#
+sigma <- 12#
+expected_power <- function(beta){#
+  #beta <- 3#
+  m <- 19#
+  ncp <-  beta* sqrt(n)/(2*sigma)#
+  df <- n-3#
+  p <- seq(0.00001,1,by=.00001)#
+  N <- length(p)#
+  y <- f(p,df=df,ncp=ncp)#
+  x <- sample(p,prob=y,replace=T)#
+  z <- rbeta(n=N, shape1=1,shape2=m-1)#
+  return(sum(x<z)/N)#
+}#
+#
+expected_power(16)
+n <- 100#
+sigma <- 12#
+expected_power <- function(beta){#
+  #beta <- 3#
+  m <- 19#
+  ncp <-  beta* sqrt(n)/(2*sigma)#
+  df <- n-3#
+  p <- seq(0.00001,1,by=.00001)#
+  N <- length(p)#
+  y <- f(p,df=df,ncp=ncp)#
+  x <- sample(p,prob=y,replace=T)#
+  z <- rbeta(n=N, shape1=1,shape2=m-1)#
+  return(sum(x<z)/N)#
+}#
+#
+expected_power(16)
+n <- 100#
+sigma <- 12#
+expected_power <- function(beta){#
+  #beta <- 3#
+  m <- 19#
+  ncp <-  beta* sqrt(n)/(2*sigma)#
+  df <- n-3#
+  p <- seq(0.00001,1,by=.00001)#
+  N <- length(p)#
+  y <- f(p,df=df,ncp=ncp)#
+  x <- sample(p,prob=y,replace=T)#
+  z <- rbeta(n=N, shape1=1,shape2=m-1)#
+  return(sum(x<z)/N)#
+}#
+#
+expected_power(16)
+n <- 100#
+sigma <- 12#
+expected_power <- function(beta){#
+  #beta <- 3#
+  m <- 19#
+  ncp <-  beta* sqrt(n)/(2*sigma)#
+  df <- n-3#
+  p <- seq(0.00001,1,by=.0001)#
+  N <- length(p)#
+  y <- f(p,df=df,ncp=ncp)#
+  x <- sample(p,prob=y,replace=T)#
+  z <- rbeta(n=N, shape1=1,shape2=m-1)#
+  return(sum(x<z)/N)#
+}#
+#
+expected_power(16)
+n <- 100#
+sigma <- 12#
+expected_power <- function(beta){#
+  #beta <- 3#
+  m <- 19#
+  ncp <-  beta* sqrt(n)/(2*sigma)#
+  df <- n-3#
+  p <- seq(0.00001,1,by=.0001)#
+  N <- length(p)#
+  y <- f(p,df=df,ncp=ncp)#
+  x <- sample(p,prob=y,replace=T)#
+  z <- rbeta(n=N, shape1=1,shape2=m-1)#
+  return(sum(x<z)/N)#
+}#
+#
+expected_power(16)
+n <- 100#
+sigma <- 12#
+expected_power <- function(beta){#
+  #beta <- 3#
+  m <- 19#
+  ncp <-  beta* sqrt(n)/(2*sigma)#
+  df <- n-3#
+  p <- seq(0.00001,1,by=.0001)#
+  N <- length(p)#
+  y <- f(p,df=df,ncp=ncp)#
+  x <- sample(p,prob=y,replace=T)#
+  z <- rbeta(n=N, shape1=1,shape2=m-1)#
+  return(sum(x<z)/N)#
+}#
+#
+expected_power(16)
+n <- 100#
+sigma <- 12#
+expected_power <- function(beta){#
+  #beta <- 3#
+  m <- 19#
+  ncp <-  beta* sqrt(n)/(2*sigma)#
+  df <- n-3#
+  p <- seq(0.00001,1,by=.0001)#
+  N <- length(p)#
+  y <- f(p,df=df,ncp=ncp)#
+  x <- sample(p,prob=y,replace=T)#
+  z <- rbeta(n=N, shape1=1,shape2=m-1)#
+  return(sum(x<z)/N)#
+}#
+#
+expected_power(16)
+n <- 100#
+sigma <- 12#
+expected_power <- function(beta){#
+  #beta <- 3#
+  m <- 19#
+  ncp <-  beta* sqrt(n)/(2*sigma)#
+  df <- n-3#
+  p <- seq(0.00001,1,by=.0001)#
+  N <- length(p)#
+  y <- f(p,df=df,ncp=ncp)#
+  x <- sample(p,prob=y,replace=T)#
+  z <- rbeta(n=N, shape1=1,shape2=m-1)#
+  return(sum(x<z)/N)#
+}#
+#
+expected_power(16)
+n <- 100#
+sigma <- 12#
+expected_power <- function(beta){#
+  #beta <- 3#
+  m <- 19#
+  ncp <-  beta* sqrt(n)/(2*sigma)#
+  df <- n-3#
+  p <- seq(0.00001,1,by=.0001)#
+  N <- length(p)#
+  y <- f(p,df=df,ncp=ncp)#
+  x <- sample(p,prob=y,replace=T)#
+  z <- rbeta(n=N, shape1=1,shape2=m-1)#
+  return(sum(x<z)/N)#
+}#
+#
+expected_power(16)
+n <- 100#
+sigma <- 12#
+expected_power <- function(beta){#
+  #beta <- 3#
+  m <- 19#
+  ncp <-  beta* sqrt(n)/(2*sigma)#
+  df <- n-3#
+  p <- seq(0.00001,1,by=.0001)#
+  N <- length(p)#
+  y <- f(p,df=df,ncp=ncp)#
+  x <- sample(p,prob=y,replace=T)#
+  z <- rbeta(n=N, shape1=1,shape2=m-1)#
+  return(sum(x<z)/N)#
+}#
+#
+expected_power(16)
+n <- 100#
+sigma <- 12#
+expected_power <- function(beta){#
+  #beta <- 3#
+  m <- 19#
+  ncp <-  beta* sqrt(n)/(2*sigma)#
+  df <- n-3#
+  p <- seq(0.00001,1,by=.0001)#
+  N <- length(p)#
+  y <- f(p,df=df,ncp=ncp)#
+  x <- sample(p,prob=y,replace=T)#
+  z <- rbeta(n=N, shape1=1,shape2=m-1)#
+  return(sum(x<z)/N)#
+}#
+#
+expected_power(16)
+n <- 100#
+sigma <- 12#
+expected_power <- function(beta){#
+  #beta <- 3#
+  m <- 19#
+  ncp <-  beta* sqrt(n)/(2*sigma)#
+  df <- n-3#
+  p <- seq(0.00001,1,by=.0001)#
+  N <- length(p)#
+  y <- f(p,df=df,ncp=ncp)#
+  x <- sample(p,prob=y,replace=T)#
+  z <- rbeta(n=N, shape1=1,shape2=m-1)#
+  return(sum(x<z)/N)#
+}#
+#
+expected_power(16)
+n <- 100#
+sigma <- 12#
+expected_power <- function(beta){#
+  #beta <- 3#
+  m <- 19#
+  ncp <-  beta* sqrt(n)/(2*sigma)#
+  df <- n-3#
+  p <- seq(0.00001,1,by=.0001)#
+  N <- length(p)#
+  y <- f(p,df=df,ncp=ncp)#
+  x <- sample(p,prob=y,replace=T)#
+  z <- rbeta(n=N, shape1=1,shape2=m-1)#
+  return(sum(x<z)/N)#
+}#
+#
+expected_power(16)
+n <- 100#
+sigma <- 12#
+expected_power <- function(beta){#
+  #beta <- 3#
+  m <- 19#
+  ncp <-  beta* sqrt(n)/(2*sigma)#
+  df <- n-3#
+  p <- seq(0.00001,1,by=.0001)#
+  N <- length(p)#
+  y <- f(p,df=df,ncp=ncp)#
+  x <- sample(p,prob=y,replace=T)#
+  z <- rbeta(n=N, shape1=1,shape2=m-1)#
+  return(sum(x<z)/N)#
+}#
+#
+expected_power(16)
+n <- 100#
+sigma <- 12#
+expected_power <- function(beta){#
+  #beta <- 3#
+  m <- 19#
+  ncp <-  beta* sqrt(n)/(2*sigma)#
+  df <- n-3#
+  p <- seq(0.00001,1,by=.0001)#
+  N <- length(p)#
+  y <- f(p,df=df,ncp=ncp)#
+  x <- sample(p,prob=y,replace=T)#
+  z <- rbeta(n=N, shape1=1,shape2=m-1)#
+  return(sum(x<z)/N)#
+}#
+#
+expected_power(16)
+n <- 100#
+sigma <- 12#
+expected_power <- function(beta){#
+  #beta <- 3#
+  m <- 19#
+  ncp <-  beta* sqrt(n)/(2*sigma)#
+  df <- n-3#
+  p <- seq(0.00001,1,by=.0001)#
+  N <- length(p)#
+  y <- f(p,df=df,ncp=ncp)#
+  x <- sample(p,prob=y,replace=T)#
+  z <- rbeta(n=N, shape1=1,shape2=m-1)#
+  return(sum(x<z)/N)#
+}#
+#
+expected_power(16)
+expected_power(6)
+expected_power(6)
+expected_power(6)
+expected_power(6)
+expected_power(6)
+expected_power(6)
+expected_power(6)
+expected_power(6)
+n <- 100#
+sigma <- 12#
+expected_power <- function(beta){#
+  #beta <- 3#
+  m <- 19#
+  ncp <-  beta* sqrt(n)/(2*sigma)#
+  df <- n-3#
+  p <- seq(0.00001,1,by=.00001)#
+  N <- length(p)#
+  y <- f(p,df=df,ncp=ncp)#
+  x <- sample(p,prob=y,replace=T)#
+  z <- rbeta(n=N, shape1=1,shape2=m-1)#
+  return(sum(x<z)/N)#
+}#
+#
+expected_power(6)
+expected_power(6)
+expected_power(6)
+expected_power(6)
+expected_power(6)
+expected_power(6)
+expected_power(6)
+expected_power(6)
+expected_power(6)
+expected_power(6)
+expected_power(6)
+expected_power(6)
+expected_power(6)
+expected_power(6)
+expected_power(6)
+n <- 100#
+sigma <- 12#
+expected_power <- function(beta){#
+  #beta <- 3#
+  m <- 19#
+  ncp <-  beta* sqrt(n)/(2*sigma)#
+  df <- n-3#
+  p <- seq(0.00001,1,by=.0001)#
+  N <- length(p)#
+  y <- f(p,df=df,ncp=ncp)#
+  x <- sample(p,prob=y,replace=T)#
+  z <- rbeta(n=N, shape1=1,shape2=m-1)#
+  return(sum(x<z)/N)#
+}#
+#
+expected_power(6)
+expected_power(6)
+expected_power(6)
+expected_power(6)
+expected_power(6)
+expected_power(6)
+expected_power(6)
+expected_power(6)
+expected_power(6)
+expected_power(6)
+expected_power(6)
+expected_power(6)
+expected_power(6)
+expected_power(6)
+expected_power(6)
+expected_power(6)
+expected_power(6)
+n <- 100#
+sigma <- 12#
+expected_power <- function(beta){#
+  #beta <- 3#
+  m <- 19#
+  ncp <-  beta* sqrt(n)/(2*sigma)#
+  df <- n-3#
+  p <- seq(0.00001,1,by=.00001)#
+  N <- length(p)#
+  y <- f(p,df=df,ncp=ncp)#
+  x <- sample(p,prob=y,replace=T)#
+  z <- rbeta(n=N, shape1=1,shape2=m-1)#
+  return(sum(x<z)/N)#
+}#
+#
+expected_power(6)
+expected_power(6)
+expected_power(6)
+expected_power(6)
+expected_power(6)
+expected_power(6)
+expected_power(6)
+expected_power(6)
+expected_power(6)
+expected_power(6)
+expected_power(6)
+expected_power(6)
+expected_power(6)
+expected_power(6)
+expected_power(6)
+expected_power(6)
+expected_power(6)
+expected_power(6)
+expected_power(6)
+#
+n <- 100#
+sigma <- 12#
+expected_power <- function(beta){#
+  #beta <- 3#
+  m <- 19#
+  ncp <-  beta* sqrt(n)/(2*sigma)#
+  df <- n-3#
+  p <- seq(0.00001,1,by=.0001)#
+  N <- length(p)#
+  y <- f(p,df=df,ncp=ncp)#
+  x <- sample(p,prob=y,replace=T)#
+  z <- rbeta(n=N, shape1=1,shape2=m-1)#
+  return(sum(x<z)/N)#
+}#
+#
+expected_power(6)
+expected_power(6)
+expected_power(6)
+expected_power(6)
+expected_power(6)
+expected_power(6)
+expected_power(6)
+expected_power(6)
+expected_power(6)
+expected_power(6)
+expected_power(6)
+expected_power(6)
+expected_power(6)
+expected_power(6)
+n <- 100#
+sigma <- 12#
+expected_power_thm <- function(beta){#
+  #beta <- 3#
+  m <- 20#
+  ncp <-  beta* sqrt(n)/(2*sigma)#
+  df <- n-3#
+  p <- runif(n=1000000)#
+  return(mean(((1-p)^(m-1))*f(p,df=df,ncp=ncp)))#
+}#
+#
+expected_power_thm(6)
+n <- 100#
+sigma <- 12#
+expected_power_thm <- function(beta){#
+  #beta <- 3#
+  m <- 20#
+  ncp <-  beta* sqrt(n)/(2*sigma)#
+  df <- n-3#
+  p <- runif(n=1000000)#
+  return(mean(((1-p)^(m-1))*f(p,df=df,ncp=ncp)))#
+}#
+#
+expected_power_thm(6)
+n <- 100#
+sigma <- 12#
+expected_power_thm <- function(beta){#
+  #beta <- 3#
+  m <- 20#
+  ncp <-  beta* sqrt(n)/(2*sigma)#
+  df <- n-3#
+  p <- runif(n=100000)#
+  return(mean(((1-p)^(m-1))*f(p,df=df,ncp=ncp)))#
+}#
+#
+expected_power_thm(6)
+n <- 100#
+sigma <- 12#
+expected_power_thm <- function(beta){#
+  #beta <- 3#
+  m <- 20#
+  ncp <-  beta* sqrt(n)/(2*sigma)#
+  df <- n-3#
+  p <- runif(n=100000)#
+  return(mean(((1-p)^(m-1))*f(p,df=df,ncp=ncp)))#
+}#
+#
+expected_power_thm(6)
+expected_power_thm(6)
+expected_power_thm(6)
+expected_power_thm(6)
+expected_power_thm(6)
+expected_power_thm(6)
+expected_power_thm(6)
+expected_power_thm(6)
+#
+n <- 100#
+sigma <- 12#
+expected_power_thm <- function(beta){#
+  #beta <- 3#
+  m <- 20#
+  ncp <-  beta* sqrt(n)/(2*sigma)#
+  df <- n-3#
+  p <- runif(n=1000000)#
+  return(mean(((1-p)^(m-1))*f(p,df=df,ncp=ncp)))#
+}#
+#
+expected_power_thm(6)
+expected_power_thm(6)
+expected_power_thm(6)
+expected_power_thm(6)
+betas <- seq(0.01,16,by=.3)#
+#
+pow0 <- sapply(betas,expected_power_thm)#
+pow1 <- sapply(betas,expected_power_thm)#
+pow2 <- sapply(betas,expected_power_thm)#
+pow <- (pow0 + pow1 + pow2 )/3#
+pw <- sapply(betas,mypow)#
+power <- c(rep(pow,2),rep(pw,2))#
+bt <- c(-betas,betas,-betas,betas)#
+test <- c(rep("Visual",length(betas)*2),rep("UMP", length(betas)*2))#
+qplot(bt,power,geom="line",colour=test) + xlab(expression(beta))
