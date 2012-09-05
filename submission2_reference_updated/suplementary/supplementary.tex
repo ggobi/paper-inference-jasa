@@ -1,0 +1,86 @@
+%\documentclass{article}
+\documentclass[12pt]{article}
+\usepackage{times}
+%\usepackage{natbib}
+%\usepackage{multicol}
+\RequirePackage{natbib}
+\usepackage{amsmath, amssymb, fullpage, amsthm, array, algorithm2e,graphicx,asa}
+%\usepackage[dvips]{graphics}
+
+%\usepackage{hyperref} % for hyper reference
+
+\graphicspath{{images/}}
+\usepackage{color}
+\newcommand{\blue}[1]{{\color{blue} #1}} %MM
+\newcommand{\red}[1]{{\color{red} #1}} 
+\newcommand{\green}[1]{{\color{green} #1}} %DC
+
+\definecolor{orange}{rgb}{1,0.5,0}
+\newcommand{\hh}[1]{{\color{orange} #1}} %HH
+
+% \usepackage{pifont} % this package is used to print check mark \checkmark
+% \linespread{1.6} % factor 1.6 = double space
+
+\usepackage{setspace}
+\doublespacing
+
+
+
+\setlength{\oddsidemargin}{0in}
+\setlength{\evensidemargin}{0in}
+\setlength{\textwidth}{6.5in}
+\setlength{\topmargin}{-0.4in}
+\setlength{\textheight}{9in}
+\evensidemargin 
+\oddsidemargin
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{dfn}{Definition}[section]
+\newtheorem{cor}{Corollary}[thm]
+\newtheorem{con}{Conjecture}[thm]
+\newtheorem{lemma}[thm]{Lemma}
+
+%\topmargin -0.10in   % when making pdf
+%\textheight 9.15in  % when making pdf
+
+\pdfminorversion=4 % as instructed by JASA file upload
+
+
+\begin{document}
+
+
+\begin{table}[hbtp]
+\renewcommand\thetable{}
+\caption{Selection of 10 lineups for a person to evaluate in the simulation experiment with discrete covariate described in section 5.1 of the paper.} 
+\centering
+\begin{tabular}{c c c c  c c c}
+\hline\hline
+Difficulty& \multicolumn{3}{c}{parameter combination}& Number of evaluations &Total number  & number of lineups\\
+ \cline{2-4}
+level & $n$ & $\sigma$ & $\beta$ &required($n_{\gamma}$) & of lineups & randomly shown \\
+\hline
+easy&100& 5&8 & 1& 12 & 1\\
+&100&12&16 &1&&\\
+&300& 5&5 &1&&\\
+&300&12&10 &1 &&\\
+\hline
+medium&100& 5&3 &203 & 9 &2\\
+&300& 5&2, 3 & 97, 1&&\\
+\hline
+hard&100&12&3, 8, 10 & 277, 126, 23& 18 &6\\
+&300& 5&1 & 371 &&\\
+&300&12&3, 5& 375, 74 &&\\
+\hline
+mixed&100& 5&1, 5, 0& 214, 2, 73 & 21 &1\\
+&100&12&1& 100& &\\
+&300& 5&0 & 73&&\\
+&300&12&7, 1& 2, 152&&\\
+\hline
+Total &&&&&60&10\\
+\hline
+\end{tabular}
+\label{tbl:dist_lineup1}
+\end{table} 
+
+
+\end{document}
