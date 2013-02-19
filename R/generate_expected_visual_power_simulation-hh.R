@@ -1,5 +1,5 @@
 # This file computes the expected power for visual test.
-# Last modified Jun 2012, di re-formatted and ran, works
+# Last modified Feb 2013, di re-formatted and ran, works
 library(ggplot2)
 library(plyr)
 library(MASS)
@@ -45,7 +45,8 @@ calculate_theoretical_power <- function (beta, n, sigma, alpha=0.05){
   return(res)
 }
 
-powerdf <- data.frame(expand.grid(beta=seq(0, 16, by=0.1), sigma=12, n=100, m=seq(10, 30, by=5), test="Visual"))
+# powerdf <- data.frame(expand.grid(beta=seq(0, 16, by=0.1), sigma=12, n=100, m=seq(10, 30, by=5), test="Visual"))
+powerdf <- data.frame(expand.grid(beta=seq(0, 16, by=0.1), sigma=12, n=100, m=20, test="Visual"))
 powerdf$power <- ldply(1:nrow(powerdf), function(x) {
   mean(replicate(10, with(powerdf, generate_visual_power(n[x],
     beta=beta[x], sigma=sigma[x], m=m[x]))))
@@ -60,10 +61,20 @@ powerdf <- rbind(powerdf, power2)
 levels(powerdf$test)
 powerdf$emphasize <- 0.5 + ((powerdf$m==20) | (powerdf$test=="Conventional"))
 
-ggplot(aes(beta, power, group=m, linetype=test, size=emphasize), data=powerdf) + 
-  geom_smooth(aes(colour=m), alpha=0.5, fill=NA, method="loess", span=0.1) + 
-  scale_colour_gradient("Lineup size m", breaks=c(10,20,30)) + 
+# ggplot(aes(beta, power, group=m, linetype=test, size=emphasize), data=powerdf) + 
+#   geom_smooth(aes(colour=m), alpha=0.5, fill=NA, method="loess", span=0.1) + 
+#   scale_colour_gradient("Lineup size m", breaks=c(10,20,30)) + 
+#   scale_size_identity() + ylab("Power") +
+#   scale_linetype_discrete("Test") + scale_x_continuous(expression(beta))
+
+ggplot(aes(beta, power, linetype=test, size=emphasize), data=powerdf) + 
+  geom_smooth( method="loess", span=0.1) + 
   scale_size_identity() + ylab("Power") +
   scale_linetype_discrete("Test") + scale_x_continuous(expression(beta))
 
 ggsave("../images/power_expected.pdf", width=7, height=5, units="in")
+
+
+
+
+

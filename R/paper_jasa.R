@@ -78,6 +78,36 @@ for (K in 1:5){
 	}
 }
 
+
+# The following codes demonstrate that for same proportion of correctness
+# the p-values get smaller with larger values of K 
+Kdat <- NULL 
+for (K in c(1, 5,10,15)){
+  x <- 0:K
+  prop_correct <- x/K
+  pvals <- sapply(x,get_pval, m=20,K=K)
+  Kdat <- rbind(Kdat,data.frame(prop_correct, pvals, K))
+}
+
+qplot(prop_correct, pvals, geom=c("point","line"), data=Kdat, linetype=factor(K), color=factor(K)) +
+  xlab("Proportion correct (x/K)") + ylab("Visual test p-value") +
+  scale_linetype_discrete("K") + scale_color_discrete("K")
+
+ggsave("../images/K-pvals.pdf", height=5, width=6)
+
+
+Kdat1 <- rbind(data.frame(K=c(2,8,10,14), prop_correct=1/2),
+               data.frame(K=c(3,9,12,15), prop_correct=1/3),
+               data.frame(K=c(4,8,12,16), prop_correct=3/4))
+Kdat1$x <- with(Kdat1, prop_correct*K)
+Kdat1$pvals <- apply(Kdat1[,c("K","x")],1,function(t){get_pval(m=20, K=t[1],x=t[2])})
+
+qplot(K, pvals, geom=c("point","line"), data=round(Kdat1,2), linetype=factor(prop_correct), color=factor(prop_correct)) +
+  xlab("number of observer (K)") + ylab("Visual test p-value") +
+  scale_linetype_discrete("prop_correct") + scale_color_discrete("prop_correct")
+ggsave("../images/K-pvals1.pdf", height=5, width=6)
+
+
 # === plotting test stat and lineup for categorical variable
 
 # generating data
@@ -471,9 +501,9 @@ get_merged_pvalue <- function(dat,pval){
   p_values <- melt(pval, id="pic_name")
   pr <- merge(p_values,response_count, by=c("pic_name","variable"))
   prr <- ddply(pr, .(pic_name),summarise,
+               rfreq=counts[order(value)]/sum(counts),
                counts=counts[order(value)],
-               rfreq=counts[order(value)]/sum(counts[order(value)]),
-               pvalue=round(value,4)[order(value)],
+               pvalue=round(value[order(value)],4),
                rank_pval = 1:20,
                obs_pvalue = obs_pvalue)  
   return(prr)
@@ -512,7 +542,7 @@ p <- qplot(lpvalue, counts, geom="point", data=subset(prr,lpvalue != lobs_pvalue
   geom_point(mapping=aes(xend=lobs_pvalue, yend=0, colour="hotpink"), data= subset(prr,lpvalue==lobs_pvalue))+ 
   xlab(expression(paste(log[10], " p-value"))) + ylab("Number of subjects") +
   facet_grid(beta~n+sd+rep, scales="free_y", labeller="label_both") +
-  opts(legend.position="none")
+  theme(legend.position="none")
 p
 
 prr.min<-ddply(prr, "pic_name", summarise,
@@ -539,7 +569,7 @@ p <- qplot(lpvalue, rfreq, geom="point", data=prr) +
   geom_segment(mapping=aes(xend=lpvalue, yend=0, colour="turquoise"), data=prr.actual) + 
   geom_point(mapping=aes(xend=lpvalue, yend=0, colour="turquoise"), data=prr.actual) + 
   facet_grid(beta~n+sd+rep, labeller="label_both") + scale_x_continuous(limits=c(-2.1,0.1), breaks=c(-2,-1,0), labels=c("0.01","0.1","1")) + 
-  opts(legend.position="none")
+  theme(legend.position="none")
 p
 
 ggsave(file="../images/p_val_log_counts.pdf", height=10, width=12)
@@ -564,11 +594,11 @@ p1 <- qplot(lpvalue, rfreq, geom="point", data=subset(prr, as.numeric(facets) <=
   geom_point(mapping=aes(xend=lpvalue, yend=0), colour="turquoise", data=subset(prr.actual, as.numeric(facets) <= 10)) +
   geom_segment(mapping=aes(xend=lpvalue, yend=0), colour="hotpink", data=subset(prr.min, as.numeric(facets) <= 10)) + 
   geom_point(mapping=aes(xend=lpvalue, yend=0), colour="hotpink", data=subset(prr.min, as.numeric(facets) <= 10)) +
-  xlab(" ") + ylab("Relative frequency of picks") +
+  xlab(" ") + ylab("Relative frequency of picks") + ggtitle("Experiment 1") +
   facet_grid(rep~facets) + scale_x_continuous(limits=c(-2.1,0.1), breaks=c(-2,-1,0), labels=c("0.01","0.1","1")) + 
-  opts(legend.position="none") + scale_y_continuous(limits=c(0,1))
+  theme(legend.position="none") + scale_y_continuous(limits=c(0,1))
 p1
-ggsave(file="../images/p_val_log_counts-a.pdf", height=4, width=12)
+ggsave(file="../images/p_val_log_counts-a.pdf", height=3, width=10)
 
 p2 <- qplot(lpvalue, rfreq, geom="point", data=subset(prr, as.numeric(facets) > 10)) +
   geom_segment(mapping=aes(xend=lpvalue, yend=0)) +
@@ -578,9 +608,9 @@ p2 <- qplot(lpvalue, rfreq, geom="point", data=subset(prr, as.numeric(facets) > 
   geom_point(mapping=aes(xend=lpvalue, yend=0), colour="hotpink", data=subset(prr.min, as.numeric(facets) > 10)) +
   xlab(expression(paste("P-value on ",log[10]," scale"))) + ylab("Relative frequency of picks") +
   facet_grid(rep~facets) + scale_x_continuous(limits=c(-2.1,0.1), breaks=c(-2,-1,0), labels=c("0.01","0.1","1")) + 
-  opts(legend.position="none") + scale_y_continuous(limits=c(0,1))
+  theme(legend.position="none") + scale_y_continuous(limits=c(0,1))
 p2
-ggsave(file="../images/p_val_log_counts-b.pdf", height=4, width=12)
+ggsave(file="../images/p_val_log_counts-b.pdf", height=3, width=10)
 
  
 
@@ -605,7 +635,7 @@ p <- qplot(lpvalue, counts, geom="point", data=subset(prr2,lpvalue != lobs_pvalu
   geom_point(mapping=aes(xend=lobs_pvalue, yend=0, colour="hotpink"), data= subset(prr2,lpvalue==lobs_pvalue))+ 
   xlab(expression(paste(log[10], " p-value"))) + ylab("Number of subjects") +
   facet_grid(b~n+sd+rep, scales="free_y", labeller="label_both") +
-  opts(legend.position="none")
+  theme(legend.position="none")
 p
 
 
@@ -632,7 +662,7 @@ p <- qplot(lpvalue, rfreq, geom="point", data=prr2) +
   geom_point(mapping=aes(xend=lpvalue, yend=0), colour="hotpink", data=prr2.min) + 
   xlab(expression(paste("p-value on ",log[10]," scale"))) + ylab("Relative frequency of picks") +
   facet_grid(b~n+sd+rep, labeller="label_both") + scale_x_continuous(limits=c(-2.1,0.1), breaks=c(-2,-1,0), labels=c("0.01","0.1","1")) + scale_y_continuous(limits=c(0,1.1), breaks=c(0,0.5,1), labels=c("","0.5","1")) +
-  opts(legend.position="none")
+  theme(legend.position="none")
 p
 ggsave(file="../images/p_val_log_counts2.pdf", height=10, width=14)
 
@@ -670,9 +700,9 @@ p1 <- qplot(lpvalue, counts, geom="point", data=subset(prr2,as.numeric(facets) <
   geom_point(mapping=aes(xend=lobs_pvalue, yend=0), colour="turquoise", data= prr2.actual)+ 
   geom_segment(mapping=aes(xend=lpvalue, yend=0), colour="hotpink", data= prr2.mina)+ 
   geom_point(mapping=aes(xend=lpvalue, yend=0), colour="hotpink", data= prr2.mina)+ 
-  xlab(" ") + ylab("Number of subjects") +
-  facet_grid(rep~facets) +
-  opts(legend.position="none") + 
+  xlab(" ") + ylab("Relative frequency of picks") + ggtitle("Experiment 2") +
+  facet_grid(rep~facets) + 
+  theme(legend.position="none") + 
   scale_x_continuous(limits=c(-2.1,0.1), breaks=c(-2,-1,0), labels=c("0.01","0.1","1")) 
 p1
 
@@ -684,15 +714,15 @@ p2 <- qplot(lpvalue, counts, geom="point", data=subset(prr2,as.numeric(facets) >
   geom_point(mapping=aes(xend=lobs_pvalue, yend=0), colour="turquoise", data= prr2.actual)+ 
   geom_segment(mapping=aes(xend=lpvalue, yend=0), colour="hotpink", data= prr2.minb)+ 
   geom_point(mapping=aes(xend=lpvalue, yend=0), colour="hotpink", data= prr2.minb)+ 
-  xlab(expression(paste(log[10], " p-value"))) + ylab("Number of subjects") +
+  xlab(expression(paste("P-value on ",log[10]," scale")))  + ylab("Relative frequency of picks") +
   facet_grid(rep~facets) +
-  opts(legend.position="none") + 
+  theme(legend.position="none") + 
   scale_x_continuous(limits=c(-2.1,0.1), breaks=c(-2,-1,0), labels=c("0.01","0.1","1")) 
 
 p2
 
-ggsave(p1, file="../images/p_val_log_counts2-a.pdf", height=6, width=12)
-ggsave(p2, file="../images/p_val_log_counts2-b.pdf", height=6, width=12)
+ggsave(p1, file="../images/p_val_log_counts2-a.pdf", height=4, width=10)
+ggsave(p2, file="../images/p_val_log_counts2-b.pdf", height=4, width=10)
 
 
 # --- summary of minimum p-value data -----
