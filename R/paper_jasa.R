@@ -107,6 +107,40 @@ qplot(K, pvals, geom=c("point","line"), data=round(Kdat1,2), linetype=factor(pro
   scale_linetype_discrete("prop_correct") + scale_color_discrete("prop_correct")
 ggsave("../images/K-pvals1.pdf", height=5, width=6)
 
+# Information about the actual lineups used in the paper
+
+dd1 <- subset(dat1, pic_name=="plot_turk1_300_10_12_1.png")
+table(dd1$response_no)
+dd2 <- subset(dat2, pic_name=="plot_turk2_100_25_5_3.png")
+table(dd2$response_no)
+dd3 <- subset(dat3, pic_name=="plot_turk3_100_40_5_5.png")
+table(dd3$response_no)
+
+# The actual lineups are regenerated from the original simulated data
+# to be used in the paper
+
+# regenrating lineup for categorical variable (experiment1)
+datp1 <- read.table("../data/dat_turk1_300_10_12_1.txt", header=T)[,c(1:20,22)]
+colnames(datp1) <- c(1:20,"grp")
+m.dat1 <- melt(datp1,id="grp")
+p <- qplot(grp,value,colour=grp, xlab="Group",geom="boxplot", ylab="Residual",data=m.dat1)
+p <- p + facet_wrap(~variable)
+ggsave(filename="../images/plot_turk1_300_10_12_1.pdf",plot=p, ,height=7,width=7.5)
+
+# regenrating lineup for continuous variable (experiment2)
+datp2 <- read.table("../data/dat_turk2_100_25_5_3.txt", header=T)
+colnames(datp2) <- c("X",1:20)
+m.dat2 <- melt(datp2,id=c("X"))
+p <- qplot( X, value, data=m.dat2, xlab="X",geom="point", ylab="Y", alpha=I(.2))
+p <- p + geom_smooth(method="lm", se=F, size=1) + facet_wrap(~variable)
+ggsave(filename="../images/plot_turk2_100_25_5_3.pdf",plot=p, ,height=7,width=7.5)
+
+# regenrating lineup for contaminated data (experiment3)
+# we can regenerate only the observed plot. Null plot data was not saved
+datp3 <- read.table("../data/dat_turk3_100_40_5_5.txt", header=T)
+p <- qplot( x, y, data=datp3, xlab="X",geom="point", ylab="Y", alpha=I(.3))
+
+
 
 # === plotting test stat and lineup for categorical variable
 
