@@ -67,12 +67,12 @@ powerdf$emphasize <- 0.5 + ((powerdf$m==20) | (powerdf$test=="Conventional"))
 #   scale_size_identity() + ylab("Power") +
 #   scale_linetype_discrete("Test") + scale_x_continuous(expression(beta))
 
-ggplot(aes(beta, power, linetype=test, size=emphasize), data=powerdf) + 
-  geom_smooth( method="loess", span=0.1) + 
-  scale_size_identity() + ylab("Power") +
-  scale_linetype_discrete("Test") + scale_x_continuous(expression(beta))
-
-ggsave("../images/power_expected.pdf", width=7, height=5, units="in")
+# ggplot(aes(beta, power, linetype=test, size=emphasize), data=powerdf) + 
+#   geom_smooth( method="loess", span=0.1) + 
+#   scale_size_identity() + ylab("Power") +
+#   scale_linetype_discrete("Test") + scale_x_continuous(expression(beta))
+# 
+# ggsave("../images/power_expected.pdf", width=7, height=5, units="in")
 
 
 

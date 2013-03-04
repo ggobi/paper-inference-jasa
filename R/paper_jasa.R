@@ -64,20 +64,26 @@ ggsave("../images/stat_mathematical_test.pdf",height=2,width=2.2)
 # ===== computation of visual p-values for diffrent combination of K and x 
 
 get_pval <- function(m,K,x){
-	p <- pbinom(size=K,prob=1/m,q=x)
+	p <- pbinom(size=K,prob=1/m,q=x) # gives P(X<=x)
 	px <- dbinom(size=K,prob=1/m,x=x)
 	pval <- 1-p + px
 	return(pval)
 }
 
 pvals <- NULL
-for (K in 1:5){
+for (K in 1:15){
 	for (x in 0:K){
-		pval <- get_pval(m=20,K=K,x=x)
-		pvals <- rbind(pvals,c(m=20,K=K,x=x,pval=round(pval,4)))
+    m <- 20
+		pval <- get_pval(m=m,K=K,x=x)
+		pvals <- rbind(pvals,c(m=m,K=K,x=x,pval=round(pval,4)))
 	}
 }
 
+
+qplot(x,pval, data=subset(as.data.frame(pvals),K==15), geom=c("point","line")) +
+  geom_hline(yintercept = 0.05) + scale_y_sqrt() +
+  geom_text(aes(3,0, label="x")) +
+  ylab("p-value in square root scale") + xlab(expression(x[alpha]))
 
 # The following codes demonstrate that for same proportion of correctness
 # the p-values get smaller with larger values of K 
@@ -515,6 +521,66 @@ ggsave( file="../images/power_screening_subject.pdf",height=8,width=10 )
 # 
 # qplot(effect, pred, group=subject, data=subset(newdata, subject %in% sample(size=2, x=unique(newdata$subject))), geom="line")
 
+
+
+# ====== getting power using binomial sums and proportion
+# This is done using definition of power. The proportion
+# p in this computation is estimated by proportion correct.
+
+get_power <- function(K,p){
+  pvals <- sapply(1:K,get_pval,m=20,K=K)  
+  xa <- min(which(pvals<=0.05))
+  res <- sum(dbinom(x=xa:K,size=K,prob=p))
+  return(res)
+}
+
+# ========== computing power for different values of K
+# the intial proportion correct is the power for K=1
+
+get_power(.1, K=5)
+ps <- seq(.05,1,by=.01)
+pows <- sapply(ps, get_power, K=5)
+qplot(ps,pows)
+
+pi_effect$k5 <- sapply(pi_effect$pred, get_power, K=5)
+pi_effect$k4 <- sapply(pi_effect$pred, get_power, K=4)
+pi_effect$k10 <- sapply(pi_effect$pred, get_power, K=10)
+
+ggplot()+
+  geom_line(aes(effect,pred, colour="Visual, K=1"), data=pi_effect, size=1.2) +
+  geom_line(aes(effect,k5, colour="Visual, K=5"), data=pi_effect, size=1.2) +
+  geom_line(aes(effect,k10, colour="Visual, K=10"), data=pi_effect, size=1.2) +
+  geom_line(aes(effect,pow,colour="Conventional"),linetype=2, data=ump, size=1.2) +
+  facet_grid(.~experiment, scales="free") +
+  ylab("Power") + xlab(expression(Effect(E))) +
+  scale_colour_discrete(name = "Test") 
+  
+ggsave( file="../images/power_mixed_k.pdf",height=4,width=10)
+
+#  scale_colour_manual(name = "Test", values=c("#F8766D", "#7CAE00", "#00BFC4", "#C77CFF"))
+
+pi_subject$k5 <- sapply(pi_subject$pred, get_power, K=5)
+ggplot()+
+  geom_line(aes(effect,k5, colour="Visual, K=5", group=subject), data=pi_subject, alpha=I(.05)) +
+  geom_line(aes(effect,pow,colour="Conventional"),linetype=2, data=ump, size=1.2) +
+  facet_grid(.~experiment, scales="free") +
+  ylab("Power") + xlab(expression(Effect(E))) +
+  scale_colour_discrete(name = "Test")
+
+
+pi_effect$col <- 30
+pi_effect$col[1] <- NA
+ggplot()+
+  geom_line(aes(effect,k5, group=subject), data=pi_subject,alpha=.08) +
+  geom_line(aes(effect,k5, colour=col), data=pi_effect, size=1) +
+  geom_line(aes(effect,pow), data=ump, size=1, linetype=2) +
+  facet_grid(.~experiment, scales="free") +
+  scale_colour_gradient("Subject",limits=c(10,30), guide="none") +
+  ylab("Power") + xlab("Effect")
+
+ggsave( file="../images/power_mixed_subject_k.pdf",height=4,width=10)
+
+
 # ======= checking minimum p-value assumption for expected power ======
 
 pval1 <- read.csv("../data/pvalue_turk1.csv")
@@ -834,8 +900,43 @@ dd <- subset(pval.dat, pic_name %in% subset(pval.diff,pval_diff >.8)[,1])
 
 
 
-# Following code will produce figure power_expected.pdf by simulation
+# Following code will produce data powerdf by simulation
 source("generate_expected_visual_power_simulation-hh.R")
+
+# Obtaining actual power from the theoritical probability of correct responses
+# and plotting expected power for different K
+
+ggplot(aes(beta, power, linetype=test, size=emphasize), data=powerdf) + 
+  geom_smooth( method="loess", span=0.1) + 
+  scale_size_identity() + ylab("Power") +
+  scale_linetype_discrete("Test") + scale_x_continuous(expression(beta))
+
+ggsave("../images/power_expected.pdf", width=7, height=5, units="in")
+
+powerdfk <- powerdf
+powerdfk$test <- as.character(powerdfk$test)
+powerdfk$test[powerdfk$test=="Visual"] <- "Visual, K=1"
+
+powerdf5 <- powerdfk[powerdfk$test=="Visual, K=1",]
+powerdf5$power <- sapply(powerdf5$power, get_power,K=5)
+powerdf5$test <- "Visual, K=5"
+
+powerdf10 <- powerdfk[powerdfk$test=="Visual, K=1",]
+powerdf10$power <- sapply(powerdf10$power, get_power,K=10)
+powerdf10$test <- "Visual, K=10"
+
+powerdfk <- rbind(powerdfk, powerdf5, powerdf10)
+powerdfk$test <- factor(powerdfk$test)
+powerdfk$test <- factor(powerdfk$test, levels(powerdfk$test)[c(1,2,4,3)])
+
+
+ggplot(aes(beta, power, linetype=test, size=emphasize, colour=test), data=powerdfk) + 
+  geom_smooth( method="loess", span=0.1) + 
+  scale_size_identity() + ylab("Power") +
+  scale_linetype_discrete("Test") + scale_x_continuous(expression(beta)) +
+  scale_color_discrete("Test") 
+
+ggsave("../images/power_expected_k.pdf", width=7, height=5, units="in")
 
 # ====================== Turk2 conventional power calculations  
 
@@ -1061,6 +1162,7 @@ ggsave(file="../images/powerplot.pdf", height = 5, width = 5)
 
 
 # empirical power by effect with bootstrap confidence band
+# This estimated power is considered for single observer (K = 1)
 
 get_response_by_effect <- function(dat){
   dat$effect <- with(dat,sqrt(sample_size)*abs(beta)/sigma)
@@ -1119,7 +1221,7 @@ loess.power <- rbind(data.frame(experiment="Experiment 1", get_power_loess(dat1)
 #                      data.frame(experiment="Experiment 3", get_bootstrap_limit_loess(dat3)))
 # write.csv(loess.limts,file='../data/loess_bootstrap_limits.txt',row.names=F)
 
-loess.limts <- read.csv('../data/loess_bootstrap_limits.txt')
+loess.limits <- read.csv('../data/loess_bootstrap_limits.txt')
 
 source("calculate_ump_power.R")
 ump.power <- get_ump_power_by_effect()
@@ -1130,15 +1232,47 @@ power.dat$m <- NA
 power.dat$m[power.dat$Test=="Visual"] <- 20
 ggplot()+
   geom_ribbon(aes(x = effect, ymin = limit1, ymax = limit2), 
-              data = loess.limts, alpha=.3) +
+              data = loess.limits, alpha=.3) +
   geom_point(aes(effect,as.numeric(response), size=responses), data=effect.dat, alpha=.3) +
   geom_line(aes(effect,pow,linetype=Test, colour=m), data=power.dat, size=1.2) +
   geom_point(aes(effect,pow), data=effect_hat.dat, shape=4) +
   facet_grid(.~experiment, scales="free") + 
   scale_colour_gradient("Test",limits=c(10,30), guide="none") + 
-  ylab("Power") + xlab("Effect") + scale_size_continuous("# Responses") + 
-  opts(asp.ratio=1)
+  ylab("Power") + xlab("Effect") + scale_size_continuous("# Responses") 
 ggsave(filename = "../images/power_loess_effect.pdf", height = 4.5,width = 12)
+
+
+# computing loess power for K=5 and plotting with limits
+loess.power5 <- loess.power
+loess.power5$pow <- sapply(loess.power$pow, get_power, K=5)
+
+loess.limits5 <- loess.limits
+loess.limits5$limit1[loess.limits5$limit1<0] <- 0
+indx.na <- !is.na(loess.limits5$limit1)
+loess.limits5$limit1[indx.na] <- sapply(loess.limits5$limit1[indx.na],get_power,K=5)
+loess.limits5$limit2[indx.na] <- sapply(loess.limits5$limit2[indx.na],get_power,K=5)
+
+power.dat <- rbind(data.frame(Test="Visual, K=1",loess.power),
+                   data.frame(Test="Visual, K=5",loess.power5),
+                   data.frame(Test="Conventional", ump.power)) 
+
+power.dat$m <- NA
+power.dat$m[power.dat$Test!="Conventional"] <- 20
+
+ggplot()+
+  geom_ribbon(aes(x = effect, ymin = limit1, ymax = limit2), 
+              data = loess.limits, alpha=.3) +
+  geom_ribbon(aes(x = effect, ymin = limit1, ymax = limit2), 
+              data = loess.limits5, alpha=.3) +
+  geom_point(aes(effect,as.numeric(response), size=responses), data=effect.dat, alpha=.3) +
+  geom_line(aes(effect,pow,linetype=Test, colour=m), data=power.dat, size=1.2) +
+  geom_point(aes(effect,pow), data=effect_hat.dat, shape=4) +
+  facet_grid(.~experiment, scales="free") + 
+  scale_colour_gradient("Test",limits=c(10,30), guide="none") + 
+  ylab("Power") + xlab("Effect") + scale_size_continuous("# Responses")
+
+ggsave(filename = "../images/power_loess_effect_k.pdf", height = 4.5,width = 12)
+
 
 # examining dat3
 dat3$effect= with(dat3, sqrt(sample_size)*abs(beta)/sigma)

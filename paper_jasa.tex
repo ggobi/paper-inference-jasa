@@ -655,8 +655,8 @@ close to the power of the conventional test.
 %
 \begin{figure}[hbtp]
    \centering
-       \scalebox{.6}{\includegraphics{power_expected.pdf}}
-       \caption{Expected power of visual test  and the power of conventional test for sample size $n =100$, $\sigma = 12$ and $m$=20. }
+       \scalebox{.6}{\includegraphics{power_expected_k.pdf}}
+       \caption{Expected power of visual test  for different number of observers ($K$) and the power of conventional test for sample size $n =100$, $\sigma = 12$ and $m$=20. }
        \label{fig:power_expected}
 \end{figure}
 
@@ -1007,7 +1007,7 @@ Note that for effect $E=0$, the power is close to 0.05 (Type-I error) for both e
 
 \begin{figure}[hbtp]
    \centering
-       \scalebox{0.55}{\includegraphics{power_loess_effect.pdf}}
+       \scalebox{0.55}{\includegraphics{power_loess_effect_k.pdf}}
        \caption{Power in comparison to effect for the three experiments. Points indicate subject responses, with size indicating count. Responses are 1 and 0 depending on the success or failure respectively to identify the actual plot in the lineup. The loess curve (continuous line) estimates the observed power, and surrounding bands show simultaneous bootstrap confidence band.  Conventional test power is drawn as a dashed line. For experiment 3, conventional power is based on the slopes of the linear part of the non-contaminated data. Power for contaminated data is shown by cross mark.}
        \label{fig:power_loess_effect}
 \end{figure}
@@ -1085,7 +1085,7 @@ Figure  \ref{fig:power_mixed_subject} shows power curves for both the overall ex
 
 \begin{figure}[hbtp]
    \centering
-       \scalebox{0.60}{\includegraphics{power_mixed_subject.pdf}}
+       \scalebox{0.60}{\includegraphics{power_mixed_subject_k.pdf}}
        \caption{Subject-specific  power estimated from model \ref{eqn:mixed} are shown. The corresponding power curve for conventional test (dashed line) is shown for comparison. The overall average power curve estimated from the model is shown (light blue).}
        \label{fig:power_mixed_subject}
 \end{figure}
@@ -1312,7 +1312,7 @@ A little known error amongst statisticians is what was coined as Type III error 
 %\noindent with the possibility to use more than one. 
 
 
-\blue{Figure \ref{fig:power_loess_effect} indicates that Type III error might be occurring in experiment 3: correct identification of the actual data plot is not positively associated with effect size. Teasing this out of the results is possible by looking at the reasons observers gave for their choices. Observers were provided with four possible reasons to use for their choice: (1) Most different plot (2) Visible trend (3) Clustering visible (4) Other, with the option to use more than one.} The task requested subjects to identify the plot that had the largest slope, which would correspond to choosing ``visible trend'' (2) as the reason for their choice. Reasons 1 or 3 would be indicative of Type III error. Figure \ref{fig:choice_reason} explores the reasons subjects gave for their choices. If there were no Type III errors committed, we would expect that people overwhelmingly using ``visible trend'' as their reason, or at least, when they use this reason they overwhelmingly correctly choose the actual data plot. This is not what we see. At left, are the reasons subjects gave for their choices --- 123 means that they gave all three reasons. The horizontal axis shows proportion of times that subjects correctly chose the actual data plot, and the reasons are sorted from most accurate to least accurate. The size of the point corresponds to the number of subjects putting this as the reason. Subjects that chose all three reasons almost always chose the actual data plot. This was followed by using 1 and 3, and then 1 and 4. The most common reasons given were reasons 1-3 individually, and the accuracy for these reasons ranged from 75\% for reason ``most different plot'' to 60\% for ``visible trend''.
+\blue{Figure \ref{fig:power_loess_effect} indicates that Type III error might be occurring in experiment 3: correct identification of the actual data plot is not positively associated with effect size. Teasing this out of the results is possible by looking at the reasons observers gave for their choices. Observers were provided with four possible reasons to use for their choice: (1) Most different plot, (2) Visible trend, (3) Clustering visible and (4) Other, with the option to use more than one.} The task requested subjects to identify the plot that had the largest slope, which would correspond to choosing ``visible trend'' (2) as the reason for their choice. Reasons 1 or 3 would be indicative of Type III error. Figure \ref{fig:choice_reason} explores the reasons subjects gave for their choices. If there were no Type III errors committed, we would expect that people overwhelmingly using ``visible trend'' as their reason, or at least, when they use this reason they overwhelmingly correctly choose the actual data plot. This is not what we see. At left, are the reasons subjects gave for their choices --- 123 means that they gave all three reasons. The horizontal axis shows proportion of times that subjects correctly chose the actual data plot, and the reasons are sorted from most accurate to least accurate. The size of the point corresponds to the number of subjects putting this as the reason. Subjects that chose all three reasons almost always chose the actual data plot. This was followed by using 1 and 3, and then 1 and 4. The most common reasons given were reasons 1-3 individually, and the accuracy for these reasons ranged from 75\% for reason ``most different plot'' to 60\% for ``visible trend''.
 At right is a simplified view, containing just the four possible reasons -- if the subject chose one of these, regardless if they also chose another reason it is counted. ``Visible trend'' comes in third. This is strong evidence that for many subjects even though they are correctly choosing the data plot, often they are cueing to other structure in the plot than the trend, making a Type III error. 
 
 
