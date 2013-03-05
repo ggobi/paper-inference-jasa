@@ -1008,7 +1008,7 @@ Note that for effect $E=0$, the power is close to 0.05 (Type-I error) for both e
 \begin{figure}[hbtp]
    \centering
        \scalebox{0.55}{\includegraphics{power_loess_effect_k.pdf}}
-       \caption{Power in comparison to effect for the three experiments. Points indicate subject responses, with size indicating count. Responses are 1 and 0 depending on the success or failure respectively to identify the actual plot in the lineup. The loess curve (continuous line) estimates the observed power, and surrounding bands show simultaneous bootstrap confidence band.  Conventional test power is drawn as a dashed line. For experiment 3, conventional power is based on the slopes of the linear part of the non-contaminated data. Power for contaminated data is shown by cross mark.}
+       \caption{Power in comparison to effect for the three experiments. Points indicate subject responses, with size indicating count. Responses are 1 and 0 depending on the success or failure respectively to identify the actual plot in the lineup. The loess curve (continuous line) estimates the observed proportion correct (power for $K=1$), and surrounding bands show simultaneous bootstrap confidence band. Observed proportion is used to obtain power for $K=5$. Conventional test power is drawn as a dashed line. For experiment 3, conventional power is based on the slopes of the linear part of the non-contaminated data. Power for contaminated data is shown by cross mark.}
        \label{fig:power_loess_effect}
 \end{figure}
 
@@ -1086,7 +1086,7 @@ Figure  \ref{fig:power_mixed_subject} shows power curves for both the overall ex
 \begin{figure}[hbtp]
    \centering
        \scalebox{0.60}{\includegraphics{power_mixed_subject_k.pdf}}
-       \caption{Subject-specific  power estimated from model \ref{eqn:mixed} for $K=5$. The corresponding power curve for conventional test (dashed line) is shown for comparison. The overall average power curve estimated from the model is shown (light blue).}
+       \caption{Subject-specific  power for $K=5$ obtained using the subject-specific proportion correct estimated from model \ref{eqn:mixed}. The corresponding power curve for conventional test (dashed line) is shown for comparison. The overall average power curve estimated from the model is shown (light blue).}
        \label{fig:power_mixed_subject}
 \end{figure}
 
