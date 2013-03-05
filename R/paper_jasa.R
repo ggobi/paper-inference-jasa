@@ -52,7 +52,6 @@ write.csv(dat3, file='../submission_initial/suplementary/data/data_turk3.csv',ro
 
 
 
-
 # =================== mathematical test t distribution  ===================
 
 t <- seq(-4, 4, by = 0.1)
