@@ -328,7 +328,7 @@ $Z_{\ell i}$,  $1 \le i \le K$, $1 \le \ell \le L$,  is a design matrix correspo
 $\tau$  is a vector of independent normally distributed random variables $\tau_{\ell i}$ with  variance matrix $\sigma_\tau I_{KL \times KL}$. $\tau$ will usually include a component incorporating an individual's ability or skill to evaluate lineups. 
 Note that $\tau_{\ell i }$ usually only includes a partial interaction; for a full interaction of subjects' skills and lineup-specific difficulty we would need replicates of the same subject evaluating the same lineup, which in practice is not feasible without \red{loosing} independence.
 
-\noindent Using the inverse {\it logit} link function, $g^{-1}(.)$, from  Equation \ref{eqn:mixed} leads to the estimate of the subject and the lineup specific probability of successful evaluation as 
+\noindent The inverse {\it logit} link function, $g^{-1}(.)$, from  Equation \ref{eqn:mixed} leads to the estimate of the subject and the lineup specific probability of successful evaluation by a single observer as 
 \begin{equation} \label{eqn:mixed_power}
 \hat p_{\ell i} =  g^{-1}(W_{\ell i} \hat {\delta} +  Z_{\ell i}  \hat {\tau}_{\ell i}).
 \end{equation}
@@ -617,13 +617,13 @@ Suppose $X_k$ is a categorical variable with two levels, and we test the hypothe
 %%Thus the density of $p_D$ is Uniform(0,1)  under $H_0$. As noted by \cite{Ruppert:2007}, under $H_1$ the density $$f_{p_D}(p_D; \delta)= \frac{f_{|t|}(F_{|t|}^{-1}(1-p_D);\delta)}{f_{|t|}(F_{|t|}^{-1}(1-p_D))}$$ derived from equation \eqref{dist_p}  is a right skewed distribution.  
 %In a lineup plot we simulate $m-1$ residual data sets from null model where each of these $m-1$ null data sets produces a corresponding $p$-value $p_{0,i}$ and $p_{0,i} \sim \text{Uniform}(0,1)$ for $i = 1, ..., m-1$. Suppose  $p_0=\min_i(p_{0,i})$. Thus $p_0 \sim \text{Beta}(1,m-1)$. 
 
-The conventional test in this scenario uses $T= \hat{\beta_k}/ se(\hat{\beta_k})$ and rejects the null hypothesis, if $T$ is extreme on the scale of a $t$ distribution with $n-p$ degrees of freedom.  It forms the benchmark upon which we evaluate the visual test. To calculate what we might expect for the power of the visual test, under perfect conditions, first assume that the observer is able to pick the plot with the smallest $p$-value from a lineup plot.  This leads to the decision to reject $H_0$ when $p_{D} < p_0$, where $p_{D}$ is the conventional $p$-value as details given in Lemma \ref{lemma}. Thus the expected power of the visual test in this scenario is
+The conventional test in this scenario uses $T= \hat{\beta_k}/ se(\hat{\beta_k})$ and rejects the null hypothesis, if $T$ is extreme on the scale of a $t$ distribution with $n-p$ degrees of freedom.  It forms the benchmark upon which we evaluate the visual test. To calculate what we might expect for the power of the visual test, under perfect conditions, first assume that the observer is able to pick the plot with the smallest $p$-value from a lineup plot.  This leads to the decision to reject $H_0$ when $p_{D} < p_0$, where $p_{D}$ is the conventional $p$-value as details given in Lemma \ref{lemma}. \blue {Thus the expected probability to reject by a single observer ($K=1$) in this scenario is
 
 \begin{equation}\label{power_exp} 
-   Power(\beta)=Pr(p_{D} < p_0)  \quad \text{for}  \quad \beta \ne 0
+%   Power(\beta)=Pr(p_{D} < p_0)  \quad \text{for}  \quad \beta \ne 0
+ p(\beta)=Pr(p_{D} < p_0)  \quad \text{for}  \quad \beta \ne 0
 \end{equation}
-Figure \ref{fig:power_expected} shows the power of the conventional test in comparison to the expected power of the visual test obtained from Equation \ref{power_exp}. Notice that the expected power of the visual test is %almost as good as 
-close to the power of the conventional test. 
+Figure \ref{fig:power_expected} shows the power of the conventional test in comparison to the expected power of the visual test for different number of observers ($K$) obtained using $p(\beta)$ from Equation \ref{power_exp}. Notice that the expected power of the visual test exceeds the power of the conventional test as $K$ gets larger.  }
 
 
 %Theorem \ref{thm:power} helps to compute the expected power of visual inference.
@@ -682,14 +682,12 @@ close to the power of the conventional test.
 
 \section{Human Subjects Experiments with Simulated Data} \label{sec:simulation}
 
-Three experiments were conducted to evaluate the effectiveness of the lineup protocol relative to the equivalent test statistic used in the regression scenario. The first two are conventional settings where we would not expect the lineup protocol to do better than the conventional test, but we hope it to perform favorably. The third experiment is a scenario where assumptions required for the conventional test are violated, and we would expect the lineup protocol to outperform the conventional test. (Data and lineups used in the experiments are available in the supplementary material.)
+Three experiments were conducted to evaluate the effectiveness of the lineup protocol relative to the equivalent test statistic used in the regression scenario. \red{The first two are conventional settings where we would not expect the lineup protocol to do better than the conventional test, but we hope it to perform favorably.} The third experiment is a scenario where assumptions required for the conventional test are violated, and we would expect the lineup protocol to outperform the conventional test. (Data and lineups used in the experiments are available in the supplementary material.)
 
 After many small pilot studies with local personnel, it was clear that some care was needed to set up the human subjects experiments. It was best for a observer or a subject to see a block of 10 lineups with varying difficulty, with a reasonable number of ``easy'' lineups. The explanations about each experiment (below) includes an explanation of how the lineups were sampled and provided to the subjects, for each of the three experiments.
 
 Participants for all the experiments were recruited through Amazon's online web service, Mechanical Turk  \citep{turk}. A summary of the data obtained for all three experiments are shown in Table \ref{tbl:summary}. Participants were asked to select the plot they think best matched the question given, provide a reason for their choice, and say how confident they are in their choice. Gender, age, education and geographic location of each participant are also collected. %The data was collected through the web. 
-For each of the experiments one of the lineups was used as a test plot (easy plot) which everyone should get correct, so that a measure of the quality of the subjects effort could be made. 
-
-Note that no participant was shown the same lineup twice.
+For each of the experiments one of the lineups was used as a test plot (easy plot) which everyone should get correct, so that a measure of the quality of the subjects effort could be made. Note that no participant was shown the same lineup twice.
 %\green{Something probably needs to be said about subjects who do multiple tests, what checks are done.} \blue{We do have some data where we notice multiple responses for a lineup by a subject. This happens when subject accidentally use browser's ``back'' button and same data is saved twice. We made sure in the data cleaning process that we do not include more than one response on a lineup by a subject. For this we only keep the very first response.}
 
 \subsection{Discrete covariate}\label{sec:category}
@@ -705,7 +703,7 @@ The experiment is designed to study the ability of human subjects to detect the 
 %	\item Finally randomly place 19 null plots and one actual plot in a layout (4X5) to get a lineup 
 %\end{enumerate}
 
-The number of evaluations required for each lineup to provide reasonable estimates of the power is determined by the variance of the estimated power. Suppose $\gamma$ denotes the conventional test power for each parameter combination shown in Table \ref{tbl:experiment_params}. Since the expected power of visual inference is very close to the power of conventional test (Figure \ref{fig:power_expected} with $K=1$) the proportion of successful evaluations of lineups should give a rough estimate for  $\gamma$. 
+The number of evaluations required for each lineup to provide reasonable estimates of the \blue{ proportion correct ($\hat p$) is determined by the variance of $p$}. Suppose $\gamma$ denotes the conventional test power for each parameter combination shown in Table \ref{tbl:experiment_params}. Since the expected power of visual inference is very close to the power of conventional test (Figure \ref{fig:power_expected} with $K=1$) \blue{we consider $\gamma =p$}.
 For a given proportion $\gamma$ it is desired to have a margin of error (ME) less than or equal to 0.05. Thus we have $ME =1.96 \sqrt{ \gamma(1-\gamma) / n_{\gamma} } \le 0.05$ which gives us the estimation of minimum number of evaluations $$n_{\gamma} \geq \frac{\gamma(1-\gamma)}{(0.05/1.96)^2}.$$  
 % \hh{we're not even close to $n_\gamma$ with ten lineups .... we need more in the order of 400. Let's not emphasize this so much.}
 
@@ -1000,8 +998,7 @@ Table \ref{tbl:model_par} shows the parameter estimates of the mixed effects mod
 
 \subsection{Power comparison}
 
- Figure \ref{fig:power_loess_effect} shows an overview of estimated power  against effect for the three experiments.  Responses from each experiment are summarized by effect size and represented as dots,  with size indicating the number of responses.
-A loess  fit to the data gives an estimate of  the observed power for different effect sizes, with grey bands indicating simultaneous bootstrap confidence bands \citep{buja}. For comparison, the dashed lines show the corresponding power curves of the conventional tests. Not surprisingly, the observed power for experiments 1 and 2 is lower than the power of the conventional test.  It is encouraging to see that visual inference mirrors the power vs effect relationship of conventional testing, and comes quite close in experiment 2, where scatterplots are used as the test statistic. 
+ Figure \ref{fig:power_loess_effect} shows an overview of estimated power  against effect for the three experiments.  Responses from each experiment are summarized by effect size and represented as dots,  with size indicating the number of responses. \blue {A loess  fit to the data gives an estimate of  the observed proportion correct $\hat p(E)$ for different effect sizes, with grey bands indicating simultaneous bootstrap confidence bands \citep{buja}. $\hat p(E)$ is considered to be the power for $K=1$ and it is used to obtain power for $K=5$. For comparison, the dashed lines show the corresponding power curves of the conventional tests. It is encouraging to see that visual inference mirrors the power vs effect relationship of conventional testing, and exceeds the power of conventional test as $K$ increases.} 
 Note that for effect $E=0$, the power is close to 0.05 (Type-I error) for both experiments 1 and 2, making the fixed offset a reasonable assumption.  
 
 
@@ -1081,7 +1078,7 @@ Results of experiment 3 are curious insofar, as  power of the visual test is  hi
 \subsection{Subject-specific variation}
 
 %Different subjects are expected to have different skill levels in evaluating lineups. This is accounted for in the mixed effects model (Equation \ref{eqn:mixed}).   
-Figure  \ref{fig:power_mixed_subject} shows power curves for both the overall experiment and subject-specific variations. The thick continuous line shows overall estimated power, the thinner lines correspond to subject-specific power curves. For comparison, the  dashed lines show power curves of the conventional test. Subject-specific power is quite different between the three experiments. In experiment 1 subjects performed similarly, and substantially worse than the conventional test. In experiment 2 there is more variability between subjects, with some doing better than the conventional test on small effects. In experiment 3 there is the most subject-specific variation. Some subjects performed substantially better than the conventional test, and on average the visual test was better. 
+\blue{Subject-specific proportion correct $\hat p_i(E)$ is obtained using Equation \ref{eqn:mixed_power} and it is used to obtain power for $K=5$}. Figure  \ref{fig:power_mixed_subject} shows power curves for both the overall experiment and subject-specific variations. The thick continuous line shows overall estimated power, the thinner lines correspond to subject-specific power curves. For comparison, the  dashed lines show power curves of the conventional test. Subject-specific power is quite different between the three experiments. In experiment 2 subjects performed similarly, and substantially better than the conventional test. In experiment 1 there is more variability between subjects, with some doing better than the conventional test on large effects. In experiment 3 there is the most subject-specific variation. Some subjects performed substantially better than the conventional test, and on average the visual test was better. 
 
 \begin{figure}[hbtp]
    \centering
