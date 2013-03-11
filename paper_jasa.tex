@@ -624,7 +624,7 @@ The conventional test in this scenario uses $T= \hat{\beta_k}/ se(\hat{\beta_k})
 %   Power(\beta)=Pr(p_{D} < p_0)  \quad \text{for}  \quad \beta \ne 0
  p(\beta)=Pr(p_{D} < p_0)  \quad \text{for}  \quad \beta \ne 0
 \end{equation}
-Figure \ref{fig:power_expected} shows the power of the conventional test in comparison to the expected power of the visual test for different $K$ (number of observers), obtained using $p(\beta)$ from Equation \ref{power_exp}. Notice that the expected power of the visual test exceeds the power of the conventional test as $K$ gets larger, and when $\beta$ gets larger.  }
+Figure \ref{fig:power_expected} shows the power of the conventional test in comparison to the expected power of the visual test for different $K$ (number of observers), obtained using $p(\beta)$ from Equation \ref{power_exp}. Notice that the expected power of the visual test exceeds the power of the conventional test as $K$ gets larger, and when $\beta$ gets larger.  } \hh{Conversely, visual power is below conventional power for parameter values close to the null hypothesis. This is even more pronounced for large number of observers. At the same time, the point of intersection between visual and conventional power approaches the value of the null hypothesis as the number of observers approaches infinity, leading to an asymptotically perfect power curve of zero in the null hypothesis and one for any alternative value. This dichotomy of visual power can also be seen in more detail in figure \ref{fig:power_loess_effect}. }
 
 
 %Theorem \ref{thm:power} helps to compute the expected power of visual inference.
@@ -657,13 +657,13 @@ Figure \ref{fig:power_expected} shows the power of the conventional test in comp
 \begin{figure}[hbtp]
    \centering
        \scalebox{.6}{\includegraphics{power_expected_k.pdf}}
-       \caption{Comparison of the expected power of the visual test for different $K$ (number of observers) with the power of the conventional test, for $n =100$, $\sigma = 12$ and $m$=20. }
+       \caption{Comparison of the expected power of the visual test for different $K$ (number of observers) with the power of the conventional test, for $n =100$, $\sigma = 12$ and $m$=20.  \hh{We should not use color here - let's use black for all he lines, but make the legend a bit larger so we can distinguish the line types based on that. {\tt legend.key.width = unit(1.5, "cm")} will do it}.
+       \hh{Could you standardize the $x$ axis to $\beta/\sigma$? That will give a better insight to how close we need to be to the null hypothesis to have visual power dip below conventional power.}}
        \label{fig:power_expected}
 \end{figure}
 
 % \pagebreak
 
-% -------- Heike's writeup added here
 
 %\subsection{Some Power Considerations}
 
