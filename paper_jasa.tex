@@ -179,9 +179,7 @@ P(X \ge x) = 1 - \text{Binom}_{{K, 1/m}} (x-1) = \sum_{i=x}^{K} {K \choose i} \l
 \noindent with $X$ defined as above, and $x$ is the number of observers selecting the actual data plot. 
 \end{dfn}
 \noindent Note that for $x=0$ the $p$-value becomes, mathematically, equal to 1. It might make more sense from a practical point of view to think of the $p$-value as
-being larger than $P(X \ge 1)$ in this situation. If we increase either $m$ or $K$, we would be able to determine the value at a higher precision.
-
-Table \ref{pvalue} shows $p$-values for different numbers of observers for lineups of size $m = 20$. It can be seen that, if the null hypothesis is true, it is unlikely that multiple observers would pick the actual data plot.
+being larger than $P(X \ge 1)$ in this situation. If we increase either $m$ or $K$, we would be able to determine the value at a higher precision. Table \ref{pvalue} shows $p$-values for different numbers of observers for lineups of size $m = 20$. It can be seen that, if the null hypothesis is true, it is unlikely that multiple observers would pick the actual data plot.
 
 \begin{table}[htp]
 \caption{Possible $p$-values for different numbers of observers, $K$, for fixed size $m = 20$ lineups.}
@@ -199,27 +197,13 @@ $K$ &  $x$ & $p$-value & $K$ &  $x$ & $p$-value & $K$ &  $x$ & $p$-value & $K$  
 \label{pvalue}
 \end{table}
 
-%\begin{dfn}\label{dfn:test}
-%\red{why do we need the $\theta$? - it's not defined and not explained. usually we would assume that lineups are non-parametric}
-%The \textbf{visual test}, $V_{\theta}$, is defined to be 
-%\begin{itemize}\itemsep-3pt
-%\item \textbf{Reject} $H_0$ if `enough' observers select the actual data plot in the lineup of $m$ plots, and
-%\item \textbf{Fail to reject} $H_0$  otherwise. %if the observer selects a null plot.
-%\end{itemize}
-%where `enough' observers is defined as some threshold $x_{1-\alpha}$, for which $P(X \ge x_{1-\alpha}) < \alpha$, the level of significance.
-%\end{dfn}
-
-%\blue{To avoid confusion with one tailed $(1-\alpha)$ vs two tailed $(1-\alpha/2)$ notation, can we just use $x_{\alpha}$? }
-
-%\red{alternative definition of visual test where $type-I$ error $\alpha$ is attached.}
-
 \begin{dfn}\label{dfn:test}
 The \textbf{visual test}, $V_{\theta}$  of  size $m$ and significance level $\alpha$, is defined to  
 \begin{itemize}\itemsep-3pt
-\item \textbf{Reject} $H_0$ if out of $K$ observers at least $x_{\alpha}$ correctly identify the actual data plot in the lineup, and
+\item \textbf{Reject} $H_0$ if out of $K$ observers at least $x_{\alpha}$ correctly identify the actual data plot, and
 \item \textbf{Fail to reject} $H_0$  otherwise. 
 \end{itemize}
-where $x_{\alpha}$ is such that $P(X \ge x_{\alpha}) \le \alpha$. 
+where $x_{\alpha}$ is such that $P(X \ge x_{\alpha}|H_0) \le \alpha$. 
 \end{dfn}
 
 \noindent
@@ -230,9 +214,7 @@ The \textbf{Type I error} associated with visual test $V_{\theta}$ is the probab
 The \textbf{Type II error} is the probability of failing to identify the actual data plot, when $H_0$ is not true, $P( X <  x_{\alpha})$.
 \end{dfn}
 
-%\green{Oh, we are using observed and observer, which might be confusing. May need to change observed data plot to something else. Will think about this. Will use ``actual'' for now.} \hh{I think that change is done}
-
-\noindent Because $X$ takes only discrete values we can not always control exactly for $\alpha$. %, with an exact $x_{\alpha}$. 
+\noindent Because $X$ takes only discrete values we can not always control exactly for $\alpha$.  
 For example, when there is only one observer, $1/m$ is the minimal value at which we can set $\alpha$. It can be set to be smaller, even arbitrarily small, by increasing $K$, the number of observers. 
 Type II error is harder to calculate, as is usually the case. In visual inference, individual abilities need to be incorporated to calculate Type II error. %This is not necessary for Type I error, because it is simply the chance that the observer picks the actual data plot, by chance. 
 Here, we need to estimate the probability that an observer sees the actual data plot as different, when it really is different. This involves understanding the individual's visual skills. Thus, let $X_i$ be a binary random variable with $X_i = 1$, if individual $i \ (=1, \dots , K)$ identifies the actual data plot from the lineup, and $X_i = 0$ otherwise. Let $p_i$ be the probability that individual $i$ picks out the actual data plot from the lineup. If all individuals have the same ability, with the probability, $p$, for picking out the actual data plot, then $X = \sum_i X_i$ has distribution $\text{Binom}_{K, p}$, and we can estimate $p$ by $\hat{p} = x/K$, where $x$ is the number of observers (out of $K$), who pick out the actual data plot from the lineup. 
@@ -285,7 +267,7 @@ The \textbf{power} of a visual test, $V_{\theta}$, is defined as the probability
     \end{equation*}
 \end{dfn}
 
-\noindent An important difference between conventional and visual testing is that lineups will depend on observers evaluation. Thus, the number of observers affects the estimation of power, where $X$ is the number of observers (out of $K$) who identify the actual data plot from the lineup, and power is estimated by
+\noindent An important difference between conventional and visual testing is that lineups will depend on observers evaluation. Thus $X$, the number of observers who identify the actual data plot from the lineup, affects the estimation of power  and the power is estimated by
 \[
 \widehat{Power}_{V} (\theta) = {Power}_{V, K} (\theta) = 1 - F_{X, \theta} (x_{\alpha} - 1),
 \] 
@@ -303,7 +285,7 @@ If the alternative hypothesis is true, with a fixed parameter value $\theta$, we
 %\red{there may be a flow in this definition. Due to the discrete nature of binomial (specially $x_{\alpha}$) this definition would only give a conservative lower limit of the actual power. I feel like we should not define power using binomial.}
 
 Power is an important consideration in deciding which test to use for solving a problem. %In conventional testing, new test procedures are examined for their power under a variety of scenarios. 
-Here we use it to compare the performance of the visual test with the conventional test, but in practice for visual inference it will mostly be important in deciding on the choice of plot to use. Analysts typically have a choice of plots to make, and a myriad of possible options such as reference grids, for any particular purpose. This is akin to different choices of statistics in conventional hypothesis testing, for example, mean, median, or trimmed mean. One is typically better than another. For two different visual test statistics of the same actual data, one is considered to be better, if $T(y)$ is more easily distinguishable to the observer. Power is typically used to measure this characteristic of a test. %Power is the probability of rejecting $H_0$ when it is not true.  We can assess power therefore both empirically based on experimental data and through theoretical considerations. 
+Here we use it to compare the performance of the visual test with the conventional test, but in practice for visual inference it will mostly be important in deciding on the choice of plot to use. Analysts typically have a choice of plots to make, and a myriad of possible options such as reference grids, for any particular purpose. This is akin to different choices of statistics in conventional hypothesis testing, for example, mean, median, or trimmed mean. One is typically better than another. For two different visual test statistics of the same actual data, one is considered to be better, if $T(y)$ is more easily distinguishable to the observer. Power is typically used to measure this characteristic of a test. 
 
 \section{Effect of Observer Skills and Lineup Size}~\label{sec:size}
 
@@ -999,14 +981,14 @@ Table \ref{tbl:model_par} shows the parameter estimates of the mixed effects mod
 
 \subsection{Power comparison}
 
- Figure \ref{fig:power_loess_effect} shows an overview of estimated power  against effect for the three experiments.  Responses from each experiment are summarized by effect size and represented as dots,  with size indicating the number of responses. \blue {A loess  fit to the data gives an estimate of  the observed proportion correct $\hat p(E)$ for different effect sizes, with grey bands indicating simultaneous bootstrap confidence bands \citep{buja}. $\hat p(E)$ is considered to be the power for $K=1$ and it is used to obtain power for $K=5$. For comparison, the dashed lines show the corresponding power curves of the conventional tests. It is encouraging to see that visual inference mirrors the power vs effect relationship of conventional testing, in experiments 1 and 2. In experiment 3 the power of the visual test exceeds that for the conventional test, as expected. *** Needs more work - explain separately for each experiment, and for other $K$ than shown.} 
+ Figure \ref{fig:power_loess_effect} shows an overview of estimated power  against effect for the three experiments.  Responses from each experiment are summarized by effect size and represented as dots,  with size indicating the number of responses. \blue {A loess  fit to the data gives an estimate of  the observed proportion correct $\hat p(E)$ for different effect sizes, with grey bands indicating simultaneous bootstrap confidence bands \citep{buja}. $\hat p(E)$ is considered to be the power for $K=1$ and it is used to obtain power for $K=5$. For comparison, the dashed lines show the corresponding power curves of the conventional tests. It is encouraging to see that visual inference mirrors the power vs effect relationship of conventional testing, in experiments 1 and 2. In experiment 3 the power of the visual test exceeds that for the conventional test, as expected. For larger values of $K$ estimated power exceeds the power of conventional test.} 
 Note that for effect $E=0$, the power is close to 0.05 (Type-I error) for both experiments 1 and 2, making the fixed offset a reasonable assumption.  
 
 
 \begin{figure}[hbtp]
    \centering
        \scalebox{0.55}{\includegraphics{power_loess_effect_k.pdf}}
-       \caption{Power in comparison to effect for the three experiments. Points indicate subject responses, with size indicating count. Responses are 1 and 0 depending on the success or failure respectively to identify the actual plot in the lineup. The loess curve (continuous line) estimates the observed proportion correct (power for $K=1$), and surrounding bands show simultaneous bootstrap confidence band. Observed proportion is used to obtain power for $K=5$. Conventional test power is drawn as a dashed line. For experiment 3, conventional power is based on the slopes of the linear part of the non-contaminated data. Power for contaminated data is shown by cross mark.}
+       \caption{Power in comparison to effect for the three experiments. Points indicate subject responses, with size indicating count. Responses are 1 and 0 depending on the success or failure respectively to identify the actual plot in the lineup. The loess curve (continuous line) estimates the observed proportion correct (power for $K=1$), and surrounding bands show simultaneous bootstrap confidence band. Observed proportion is used to obtain power for $K=5$. Conventional test power is drawn as a dashed line. For experiment 3, conventional power is based on the slopes of the non-contaminated part of the data. Power for contaminated data is shown by cross mark.}
        \label{fig:power_loess_effect}
 \end{figure}
 
@@ -1084,7 +1066,7 @@ Results of experiment 3 are curious insofar, as  power of the visual test is  hi
 \begin{figure}[hbtp]
    \centering
        \scalebox{0.60}{\includegraphics{power_mixed_subject_k.pdf}}
-       \caption{Subject-specific  power for $K=5$ obtained using the subject-specific proportion correct estimated from model \ref{eqn:mixed}. The corresponding power curve for conventional test (dashed line) is shown for comparison. The overall average power curve estimated from the model is shown (light blue).}
+       \caption{Subject-specific  power for $K=5$ obtained using the subject-specific proportion correct estimated from model \ref{eqn:mixed}. The corresponding power curve for conventional test (dashed line) is shown for comparison. The overall estimated average power curve is shown (light blue).}
        \label{fig:power_mixed_subject}
 \end{figure}
 
@@ -1286,7 +1268,7 @@ In practice, the $p$-value is not going to be a valid way to compare plots. Rath
 
 \begin{figure}[hbtp]
    \centering
-       \scalebox{0.70}{\includegraphics{pval_difference.pdf}}
+       \scalebox{0.60}{\includegraphics{pval_difference.pdf}}
        \caption{Scatter plot of difference between the data plot's $p$-value and the  smallest $p$-value of the null plots vs proportion correct. Negative differences indicate the $p$-value of the actual data plot are smaller than those of all of the null plots. Difference close to zero shows a wide range in the proportion correct, suggesting that when at least one null plot has structure almost as strong as the actual data plot, subjects had a difficult time in making their choice.}
        \label{fig:pval_difference}
 \end{figure}
@@ -1330,7 +1312,7 @@ At right is a simplified view, containing just the four possible reasons -- if t
 %       \scalebox{0.60}{\includegraphics{choice_reason_count.pdf}}
        \includegraphics[width=0.45\textwidth]{choice_reason2.pdf}
        \includegraphics[width=0.45\textwidth]{choice_reason3.pdf}
-       \caption{Exploring the reasons for plot choices for experiment 3, to examine the occurrence of Type III error. The vertical axis shows the reasons. At left, all subjects choices are shown, and reason 123 means all three reasons are used. At right, if the subject used a reason, regardless if they also used more than this reason, they are counted. The horizontal axis shows the proportion of times the subjects correctly chose the actual data plot. Size of the point corresponds to the number of subjects using that reason.}
+       \caption{Reasons of plot choices vs  proportion of times the subjects correctly chose the actual data plot for experiment 3 that examines the occurrence of Type III error. At left, all subjects' choices are shown, and reason 123 means all three reasons are used. At right, if the subject used a reason, regardless if they also used more than this reason, they are counted. Size of the point corresponds to the number of subjects using that reason.}
        \label{fig:choice_reason}
 \end{figure}
 
@@ -1344,7 +1326,7 @@ For visual inference, making a Type III, is not actually a problem. It is only a
 
 It is widely accepted that statistical graphics has important use in exploratory data analysis and model diagnostics. This paper has demonstrated that statistical graphics can be used in statistical inference and validates the lineup protocol proposed by \citet{buja:2009} as a formal framework to accomplish that. The simulation study showed that even in the situation where the conventional test has its assumptions met, visual inference is comparable. The results also suggest that when the underlying assumptions of a conventional test do not hold, visual inference will perform well. 
 
-Power of visual tests can be estimated in different ways, which was explained in this paper. If it is assumed that observers tend to pick the plot with the strongest signal, which was consistent with the experimental data, the power of visual test can be obtained theoretically.  Interestingly, the theoretical power of visual test is close to that of conventional test in the conditions tested in this paper.
+Power of visual tests can be estimated in different ways, which was explained in this paper. If it is assumed that observers tend to pick the plot with the strongest signal, which was consistent with the experimental data, the power of visual test can be obtained theoretically.  Interestingly, the theoretical power of visual test is better than that of conventional test in the conditions tested in this paper.
 
 %\item Explain caveats, nuances, advantages with the work
 
