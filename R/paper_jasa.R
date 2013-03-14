@@ -6,6 +6,7 @@ library(reshape)
 library(xtable)
 library(lme4)
 library(stringr)
+library(grid)
 
 # getting the data and some common functions
 
@@ -929,13 +930,13 @@ powerdfk$test <- factor(powerdfk$test)
 powerdfk$test <- factor(powerdfk$test, levels(powerdfk$test)[c(1,2,4,3)])
 
 
-ggplot(aes(beta, power, linetype=test, size=emphasize, colour=test), data=powerdfk) + 
+ggplot(aes(beta, power, linetype=test, size=emphasize), data=powerdfk) + 
   geom_smooth( method="loess", span=0.1) + 
   scale_size_identity() + ylab("Power") +
   scale_linetype_discrete("Test") + scale_x_continuous(expression(beta)) +
-  scale_color_discrete("Test") 
+  theme(legend.key.width = unit(1.5, "cm"))
 
-ggsave("../images/power_expected_k.pdf", width=7, height=5, units="in")
+ggsave("../images/power_expected_k.pdf", width=8, height=5, units="in")
 
 # ====================== Turk2 conventional power calculations  
 
