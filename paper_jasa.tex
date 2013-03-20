@@ -150,9 +150,7 @@ For visual inference, unlike in the conventional hypothesis test, the statistic 
 A \textbf{visual test statistic}, $T(.)$, is a function of a sample that produces a plot. $T(y)$ maps the actual data to the plot, and we call this the \textbf{(actual) data plot}, and $T(y_0)$ maps a sample drawn from the null distribution into the same plot form. These type of plots are called \textbf{null plots}. 
 \end{dfn}
 
-\noindent Ideally, the visual test statistic is defined and constructed using the grammar of graphics \citep{wilkinson:1999,hadley:2009}, consisting of type, and specification of aesthetics, necessary for complete reproducibility. \\
-\noindent
-The visual test statistic is compared with values $T(y_0)$ using a lineup, which is defined as:
+\noindent Ideally, the visual test statistic is defined and constructed using the grammar of graphics \citep{wilkinson:1999,hadley:2009}, consisting of type, and specification of aesthetics, necessary for complete reproducibility. The visual test statistic is compared with values $T(y_0)$ using a lineup, which is defined as:
 
 \begin{dfn}\label{dfn:lplot}
 A \textbf{lineup} is a layout of $m$ randomly placed visual statistics, consisting of 
@@ -171,10 +169,9 @@ This leads us to a definition for the $p$-value of a lineup: under the null hypo
 
 \begin{dfn}\label{dfn:pvalue}
 The $p$-value of a lineup of size $m$ evaluated by $K$ observers is  given as 
-
-\begin{equation}\label{binom}
+$$
 P(X \ge x) = 1 - \text{Binom}_{{K, 1/m}} (x-1) = \sum_{i=x}^{K} {K \choose i} \left(\frac{1}{m}\right)^{i} \left(\frac{m-1}{m}\right)^{K-i}
-\end{equation}
+$$
 
 \noindent with $X$ defined as above, and $x$ is the number of observers selecting the actual data plot. 
 \end{dfn}
@@ -267,7 +264,7 @@ The \textbf{power} of a visual test, $V_{\theta}$, is defined as the probability
     \end{equation*}
 \end{dfn}
 
-\noindent An important difference between conventional and visual testing is that lineups will depend on observers evaluation. Thus $X$, the number of observers who identify the actual data plot from the lineup, affects the estimation of power  and the power is estimated by
+\noindent An important difference between conventional and visual testing is that lineups will depend on observers' evaluation. Thus $X$, the number of observers who identify the actual data plot from the lineup, affects the estimation of power  and the power is estimated by
 \[
 \widehat{Power}_{V} (\theta) = {Power}_{V, K} (\theta) = 1 - F_{X, \theta} (x_{\alpha} - 1),
 \] 
@@ -280,21 +277,12 @@ Power_V(\theta, K)= 1 - Binom_{K, 1/m} (x_\alpha - 1),
 If the alternative hypothesis is true, with a fixed parameter value $\theta$, we can assume that an individual's probability to identify the data plot depends on the parameter value, and $X_i \sim Binom_{1, p_i(\theta)}$. Assessing an individual's skill to identify the actual data plot will require that an individual evaluates multiple lineups.
 
 
-%\noindent Note that $F_{X, \theta}$ is the distribution of $X$ under the alternative with given parameter value $\theta$.
-
-%\red{there may be a flow in this definition. Due to the discrete nature of binomial (specially $x_{\alpha}$) this definition would only give a conservative lower limit of the actual power. I feel like we should not define power using binomial.}
-
 Power is an important consideration in deciding which test to use for solving a problem. %In conventional testing, new test procedures are examined for their power under a variety of scenarios. 
 Here we use it to compare the performance of the visual test with the conventional test, but in practice for visual inference it will mostly be important in deciding on the choice of plot to use. Analysts typically have a choice of plots to make, and a myriad of possible options such as reference grids, for any particular purpose. This is akin to different choices of statistics in conventional hypothesis testing, for example, mean, median, or trimmed mean. One is typically better than another. For two different visual test statistics of the same actual data, one is considered to be better, if $T(y)$ is more easily distinguishable to the observer. Power is typically used to measure this characteristic of a test. 
 
 \section{Effect of Observer Skills and Lineup Size}~\label{sec:size}
 
-%\green{Notation changes $i$ to $j$, and $p$ to $\pi$. Can someone please decide which to use, and make the appropriate changes? How does the ``Let $X_{j\ell} \sim B_{1, \pi_{j\ell}}$...'' below relate to the ``let $X_i$ be a binary random variable...'' above? It looks like this is a repeat. One needs to go once notation is clarified.}
-
-%\red{Here is what my suggestion for notation \\  Use $B$ for logistic model and $\beta$ for linear model \\ Use $X$ to indicate logistic model covariate matrix and $U$ to denote binomial variable \\ $Y$ to indicate actual data. \\ Use $\pi_i$ instead of $p_i$ since $p_i$ is used for $p$-value.  \\ Should I change everything accordingly? I see that we have been careful not to use $\beta$ for power! }
-
 \subsection{Subject-specific abilities}~\label{sec:model}
-%Calculating the power  is intricately related to the probability to identify the actual data plot from the lineup. 
 
 Suppose each of $K$ independent observers gives evaluations on multiple lineups, and responses are considered to be binary random variable, $X_{\ell i} \sim  Binom_{1, p_{\ell i}}$, where $X_{\ell i} = 1$, if subject $i$ correctly identifies the actual data plot on lineup $\ell$, $1 \le \ell \le L$, and 0 otherwise. A mixed effects logistic regression model is used for $P(X_{\ell i} = 1) =  p_{\ell i} = E(X_{\ell i})$, accommodating both for different abilities of observers as well as differences in the difficulty of lineups.
 
@@ -473,70 +461,7 @@ Further we see, that the rate of this decrease depends strongly on the distribut
    \label{fig:pval_power}
 \end{figure}
 
-%Now assume that the same lineup plot is evaluated by $K$ independent observers. %W.l.o.g.\green{Can we get rid of cliches like WLOG?} 
-%Let the last plot be the data plot and plots 1 through $m-1$ the null plots. Let $n_i$ be the number of observers who picked plot $i$ as the plot with the structure least consistent with the null hypothesis, corresponding to random variable $N_i$.  Then  $(N_1, N_2, ..., N_m) \sim$ Mult$_{\pi_1, ..., \pi_m}$ with $\sum_i \pi_i = 1$ and $\sum_{k=1}^{m} n_k = K$. We can estimate $\pi_i$ as $\widehat{\pi_i} = n_i/K$. 
-%
-%For the distribution of $N_m$, %the number of times out of $K$ that observers picked the last plot to show the structure least consistent with the null hypothesis, 
-%we get
-%\[
-%N_m\sim \left \{ 
-%\begin{array}{ll}
-%B_{K, \hh{E\left[ (1 - p_D)^{m-1}\right]}} & \text { under } H_1\\
-%B_{K, 1/m} & \text { under } H_0
-%\end{array}
-%\right .
-%\]
-%
-%By matching the expected values, we therefore get an expression  for the $p$-value $p_D$ in the data 
-%%under $H_1$  %% no such thing aas $p$-value under H_1 - even though it's just an unfortunate choice of word.
-%as:
-%\begin{equation}\label{eqn:power_estimate}
-%%{E[p_D]} = 1- \left(\frac{E[N_m]}{K}\right)^{1/(m-1)}.
-%\hh{1 - E[N_m]/K = (m-1)E[p_D] + O(E[p_D^2])}
-%\end{equation}
-%
-%Note that the left hand side in Equation \ref{eqn:power_estimate} is independent of the parameter $\theta$, but just based on the lineup evaluation by independent observers. While this allows us to compute this value independently of the parametric setting, it also means that observers might pick out the data plot for a reason not related to the value of $\theta$. 
-%\hh{Also note, that this equation yields an estimate of $p_D$ that is bounded by $1/(m-1)$. We should therefore not make the decision of significance depend on this estimate, but only use this equation after the fact. 
-%Both of these topics are further highlighted in the application section.}
 
-%Picking out the data plot is still a measure of how different the data plot is compared to the null plots, and therefore is a test statistic of the visual test.
-
-%This allows us to compute this value independently of the parametric setting. We therefore define the {\it signal strength} of a  visual test as the following:
-%
-%\begin{dfn} \label{dfn:signal}
-%The {\it signal strength} $\sigma_T$ of a visual test is defined as the probability to identify the data plot.
-%\end{dfn}
-%
-%In a lineup of size $m$, evaluated by $K$ independent observers,  we can estimate the signal strength of the test as
-%\[
-%\sigma_T^{m-1} = \frac{n_m}{K}.
-%\]
-%
-%In a parametric setting, signal strength of a test coincides with the power of the test.
-
-
-
-%Theoretical power for the regression parameters is derived in the next section.
-%\subsection{Estimating Power from Lineups}
-%
-%We estimate the empirical power from responses on a specific lineup plot  generated with known values of sample size ($n$), variance ($\sigma^2$) and regression parameter ($\beta$) in model \ref{multi}. Suppose, we have responses from $K$ independent observers with $u$ identifications of the actual plot. This gives an estimated power of
-%\begin{equation}\label{power_est} Power(\beta)=\frac{u}{K} \hspace{1cm} 0 \le u \le K \end{equation}
-
-
-%From model \ref{eqn:mixed} we obtain %$\pi=Pr(Y=1|X_1, X_2, ..., X_p)$, 
-%the power of the underlying testing procedure as a population average %by ignoring the random effect part. 
-%%Thus we have the overall probability of success ($\pi$ or power) 
-%for specified sample size ($n$) and  variance ($\sigma$)  as 
-%
-%\begin{equation}\label{eqn:power} 
-%Power(\beta) = \pi=Pr(Y=1|\beta, n, \sigma) 
-%\end{equation}
-%
-%The main covariate factors that determine the power of the test are sample size ($n$), $\sigma$ and the parameter $\beta$. combining these we obtain one single covariate effect denoted by $E$ and defined as $E = \beta/ \sigma*\sqrt{n}$. Using equation \eqref{eqn:mixed}, we then have the power as
-%
-%\begin{equation}\label{eqn:effect} 
-%Power(E) = \pi=Pr(Y=1| E) 
-%\end{equation}
 
 \section{Application to Linear Models} \label{sec:regression}
 
@@ -640,7 +565,7 @@ Figure \ref{fig:power_expected} shows the power of the conventional test in comp
    \centering
        \scalebox{.6}{\includegraphics{power_expected_k.pdf}}
        \caption{Comparison of the expected power of the visual test for different $K$ (number of observers) with the power of the conventional test, for $n =100$, $\sigma = 12$ and $m$=20.  
-       \hh{Could you standardize the $x$ axis to $\beta/\sigma$? That will give a better insight to how close we need to be to the null hypothesis to have visual power dip below conventional power.}}
+       }
        \label{fig:power_expected}
 \end{figure}
 
@@ -667,7 +592,7 @@ Figure \ref{fig:power_expected} shows the power of the conventional test in comp
 
 Three experiments were conducted to evaluate the effectiveness of the lineup protocol relative to the equivalent test statistic used in the regression setting. The first two experiments have conventional ideal scenarios where we would not expect the lineup protocol to do better than the conventional test. The third experiment is a scenario where assumptions required for the conventional test are violated, and we would expect the lineup protocol to outperform the conventional test. (Data and lineups used in the experiments are available in the supplementary material.)
 
-After many small pilot studies with local personnel, it was clear that some care was needed to set up the human subjects experiments. It was best for a observer or a subject to see a block of 10 lineups with varying difficulty, with a reasonable number of ``easy'' lineups. The explanations about each experiment (below) includes an explanation of how the lineups were sampled and provided to the subjects, for each of the three experiments.
+After many small pilot studies with local personnel, it was clear that some care was needed to set up the human subjects experiments. It was best for a observer or a subject to see a block of 10 lineups with varying difficulty, with a reasonable number of ``easy'' lineups. The explanations about each experiment (below) includes an explanation of how the lineups were sampled and provided to the subjects.
 
 Participants for all the experiments were recruited through Amazon's online web service, Mechanical Turk  \citep{turk}. A summary of the data obtained for all three experiments are shown in Table \ref{tbl:summary}. Participants were asked to select the plot they think best matched the question given, provide a reason for their choice, and say how confident they are in their choice. Gender, age, education and geographic location of each participant are also collected. %The data was collected through the web. 
 For each of the experiments one of the lineups was used as a test plot (easy plot) which everyone should get correct, so that a measure of the quality of the subjects effort could be made. Note that no participant was shown the same lineup twice.
@@ -686,7 +611,7 @@ The experiment is designed to study the ability of human subjects to detect the 
 %	\item Finally randomly place 19 null plots and one actual plot in a layout (4X5) to get a lineup 
 %\end{enumerate}
 
-The number of evaluations required for each lineup to provide reasonable estimates of the \blue{ proportion correct ($\hat p$) is determined by the variance of $p$}. Suppose $\gamma$ denotes the conventional test power for each parameter combination shown in Table \ref{tbl:experiment_params}. Since the expected power of visual inference is very close to the power of conventional test (Figure \ref{fig:power_expected} with $K=1$) \blue{we consider $\gamma =p$}.
+The number of evaluations required for each lineup to provide reasonable estimates of the \blue{ proportion correct ($\hat p$) is determined by the variance of the number of correct evaluations}. Suppose $\gamma$ denotes the conventional test power for each parameter combination shown in Table \ref{tbl:experiment_params}. Since the expected power of visual inference is very close to the power of conventional test (Figure \ref{fig:power_expected} with $K=1$) \blue{we consider $\gamma =p$}.
 For a given proportion $\gamma$ it is desired to have a margin of error (ME) less than or equal to 0.05. Thus we have $ME =1.96 \sqrt{ \gamma(1-\gamma) / n_{\gamma} } \le 0.05$ which gives us the estimation of minimum number of evaluations $$n_{\gamma} \geq \frac{\gamma(1-\gamma)}{(0.05/1.96)^2}.$$  
 % \hh{we're not even close to $n_\gamma$ with ten lineups .... we need more in the order of 400. Let's not emphasize this so much.}
 
@@ -695,7 +620,7 @@ Each subject viewed at least 10 lineups with the option to evaluate more.
 Depending on the parameter combinations we group the lineups in different difficulty levels  as easy, medium, hard and mixed (actual numbers are given in the supplementary material). For each difficulty level a specific number of lineups was randomly picked  for evaluation. This number is chosen so that total number of evaluations for each lineup for that group exceed the threshold $n_{\gamma}$. To satisfy this plan we needed to recruit at least 300 subjects. 
 
 \begin{table}[hbtp]
-\caption{Combination of parameter values, $\beta_2$,  $n$ and $\sigma$, used for each of the simulation experiments.} % title name of the table
+\caption{Combination of parameter values, $\beta_2$,  $n$ and $\sigma$, used for the simulation experiments.} % title name of the table
 \centering
 \scalebox{.9}{
 \begin{tabular}{c c c c c}
@@ -921,7 +846,7 @@ if the subject failed to identify the actual data plot, we remove all of this su
 %\end{table}
 
 \begin{table}[hbtp]
-\caption{Number of subjects, gender and total lineups seen, and number of distinct lineups for all three experimental data sets. Note that in some of the lines the number of male and female participants does not add up to the total number of participants due to missing demographic information. }%\blue{Notice that we do not have data on one lineup (so we have only 29 lineups) for experiment 3 due to the screening process.}}
+\caption{Number of subjects, gender and total lineups seen, and number of distinct lineups for all three experimental data sets. Note that in some of the lineups the number of male and female participants does not add up to the total number of participants due to missing demographic information. }%\blue{Notice that we do not have data on one lineup (so we have only 29 lineups) for experiment 3 due to the screening process.}}
 \begin{center}
 \begin{tabular}{ccrrcc}
    \hline \hline
@@ -945,19 +870,11 @@ E=\sqrt {n} \cdot \beta/\sigma.
 The model in Equation \ref{eqn:mixed} is fit using $E$ as the only fixed effect covariate without intercept, i.e. 
  $W_{\ell i} = E_{\ell i}$. Instead of fitting an intercept, we make use of a fixed  offset of $\log(0.05/0.95)$ so that the estimated power has a fixed lower limit at 0.05 (Type-I error) when $E=0$. Different skill levels of subjects are accounted for  by allowing subject-specific random  slopes for  effect ($E$). 
 
-For experiment 3 we do fit intercepts: both a fixed  and subject-specific random effects, since forcing power
-%While for experiment 1 and 2 we don't allow intercept but offset, for experiment 3 an intercept is estimated to allow the power curves to go above 0.05 when $E=0$. This is because forcing power 
-to be fixed at 0.05 for $E=0$ is not justified by the data. % (Figure \ref{fig:power_loess_effect}). *** You cannot reference the figure before you explain it!!!
+For experiment 3 we do fit intercepts: both a fixed  and subject-specific random effects, since forcing power to be fixed at 0.05 for $E=0$ is not \blue{ required by the experimental design}. 
 
-%For all the three experiments, each subject saw a lineup just once. This does not allow fitting a lineup random effect, in addition to a subject random effect, but it does simplify the model since $\tau_{\ell i} = \tau_i$. 
-
-%The subject-specific probability, $p_i$, of successful evaluation of a lineup is then estimated using Equation \ref{eqn:mixed_power}. 
 For computation we use package {\tt lme4} \citep{lme4:2011} and software R 2.15.0 \citep{R}. $p$-value calculations are based on asymptotic normality.
 
-Table \ref{tbl:model_par} shows the parameter estimates of the mixed effects model of the subject-specific variation. The fixed effects estimates indicate that for all experiments  the proportion of correct responses increases as the effect increases. This effect is less pronounced  for experiment 3. The subject-specific variability is smaller for experiment 1, and relatively large for experiment 3. %The larger variability in the response data for experiment 3% as we see in Figure \ref{fig:power_loess_effect}  *** You cannot reference the figure before you explain it!!!
-%contributes to the random effect variance estimate be much larger compared to those of other experiments. For the same reason we see the standard error for intercept estimate is much higher as well. Also notice the slope estimate for experiment three is lowest as well. It is because for small parameter values the power is much higher for experiment 3.  % \green{What do we learn about the models from these parameter estimates? Explain this here too.}
-
-%\green{This section needs to have sufficient detail of the model fitting, output and diagnostics to feed into the next few sections discussing the findings.}
+Table \ref{tbl:model_par} shows the parameter estimates of the mixed effects model of the subject-specific variation. The fixed effects estimates indicate that for all experiments  the proportion of correct responses increases as the effect increases. This effect is less pronounced  for experiment 3. The subject-specific variability is smaller for experiment 1, and relatively large for experiment 3. 
 
 \begin{table}[hbtp]
 \caption{Parameter estimates of model in Equation \ref{eqn:mixed}. Estimates are highly significant with $p$-value $<$  0.0001 for all three experiment data.}
@@ -994,73 +911,12 @@ Note that for effect $E=0$, the power is close to 0.05 (Type-I error) for both e
 
 Results for experiment 3 are quite different. This is the situation where we expect to see the potential of visual inference, and indeed we do: the power of visual inference is always high, and much higher than the conventional test at small effect sizes. There is no actual conventional power in this situation, because assumptions are violated.
 The dashed line shows conventional power based on uncontaminated data, whereas the cross marks show effective power based on the coefficient estimated from the contaminated data.
-% It is computed assuming that there is no contamination, using the non-contaminated part of the simulation model. The  conventional power of true effect of the contaminated data is computed anyway and presented in figure \ref{fig:power_loess_effect} by cross marks. For this we obtain the estimated slope for the contaminated data and compute the estimated effect for which conventional power is calculated. 
-% 
-%Note that the power structure is completely broken for contaminated data. %For smaller original effect we get huge power and that explains why we see so many small $p$-values for experiment 3
+
 
 Results of experiment 3 are curious insofar, as  power of the visual test is  high independent of effect size. However, these results are based on correct identification of the actual data plot, regardless of reason. Although subjects were asked to select the plot that exhibited the highest association between the two variables, they might have cued in on the cluster of contaminated data. This will be explored further in Section \ref{sec:TypeIII}. 
 
-%(scatter plot) is better than what we observed for experiment 1 (box plot). For experiment 3, observed power is always above the conventional test power since for contaminated data we can visually see a trend while conventional test fail to address that.
-
-
-%The power curves obtained by fitting model \ref{eqn:mixed} to the data for all the experiments applying different screening criteria is shown in figure \ref{fig:power_screening}. This shows how the screening criteria may affect the results. The corresponding power curves of conventional test are also shown. Notice that no mater what criteria we apply the result does not change much for experiment 2. Also, estimated power curve with criteria 5 for experiment 3 is above the conventional test power curve.
-
-
-%
-%\begin{figure}[hbtp]
-%   \centering
-%       \scalebox{0.70}{\includegraphics{power_mixed.pdf}}
-%       \caption{The overall power estimated from model \ref{eqn:mixed} are shown. The corresponding power curve for conventional test is shown for comparison.}
-%       \label{fig:power_mixed}
-%\end{figure}
-
-
-
-%Each participant was shown a sequence of 10 lineup plots.  In total, 3629 lineups were evaluated by 324 people coming from many different locations across the globe.  The results of the experiment are summarized in Figure \ref{fig:power_observed} which shows the observed power from the survey data calculated using equation \eqref{eqn:power_estimate} along with 95\% confidence interval calculated using Fisher's exact method.
-
-%\begin{figure*}[hbtp]
-%   \centering
-%       \scalebox{0.45}{\includegraphics{effect_power_exp1.pdf}}
-%       \scalebox{0.45}{\includegraphics{effect_power_exp2.pdf}}
-%       \caption{Observed power shown by loess smoother and the power of conventional test for different effect size $E$ as per experiment 1 and 2.}
-%       \label{fig:power_effect1}
-%\end{figure*}
-
-%\begin{figure*}[hbtp]
-%   \centering
-%       \scalebox{0.45}{\includegraphics{effect_power_subject_exp1.pdf}}
-%       \scalebox{0.45}{\includegraphics{effect_power_subject_exp2.pdf}}
-%       \caption{Subject specific power obtained from equation \eqref{eqn:effect} and the power of UMP test for different effect size $E$ as per experiment 1 and 2.}
-%       \label{fig:power_effect_subject1}
-%\end{figure*}
-
-
-%\begin{figure*}[hbtp]
-%   \centering
-%       \scalebox{0.4}{\includegraphics{power_loess_exp3.pdf}}
-%       \caption{Observed power shown by loess smoother with simultaneous bootstrap confidence band and the power of conventional test for sample size $n= 100$ and $\sigma = 5$ as per experiment 3. Notice that for experiment 3, power does not seem to depend on the parameter $\beta$. \blue{Di/Heike, I am not sure how I can relate this to demonstrate the power of visual inference when normal conditions are not met. Does this really test our hypothesis $H_0: \beta=0$ or some other hypothesis about the existence of cluster in the data?}}
-%       \label{fig:power_loess3}
-%\end{figure*}
-
-%\begin{figure}[hbtp]
-%   \centering
-%       \scalebox{0.40}{\includegraphics{power_model.pdf}}
-%       \caption{Estimated power curve from equation \eqref{eqn:power} along with 95\% confidence interval for sample size $n$ = 100 and $\sigma$ = 12.  The corresponding power curve for Uniformly Most powerful (UMP) test is shown for comparison.}
-%       \label{fig:power_model}
-%\end{figure}
-
-%We fit model \eqref{eqn:mixed} to the survey data obtained from the simulation experiment. The estimated overall power curve obtained from equation \eqref{eqn:power} is shown in Figure \ref{fig:power_model}. Model \ref{eqn:mixed} also gives the subject specific power curves shown in Figure \ref{fig:power_subject}. The plot includes 20 randomly selected subject-specific power curves. Notice that the power curve estimated for one subject is above the UMP test power curve. 
-
-%\begin{figure}[hbtp]
-%   \centering
-%       \scalebox{0.45}{\includegraphics{power_subject.pdf}}
-%       \caption{Estimated subject specific power curve from model \ref{eqn:mixed} for sample size $n$ = 100 and $\sigma$ = 12.  The corresponding power curve for Uniformly Most powerful (UMP) test is shown for comparison.}
-%       \label{fig:power_subject}
-%\end{figure}
-
 \subsection{Subject-specific variation}
-
-%Different subjects are expected to have different skill levels in evaluating lineups. This is accounted for in the mixed effects model (Equation \ref{eqn:mixed}).   
+ 
 \blue{Subject-specific proportion correct $\hat p_i(E)$ is obtained using Equation \ref{eqn:mixed_power} and it is used to obtain power for $K=5$}. Figure  \ref{fig:power_mixed_subject} shows power curves for both the overall experiment and subject-specific variations. The thick continuous line shows overall estimated power, the thinner lines correspond to subject-specific power curves. For comparison, the  dashed lines show power curves of the conventional test. Subject-specific power is quite different between the three experiments. In experiment 2 subjects performed similarly, and substantially better than the conventional test. In experiment 1 there is more variability between subjects, with some doing better than the conventional test on large effects. In experiment 3 there is the most subject-specific variation. Some subjects performed substantially better than the conventional test, and on average the visual test was better. 
 
 \begin{figure}[hbtp]
@@ -1072,7 +928,6 @@ Results of experiment 3 are curious insofar, as  power of the visual test is  hi
 
 \subsection{Estimating the $p$-value in the real world} 
 
-%\green{third experiment doesn't really have a p-value, does it? Need to explain this. Why are there still so many small p-values in experiment 3?} \blue{$p$-values are computed fitting the full model to the contaminated data anyway. So many small p-values are coming from the fact that contamination makes the slope negatively significant. For example, for some slope the contamination reverses the slope (positive to negative) and negative slope got significant. It is like the effect of influential outlier.}
 
 In the real setting, where visual inference is to be useful, there will be no conventional test $p$-values. Assessing the strength of perceived structure is a critical component of visual inference. In experiments 1 and 2, there is a $p$-value associated with the actual data plot in each lineup. As the $p$-value increases the proportion of correct responses falls (Figure \ref{fig:pval_pcorrect}), which is evidence of direct association between proportion of correct responses and conventional test $p$-values. For  $p$-values  larger than 0.15 it is very uncommon for subjects to correctly identify the actual data plot in the lineup.
 
@@ -1084,63 +939,23 @@ In the real setting, where visual inference is to be useful, there will be no co
 \end{figure*}
 
 From the experimental data the visual $p$-values are estimated based on Definition \ref{dfn:pvalue}. Figure \ref{fig:pval_definition} displays resulting estimates for each lineup against the conventional $p$-value.  The pattern of visual $p$-values is interesting: for small $p$-values the visual estimates tend to be very small, while lineups with larger $p$-values result in very large visual estimate, 
-% If there is a signal in the data plot, visual $p$-value has a tendency to take a smaller value (small enough to reject $H_0$) and if not it takes a larger value (large enough to not reject $H_0$) 
-% 
+
  giving a clear indication to reject $H_0$ or not. This is why we do not see lot of visual $p$-values  between 0.05 and 0.8 especially for experiment 2. This guides the researcher to make decision confidently while conventional $p$-values take some marginal $p$-values making the decision whether to reject or not harder.
- % for which researchers get confused whether to reject or 'not reject' $H_0$. 
+
  For visual tests this is not common.  
 
 \begin{figure*}[hbtp]
    \centering
        \scalebox{0.6}{\includegraphics{p_val_definition.pdf}}
        \caption{Conventional test $p$-value ($p_D$) vs visual $p$-value obtained from the definition . Values are shown on square root scale. }
-    %   \hh{Mahbub, another change: could you change the y label to 'estimate of visual p-value $\hat{p_D}$ ?}
        \label{fig:pval_definition}
 \end{figure*}
 
-%We also see the same pattern from the loess smoother fitted through the points in Figure \ref{fig:pval_definition}. 
-%The sigmoid shaped loess curves indicate a clear separation of visual $p$-values. For experiment 1, most of the visual $p$-values are above 0.4 when conventional $p$-values are above 0.2. This is more evident for experiment 2 where most of the visual $p$-values are above 0.8. 
+
 
 For experiment 3, we see that  the visual $p$ values are very small no matter what the conventional $p$-values are. This is expected since conventional test fails to reject $H_0$ where we should reject, whereas the visual test performs well.
-% and the visual test does the job nicely.
-
-%With multiple subjects it is possible to estimate the visual $p$-value, and a measure of plot signal strength. The visual $p$-value is calculated from the binomial formula (Equation \ref{binom}). Assuming $H_o$ is true, the probability of picking the actual data plot by chance is $1/m$, and the visual $p$-value is the probability that $x$ or more subjects select that plot. Figure \ref{fig:pval_definition} displays this visual $p$-value for each lineup against the conventional $p$value. 
 
 
-
-
-%Similary, the strength of the signal, is calculated using the proportion of subjects picking actual data plot. It is closely related to the power of the test. From Equation \ref{eqn:power_estimate}  we can write $1 - E[N_m]/K \approx (m-1)E[p_D] $. This gives the signal strength estimate as  
-%\[
-%\hat p_D= (1- {u}/{K})/({m-1})
-%\]
-%where $K$ is the total number of independent evaluations on a lineup and $u$ is the number of successful evaluations. Figure \ref{fig:pval_plot_signal} shows the plot signal strengths in relation with conventional test $p$-values, on a square root scale. For experiment 3, technically, there are no conventional $p$-values, but the $p$-values are computed in the same manner as experiment 2, assuming that the data satifies the assumptions. The blue line is a loess fit to the data, and the grey line indicates equality of the two axes. The relationship between the conventional $p$-value and the plot signal strength is very strong, particularly when the values are small. As the conventional $p$-value increases, the estimated signal strength increases -- subjects find it harder to detect the actual data plot at larger $p$-values. The rise is very sharp for experiment 1, which indicates that subjects have a harder time detecting the actual data plot for even small $p$-values. 
-
-%\green{Where is Figure \ref{fig:pval_definition} referred to and discussed?}
-% \blue{Are we going to keep both figures \ref{fig:pval_definition} and \ref{fig:pval_plot_signal}?}
-%
-%\green{Explain why the term ``plot signal'' is introduced}
-
-%, to assess the signal strength we examine the proportion of correct picks, with multiple users and the $p$-value of the actual data plot. For experiment 3 the \green{How is p-value calculated here?} Figure \ref{fig:pval_pcorrect} \blue{(should I bring this figure back?)}  displays scatterplots of these two variables for each experiment. As the $p$-value increases the proportion of correct responses falls, evidence of direct association between proportion of correct responses and conventional test $p$-values. When $p$-value is larger than 0.15, it is almost impossible to correctly identify the observed plot in the lineup. We observed this for both experiment 1 and 2. For experiment 3, the scenario is different, because there are two structures, the association between variables, and the cluster of contaminated points.% as in this case people might have observed something other than the effect $E$.
-
-%Yet, it is possible to obtain an estimate the strength of the signal in the actual data plot, when there are multiple evaluations, using Lemma \ref{lemma}. 
-
-
-%Note that $\hat{p}_D$ is bounded within $(0, 1/(m-1))$. This estimate has to be interpreted carefully, since the choice of a large lineup size, $m$, will make the value look `significant' in a conventional sense. Values close to the upper bound of $1/(m-1)$ should therefore be interpreted as `at least as high', rather than their actual numeric value.
-%\hh{For $p$-values below $1/(m-1)$ visual $p$-values are very similar to actual $p$-values, the correlation for those values is: 0.36, 0.79, and -0.48 based on $n_1 = 44, n_2 = 45$, and $n_3= 26$ lineups, respectively.  }  \blue{This is not happening as we see in figure \ref{fig:pval_plot_signal}. But it is true for experiment 2, right?. }
-%is equivalent to conventional test $p$-value when $p$-value is less than or equal to $1/(m-1)$.  
-%and beyond that the plot signal strength levels off on a point bigger than 0.05. Thus if plot signal strength is less than 0.05, we may decide to reject the null hypothesis.
-
-
-
-
-
-%\begin{figure*}[hbtp]
-%   \centering
-%       \scalebox{0.5}{\includegraphics{p_val_plot_signal.pdf}}
-%       \caption{Conventional test $p$-value ($p_D$) vs plot signal strength ($\hat p_D$). The solid line is a 45 degree line which represents the equity shown in Equation \ref{eqn:power_estimate}. p-values are shown on square root scale scale.}
-%    %   \hh{Mahbub, another change: could you change the y label to 'estimate of visual p-value $\hat{p_D}$ ?}
-%       \label{fig:pval_plot_signal}
-%\end{figure*}
 
 \subsection{Do people tend to pick the lowest $p$-value?}
 
@@ -1148,21 +963,10 @@ For experiment 3, we see that  the visual $p$ values are very small no matter wh
 
 Figure \ref{fig:P-val_log2} shows the selection counts and $p$-values of all plots for each lineup in experiments 1 and 2, respectively. In each of these plots, the log of $p$-value for each plot in the lineup is plotted horizontally and the count of the number of subjects who selected this plot is displayed vertically. The dot represents this point, and the lines connect vertically with 0 count. Columns are ordered according to effect size as defined in section 6.2; rows show replicates for the same combination of parameters.
 
-%Each row corresponds to a different $\beta$ value ordered top to bottom from lowest to highest. Columns correspond to the other levels of the experiment, sample size $(n)$, error standard deviation $(\sigma)$ and replicate. (Empty cells indicate no lineup shown with this combination.) 
 
 Red indicates the plot with the lowest $p$-value in the lineup. Blue indicates the plot of the actual data when it is different from that with the lowest $p$-value. In both experiments  people tended to select the plot with the lowest $p$-value with an increase in effect size.
  %This is less so the case when $\beta$ is small, when standard deviation is large and sample size is small. 
  The results are clearer for experiment 2, that used a continuous covariate. But even when subjects did not pick the plot with the lowest $p$-value they tended to oscillate their choices between the several low $p$-value plots. So for most subjects, the assumption that they pick the plot with the smallest $p$-value would appear to be reasonable, and the actual power of the visual test should be close to the expected power.
-
-
-%\begin{figure*}[hbtp]
-%   \centering
-%      \includegraphics[width=0.8\textwidth]{p_val_log_counts-a.pdf}
-%       \includegraphics[width=0.8\textwidth]{p_val_log_counts-b.pdf}
-%       \caption{Relative frequency of plot picks compared to other plots in the lineup plotted against the $p$-value (on log$_{10}$ scale) of each plot for all of the 60 individual lineups for experiment 1. Red indicates the plot with the lowest $p$-value, and blue indicates the actual data plot, when it is different from that with the lowest $p$-value. The columns of both top and bottom panel are ordered according to effect size, rows within panels show replicates for each parameter combination.}
-%       \label{fig:P-val_log}
-%\end{figure*}
-
 
 \begin{figure*}[hbtp]
    \centering

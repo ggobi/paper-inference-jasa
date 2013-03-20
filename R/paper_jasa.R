@@ -936,7 +936,7 @@ ggplot(aes(beta, power, linetype=test, size=emphasize), data=powerdfk) +
   scale_linetype_discrete("Test") + scale_x_continuous(expression(beta)) +
   theme(legend.key.width = unit(1.5, "cm"))
 
-ggsave("../images/power_expected_k.pdf", width=8, height=5, units="in")
+ggsave("../images/power_expected_k.pdf", width=7.5, height=5, units="in")
 
 # ====================== Turk2 conventional power calculations  
 
