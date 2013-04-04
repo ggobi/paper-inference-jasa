@@ -931,7 +931,7 @@ powerdfk$test <- factor(powerdfk$test, levels(powerdfk$test)[c(1,2,4,3)])
 
 
 ggplot(aes(beta, power, linetype=test, size=emphasize), data=powerdfk) + 
-  geom_smooth( method="loess", span=0.1) + 
+  geom_smooth( method="loess", span=0.1, color="Black") + 
   scale_size_identity() + ylab("Power") +
   scale_linetype_discrete("Test") + scale_x_continuous(expression(beta)) +
   theme(legend.key.width = unit(1.5, "cm"))
