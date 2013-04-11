@@ -60,7 +60,7 @@
 \maketitle
 
 \begin {abstract}  
-Statistical graphics play a crucial role in exploratory data analysis, model checking and diagnosis. A new method, called the lineup protocol, enables statistical significance testing of visual findings, which bridges a big gulf between exploratory and inferential statistics.  In this paper inferential methods for statistical graphics are developed further by refining the terminology of visual inference, and framing the lineup protocol in a context that allows direct comparison with conventional tests, in scenarios when a conventional test exists. This framework is used to compare the performance of the lineup protocol against conventional statistical testing in the scenario of fitting linear models. A human subjects experiment is conducted using simulated data to provide controlled conditions. Results suggest that the lineup protocol performs comparably with the conventional tests, and expectedly out-performs them when data is contaminated, a scenario where assumptions required for performing a conventional test are violated. Surprisingly, visual tests have higher power than the conventional tests when the effect size is large. And, interestingly, there may be some super-visual individuals who yield better performance and power than the conventional test even in the most difficult tasks.
+Statistical graphics play a crucial role in exploratory data analysis, model checking and diagnosis. The lineup protocol enables statistical significance testing of visual findings, bridging the  gulf between exploratory and inferential statistics.  In this paper inferential methods for statistical graphics are developed further by refining the terminology of visual inference, and framing the lineup protocol in a context that allows direct comparison with conventional tests in scenarios when a conventional test exists. This framework is used to compare the performance of the lineup protocol against conventional statistical testing in the scenario of fitting linear models. A human subjects experiment is conducted using simulated data to provide controlled conditions. Results suggest that the lineup protocol performs comparably with the conventional tests, and expectedly out-performs them when data is contaminated, a scenario where assumptions required for performing a conventional test are violated. Surprisingly, visual tests have higher power than the conventional tests when the effect size is large. And, interestingly, there may be some super-visual individuals who yield better performance and power than the conventional test even in the most difficult tasks.
 
 {\bf Keywords: \sf statistical graphics, lineup, non-parametric test, data mining, visualization, exploratory data analysis, practical significance, effect size} 
 \end {abstract}
@@ -106,7 +106,7 @@ The paper is organized as follows. Section \ref{sec:visual_test} defines terms a
 
 \section{Definitions and Explanations for Visual Statistical Inference} \label{sec:visual_test} 
 
-An illustration of the lineup protocol in relation to conventional hypothesis testing is presented in Table \ref{tbl:compare}. Both methods start from the same place, the same set of hypotheses. The conventional test statistic is the $t$-statistic, where the parameter estimate is divided by its standard error. In the lineup protocol, the test statistic is a plot of the data. Here, side-by-side boxplots are used, because the variable of interest is categorical and takes just two values. In conventional hypothesis testing the value of the test statistic is compared with all possible values of the sampling distribution, the distribution of the statistic if the null hypothesis is true. If it is extreme on this scale then the null hypothesis is rejected. In contrast in visual inference, the plot of the data is compared with plots of a finite number of samples drawn from the null distribution. If the actual data plot is selected as the most different, then this results in rejection of the null hypothesis.
+An illustration of the lineup protocol in relation to conventional hypothesis testing is presented in Table \ref{tbl:compare}. Both methods start from the same place, the same set of hypotheses. The conventional test statistic is the $t$-statistic, where the parameter estimate is divided by its standard error. In the lineup protocol, the test statistic is a plot of the data. Here, side-by-side boxplots are used, because the variable of interest is categorical and takes just two values. In conventional hypothesis testing the value of the test statistic is compared with all possible values of the sampling distribution, the distribution of the statistic if the null hypothesis is true. If it is extreme on this scale then the null hypothesis is rejected. In contrast in visual inference, the plot of the data is compared with a set of plots of  samples drawn from the null distribution. If the actual data plot is selected as the most different, then this results in rejection of the null hypothesis.
 
 \begin{table*}[hbtp]
 \caption{Comparison of visual inference with conventional inference.}
@@ -162,7 +162,7 @@ $$
 \noindent with $X$ defined as above, and $x$ is the number of observers selecting the actual data plot. 
 \end{dfn}
 \noindent Note that for $x=0$ the $p$-value becomes, mathematically, equal to 1. It might make more sense from a practical point of view to think of the $p$-value as
-being larger than $P(X \ge 1)$ in this situation. By increasing either $m$ or $K$, the value at a higher precision can be determined. Table \ref{pvalue} shows $p$-values for different numbers of observers for lineups of size $m = 20$. It can be seen that, if the null hypothesis is true, it is unlikely that multiple observers would pick the actual data plot.
+being larger than $P(X \ge 1)$ in this situation. By increasing either $m$ or $K$, the value at a higher precision can be determined. Table \ref{pvalue} shows $p$-values for different numbers of observers for lineups of size $m = 20$. %It can be seen that, if the null hypothesis is true, it is unlikely that multiple observers would pick the actual data plot.
 
 \begin{table}[htp]
 \caption{Possible $p$-values for different numbers of observers, $K$, for fixed size $m = 20$ lineups.}
@@ -180,7 +180,7 @@ $K$ &  $x$ & $p$-value & $K$ &  $x$ & $p$-value & $K$ &  $x$ & $p$-value & $K$  
 \label{pvalue}
 \end{table}
 
-\begin{dfn}\label{dfn:test}
+\begin{dfn}\label{dfn:visualtest}
 The \textbf{visual test}, $V_{\theta}$  of  size $m$ and significance level $\alpha$, is defined to  
 \begin{itemize}\itemsep-10pt
 \item \textbf{Reject} $H_0$ if out of $K$ observers at least $x_{\alpha}$ correctly identify the actual data plot, and
@@ -199,7 +199,7 @@ The \textbf{Type I error} associated with visual test $V_{\theta}$ is the probab
 \noindent Because $X$ takes only discrete values we can not always control exactly for $\alpha$.  
 For example, when there is only one observer, $1/m$ is the minimal value at which we can set $\alpha$. It can be set to be smaller, even arbitrarily small, by increasing $K$, the number of observers. 
 Type II error is harder to calculate, as is usually the case. In visual inference, individual abilities need to be incorporated to calculate Type II error. %This is not necessary for Type I error, because it is simply the chance that the observer picks the actual data plot, by chance. 
-Here, we need to estimate the probability that an observer sees the actual data plot as different, when it really is different. This involves understanding the individual's visual skills. Thus, let $X_i$ be a binary random variable with $X_i = 1$, if individual $i \ (=1, \dots , K)$ identifies the actual data plot from the lineup, and $X_i = 0$ otherwise. Let $p_i$ be the probability that individual $i$ picks out the actual data plot. If all individuals have the same ability, with the probability, $p$, for picking out the actual data plot, then $X = \sum_i X_i$ has distribution $\text{Binom}_{K, p}$, and we can estimate $p$ by $\hat{p} = x/K$, where $x$ is the number of observers (out of $K$), who pick out the actual data plot. 
+Here, we need to estimate the probability that an observer sees the actual data plot as different, when it really is different. This involves understanding the individual's visual skills. Thus, let $X_i$ be a binary random variable with $X_i = 1$, if individual $i \ (=1, \dots , K)$ identifies the actual data plot from the lineup, and $X_i = 0$ otherwise. Let $p_i$ be the probability that individual~$i$ picks out the actual data plot. If all individuals have the same ability, with the probability, $p$, for picking out the actual data plot, then $X = \sum_i X_i$ has distribution $\text{Binom}_{K, p}$, and we can estimate $p$ by $\hat{p} = x/K$, where $x$ is the number of observers (out of $K$), who pick out the actual data plot. 
 
 
 If there is evidence for individual skills influencing the probability $p_i$, then $X_i \sim Binom_{1, p_i}$ and $X$ is a sum of independent Bernoulli random variables with different success rates $p_i$. This makes the distribution of $X$ a Poisson-Binomial by definition (see \citet{butler93} for details). Ways to estimate $p_i$ will be  discussed in the following sections.
@@ -311,7 +311,7 @@ P(p_D < p_0) =  E\left[ (1 - p_D)^{m-1}\right]
 where $p_D$ is the $p$-value associated with the data in the test statistic, and $p_0$ is the minimum of all $p$-values in the data going into null plots.
 \end{lemma}
 
-\begin{proof} The proof and the details of the lemma are attached to the supplementary documents. 
+\begin{proof} The proof and the details of the lemma are attached in the supplementary documents. 
 \end{proof}
 
 
@@ -419,7 +419,7 @@ where $\epsilon_i \stackrel{iid}{ \sim } N(0,\sigma^2)$, $i=1,2, .., n$. The cov
 
 In this setting, there are many established graphics that are used to evaluate and diagnose the fit of a regression model (e.g. \citet{cook:99}). Table \ref{tbl:stat_multiple} lists several common hypotheses related to the regression setting, and commonly used statistical plots that might be used as corresponding visual test statistics.
 %These plots should be familiar, because they are all in common use. 
-For example, to examine the effect of variable $X_j$ on $Y$, we would plot residual obtained from fitting model without $X_j$ against $X_j$ or for single covariate we may plot $Y$ against $X_j$ (cases 1-4). To assess whether the linear assumption is appropriate we would draw a plot of residuals against fitted values (case 5). For the purposes of comparing visual against conventional inference, we focus on cases 2 and 3, with a continuous and categorical explanatory variable respectively. 
+For example, to examine the effect of variable $X_j$ on $Y$, we would plot residuals obtained from fitting the model without $X_j$ against $X_j$ or for a single covariate we may plot $Y$ against $X_j$ (cases 1-4 in Table~\ref{tbl:stat_multiple}). To assess whether the linear assumption is appropriate we would draw a plot of residuals against fitted values (case 5 in Table~\ref{tbl:stat_multiple}). For the purpose of comparing visual against conventional inference, we focus on cases 2 and 3, with a continuous and categorical explanatory variable, respectively. 
 
 %Note that some charts can be associated with several different testing situations. In our paper, we pick the examples for situation 2 and 3 as candidates.
 
@@ -430,15 +430,15 @@ For example, to examine the effect of variable $X_j$ on $Y$, we would plot resid
 \hline\hline 
 Case & Null Hypothesis & Statistic & Test Statistic & Description \\ [0.5ex] % inserts table %heading 
 \hline 
-1 & $H_0: \beta_0=0$ & Scatter plot & \begin{minipage}[t]{3cm}  \scalebox{0.4}{\includegraphics{stat_intercept.pdf}}\end{minipage} & Scatter plot with least square line overlaid. For lineup plot, we simulate data from fitted null model. \\ 
-2 & $H_0: \beta_k=0$ & Residual plot & \begin{minipage}[t]{3cm}   \scalebox{0.4}{\includegraphics{stat_beta_k.pdf}}\end{minipage} & Residual vs $X_k$ plots. For lineup plot, we simulate data from normal with mean 0 variance $\hat{\sigma}^2$. \\ 
-3 & $H_0: \beta_k=0$ (for categorical $X_k$) & Box plot & \begin{minipage}[t]{3cm} 	\scalebox{0.4}{\includegraphics{stat_category.pdf}} \end{minipage} & Box plot of residuals grouped by category of $X_k$. For lineup plot, we simulate data from normal with mean 0 variance $\hat{\sigma}^2$. \\
-4 & $H_0: \beta_k=0$ (interaction with categorical $X_k$) & Scatter plot & \begin{minipage}[t]{3cm}  \scalebox{0.4}{\includegraphics{stat_interection.pdf}}  \end{minipage} & Scatter plot with least square lines of each category overlaid. For lineup plot, we simulate data from fitted null model.\\[1ex] % [1ex] adds vertical space 
-5 & $H_0: X$ Linear & Residual Plot & \begin{minipage}[t]{3cm}  	\scalebox{0.4}{\includegraphics{stat_nonlinear.pdf}}  \end{minipage} & Residual vs predictor plots with loess smoother overlaid. For lineup plot, we simulate residual data from normal with mean 0 variance $\hat{\sigma}^2$. \\ 
-6 & $H_0: \sigma^2=\sigma^2_0$ & Box plot & \begin{minipage}[t]{3cm} \scalebox{0.4}{\includegraphics{stat_sigma_box.pdf}}\end{minipage} & Box plot of standardized residual divided by  $\sigma^2_0$. For lineup plot, we simulate data from standard normal. \\ 				
-7 & $H_0: \rho_{X,Y|Z}=\rho$ & Scatter Plot & \begin{minipage}[t]{3cm}  	\scalebox{0.4}{\includegraphics{stat_intercept.pdf}}  \end{minipage} & Scatter plot of Residuals obtained by fitting partial regression. For lineup plot, we simulate data (mean 0 and variance 1) with specific correlation $\rho$. \\ 
-8 & $H_0:$ Model Fits & Histogram & \begin{minipage}[t]{3cm}  \scalebox{0.4}{\includegraphics{stat_goodness_simple.pdf}}  \end{minipage} & Histogram of the response data. For lineup plot, we simulate data from fitted model. \\[1ex] % [1ex] adds vertical space 
-9 & Special case $p=1$ $H_0: \rho_{X,Y} =\rho$ & Scatter plot & \begin{minipage}[t]{3cm}  \scalebox{0.4}{\includegraphics{stat_intercept.pdf}}  \end{minipage} & Scatter plot with least square line overlaid For lineup plot, we simulate data with correlation $\rho$.\\			
+1 & $H_0: \beta_0=0$ & Scatter plot & \begin{minipage}[t]{3cm}  \scalebox{0.4}{\includegraphics{stat_intercept.pdf}}\end{minipage} & Scatter plot with least square line overlaid. For null plots   we simulate data from fitted null model. \\ 
+2 & $H_0: \beta_k=0$ & Residual plot & \begin{minipage}[t]{3cm}   \scalebox{0.4}{\includegraphics{stat_beta_k.pdf}}\end{minipage} & Residual vs $X_k$ plots. For null plots   we simulate data from normal with mean 0 variance $\hat{\sigma}^2$. \\ 
+3 & $H_0: \beta_k=0$ (for binary $X_k$) & Box plot & \begin{minipage}[t]{3cm} 	\scalebox{0.4}{\includegraphics{stat_category.pdf}} \end{minipage} & Box plot of residuals grouped by category of $X_k$. For null plots   we simulate data from normal with mean 0 variance $\hat{\sigma}^2$. \\
+4 & $H_0: \beta_k=0$ (interaction of continuous and  binary $X_k$) & Scatter plot & \begin{minipage}[t]{3cm}  \scalebox{0.4}{\includegraphics{stat_interection.pdf}}  \end{minipage} & Scatter plot with least square lines of each category overlaid. For null plots   we simulate data from fitted null model.\\[1ex] % [1ex] adds vertical space 
+5 & $H_0: X$ Linear & Residual Plot & \begin{minipage}[t]{3cm}  	\scalebox{0.4}{\includegraphics{stat_nonlinear.pdf}}  \end{minipage} & Residual vs predictor plots with loess smoother overlaid. For null plots   we simulate residual data from normal with mean 0 variance $\hat{\sigma}^2$. \\ 
+6 & $H_0: \sigma^2=\sigma^2_0$ & Box plot & \begin{minipage}[t]{3cm} \scalebox{0.4}{\includegraphics{stat_sigma_box.pdf}}\end{minipage} & Box plot of standardized residual divided by  $\sigma^2_0$. For null plots   we simulate data from standard normal. \\ 				
+7 & $H_0: \rho_{X,Y|Z}=\rho$ & Scatter Plot & \begin{minipage}[t]{3cm}  	\scalebox{0.4}{\includegraphics{stat_intercept.pdf}}  \end{minipage} & Scatter plot of Residuals obtained by fitting partial regression. For null plots   we simulate data (mean 0 and variance 1) with specific correlation $\rho$. \\ 
+8 & $H_0:$ Model Fits & Histogram & \begin{minipage}[t]{3cm}  \scalebox{0.4}{\includegraphics{stat_goodness_simple.pdf}}  \end{minipage} & Histogram of the response data. For null plots   we simulate data from fitted model. \\[1ex] % [1ex] adds vertical space 
+9 & Special case $p=1$ $H_0: \rho_{X,Y} =\rho$ & Scatter plot & \begin{minipage}[t]{3cm}  \scalebox{0.4}{\includegraphics{stat_intercept.pdf}}  \end{minipage} & Scatter plot with least square line overlaid For null plots   we simulate data with correlation $\rho$.\\			
 \hline 
 \end{tabular} 
 \label{tbl:stat_multiple} 
@@ -478,7 +478,7 @@ The conventional test in this scenario uses $T= \hat{\beta_k}/ se(\hat{\beta_k})
 %   Power(\beta)=Pr(p_{D} < p_0)  \quad \text{for}  \quad \beta \ne 0
  p(\beta)=Pr(p_{D} < p_0)  \quad \text{for}  \quad \beta \ne 0
 \end{equation}
-Figure \ref{fig:power_expected} shows the power of the conventional test in comparison to the expected power of the visual test for different $K$ (number of observers), obtained using $p(\beta)$ from Equation \ref{power_exp}. Notice that the expected power of the visual test exceeds the power of the conventional test as $K$ gets larger, and when $\beta$ gets larger.   Conversely, visual power is below conventional power for parameter values close to the null hypothesis. This is even more pronounced for large number of observers. At the same time, the point of intersection between visual and conventional power approaches the value of the null hypothesis as the number of observers approaches infinity, leading to an asymptotically perfect power curve of zero in the null hypothesis and one for any alternative value. This dichotomy of visual power can also be seen in more detail in figure \ref{fig:power_loess_effect}. 
+Figure \ref{fig:power_expected} shows the power of the conventional test in comparison to the expected power of the visual test for different $K$ (number of observers), obtained using $p(\beta)$ from Equation \ref{power_exp}. Notice that the expected power of the visual test exceeds the power of the conventional test as $K$  increases, and when $\beta$ gets larger.   Conversely, visual power is below conventional power for parameter values close to the null hypothesis. This is even more pronounced for large number of observers. At the same time, the point of intersection between visual and conventional power approaches the value of the null hypothesis as the number of observers approaches infinity, leading to an asymptotically perfect power curve of zero in the null hypothesis and one for any alternative value. We observe this dichotomy of visual power  in the data collected from user experiments, too. It features prominently in  figure \ref{fig:power_loess_effect}. 
 
 
 %Theorem \ref{thm:power} helps to compute the expected power of visual inference.
@@ -537,7 +537,7 @@ Figure \ref{fig:power_expected} shows the power of the conventional test in comp
 
 \section{Human Subjects Experiments with Simulated Data} \label{sec:simulation}
 
-Three experiments were conducted to evaluate the effectiveness of the lineup protocol relative to the equivalent test statistic used in the regression setting. The first two experiments have conventional ideal scenarios where we would not expect the lineup protocol to do better than the conventional test. The third experiment is a scenario where assumptions required for the conventional test are violated, and we would expect the lineup protocol to outperform the conventional test. (Data and lineups used in the experiments are available in the supplementary material.)
+Three experiments were conducted to evaluate the effectiveness of the lineup protocol relative to the equivalent test statistic used in the regression setting. The first two experiments have  ideal scenarios for conventional testing, where we would not expect the lineup protocol to do better than the conventional test. The third experiment is a scenario where assumptions required for the conventional test are violated, and we would expect the lineup protocol to outperform the conventional test. (Data and lineups used in the experiments are available in the supplementary material.)
 
 After many small pilot studies with local personnel, it was clear that some care was needed to set up the human subjects experiments. It was best for a observer or a subject to see a block of 10 lineups with varying difficulty, with a reasonable number of ``easy'' lineups. The explanations about each experiment (below) includes an explanation of how the lineups were sampled and provided to the subjects.
 
