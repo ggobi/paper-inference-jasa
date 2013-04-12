@@ -417,7 +417,7 @@ To make these concepts more concrete consider how this would operate in the line
 \end{equation}
 where $\epsilon_i \stackrel{iid}{ \sim } N(0,\sigma^2)$, $i=1,2, .., n$. The covariates ($X_j, j=1,..,p$) can be continuous or discrete.
 
-In this setting, there are many established graphics that are used to evaluate and diagnose the fit of a regression model (e.g. \citet{cook:99}). Table \ref{tbl:stat_multiple} lists several common hypotheses related to the regression setting, and commonly used statistical plots that might be used as corresponding visual test statistics.
+In this setting, there are many established graphics that are used to evaluate and diagnose the fit of a regression model (e.g. \citealt{cook:99}). Table \ref{tbl:stat_multiple} lists several common hypotheses related to the regression setting, and commonly used statistical plots that might be used as corresponding visual test statistics.
 %These plots should be familiar, because they are all in common use. 
 For example, to examine the effect of variable $X_j$ on $Y$, we would plot residuals obtained from fitting the model without $X_j$ against $X_j$ or for a single covariate we may plot $Y$ against $X_j$ (cases 1-4 in Table~\ref{tbl:stat_multiple}). To assess whether the  assumptions of linearity is appropriate we would draw a plot of residuals against fitted values (case 5 in Table~\ref{tbl:stat_multiple}). For the purpose of comparing visual against conventional inference, we focus on cases 2 and 3, with a continuous and categorical explanatory variable, respectively. 
 
@@ -511,7 +511,7 @@ Figure \ref{fig:power_expected} shows the power of the conventional test in comp
 \begin{figure}[hbtp]
    \centering
        \scalebox{.6}{\includegraphics{power_expected_k.pdf}}
-       \caption{Comparison of the expected power of the visual test for different $K$ (number of observers) with the power of the conventional test, for $n =100$, $\sigma = 12$ and $m$=20.  
+       \caption{Comparison of the expected power of a visual test of size $m=20$ for different $K$ (number of observers) with the power of the conventional test, for $n =100$ and $\sigma = 12$.  
        }
        \label{fig:power_expected}
 \end{figure}
