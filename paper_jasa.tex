@@ -715,7 +715,7 @@ An example lineup for slope $\beta=0.4$ is shown in Figure \ref{fig:test_contami
 
 \section{Results} \label{sec:results}
 
-\subsection{Data Cleaning}  
+\subsection{Data Cleaning}  \label{sec:data_cleaning}
 
 % In this process of collecting data some participants did not provide demographic information as we see in Table \ref{tbl:summary} that male and female participants do not add up to total participants. It is not clear why they did not provide the information. Now the concern arises whether we should keep their responses in the study. It is also possible that participants were not serious enough to provide feedback. 
 %For each of the experiments we had a test plot (easy plot) for which they should have a correct evaluation without much effort.  This could be a criteria to determine their attentiveness in the study. For this we consider six different data cleaning criteria as shown below;
@@ -862,7 +862,7 @@ parameters $\beta=5, n=300, \sigma=12, rep=3$, people tended to pick the plot wi
 For several of these exceptions, along with several easy lineups, a follow up experiment was conducted using an eye-tracker to examine which patterns or features participants are cueing on in making their choices \citep{zhao:2012}.
 
 
-\subsection{How much do null plots affect the choice?}
+\subsection{How much do null plots affect the choice?}\label{sec:null_choice}
 
 
 Visual inference falls into the same framework as randomization tests, where the statistics from the data are compared with those from null data. But unlike these approaches visual inference is constrained to make the comparison with just a few draws $(m-1)$ from the null distribution. How this small set of null plots influences the subjects choice is important for understanding the reliability of visual inference. If the actual data plot is very different from all of the null plots, then the null plots should not have much influence on the choice. Measuring the difference, generally, between  plots is almost impossible. However,  in this controlled setting we can use $p$-values of the test statistic calculated on the data used in each plot as a proxy for similarity of structure between the plots. If there is a null plot with a small $p$-value, or one close to that of the actual data plot, we would expect that subjects have a harder time detecting the actual data plot. The detailed discussion is attached to the supplementary material.
@@ -880,7 +880,7 @@ Visual inference falls into the same framework as randomization tests, where the
 %       \label{fig:pval_difference}
 %\end{figure}
 
-\subsection{Type III error}~\label{sec:TypeIII}
+\subsection{Type III error}~\label{sec:TypeIII}\label{sec:typeIII_error}
 
 
 A little known error amongst statisticians is what was coined as Type III error in \citet{mosteller:48}. This occurs when the null hypothesis is correctly rejected but for the wrong reason. Experiment 3 is prone to this type of error. Observers were asked to identify the plot that had the largest slope, either positive or negative. But the actual data plot had a cluster of points, the contamination that forced the conventional test to fail to see any trend. For the human eye this cluster of points is  as visible as the association between the remaining points, leading the observer to detect the actual data plot by looking for the cluster instead of the slope. This would be considered to be a Type III error because it is not what was requested, but  still gives the correct answer. 
@@ -949,8 +949,8 @@ It would be interesting to see how well trained subjects might perform. Prior to
 
 %\bibliographystyle{plain}
 %\bibliographystyle{plainnat}
-\bibliographystyle{asa}
 %\bibliographystyle{ieeetr}
+\bibliographystyle{asa}
 \bibliography{references}
 
 %\end{multicols}
