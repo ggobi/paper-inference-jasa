@@ -1269,7 +1269,8 @@ ggplot()+
   geom_point(aes(effect,pow), data=effect_hat.dat, shape=4) +
   facet_grid(.~experiment, scales="free") + 
   scale_colour_gradient("Test",limits=c(10,30), guide="none") + 
-  ylab("Power") + xlab("Effect") + scale_size_continuous("# Responses")
+  ylab("Power") + xlab("Effect") + scale_size_continuous("# Responses") +
+  theme(legend.key.width = unit(1.5, "cm"))
 
 ggsave(filename = "../images/power_loess_effect_k.pdf", height = 4.5,width = 12)
 
