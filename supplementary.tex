@@ -60,43 +60,8 @@
 
 \vspace{1.5cm}
 
-The materials in this document supplement the information presented in the manuscript ``Validation of Visual Statistical Inference, Applied to Linear Models".  Section \ref{sec:lineup_selection} describes how the lineups are presented to the subjects for evaluation, section \ref{sec:proof_lemma} presents the proof of the Lemma \ref{p-lemma} in the manuscript. The detailed discussion on how much the choice of null plots affect is included in Section \ref{sec:null_choice} which supplement the information in Section \ref{p-sec:null_choice} of the manuscript. Section \ref{sec:typeIII_error} includes the detailed discussion about the Type-III error supplementing Section  \ref{p-sec:typeIII_error}. The data cleaning process and how that may affect the result are discussed in Section \ref{sec:data_cleaning} which supplements Section \ref{p-sec:data_cleaning} of the manuscript.
+The materials in this document supplement the information presented in the manuscript ``Validation of Visual Statistical Inference, Applied to Linear Models''. Section \ref{sec:proof_lemma} presents the proof of the Lemma \ref{p-lemma} in the manuscript. Section \ref{sec:lineup_selection} describes how the lineups are presented to the subjects for evaluation.  The data cleaning process and how that may affect the result are discussed in Section \ref{sec:data_cleaning} which supplements Section \ref{p-sec:data_cleaning} of the manuscript. The detailed discussion on how much the choice of null plots affect is included in Section \ref{sec:null_choice} which supplement the information in Section \ref{p-sec:null_choice} of the manuscript. Section \ref{sec:typeIII_error} includes the detailed discussion about the Type-III error supplementing Section  \ref{p-sec:typeIII_error}.
 
-\section{Selection of Lineups for each subject} \label{sec:lineup_selection}
-Table \ref{tbl:dist_lineup1} shows how the lineups are presented to the subjects for evaluation for the simulation experiment with categorical covariate described in Section \ref{p-sec:category} of the manuscript . The lineups are divided into four groups such as easy, medium, hard and mixed based on the parameter combinations shown in the table. The number of lineups randomly chosen for each difficulty level is shown in the table as well. Note that every subject saw at least one easy lineup in the pool of 10 lineups shown. Some subjects saw more than one easy lineup that comes from the mixed group. The number of total evaluations required for each lineup is also shown in the table and a total of 300 subjects would provide a total of 3000 evaluations that should roughly satisfy that plan.  
-
-\begin{table}[hbtp]
-%\renewcommand\thetable{}
-\caption{Selection of 10 lineups for a person to evaluate in the simulation experiment with discrete covariate described in section \ref{p-sec:category} of the paper.} 
-\centering
-\begin{tabular}{c c c c  c c c}
-\hline\hline
-Difficulty& \multicolumn{3}{c}{parameter combination}& Number of evaluations &Total number  & number of lineups\\
- \cline{2-4}
-level & $n$ & $\sigma$ & $\beta$ &required($n_{\gamma}$) & of lineups & randomly shown \\
-\hline
-easy&100& 5&8 & 1& 12 & 1\\
-&100&12&16 &1&&\\
-&300& 5&5 &1&&\\
-&300&12&10 &1 &&\\
-\hline
-medium&100& 5&3 &203 & 9 &2\\
-&300& 5&2, 3 & 97, 1&&\\
-\hline
-hard&100&12&3, 8, 10 & 277, 126, 23& 18 &6\\
-&300& 5&1 & 371 &&\\
-&300&12&3, 5& 375, 74 &&\\
-\hline
-mixed&100& 5&1, 5, 0& 214, 2, 73 & 21 &1\\
-&100&12&1& 100& &\\
-&300& 5&0 & 73&&\\
-&300&12&7, 1& 2, 152&&\\
-\hline
-Total &&&&&60&10\\
-\hline
-\end{tabular}
-\label{tbl:dist_lineup1}
-\end{table} 
 
 \section{Proof of the Lemma} \label{sec:proof_lemma}
 
@@ -173,53 +138,41 @@ P(p_D < p_{0}) &=& 1 - P(p_{0} \le p_D) = 1- \int_0^1  P(p_{0} \le p_D \mid p_D=
 %\]
 \end{proof}
 
-\section{How much do null plots affect the choice?} \label{sec:null_choice}
+\section{Selection of Lineups for each subject} \label{sec:lineup_selection}
+Table \ref{tbl:dist_lineup1} shows how the lineups are presented to the subjects for evaluation for the simulation experiment with categorical covariate described in Section \ref{p-sec:category} of the manuscript . The lineups are divided into four groups such as easy, medium, hard and mixed based on the parameter combinations shown in the table. The number of lineups randomly chosen for each difficulty level is shown in the table as well. Note that every subject saw at least one easy lineup in the pool of 10 lineups shown. Some subjects saw more than one easy lineup that comes from the mixed group. The number of total evaluations required for each lineup is also shown in the table and a total of 300 subjects would provide a total of 3000 evaluations that should roughly satisfy that plan.  
 
- Visual inference falls into the same framework as randomization tests, where the statistics from the data are compared with those from null data. 
- But unlike these approaches visual inference is constrained to make the comparison with just a few draws $(m-1)$ from the null distribution. How this small set of null plots influences the subjects choice is important for understanding the reliability of visual inference. If the actual data plot is very different from the null plots, then the null plots should not have much influence on the choice. Measuring the difference, generally, between  plots is almost impossible. However,  in this controlled setting we can use $p$-values of the test statistic calculated on the data used in each plot as a proxy for similarity of structure between the plots. 
-
-We have seen that the subjects tend to pick the plot in the lineup that has the lowest $p$-value (Figure \ref{p-fig:P-val_log2} in the mauscript). What we are also interested in  is how this pick is affected by the distribution  of $p$-values of other plots in the lineup, particularly the $p$-value of the null plot with the strongest structure. If there is a null plot with a small $p$-value, or one close to that of the actual data plot, we would expect that subjects have a harder time detecting the actual data plot. Figure \ref{fig:pval_difference} investigates this. The difference between the $p$-value of the actual data is compared with the lowest from the null plots. This is plotted horizontally, and the proportion correct is plotted vertically. Negative values indicate lineups where the actual data plot had a smaller $p$-value than the minimum of the null plots. In experiment 1 (boxplots) there were a lot of lineups where the actual data plot had the smallest $p$-value, but only just. This caused quite some confusion for subjects, as seen because the variability in the proportion correct is huge for these lineups. Similarly large variability in correctness can be seen in the results of experiment 2 (scatterplots) except that the greater range of of differences in $p$-values shows the strength of subject's ability to pick the plot with most structure. Figure \ref{p-fig:P-val_log2} in the manuscript shed some more light on this story: when there is a big difference between the $p$-values (eg experiment 1, $\beta>7$) the subjects as one force chose the same plot. When there is less difference the distribution of counts is much more evenly spread between plots (eg experiment 1, $\beta=1$). 
-
-In practice, the $p$-value is not going to be a valid way to compare plots. Rather metrics that can measure how graphical elements from one plot to another are perceived similarly are needed. This is investigated in \citet{niladri:2012}. Here, numerical measures of the similarity between plots are proposed to provide quality metrics for lineups.
-
-
-\begin{figure}[hbtp]
-   \centering
-       \scalebox{0.60}{\includegraphics{pval_difference.pdf}}
-       \caption{Scatter plot of difference between the data plot's $p$-value and the  smallest $p$-value of the null plots vs proportion correct. Negative differences indicate the $p$-value of the actual data plot are smaller than those of all of the null plots. Difference close to zero shows a wide range in the proportion correct, suggesting that when at least one null plot has structure almost as strong as the actual data plot, subjects had a difficult time in making their choice.}
-       \label{fig:pval_difference}
-\end{figure}
-
-\section{Type III error}~\label{sec:TypeIII}\label{sec:typeIII_error}
-
-
-A little known error amongst statisticians is what was coined as Type III error in \citet{mosteller:48}. This occurs when the null hypothesis is correctly rejected but for the wrong reason. Experiment 3 is prone to this type of error. Observers were asked to identify the plot that had the largest slope, either positive or negative. But the actual data plot had a cluster of points, the contamination that forced the conventional test to fail to see any trend. For the human eye this cluster of points is  as visible as the association between the remaining points, leading the observer to detect the actual data plot by looking for the cluster instead of the slope. This would be considered to be a Type III error because it is not what was requested, but  still gives the correct answer. This is not a problem with the lineup protocol, because we want observers to react to anything that sets the the actual data plot apart. Here, in the controlled but simple setting, it is of interest to see what observers cued to in the actual data plot. 
-
-
-Figure \ref{p-fig:power_loess_effect} in the manuscript indicates that Type III error might be occurring in experiment 3: correct identification of the actual data plot is not positively associated with effect size. Teasing this out of the results is possible by looking at the reasons observers gave for their choices. Observers were provided with four possible reasons to use for their choice:
-
-
-\begin{enumerate} \itemsep 0in
-\item Most different plot
-\item Visible trend
-\item Clustering visible
-\item Other
-\end{enumerate}
-
-
-\noindent with the possibility to use more than one. The task requested subjects to identify the plot that had the largest slope, which would correspond to choosing ``visible trend'' (2) as the reason for their choice. Reasons 1 or 3 would be indicative of Type III error. Figure \ref{fig:choice_reason} explores the reasons subjects gave for their choices. If there were no Type III errors committed, we would expect that people overwhelmingly using ``visible trend'' as their reason, or at least, when they use this reason they overwhelmingly correctly choose the actual data plot. This is not what we see. At left, are the reasons subjects gave for their choices --- 123 means that they gave all three reasons. The horizontal axis shows proportion of times that subjects correctly chose the actual data plot, and the reasons are sorted from most accurate to least accurate. The size of the point corresponds to the number of subjects putting this as the reason. Subjects that chose all three reasons almost always chose the actual data plot. This was followed by using 1 and 3, and then 1 and 4. The most common reasons given were reasons 1-3 individually, and the accuracy for these reasons ranged from 75\% for reason ``most different plot'' to 60\% for ``visible trend''.
-At right is a simplified view, containing just the four possible reasons -- if the subject chose one of these, regardless if they also chose another reason it is counted. ``Visible trend'' comes in third. This is strong evidence that for many subjects even though they are correctly choosing the data plot, often they are cueing to other structure in the plot than the trend, making a Type III error. 
-
-\begin{figure}[hbtp]
-   \centering
-       \includegraphics[width=0.45\textwidth]{choice_reason2.pdf}
-       \includegraphics[width=0.45\textwidth]{choice_reason3.pdf}
-       \caption{Reasons of plot choices vs  proportion of times the subjects correctly chose the actual data plot for experiment 3 that examines the occurrence of Type III error. At left, all subjects' choices are shown, and reason 123 means all three reasons are used. At right, if the subject used a reason, regardless if they also used more than this reason, they are counted. Size of the point corresponds to the number of subjects using that reason.}
-       \label{fig:choice_reason}
-\end{figure}
-
-For visual inference, making a Type III, is not actually a problem. It is only a possibility in this experiment because we are working with known structure. In the real setting, we are excited to see observers detecting the actual data plot, and curious about how they detect it, with all possible reasons encapsulated in the alternative hypothesis. This does show the importance of the qualitative answers that observers give for their choices.
-
+\begin{table}[hbtp]
+%\renewcommand\thetable{}
+\caption{Selection of 10 lineups for a person to evaluate in the simulation experiment with discrete covariate described in section \ref{p-sec:category} of the paper.} 
+\centering
+\begin{tabular}{c c c c  c c c}
+\hline\hline
+Difficulty& \multicolumn{3}{c}{parameter combination}& Number of evaluations &Total number  & number of lineups\\
+ \cline{2-4}
+level & $n$ & $\sigma$ & $\beta$ &required($n_{\gamma}$) & of lineups & randomly shown \\
+\hline
+easy&100& 5&8 & 1& 12 & 1\\
+&100&12&16 &1&&\\
+&300& 5&5 &1&&\\
+&300&12&10 &1 &&\\
+\hline
+medium&100& 5&3 &203 & 9 &2\\
+&300& 5&2, 3 & 97, 1&&\\
+\hline
+hard&100&12&3, 8, 10 & 277, 126, 23& 18 &6\\
+&300& 5&1 & 371 &&\\
+&300&12&3, 5& 375, 74 &&\\
+\hline
+mixed&100& 5&1, 5, 0& 214, 2, 73 & 21 &1\\
+&100&12&1& 100& &\\
+&300& 5&0 & 73&&\\
+&300&12&7, 1& 2, 152&&\\
+\hline
+Total &&&&&60&10\\
+\hline
+\end{tabular}
+\label{tbl:dist_lineup1}
+\end{table} 
 
 \section{Data Cleaning}\label{sec:data_cleaning}
 
@@ -273,6 +226,55 @@ criteria & Subj & Male & Fem & Total & Subj & Male & Fem & Total & Subj & Male &
 \end{center}
 \label{tbl:summary}
 \end{table}
+
+\section{How much do null plots affect the choice?} \label{sec:null_choice}
+
+ Visual inference falls into the same framework as randomization tests, where the statistics from the data are compared with those from null data. 
+ But unlike these approaches visual inference is constrained to make the comparison with just a few draws $(m-1)$ from the null distribution. How this small set of null plots influences the subjects choice is important for understanding the reliability of visual inference. If the actual data plot is very different from the null plots, then the null plots should not have much influence on the choice. Measuring the difference, generally, between  plots is almost impossible. However,  in this controlled setting we can use $p$-values of the test statistic calculated on the data used in each plot as a proxy for similarity of structure between the plots. 
+
+We have seen that the subjects tend to pick the plot in the lineup that has the lowest $p$-value (Figure \ref{p-fig:P-val_log2} in the mauscript). What we are also interested in  is how this pick is affected by the distribution  of $p$-values of other plots in the lineup, particularly the $p$-value of the null plot with the strongest structure. If there is a null plot with a small $p$-value, or one close to that of the actual data plot, we would expect that subjects have a harder time detecting the actual data plot. Figure \ref{fig:pval_difference} investigates this. The difference between the $p$-value of the actual data is compared with the lowest from the null plots. This is plotted horizontally, and the proportion correct is plotted vertically. Negative values indicate lineups where the actual data plot had a smaller $p$-value than the minimum of the null plots. In experiment 1 (boxplots) there were a lot of lineups where the actual data plot had the smallest $p$-value, but only just. This caused quite some confusion for subjects, as seen because the variability in the proportion correct is huge for these lineups. Similarly large variability in correctness can be seen in the results of experiment 2 (scatterplots) except that the greater range of of differences in $p$-values shows the strength of subject's ability to pick the plot with most structure. Figure \ref{p-fig:P-val_log2} in the manuscript shed some more light on this story: when there is a big difference between the $p$-values (eg experiment 1, $\beta>7$) the subjects as one force chose the same plot. When there is less difference the distribution of counts is much more evenly spread between plots (eg experiment 1, $\beta=1$). 
+
+In practice, the $p$-value is not going to be a valid way to compare plots. Rather metrics that can measure how graphical elements from one plot to another are perceived similarly are needed. This is investigated in \citet{niladri:2012}. Here, numerical measures of the similarity between plots are proposed to provide quality metrics for lineups.
+
+
+\begin{figure}[hbtp]
+   \centering
+       \scalebox{0.60}{\includegraphics{pval_difference.pdf}}
+       \caption{Scatter plot of difference between the data plot's $p$-value and the  smallest $p$-value of the null plots vs proportion correct. Negative differences indicate the $p$-value of the actual data plot are smaller than those of all of the null plots. Difference close to zero shows a wide range in the proportion correct, suggesting that when at least one null plot has structure almost as strong as the actual data plot, subjects had a difficult time in making their choice.}
+       \label{fig:pval_difference}
+\end{figure}
+
+\section{Type III error}~\label{sec:TypeIII}\label{sec:typeIII_error}
+
+
+A little known error amongst statisticians is what was coined as Type III error in \citet{mosteller:48}. This occurs when the null hypothesis is correctly rejected but for the wrong reason. Experiment 3 is prone to this type of error. Observers were asked to identify the plot that had the largest slope, either positive or negative. But the actual data plot had a cluster of points, the contamination that forced the conventional test to fail to see any trend. For the human eye this cluster of points is  as visible as the association between the remaining points, leading the observer to detect the actual data plot by looking for the cluster instead of the slope. This would be considered to be a Type III error because it is not what was requested, but  still gives the correct answer. This is not a problem with the lineup protocol, because we want observers to react to anything that sets the the actual data plot apart. Here, in the controlled but simple setting, it is of interest to see what observers cued to in the actual data plot. 
+
+
+Figure \ref{p-fig:power_loess_effect} in the manuscript indicates that Type III error might be occurring in experiment 3: correct identification of the actual data plot is not positively associated with effect size. Teasing this out of the results is possible by looking at the reasons observers gave for their choices. Observers were provided with four possible reasons to use for their choice:
+
+
+\begin{enumerate} \itemsep 0in
+\item Most different plot
+\item Visible trend
+\item Clustering visible
+\item Other
+\end{enumerate}
+
+
+\noindent with the possibility to use more than one. The task requested subjects to identify the plot that had the largest slope, which would correspond to choosing ``visible trend'' (2) as the reason for their choice. Reasons 1 or 3 would be indicative of Type III error. Figure \ref{fig:choice_reason} explores the reasons subjects gave for their choices. If there were no Type III errors committed, we would expect that people overwhelmingly using ``visible trend'' as their reason, or at least, when they use this reason they overwhelmingly correctly choose the actual data plot. This is not what we see. At left, are the reasons subjects gave for their choices --- 123 means that they gave all three reasons. The horizontal axis shows proportion of times that subjects correctly chose the actual data plot, and the reasons are sorted from most accurate to least accurate. The size of the point corresponds to the number of subjects putting this as the reason. Subjects that chose all three reasons almost always chose the actual data plot. This was followed by using 1 and 3, and then 1 and 4. The most common reasons given were reasons 1-3 individually, and the accuracy for these reasons ranged from 75\% for reason ``most different plot'' to 60\% for ``visible trend''.
+At right is a simplified view, containing just the four possible reasons -- if the subject chose one of these, regardless if they also chose another reason it is counted. ``Visible trend'' comes in third. This is strong evidence that for many subjects even though they are correctly choosing the data plot, often they are cueing to other structure in the plot than the trend, making a Type III error. 
+
+\begin{figure}[hbtp]
+   \centering
+       \includegraphics[width=0.45\textwidth]{choice_reason2.pdf}
+       \includegraphics[width=0.45\textwidth]{choice_reason3.pdf}
+       \caption{Reasons of plot choices vs  proportion of times the subjects correctly chose the actual data plot for experiment 3 that examines the occurrence of Type III error. At left, all subjects' choices are shown, and reason 123 means all three reasons are used. At right, if the subject used a reason, regardless if they also used more than this reason, they are counted. Size of the point corresponds to the number of subjects using that reason.}
+       \label{fig:choice_reason}
+\end{figure}
+
+For visual inference, making a Type III, is not actually a problem. It is only a possibility in this experiment because we are working with known structure. In the real setting, we are excited to see observers detecting the actual data plot, and curious about how they detect it, with all possible reasons encapsulated in the alternative hypothesis. This does show the importance of the qualitative answers that observers give for their choices.
+
+
 
 
 \bibliographystyle{asa}
