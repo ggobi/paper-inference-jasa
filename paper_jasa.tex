@@ -65,16 +65,12 @@ Statistical graphics play a crucial role in exploratory data analysis, model che
 {\bf Keywords: \sf statistical graphics, lineup, non-parametric test, data mining, visualization, exploratory data analysis, practical significance, effect size} 
 \end {abstract}
 
-%\begin{multicols}{2}
-%\twocolumn
 
 \section{Introduction} 
 
-%\checkmark
 
 Statistical graphics nourish the discovery process in data analysis by revealing unexpected things,  finding structure that was not previously anticipated,  or orthogonally by contrasting prevailing hypotheses. The area of graphics is often associated with exploratory data analysis, which was pioneered by \cite{tukey:eda} and is particularly pertinent in today's data-rich world where discovery during data mining has become an important activity. Graphics are also used in many places where numerical summaries simply do not suffice: model checking, diagnosis, and in the communication of findings. 
 
-%Statistical graphics research and development is \red{agreeably established} now, and has been cemented by s
 Several new developments in graphics research have been achieved in recent years. Early studies on evaluating how well statistical plots are perceived and read by the human eye \citep{cleveland:1984}, have been repeated and expanded \citep{simkin:1987,spence:1991, heer:2010} with findings supporting the original results. The research by \cite{heer:2010} used subjects recruited from Amazon's Mechanical Turk \citep{turk} for their studies. This body of work provides a contemporary framework for evaluating new statistical graphics.  In a complementary direction, new research on formalizing statistical graphics with language characteristics makes it easier to abstractly define, compare and contrast data plots. \cite{wilkinson:1999} developed a grammar of graphics that is enhanced by \cite{hadley:2009}. These methods provide a mechanism to abstract the way data is mapped to graphical form. Finally, technology advances make it simple and easy for everyone to draw plots of data, and particularly the existence of software systems, such as R \citep{R}, enable making beautiful data graphics that can be tightly coupled with statistical modeling.
 
 However, measuring the strength of patterns seen in plots, and differences in individual perceptual ability, is something that is difficult and perhaps handicaps graphics  use among statisticians, where measuring probabilities is of primary importance. This has also been addressed in recent research. \citet{buja:2009} proposes a protocol that allows the testing of discoveries made from statistical graphics. This work represents a major advance for graphics, because it bridges the gulf between conventional statistical inference procedures and exploratory data analysis. One of the protocols, the lineup, places the actual data plot among  a page of plots of null data, and asks a human judge to pick the plot that is different. Figure \ref{fig:test_category} shows an example lineup. Which plot do you think is the most different from the others? (The position of the actual data plot is provided in Section \ref{sec:category}.) Wrapped in a process that mirrors conventional inference, where there is an explicit, a priori, null hypothesis, picking the plot of the data from the null plots represents a rejection of that null hypothesis. The null hypothesis typically derives from the task at hand, or the type of plot being made. The alternative encompasses all possible antitheses, all types of patterns that might be detected in the actual data plot, accounting for all possible deviations from the null without the requirement to specify these ahead of time. The probability of rejection can be quantified, along with Type I, and Type II error, and $p$-value and power can be defined and estimated. 
@@ -92,14 +88,6 @@ However, measuring the strength of patterns seen in plots, and differences in in
 
 The protocol has only been informally tested until now. In the work described in this paper, the lineup protocol is compared head to head with the equivalent conventional test. Specifically, the lineup is examined in the context of a linear model setting, where we are determining the importance of including a variable in the model. This is not the envisioned environment for the use of the lineup -- actually it is likely the worst case scenario for visual inference. The intended use of lineups is where there is no existing test, and unlikely ever to be any numerical test. The thought is though, that the conventional setting provides a benchmark for how well the lineup protocol works under controlled conditions, and will provide some assurance that they will work in scenarios where there is no benchmark. Testing is done based on a human-subjects experiment using Amazon's Mechanical Turk \citep{turk}, using simulation to provide controlled conditions for assessing lineups. The results are compared with those of the conventional test. 
 
-%, analysis requires plots of data. For exploratory data analysis, statistical graphics play an invaluable role in model checking and diagnostics. Even though we have established mathematical procedures to obtain various statistics, we need to support the results by also producing the relevant plots. 
-
-%The scientific foundation of graphical methods for data analysis is well established by \cite{cleveland:1984}. In recent years we have seen several major advances in statistical graphics. Modern computing systems like R and SAS ease the production of high quality statistical plots. A grammar of graphics introduced by \cite{wilkinson:1999} presents a structured way to generate specific graphics from data and define connections between disparate types of plots.  \cite{hadley:2009} has implemented a revised version of the grammar of graphics in R, in the package {\tt ggplot2}.   \blue {Graham Wills has implemented the grammar in SPSS, but I'm not sure how to cite this.}
-
-
-%\citet{buja:2009}, following from \cite{gelman:2004}, proposed two protocols that allow the testing of discoveries made from statistical graphics. This work represents a major advance for graphics, because it bridges the gulf between conventional statistical inference procedures and exploratory data analysis.
-
-%In this paper we compare the lineup protocol to conventional statistical inference, specifically applied to the regression framework. We also present results of a human-subject study assessing the performance of individuals on lineup plots \citep{buja:2009} for testing significance of regression parameters. 
 
 The paper is organized as follows. Section \ref{sec:visual_test} defines terms as used in visual inference, and describes how to estimate the important quantities from experimental data. The effect of the lineup size and number of observers on the power of the test is discussed in Section \ref{sec:size}. Section \ref{sec:regression} focuses on the application of  visual inference to linear models.  Section \ref{sec:simulation} describes  three  user studies based on simulation experiments conducted to compare the power of the lineup protocol with the equivalent conventional test and  Section \ref{sec:results} presents an analysis of the resulting data. %The last section describes the next steps in this research.
 
@@ -198,54 +186,17 @@ The \textbf{Type I error} associated with visual test $V_{\theta}$ is the probab
 
 \noindent Because $X$ takes only discrete values we can not always control exactly for $\alpha$.  
 For example, when there is only one observer, $1/m$ is the minimal value at which we can set $\alpha$. It can be set to be smaller, even arbitrarily small, by increasing $K$, the number of observers. 
-Type II error is harder to calculate, as is usually the case. In visual inference, individual abilities need to be incorporated to calculate Type II error. %This is not necessary for Type I error, because it is simply the chance that the observer picks the actual data plot, by chance. 
+Type II error is harder to calculate, as is usually the case. In visual inference, individual abilities need to be incorporated to calculate Type II error. 
 Here, we need to estimate the probability that an observer sees the actual data plot as different, when it really is different. This involves understanding the individual's visual skills. Thus, let $X_i$ be a binary random variable with $X_i = 1$, if individual $i \ (=1, \dots , K)$ identifies the actual data plot from the lineup, and $X_i = 0$ otherwise. Let $p_i$ be the probability that individual~$i$ picks out the actual data plot. If all individuals have the same ability, with the probability, $p$, for picking out the actual data plot, then $X = \sum_i X_i$ has distribution $\text{Binom}_{K, p}$, and we can estimate $p$ by $\hat{p} = x/K$, where $x$ is the number of observers (out of $K$), who pick out the actual data plot. 
 
 
 If there is evidence for individual skills influencing the probability $p_i$, then $X_i \sim Binom_{1, p_i}$ and $X$ is a sum of independent Bernoulli random variables with different success rates $p_i$. This makes the distribution of $X$ a Poisson-Binomial by definition (see \citet{butler93} for details). Ways to estimate $p_i$ will be  discussed in the following sections.
-%one of the main concerns for the remainder of the paper. One way we can estimate this is fitting a generalized mixed effect model as described in Section \ref{sec:model}.
 
 
-%\green{WHY??? And how does this relate to the logistic model below?} 
-%This leads to the definition of the power of the visual test, as follows:
-
-
-
-
-
-%The lineup plot can be evaluated by one or more individuals. When a single individual identifies the observed graph in the lineup plot we report a $p$-value of at most $1/m$, otherwise the $p$-value is at least $1-\frac 1m$. 
-
- %Notice that when $N=1$, this $p$-value is $\frac1m$. 
-
-%\subsection{Power}
-
-
-%Next, we will develop power theoretically and then relate it to the empirical results.
-%We will first theoretically define and  derive the power of  a visual test in the setting of a parametric hypothesis test, i.e. we assume a test  of $H_0: \theta = 0$ vs $H_1: \theta \neq 0$ for some real valued parameter vector $\theta$. In a next step we will then relate the theoretical results to our empirical findings.
-
-%\red{How are $\Theta_0$ and $\Theta^c_0$ defined? - why do we need them? wouldn't it be better to re-formulate power in terms of acceptance region, not in terms of the parameter space? - $1/m$ also doesn't look right for the power - I think that's just looking at one observer.}
-%\begin{dfn} \label{dfn:power}
-%The \textbf{power} of a visual test $V_{\theta}$ is defined as the probability to reject the null hypothesis for a given parameter value $\theta$:
-%    \begin{equation*}
-%      \text{Power}_V(\theta)= 
-%        \begin{cases} 
-%              \frac1m & \text{if $\theta \in \Theta_0$,} \\
-%              Pr(\text{Reject } H_0) &\text{if $\theta \in \Theta^c_0$.}
-%        \end{cases}
-%    \end{equation*}
-%\end{dfn}
-%
-%
-%\red{Alternative Power definition:}
 \begin{dfn} \label{dfn:power}
 The \textbf{power} of a visual test, $V_{\theta}$, is defined as the probability to reject the null hypothesis for a given parameter value $\theta$:
     \begin{equation*}
       \text{Power}_V(\theta)= Pr(\text{Reject } H_0 \mid \theta) 
-%      = P(X \ge x_{\alpha}) =
-%        \begin{cases} 
-%               1 - \text{Binom}_{K, 1/m}(x_{\alpha} - 1) & \text{ if } H_0 \text{ is true}.\\
-%              1 - F_{X, \theta} (x_{\alpha} - 1) & \text{ if } H_1 \text{ is true}.
-%        \end{cases}
     \end{equation*}
 \end{dfn}
 
@@ -314,101 +265,15 @@ where $p_D$ is the $p$-value associated with the data in the test statistic, and
 \begin{proof} The proof and the details of the lemma are attached in the supplementary documents. 
 \end{proof}
 
-
-%\begin{proof}
-%%We will now make use of properties of the data going into the lineup and assume that the properties are reflected in the lineup display:
-%
-% By definition  
-%
-%$$p_D=Pr\left(|t| \ge t_{obs} \mid H_0\right)=1-F_{|t|}(t_{obs}) \ \ \Rightarrow \ \  |t_{obs}|=F_{|t|}^{-1}(1-p_D)$$
-%
-%%Now suppose $F_{|t|}(.;\delta)$ denotes the distribution function of an absolute value of $t$, the conventional test statistic.
-%%, with non-centrality parameter $\delta$. 
-%\noindent Then the distribution function of the $p$-value, $p_D$, under $H_0$, is uniform, since:  
-%\begin{eqnarray}\label{dist_p}
-%F_{p_D}(p) &=& Pr(p_D \le p)=1-Pr(1-p_D \le 1-p) \nonumber \\
-%  &=& 1-Pr\left(F_{|t|}^{-1}(1-p_D) \le F_{|t|}^{-1}(1-p) \right) \nonumber \\
-%  &=& 1-Pr\left(|t_{obs}| \le F_{|t|}^{-1}(1-p)\right) \nonumber \\
-%  &=&%\left\{ \begin{array}{ll}
-%          1-F_{|t|}\left( F_{|t|}^{-1}(1-p)\right)=p \mbox{ ; under $H_0$} 
-% %         1-F_{|t|}( F_{|t|}^{-1}(1-p); \delta) &\mbox{ ; under $H_1$} 
-%%       \end{array} \right.     
-%\end{eqnarray}
-%
-%%Thus the density of $p_D$ is Uniform(0,1)  under $H_0$. As noted by \cite{Ruppert:2007}, under $H_1$ the density of $p_D$ $$f_{p_D}(p_D; \delta)= \frac{f_{|t|}(F_{|t|}^{-1}(1-p_D);\delta)}{f_{|t|}(F_{|t|}^{-1}(1-p_D))}$$ derived from equation \eqref{dist_p}  is a right skewed distribution.  
-%
-%
-%
-%Let $p_{0,i}$, $i=1, ..., m-1$ denote the  $p$-values associated with data corresponding to the $m-1$ null plots. Since this data is generated consistently with the null hypothesis,  the $p$-values are independent and  follow a standard Uniform distribution, $p_{i,0} \sim U[0,1], i= 1, ..., m-1$. The minimum $p_0 = \min_{1 \le i \le m-1}  \ p_{0,i}$ then follows a Beta distribution with shape parameters 1 and $m-1$, and corresponding distribution function 
-%\[
-%F_{p_0} (x) =  1- (1- x) ^{m-1}  \text{ for } x \in [0,1].
-%\]
-%
-%\noindent Thus
-%\begin{eqnarray*}
-%P(p_D < p_{0}) &=& 1 - P(p_{0} \le p_D) = 1- \int_0^1  P(p_{0} \le p_D \mid p_D=t) f_{p_D}(t) dt   \\
-%&=& 1 - \int_0^1 F_{p_{0}}(t) f_{p_D}(t) dt = 1 - \int_0^1 f_{p_D}(t) dt + \int_0^1 (1-t)^{m-1} f_{p_D}(t) dt  \\
-%&=&  E\left[ (1 - p_D)^{m-1}\right].
-%\end{eqnarray*}
-%
-%
-%%\noindent This proves the statement above. 
-%%We further see:
-%%\[
-%%E\left[ (1 - p_D)^{m-1}\right] =  \sum_{k=0}^{m-1} {m-1 \choose k} (-1)^k E[p_D^k] = 1-(m-1)E[p_D] + O(E[p_D^2]).
-%%\]
-%
-%
-%% If the density of $p$-value is very right skewed, the expectation term would be large. The distribution function would be highly right skewed when there would be strong signal in the data plot.Thats where the distribution function of $p$-value under alternative comes in. Should we add that in Equation \ref{dist_p}? )},
-%%conversely, as $m$, the number of choices given in the lineup, goes up the probability to pick the data plot  goes down. 
-%%}
-%%\blue{This shows that the lineup size $m$ has an effect on the power of the visual test: it is the $m-1$th moment of the distribution of $1-p_D$. 
-%
-%%
-%%
-%%
-%%Let us think of a lineup as a head-to-head comparison of the test statistic and $m-1$ null plots. 
-%%%Let the data plot have a $p$-value of $p_D$, and the null plots $p$ values of $p_{0, i}$ with $1 \le i \le m-1$.
-%%We know that for each comparison the probability that the data, on which the plot is based, has the smaller $p$ value is 
-%%\begin{eqnarray*}
-%%P(p_D < p_{0,i}) &=& 1 - P(p_{i,0} \le p_D) = 1- \int_0^1  P(p_{i,0} \le p_D \mid p_D=t) f_{p_D}(t) dt =  \\
-%%&=& 1 - \int_0^1 F_{p_{0,i}}(t) f_{p_D}(t) dt = 1 - \int_0^1 t f_{p_D}(t) dt = 1 - E[p_D],
-%%\end{eqnarray*}
-%%which, in particular, is independent of $p_{0,i}$ for all $i$.
-%%
-%%Let us make the assumption that an observer is able to identify  the chart corresponding to the data with the smallest $p$-value. Further we will assume that all observers  have the same ability in identifying the data plot.
-%%
-%%With that, we define $Z$  as the number of null plots in a lineup, for which the $p$-value $p_{0,i}$ is smaller than $p_D$.  
-%%
-%%Then $Z \sim B_{m-1, E[p_D]}$, and the probability that an observer will pick the data plot in a given lineup is 
-%%\[
-%%P(Z=0) = \left(1 - E[p_D] \right)^{m-1} = P(p_D \le p_0), \ \ \ \text{ where } p_0 = \min_{1 \le i \le m-1}  \ p_{0,i}.
-%%\]
-%\end{proof}
-
-%\red{pull the results for $P(p_D < p_{i,0})$ and $P(p_D < p_0)$ to the front, including the Figure on $1/m$ versus power. These results are independent of the regression setting - they don't make any assumptions in terms of regression.}
-
 The above lemma allows two immediate conclusions for the use of lineups.
-The probability that the observer correctly identifies the data plot is closely connected to the size of the lineup $m$, since the right hand side of the above equation decreases for larger $m$, the probability of correctly identifying the actual data plot decreases with $m$. %This may seem counterintuitive, but it makes sense. 
-%With fewer null plots the actual data plot will stand out, when the alternative hypothesis is true. 
-Further we see, that the rate of this decrease depends strongly on the distribution of $p_D$ -- if the density of $p_D$ is very right skewed, the  expectation term on right hand side will be large and less affected by an increase in $m$. This can also be seen in Figure \ref{fig:pval_power}, which illustrates lemma \ref{lemma}.   Figure \ref{fig:pval_power} shows the probability of picking the actual data plot for lineups of different size: as $m$ increases we have an increased probability to observe a more highly structured null plot by chance. It can also be seen that for a $p$-value, $p_D$, of about 0.15 for the data plot, the signal in the plot is so weak, that it cannot be distinguished from null plots in a lineup of size $m=20$. % This pattern is confirmed by our findings described in Section~\ref{sec:simulation}.
-%also seen in our experiments as shown in Figure \ref{fig:pval_pcorrect}.
-
-
-
-%Even under $H_1$ we expect some observers to pick a null plot with a probability that depends on the strength of the signal in our data plot. 
-%Reversely, we will now make use of the number of observers who do not pick the data plot in a lineup to infer the strength of the signal in the test statistic.
+The probability that the observer correctly identifies the data plot is closely connected to the size of the lineup $m$, since the right hand side of the above equation decreases for larger $m$, the probability of correctly identifying the actual data plot decreases with $m$. Further we see, that the rate of this decrease depends strongly on the distribution of $p_D$ -- if the density of $p_D$ is very right skewed, the  expectation term on right hand side will be large and less affected by an increase in $m$. This can also be seen in Figure \ref{fig:pval_power}, which illustrates lemma \ref{lemma}.   Figure \ref{fig:pval_power} shows the probability of picking the actual data plot for lineups of different size: as $m$ increases we have an increased probability to observe a more highly structured null plot by chance. It can also be seen that for a $p$-value, $p_D$, of about 0.15 for the data plot, the signal in the plot is so weak, that it cannot be distinguished from null plots in a lineup of size $m=20$. 
 
 \begin{figure}[htbp] %  figure placement: here, top, bottom, or page
    \centering
    \includegraphics[width=3in]{images/powerplot.pdf} 
-   \caption{Probability that the data plot has the smallest probability in a lineup of size $m$. With increasing $p$-value the probability drops -- when it reaches $1/m$ a horizontal line is drawn to emphasize insufficient sensitivity of the test due to the lineup size. 
-   %Comparison of probabilities to pick the actual data plot for different size lineups, $m$, and different values for data plot strength, $p_D$. The dashed  line, and grey 95\% pointwise confidence band, shows the probability of picking the data plot, by chance, if $H_0$ is true. }
-}
+   \caption{Probability that the data plot has the smallest probability in a lineup of size $m$. With increasing $p$-value the probability drops -- when it reaches $1/m$ a horizontal line is drawn to emphasize insufficient sensitivity of the test due to the lineup size. }
    \label{fig:pval_power}
 \end{figure}
-
-
 
 \section{Application to Linear Models} \label{sec:regression}
 
@@ -446,31 +311,6 @@ Case & Null Hypothesis & Statistic & Test Statistic & Description \\ [0.5ex] % i
 
 Suppose $X_k$ is a categorical variable with two levels, and we test the hypothesis $H_0:\beta_k=0$ vs $H_1: \beta_k \ne 0$. If the responses for the two levels of the categorical variable $X_k$ in the model are different, the  residuals from fitting the null model should show a significant difference between the two groups. For a visual test, we draw boxplots of the residuals conditioned on the two levels of $X_k$. If $\beta_k\ne 0$ the boxplots should show a vertical displacement. 
 
-%A lineup including the test statistic  for a binary $X_k$ is shown in Figure \ref{fig:test_category}. The 19 null plots are generated  by simulating residuals from $N(0,\hat{\sigma}^2)$. The test statistic, the plot containing the actual data, is randomly placed among these null plots. If the test statistic is identifiable the null hypothesis is rejected. % with a $p$-value of at most 0.05.
-
-%\subsection{Expected power}
-
-% Di: This is specific for the regression model
-%Consider the hypothesis test $H_0: \beta_k=0$ against $H_1: \beta_k \ne 0$ in model \ref{multi}.
-%%Now consider estimating the power of the visual test. 
-%%Suppose $F_{|t|}(.)$ is the distribution function of an absolute value of $t$. For the regression slope parameter $\beta$ suppose the associated test statistic in conventional test be $t_{obs}$ with $p$-value $p_D$. By definition we have 
-%%
-%%$$p_D=Pr(|t| \ge t_{obs}| H_0)=1-F_{|t|}(t_{obs}) \Rightarrow |t_{obs}|=F_{|t|}^{-1}(1-p_D)$$
-%%
-%%\red{HH: the following paragraph should probably move up, but I'm not sure how to change it appropriately. Mahbub, could you take care of that?}
-%%Now suppose $F_{|t|}(.;\delta)$ denotes the distribution function of an absolute value of $t$ distribution with non-centrality parameter $\delta$. Thus the distribution function of $p-value$ be  
-%%\begin{eqnarray}\label{dist_p}
-%%F{p_D}(p) &=& Pr(p_D \le p)=1-Pr(1-p_D \le 1-p) \nonumber \\
-%%  &=& 1-Pr(F_{|t|}^{-1}(1-p_D) \le F_{|t|}^{-1}(1-p) ) \nonumber \\
-%%  &=& 1-Pr(|t_{obs}| \le F_{|t|}^{-1}(1-p)) \nonumber \\
-%%  &=&\left\{ \begin{array}{ll}
-%%          1-F_{|t|}( F_{|t|}^{-1}(1-p))=p &\mbox{ ; under $H_0$} \\
-%%          1-F_{|t|}( F_{|t|}^{-1}(1-p); \delta) &\mbox{ ; under $H_1$} 
-%%       \end{array} \right.     
-%%\end{eqnarray}
-%%
-%%Thus the density of $p_D$ is Uniform(0,1)  under $H_0$. As noted by \cite{Ruppert:2007}, under $H_1$ the density $$f_{p_D}(p_D; \delta)= \frac{f_{|t|}(F_{|t|}^{-1}(1-p_D);\delta)}{f_{|t|}(F_{|t|}^{-1}(1-p_D))}$$ derived from equation \eqref{dist_p}  is a right skewed distribution.  
-%In a lineup plot we simulate $m-1$ residual data sets from null model where each of these $m-1$ null data sets produces a corresponding $p$-value $p_{0,i}$ and $p_{0,i} \sim \text{Uniform}(0,1)$ for $i = 1, ..., m-1$. Suppose  $p_0=\min_i(p_{0,i})$. Thus $p_0 \sim \text{Beta}(1,m-1)$. 
 
 The conventional test in this scenario uses $T= \hat{\beta_k}/ se(\hat{\beta_k})$ and rejects the null hypothesis, if $T$ is extreme on the scale of a $t$ distribution with $n-p$ degrees of freedom.  It forms the benchmark upon which we evaluate the visual test. To calculate what we might expect for the power of the visual test, under perfect conditions, first assume that the observer is able to pick the plot with the smallest $p$-value from a lineup plot.  This leads to the decision to reject $H_0$ when $p_{D} < p_0$, where $p_{D}$ is the conventional $p$-value as details given in Lemma \ref{lemma}. Thus the expected probability to reject by a single observer ($K=1$) in this scenario is
 
@@ -481,33 +321,6 @@ The conventional test in this scenario uses $T= \hat{\beta_k}/ se(\hat{\beta_k})
 Figure \ref{fig:power_expected} shows the power of the conventional test in comparison to the expected power of the visual test for different $K$ (number of observers), obtained using $p(\beta)$ from Equation \ref{power_exp}. Notice that the expected power of the visual test exceeds the power of the conventional test as $K$  increases, and when $\beta$ gets larger.   Conversely, visual power is below conventional power for parameter values close to the null hypothesis. This is even more pronounced for large number of observers. At the same time, the point of intersection between visual and conventional power approaches the value of the null hypothesis as the number of observers approaches infinity, leading to an asymptotically perfect power curve of zero in the null hypothesis and one for any alternative value. We observe this dichotomy of visual power  in power estimates based on the data collected from user experiments, too. It features prominently in  figure \ref{fig:power_loess_effect}. 
 
 
-%Theorem \ref{thm:power} helps to compute the expected power of visual inference.
-%\begin{thm}\label{thm:power}
-% equation \eqref{power_exp}  yields expected power of visual inference as Power($\beta$) = $E(1-p_D)^{m-1}$ .
-%\end{thm}
-% 
-%{ \em proof}
-%
-%Since $p_0 \sim \text{Beta}(1,m-1)$,  for $t \in (0,1)$ we have the distribution function of $p_0$ be
-%\begin{eqnarray*}
-%F{p_0}(t) &=& (m-1) \int_0^t{(1-p_0)^{(m-2)}dp_0} \\
-%  &=&  -(m-1) \int_1^{1-t}{x^{(m-2)}dx}\\
-%  &=& \left[ x^{m-1}\right]^1_{1-t}\\
-%  &=&1-(1-t)^{m-1} \rightarrow 1 \quad \text{as} \quad m \rightarrow \infty
-%\end{eqnarray*}
-%
-%% verified this computation from http://www.wolframalpha.com using command int (m-1)*(1-p)^(m-2) dp, p=0,t
-%
-%Thus expected power in equation \eqref{power_exp} be
-%\begin{eqnarray*}
-% Pr(p_{B} < p_0) &=& 1- Pr( p_0 \le p_{B} ) \\
-%  &=& 1- \int_{0}^{1}{Pr( p_0 \le p_{B} |p_{B} =t) f_{p_{B} }(t)dt } \\
-%  &=& 1-  \int_{0}^{1}{F{p_0}(t) f_{p_{B} }(t)dt } \\
-%  &=& E(1-p_D)^{m-1}   \\
-%%  & \rightarrow &1-  \int_{0}^{1}{ f_{p_{B} }(t)dt }  = F_{p_D}(0) \quad \text{as} \quad m \rightarrow \infty
-%\end{eqnarray*}
-%
-%
 \begin{figure}[hbtp]
    \centering
        \scalebox{.6}{\includegraphics{power_expected_k.pdf}}
@@ -516,24 +329,6 @@ Figure \ref{fig:power_expected} shows the power of the conventional test in comp
        \label{fig:power_expected}
 \end{figure}
 
-% \pagebreak
-
-
-%\subsection{Some Power Considerations}
-
-
-%\subsection{Expected number of choices}
-%Since $X$ has a binomial distribution, we can have a look at the number of plots among the null plots that we would expect to be picked over the data plot:
-%\[
-%E[X] = (m-1)(1-E[p_D]).
-%\]
-%With an increase of the lineup size $m$ the number of null plots with a potentially stronger signal than the data plot grows linearly.
-%This should allow us to infer some of the signal strength $p_D$ as
-%\begin{equation} \label{plot_signal}
-%E[p_D] = 1 - E[X]/(m-1),
-%\end{equation}
-%i.e. by averaging over the number of plots with  a stronger signal than the data plot we can evaluate signal strength of the plot even in the case where the data plot is not being picked by the observer.
-%
 
 \section{Human Subjects Experiments with Simulated Data} \label{sec:simulation}
 
@@ -543,24 +338,15 @@ After many small pilot studies with local personnel, it was clear that some care
 
 Participants for all the experiments were recruited through Amazon's online web service, Mechanical Turk  \citep{turk}. A summary of the data obtained for all three experiments are shown in Table \ref{tbl:summary}. Participants were asked to select the plot they think best matched the question given, provide a reason for their choice, and say how confident they are in their choice. Gender, age, education and geographic location of each participant are also collected. %The data was collected through the web. 
 For each of the experiments one of the lineups was used as a test plot (easy plot) which everyone should get correct, so that a measure of the quality of the subjects effort could be made. Note that no participant was shown the same lineup twice.
+
 %\green{Something probably needs to be said about subjects who do multiple tests, what checks are done.} \blue{We do have some data where we notice multiple responses for a lineup by a subject. This happens when subject accidentally use browser's ``back'' button and same data is saved twice. We made sure in the data cleaning process that we do not include more than one response on a lineup by a subject. For this we only keep the very first response.}
 
 \subsection{Discrete covariate}\label{sec:category}
 
 The experiment is designed to study the ability of human subjects to detect the effect of a single categorical variable $X_2$ (corresponding to parameter $\beta_2$) in a two variable ($p=2$) regression model (Equation \ref{multi}). Data is simulated using a range of values of $\beta_2$ or slopes as shown in Table \ref{tbl:experiment_params}, two different sample sizes ($n=100, 300$) and two standard deviations of the error ($\sigma=5, 12$). The range of $\beta_2$ values was chosen so that estimates of the power would produce reasonably continuous power curves, comparable to that calculated for the theoretical conventional test. Values were fixed for other regression parameters, $\beta_0 = 5$,  $\beta_1=15$, and the values for $X_1$ were randomly generated from a Poisson $(\lambda=30)$ distribution, which is almost Gaussian. Three data sets were generated for each of the parameter values shown in Table \ref{tbl:experiment_params} resulting in 60 different ``actual data sets'', and thus, 60 different lineups. For each lineup, the null model was fit to the actual data set to obtain residuals and parameter estimates. The actual data plot was drawn as  side-by-side boxplots of the residuals (Table \ref{tbl:stat_multiple}, case 3). The 19 null data sets were generated by simulating from  $N(0, {\hat{\sigma}}^2)$, and  plotted in the same way. The actual data plot was randomly placed among these null data plots to produce the lineup.  Figure \ref{fig:test_category} is an example of one of these lineups. It was generated for $n$=300, $\beta_2$=10 and $\sigma$=12. The actual data plot location is ($4^2-1$). For this lineup, 15 out of 16 observers picked the actual data plot. 
 
-%{\bf Steps to obtain lineup}
-%\begin{enumerate}
-%	\item For a given parameter setting obtain actual data set
-%	\item Fit the null model to the actual data and obtain residuals and other parameter estimates ($\hat{\beta}$ and $\hat{\sigma}$)
-%	\item Generate actual data plot using the procedure as described in table \ref{tbl:stat_multiple}
-%	\item Generate 19 null (residual) data sets from $N(0, {\hat{\sigma}}^2$) and obtain 19 null plots
-%	\item Finally randomly place 19 null plots and one actual plot in a layout (4X5) to get a lineup 
-%\end{enumerate}
-
 The number of evaluations required for each lineup to provide reasonable estimates of the proportion correct ($\hat p$) is determined by the variance of the number of correct evaluations. Suppose $\gamma$ denotes the conventional test power for each parameter combination shown in Table \ref{tbl:experiment_params}. Since the expected power of visual inference is very close to the power of conventional test (Figure \ref{fig:power_expected} with $K=1$) we consider $\gamma =p$.
 For a given proportion $\gamma$ it is desired to have a margin of error (ME) less than or equal to 0.05. Thus we have $ME =1.96 \sqrt{ \gamma(1-\gamma) / n_{\gamma} } \le 0.05$ which gives us the estimation of minimum number of evaluations $$n_{\gamma} \geq \frac{\gamma(1-\gamma)}{(0.05/1.96)^2}.$$  
-% \hh{we're not even close to $n_\gamma$ with ten lineups .... we need more in the order of 400. Let's not emphasize this so much.}
 
 Each subject viewed at least 10 lineups with the option to evaluate more.
 %and we allowed them to provide more evaluations if they wanted. 
@@ -610,7 +396,7 @@ The actual data plot is generated by making a scatterplot of $Y$ vs $X_1$ with t
 To select 10 lineups for a subject, each combination of sample size ($n$) and error SD ($\sigma$) is given a difficulty value based on the slope ($\beta$) parameters. For the smallest slopes the difficulty is 4 (hardest) and for the largest slopes the difficulty is 0 (easiest). 
 Figure \ref{fig:test_continuous} shows an example lineup for this experiment from difficulty level 4.  This lineup is generated using a sample size ($n$) of 100, slope ($\beta$) of 1.25 and and error SD ($\sigma$) of 5. The actual data plot location is $(2^2+1)$. None of the 65 observers picked the actual plot while 46 observers picked plot 18 which has the lowest $p$-value among all the plots in this lineup.
 
-For each combination of sample size and standard deviation, each participant is given five randomly selected lineups, one of each difficulty level. Another set of four lineups is chosen from a second tier of selected combinations of sample size and standard deviation, with difficulty levels 0 to 3.  A last lineup was randomly selected from a set of  lineups with difficulty level 0. The order in which the lineups are shown to participants is randomized. %Each subject saw a substantial number of difficult lineups. 
+For each combination of sample size and standard deviation, each participant is given five randomly selected lineups, one of each difficulty level. Another set of four lineups is chosen from a second tier of selected combinations of sample size and standard deviation, with difficulty levels 0 to 3.  A last lineup was randomly selected from a set of  lineups with difficulty level 0. The order in which the lineups are shown to participants is randomized. 
 
 
 
@@ -640,25 +426,9 @@ A linear model (Equation \ref{multi} with $p=1$  and intercept $\beta_0=0$) is f
 
 Experiment three consists of a total of 30 lineups, made up of five replicates for each of the six slopes as shown in Table \ref{tbl:experiment_params}. We use the slope directly as a measure of difficulty, with difficulty = 0 for the largest slope and difficulty = 5 for the smallest slope.  Subjects were exposed to a total of ten lineups, with two lineups from each of the difficulty levels 0 through 3, and one  lineup each from levels 4 and 5.
 
-%{\bf Steps to obtain lineup}
-%\begin{enumerate}
-%	\item For a given parameter setting obtain actual data set
-%	\item Fit the null model to the actual data and obtain residuals and other parameter estimates ($\hat{\beta}$ and $\hat{\sigma}$)
-%	\item Generate actual data plot (a scatter plot of Residual vs $X_1$)
-%	\item Generate 19 null residual data sets from $N(0, {\hat{\sigma}}^2$) and obtain 19 null plots
-%	\item Finally randomly place 19 null plots and one actual plot in a layout (4X5) to get a lineup 
-%\end{enumerate}
 
 An example lineup for slope $\beta=0.4$ is shown in Figure \ref{fig:test_contaminated}.  Can you pick which plot is different? The actual data plot location is $(3^2-2^3)$ and 13 out of 31 observers picked the actual plot.
 
-%\begin{figure}[hbt]
-%\begin{figurehere}
-%   \centering
-%       \scalebox{0.6}{\includegraphics{contaminated_data.pdf}}
-%       \caption{Scatterplot of a simulated contaminated data set generated such that a simple linear model produce a slope almost negligible, ie, if we fit model (Equation \ref{multi}) with $p=1$  to this data, the resulting estimate of $\beta_1$ would not be statistically significant. The conventional t-test $p$-value for the slope is 0.67 for this data set but visually we can see a convincing evidence of positive slope. 
-%}
-%       \label{fig:cont_dat}
-%\end{figure}
 
 \begin{figure}[p]
 %\begin{figurehere}
@@ -669,49 +439,6 @@ An example lineup for slope $\beta=0.4$ is shown in Figure \ref{fig:test_contami
        \label{fig:test_contaminated}
 \end{figure}
 
-%\green{Fill in details of lineups, probably need a figure with an example lineup, and how lineups were assigned to subjects. Show a sample lineup, probably the most difficult, instead of the single plot.}
-
-
-%\begin{figure*}[hbtp]
-%   \centering
-%       \scalebox{0.6}{\includegraphics{power_observed.pdf}}
-%       \caption{Observed power of visual test from equation \eqref{eqn:power_estimate} with pointwise 95\% confidence limits and the power of UMP test for sample size $n= 100,300$ and $\sigma = 12,5$ as per experiment 1.}
-%       \label{fig:power_observed}
-%\end{figure*}
-
-%\begin{figure*}[hbtp]
-%   \centering
-%       \scalebox{0.7}{\includegraphics{power_loess_exp1.pdf}}
-%       \caption{Observed power shown by loess smoother with simultaneous bootstrap confidence band and the power of UMP test for sample size $n= 100,300$ and $\sigma = 12,5$ as per experiment 1.}
-%       \label{fig:power_loess1}
-%\end{figure*}
-
-
-%\begin{figure*}[hbtp]
-%   \centering
-%       \scalebox{0.7}{\includegraphics{power_loess_exp2.pdf}}
-%       \caption{Observed power shown by loess smoother with simultaneous bootstrap confidence band and the power of UMP test for sample size $n= 100,300$ and $\sigma = 12,5$ as per experiment 2.}
-%       \label{fig:power_loess2}
-%\end{figure*}
-
-
-
-
-%\begin{figure*}[hbtp]
-%   \centering
-%       \scalebox{0.7}{\includegraphics{power_diff_exp.pdf}}
-%       \caption{Difference of Observed power from UMP test power obtained in three experiments for sample size $n= 100,300$ and $\sigma = 12,5$ and values of slope parameter $\beta$ as shown in Table \ref{tbl:experiment_params}.}
-%       \label{fig:power_diff_exp}
-%\end{figure*}
-
-
-%\begin{figure*}[hbtp]
-%   \centering
-%       \scalebox{0.6}{\includegraphics{power_observed_exp3.pdf}}
-%       \caption{Observed power of visual test from equation \eqref{eqn:power_estimate} with pointwise 95\% confidence limits and the power of UMP test for sample size $n= 100$ and $\sigma = 5$ as per experiment 3. }
-%       \label{fig:power_observed_exp3}
-%\end{figure*}
-
 
 \section{Results} \label{sec:results}
 
@@ -720,7 +447,7 @@ An example lineup for slope $\beta=0.4$ is shown in Figure \ref{fig:test_contami
 % In this process of collecting data some participants did not provide demographic information as we see in Table \ref{tbl:summary} that male and female participants do not add up to total participants. It is not clear why they did not provide the information. Now the concern arises whether we should keep their responses in the study. It is also possible that participants were not serious enough to provide feedback. 
 %For each of the experiments we had a test plot (easy plot) for which they should have a correct evaluation without much effort.  This could be a criteria to determine their attentiveness in the study. For this we consider six different data cleaning criteria as shown below;
 
-%{\bf Screening scenarios:}
+
 Amazon Mechanical Turk workers are paid for their efforts, not substantially, but on the scale of the minimum wage in the USA. Some workers will try to maximize their earnings for minimum effort, which can affect the results from the data. For example, some workers may simply randomly pick a plot, without actively examining the plots in the lineup. For the purpose of identifying these participants and cleaning the data, we use one of the very easy lineups that everybody was exposed to as a {\it reference lineup} and  take action based on a subject's answer to this reference:
 if the subject failed to identify the actual data plot on the reference lineup, we remove all of this subject's data from the analysis. If the answer on the reference lineup is correct, we remove the answer for this lineup from the analysis, but keep all of the remaining answers. Table~\ref{tbl:summary} tabulates the number of subjects, genders and lineups evaluated after applying the data screening procedure.  A summary of all the data along with cleaned data are added to the supplementary material.
 
@@ -826,24 +553,18 @@ From the experimental data the visual $p$-values are estimated based on Definiti
        \label{fig:pval_definition}
 \end{figure*}
 
-
-
 For experiment 3, we see that  the visual $p$ values are very small no matter what the conventional $p$-values are. This is expected as the conventional test loses its power to reject $H_0$ even when the alternative is true, whereas the visual test performs well.
 
 
 
 \subsection{Do people tend to pick the lowest $p$-value?}
 
- One assumption made in order to evaluate the effect of lineup size in the calculations of visual $p$-value and signal strength was that subjects would tend to pick the plot in the lineup that had the strongest signal. In experiments 1 and 2, this corresponds to the plot with the smallest $p$-value.  We examine  the data collected from the first two experiments, to see if this assumption is, indeed, reasonable. %In Section \ref{sec:size} in order to make comparisons with conventional tests an assumption was made that the subject would pick the plot in the lineup that had the lowest $p$-value. In this section we take a look at the picks that subjects made, to see if this is, indeed, true. 
+ One assumption made in order to evaluate the effect of lineup size in the calculations of visual $p$-value and signal strength was that subjects would tend to pick the plot in the lineup that had the strongest signal. In experiments 1 and 2, this corresponds to the plot with the smallest $p$-value.  We examine  the data collected from the first two experiments, to see if this assumption is, indeed, reasonable.  
 
 Figure \ref{fig:P-val_log2} gives an overview of all selections in all lineups of experiments 1 and 2. Each panel of the figure corresponds to a single lineup. Each `pin' -- a short line topped by a dot -- corresponds to one plot in the lineup. The $x$-location of the pin shows the plot's $p$-value on a log scale, its height  is given by the number of observer choosing this plot.
-%Figure \ref{fig:P-val_log2} shows the selection counts and $p$-values of all plots for each lineup in experiments 1 and 2, respectively. In each of these plots, the log of $p$-value for each plot in the lineup is plotted horizontally and the number of subjects who selected this plot is displayed vertically. The dot represents this point, and the lines connect vertically with 0 count. 
 Columns are ordered according to effect size as defined in section 6.2; rows show replicates for the same combination of parameters.
 
-
-Red indicates the plot with the lowest $p$-value in the lineup. Blue indicates the plot of the actual data when it is different from that with the lowest $p$-value. In both experiments  people tended to select the plot with the lowest $p$-value. % with an increase in effect size.
- %This is less so the case when $\beta$ is small, when standard deviation is large and sample size is small. 
- The results are clearer for experiment 2, that used a continuous covariate. But even when subjects did not pick the plot with the lowest $p$-value they tended to oscillate their choices between the several low $p$-value plots. So for most subjects, the assumption that they pick the plot with the smallest $p$-value would appear to be reasonable, and the actual power of the visual test should be close to the expected power.
+Red indicates the plot with the lowest $p$-value in the lineup. Blue indicates the plot of the actual data when it is different from that with the lowest $p$-value. In both experiments  people tended to select the plot with the lowest $p$-value. The results are clearer for experiment 2, that used a continuous covariate. But even when subjects did not pick the plot with the lowest $p$-value they tended to oscillate their choices between the several low $p$-value plots. So for most subjects, the assumption that they pick the plot with the smallest $p$-value would appear to be reasonable, and the actual power of the visual test should be close to the expected power.
 
 \begin{figure*}[hbtp]
    \centering
@@ -868,37 +589,10 @@ For several of these exceptions, along with several easy lineups, a follow up ex
 Visual inference falls into the same framework as randomization tests, where the statistics from the data are compared with those from null data. Unlike randomization tests visual inference is constrained to make the comparison with just a few draws $(m-1)$ from the null distribution. How this small set of null plots influences the subjects' choice is important for understanding the reliability of visual inference. If the actual data plot is very different from all of the null plots, then the null plots should not have much influence on the choice. Measuring the difference, generally, between  plots is almost impossible. However,  in this controlled setting we can use $p$-values of the test statistic calculated on the data used in each plot as a proxy for similarity of structure between the plots. If there is a null plot with a small $p$-value, or one close to that of the actual data plot, we would expect that subjects have a harder time detecting the actual data plot.
 
 
-%We have seen that the subjects tend to pick the plot in the lineup that has the lowest $p$-value (Figure \ref{fig:P-val_log2}). What we are also interested in  is how this pick is affected by the distribution  of $p$-values of other plots in the lineup, particularly the $p$-value of the null plot with the strongest structure. If there is a null plot with a small $p$-value, or one close to that of the actual data plot, we would expect that subjects have a harder time detecting the actual data plot. Figure \ref{fig:pval_difference} investigates this. The difference between the $p$-value of the actual data is compared with the lowest from the null plots. This is plotted horizontally, and the proportion correct is plotted vertically. Negative values indicate lineups where the actual data plot had a smaller $p$-value than the minimum of the null plots. In experiment 1 (boxplots) there were a lot of lineups where the actual data plot had the smallest $p$-value, but only just. This caused quite some confusion for subjects, as seen because the variability in the proportion correct is huge for these lineups. Similarly large variability in correctness can be seen in the results of experiment 2 (scatterplots) except that the greater range of of differences in $p$-values shows the strength of subject's ability to pick the plot with most structure. Figure \ref{fig:P-val_log2} shed some more light on this story: when there is a big difference between the $p$-values (eg experiment 1, $\beta>7$) the subjects as one force chose the same plot. When there is less difference the distribution of counts is much more evenly spread between plots (eg experiment 1, $\beta=1$). 
-
-%In practice, the $p$-value is not going to be a valid way to compare plots. Rather metrics that can measure how graphical elements from one plot to another are perceived similarly are needed. This is investigated in \citet{niladri:2012}. Here, numerical measures of the similarity between plots are proposed to provide quality metrics for lineups.
-
-
-%\begin{figure}[hbtp]
-%   \centering
-%       \scalebox{0.60}{\includegraphics{pval_difference.pdf}}
-%       \caption{Scatter plot of difference between the data plot's $p$-value and the  smallest $p$-value of the null plots vs proportion correct. Negative differences indicate the $p$-value of the actual data plot are smaller than those of all of the null plots. Difference close to zero shows a wide range in the proportion correct, suggesting that when at least one null plot has structure almost as strong as the actual data plot, subjects had a difficult time in making their choice.}
-%       \label{fig:pval_difference}
-%\end{figure}
-
 \subsection{Type III error}~\label{sec:TypeIII}\label{sec:typeIII_error}
 
 
 A little known error amongst statisticians is what was coined as Type III error in \citet{mosteller:48}. Type III errors are defined as the probability of  correctly rejecting  the null hypothesis but for the wrong reason. Experiment 3 is prone to this type of error. Participants were asked to identify the plot with the largest absolute slope. But the actual data plot featured a cluster of points, the contamination that made the conventional test  fail to see any trend. For the human eye this cluster of points is  as visible as the association between the remaining points, enabling the observer to identify the actual data plot by looking for the cluster instead of the slope. This would be considered  a Type III error because it leads to a correct rejection of the null hypothesis, but is not related to the value of the slope parameter. 
-
-%This is not a problem with the lineup protocol, because we want observers to react to anything that sets the the actual data plot apart. Here, in the controlled but simple setting, it is of interest to see what observers cued to in the actual data plot. 
-
-
-%Figure \ref{fig:power_loess_effect} indicated that Type III error might be occurring in experiment 3: correct identification of the actual data plot is not positively associated with effect size. Teasing this out of the results is possible by looking at the reasons observers gave for their choices. Observers were provided with four possible reasons to use for their choice: (1) Most different plot, (2) Visible trend, (3) Clustering visible and (4) Other, with the option to use more than one. The task requested subjects to identify the plot that had the largest slope, which would correspond to choosing ``visible trend'' (2) as the reason for their choice. Reasons 1 or 3 would be indicative of Type III error. Figure \ref{fig:choice_reason} explores the reasons subjects gave for their choices. If there were no Type III errors committed, we would expect that people overwhelmingly using ``visible trend'' as their reason, or at least, when they use this reason they overwhelmingly correctly choose the actual data plot. This is not what we see. At left, are the reasons subjects gave for their choices --- 123 means that they gave all three reasons. The horizontal axis shows proportion of times that subjects correctly chose the actual data plot, and the reasons are sorted from most accurate to least accurate. The size of the point corresponds to the number of subjects putting this as the reason. Subjects that chose all three reasons almost always chose the actual data plot. This was followed by using 1 and 3, and then 1 and 4. The most common reasons given were reasons 1-3 individually, and the accuracy for these reasons ranged from 75\% for reason ``most different plot'' to 60\% for ``visible trend''.
-
-%At right is a simplified view, containing just the four possible reasons -- if the subject chose one of these, regardless if they also chose another reason it is counted. ``Visible trend'' comes in third. This is strong evidence that for many subjects even though they are correctly choosing the data plot, often they are cueing to other structure in the plot than the trend, making a Type III error. 
-
-%\begin{figure}[hbtp]
-%   \centering
-%       \includegraphics[width=0.45\textwidth]{choice_reason2.pdf}
-%       \includegraphics[width=0.45\textwidth]{choice_reason3.pdf}
-%       \caption{Reasons of plot choices vs  proportion of times the subjects correctly chose the actual data plot for experiment 3 that examines the occurrence of Type III error. At left, all subjects' choices are shown, and reason 123 means all three reasons are used. At right, if the subject used a reason, regardless if they also used more than this reason, they are counted. Size of the point corresponds to the number of subjects using that reason.}
-%       \label{fig:choice_reason}
-%\end{figure}
 
 For visual inference, making a Type III, is not actually a problem. It is only a possibility in this experiment because we are working with known structure. In the real setting, we are excited to see observers detecting the actual data plot, and curious about how they detect it, with all possible reasons encapsulated in the alternative hypothesis. However, this highlights the importance of getting qualitative reasoning from observers  for their choices. 
 
@@ -910,47 +604,15 @@ no conventional test exists, and our experiments in a controlled scenario sugges
 
 The lineup protocol operates similarly to statistical tests that have broad alternative hypotheses. If the null hypothesis is rejected, generally we can say that ``there is something there'' but not specifically what it is in the data that triggers the rejection. Follow-up questions on the reasons provide qualitative insight. In conventional testing, multiple comparisons are often done to refine and understand the test results, and perhaps some similar approaches might be developed for visual inference.  
 
-%One of the critical parts in visual testing is appropriate selection of a statistic for the hypothesis of interest -- that means an appropriate choice of plot for the analytical purpose.  A good test statistic is expected to reveal structure if the null hypothesis is not true. Small differences in plot choices such as color, orientation, and mapping of data values to graphical elements of the plot can make a difference. This is related to research in a grammar of graphics \citep{wilkinson:1999,hadley:2009}, which helps to ensure good practices.
-
 The performance of subjects was quite varied, but consistent. No restrictions were placed on Turk workers, in terms of abilities. There were clearly some subjects who performed very badly, but it was very interesting to see that there were some super-observers, people who detected the actual data plot at a rate better than that of the power of the best conventional test. 
 It would be interesting to see how well trained subjects might perform. Prior to the Turk experiments, we conducted pilot studies using local graphics experts and obtained good results, indicating that training in data visualization might be helpful for visual inference. Future work might explore this.
 
 Visual inference has been successfully used in two practical applications: to evaluate the power of competing graphical designs \citep{heike:2012}, and to detecting signal presence in large $p$, small $n$ data \citep{niladri:2012}. It is hoped that the lineup protocol will prove to be  valuable in data mining applications, and exploratory analyses, where there are no existing gauges of statistical significance. 
 
-%\item Explain caveats, nuances, advantages with the work
-
- %This is the part of our ongoing and future research.
-
-%The question that is posed to observers can affect the ability to evaluate lineups. In these experiments subjects were asked very specific questions, because the purpose was to compare with very specific conventional testing. In practice, the question posed will be more general to allow observers to choose plots with any remarkable features, which enables the data mining discovery process.
-
-% when evaluating the lineup: this question can be lined up with the alternative hypothesis of a classical testing scenario. If we are interested in the reason why participants picked a plot as the most different, we need to collect and evaluate this information in the study. This has to be done very carefully, as any suggestions for reasons also lead the observer  what patterns to look out for.}
-
-% By delivering an appropriate question may reduce the type III error in an appropriate scenario.}
-
-%Experimental subjects in the simulation study came from various level of education, both genders and many different ages. Many subjects had little background in statistics, and were not necessarily aware of statistical plots. Yet, the results were good. We expect that visual inference could be a useful tool for high school students to learn about randomness as a primer to statistical thinking. A major advantage of visual statistical inference is that it is intuitive, as illustrated by the performance of subjects with limited education, and it  may make statistics fun to learn. 
-
-
-
-%\item Describe the next steps of the work, and possible ideas for future extensions
-
-
-%Such a scenario could be the inference with small sample size with large number of covariates, data mining findings or even in genetic research where many covariates restrict the available inference very conservative for simultaneous testing (required $p$-value is very small to be able to reject $H_0$). The direction of future research would be to study that and apply the methods in those areas.
-
-
-%The purpose of this paper has been to examine the effectiveness of visual inference methods in direct comparison to existing inference methods. We need to be clear that this is not the purpose of visual inference generally: visual methods should not be seen as competitors to conventional inference.  The purpose here, is to  establish properties and  efficacy of visual testing procedures in order to use them in situations where conventional tests cannot be used. For this experiment the effect of $\beta_2$ was examined using side-by-side boxplots. Future experiments will be conducted to compare other regression parameters as described in Table \ref{tbl:stat_multiple} and assess sensitivity of power to modeling conditions.
-
-%\green{Mention the possibility of a visual skills test, to select the workers that are better qualified, to implement the lineup protocol in practice. Along the lines of the Army tests that Susan brought to the working group. \blue{While recruiting subjects from the Amazon Mechanical Turk web site we did not put any restriction on the skill levels of the subjects. Thus anyone from any background could participate the experiment. It would be interesting to see how well the trained subjects performs. Many pilot studies with advanced knowledge of statistical graphics as well as statistics indicates that the performance is very good for trained subjects. One of our future work would be to examine this in details. For this we are planning to trained Turk subjects with specific graphics and educate them what pattern a specific graphics may show. After being trained they may have to pass the qualification test before participating the experiment. Even though we did not do this, it is very common to Turk subjects to go through this process for various other tasks they do in the Turk web site.}.
-
-%Discuss the purpose of randomly generating data null plots, rather than selectively sampling from the null distribution.}
-
-%In practice there is no correct answer. In these experiments we controlled the effects that observers saw, so there was a correct choice in each case. In the real setting, there is not correct choice, just whether the actual data plot stands apart from the rest, so that the observer can find it. And subjects would provide open-ended answers for their choice of plot. 
-
-%What are your suggestions for future experiments, and next steps of the research?
-
 %\paragraph{Acknowledgement:}
 %This work was funded in part by National Science Foundation grant DMS 1007697.
 
-\paragraph{Supplementary Material:} Proof of Lemma 3.1, details of data collection and cleaning, longer discussion of effect of null plots and Type III error.
+\paragraph{Supplementary Material:} Proof of Lemma \ref{lemma}, details of data collection and cleaning, longer discussion of effect of null plots and Type III error.
 
 %\bibliographystyle{plain}
 %\bibliographystyle{plainnat}
@@ -961,102 +623,4 @@ Visual inference has been successfully used in two practical applications: to ev
 %\end{multicols}
 
 \end{document}  %End of document.
-
-
-
-\section*{Appendix}
-
-\begin{table}[hbtp]
-\caption{Selection of 10 lineups for a person to evaluate in the simulation experiment with discrete covariate described in section \ref{sec:category}.} 
-\centering
-\begin{tabular}{c c c c  c c c}
-\hline\hline
-Difficulty& \multicolumn{3}{c}{parameter combination}& Number of evaluations &Total number  & number of lineups\\
-level & $n$ & $\sigma$ & $\beta$ &required($n_{\gamma}$) & of lineups & randomly shown \\
-\hline
-easy&100& 5&8 & 1& 12 & 1\\
-&100&12&16 &1&&\\
-&300& 5&5 &1&&\\
-&300&12&10 &1 &&\\
-\hline
-medium&100& 5&3 &203 & 9 &2\\
-&300& 5&2,3 & 97, 1&&\\
-\hline
-hard&100&12&3,8,10 & 277, 126, 23& 18 &6\\
-&300& 5&1 & 371 &&\\
-&300&12&3,5& 375,74 &&\\
-\hline
-mixed&100& 5&1,5,0& 214, 2,73 & 21 &1\\
-&100&12&1& 100& &\\
-&300& 5&0 & 73&&\\
-&300&12&7,1& 2, 152&&\\
-\hline
-Total &&&&&60&10\\
-\hline
-\end{tabular}
-\label{tbl:dist_lineup1}
-\end{table} 
-
-
-
-%\begin {abstract} 
-%Statistical graphics play a crucial role in exploratory data analysis, model checking and diagnosis. Until recently, there were no formal visual methods in place for determining statistical significance of findings. This changed when Buja et al. (2009) conceptually introduced the lineup protocol for formal tests of visual findings. In this paper this is taken a step further by refining the terminology of visual inference, framing the protocol in a context that allows direct comparison with conventional tests, in scenarios when a conventional test exists, and it is used to compare the performance of the lineup protocol against conventional statistical testing in the scenario of fitting linear models. A human subjects experiment is conducted using simulated data to provide controlled conditions. Results suggest that the lineup protocol provides results comparable to the conventional tests, out-performs them when data is contaminated, and, there may be some super-individuals who yield better power than the conventional test even in the most difficult trials.
-%\end {abstract}
-
-\end{document}
-
-
-
-
-
-
-
-
-
-
-
-
-\section{Old Conclusions}
-
-It is widely accepted that statistical graphics has important use in exploratory data analysis and model diagnostics. This paper has demonstrated that statistical graphics can be used in statistical inference and validates the lineup protocol proposed by \citet{buja:2009} as a formal framework to accomplish that. The simulation study showed that even in the situation where the conventional test has its assumptions met, visual inference is comparable. The results also suggest that when the underlying assumptions of a conventional test do not hold, visual inference will perform well. 
-
-Power of visual tests can be estimated in different ways, which was explained in this paper. If it is assumed that observers tend to pick the plot with the strongest signal, which was consistent with the experimental data, the power of visual test can be obtained theoretically.  Interestingly, the theoretical power of visual test is better than that of conventional test in the conditions tested in this paper.
-
-%\item Explain caveats, nuances, advantages with the work
-
-One of the critical parts in visual testing is appropriate selection of a statistic for the hypothesis of interest -- that means an appropriate choice of plot for the analytical purpose.  A good test statistic is expected to reveal structure if the null hypothesis is not true. Small differences in plot choices such as color, orientation, and mapping of data values to graphical elements of the plot can make a difference. This is related to research in a grammar of graphics \citep{wilkinson:1999,hadley:2009}, which helps to ensure good practices. %This is the part of our ongoing and future research.
-
-The question that is posed to observers can affect the ability to evaluate lineups. In these experiments subjects were asked very specific questions, because the purpose was to compare with very specific conventional testing. In practice, the question posed will be more general to allow observers to choose plots with any remarkable features, which enables the data mining discovery process.
-
-% when evaluating the lineup: this question can be lined up with the alternative hypothesis of a classical testing scenario. If we are interested in the reason why participants picked a plot as the most different, we need to collect and evaluate this information in the study. This has to be done very carefully, as any suggestions for reasons also lead the observer  what patterns to look out for.}
-
-% By delivering an appropriate question may reduce the type III error in an appropriate scenario.}
-
-Even though a single observer can evaluate a lineup, as suggested in the initial lineup protocol, this work recommends having multiple observers to ensure a more reliable estimate of the $p$-value for the test, and more confidence in the decision.
-
-Experimental subjects in the simulation study came from various level of education, both genders and many different ages. Many subjects had little background in statistics, and were not necessarily aware of statistical plots. Yet, the results were good. We expect that visual inference could be a useful tool for high school students to learn about randomness as a primer to statistical thinking. A major advantage of visual statistical inference is that it is intuitive, as illustrated by the performance of subjects with limited education, and it  may make statistics fun to learn. 
-
-The performance of subjects was quite varied, but consistent. No restrictions were placed on Turk workers, in terms of abilities. There were clearly some subjects who performed very badly, but it was very interesting to see that there were some super-observers, people who detected the actual data plot at a rate better than that of the power of the best conventional test. 
- It would be interesting to see how well trained subjects might perform. Prior to the Turk experiments, we conducted pilot studies using local graphics experts and obtained good results, indicating that training in data visualization might be helpful for visual inference. Future work might explore this.
-
-%\item Describe the next steps of the work, and possible ideas for future extensions
-
-When there is no conventional test available, visual testing procedure can be used due to its few assumptions and non-parametric nature. We have successfully used the procedure informally for local projects. It is hoped that this proves to be extremely valuable in data mining applications, and exploratory analyses, where there are no existing gauges of statistical significance. The lineup protocol operates similarly to general tests, such as two-sided, analysis of variance $F$-tests, and Wilks $\Lambda$ for multivariate analysis of variance. If the null hypothesis is rejected, generally we can say that ``there is something there'' but not specifically what it is in the data that triggers the rejection. Follow-up questions on the reasons provide qualitative insight. Multiple comparisons are often done to refine and understand the results of the general conventional testing, and perhaps some similar approaches might be developed for visual inference. 
-
-%Such a scenario could be the inference with small sample size with large number of covariates, data mining findings or even in genetic research where many covariates restrict the available inference very conservative for simultaneous testing (required $p$-value is very small to be able to reject $H_0$). The direction of future research would be to study that and apply the methods in those areas.
-
-
-%The purpose of this paper has been to examine the effectiveness of visual inference methods in direct comparison to existing inference methods. We need to be clear that this is not the purpose of visual inference generally: visual methods should not be seen as competitors to conventional inference.  The purpose here, is to  establish properties and  efficacy of visual testing procedures in order to use them in situations where conventional tests cannot be used. For this experiment the effect of $\beta_2$ was examined using side-by-side boxplots. Future experiments will be conducted to compare other regression parameters as described in Table \ref{tbl:stat_multiple} and assess sensitivity of power to modeling conditions.
-
-%\green{Mention the possibility of a visual skills test, to select the workers that are better qualified, to implement the lineup protocol in practice. Along the lines of the Army tests that Susan brought to the working group. \blue{While recruiting subjects from the Amazon Mechanical Turk web site we did not put any restriction on the skill levels of the subjects. Thus anyone from any background could participate the experiment. It would be interesting to see how well the trained subjects performs. Many pilot studies with advanced knowledge of statistical graphics as well as statistics indicates that the performance is very good for trained subjects. One of our future work would be to examine this in details. For this we are planning to trained Turk subjects with specific graphics and educate them what pattern a specific graphics may show. After being trained they may have to pass the qualification test before participating the experiment. Even though we did not do this, it is very common to Turk subjects to go through this process for various other tasks they do in the Turk web site.}.
-
-%Discuss the purpose of randomly generating data null plots, rather than selectively sampling from the null distribution.}
-
-%In practice there is no correct answer. In these experiments we controlled the effects that observers saw, so there was a correct choice in each case. In the real setting, there is not correct choice, just whether the actual data plot stands apart from the rest, so that the observer can find it. And subjects would provide open-ended answers for their choice of plot. 
-
-%What are your suggestions for future experiments, and next steps of the research?
-
-
-
-
 
