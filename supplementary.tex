@@ -60,7 +60,7 @@
 
 \vspace{1.5cm}
 
-The materials in this document supplement the information presented in the manuscript ``Validation of Visual Statistical Inference, Applied to Linear Models''. Section \ref{sec:proof_lemma} presents the proof of the Lemma \ref{p-lemma} in the manuscript. Section \ref{sec:lineup_selection} describes how the lineups are presented to the subjects for evaluation.  The data cleaning process and how that may affect the result are discussed in Section \ref{sec:data_cleaning} which supplements Section \ref{p-sec:data_cleaning} of the manuscript. The detailed discussion on how much the choice of null plots affect is included in Section \ref{sec:null_choice} which supplement the information in Section \ref{p-sec:null_choice} of the manuscript. Section \ref{sec:typeIII_error} includes the detailed discussion about the Type-III error supplementing Section  \ref{p-sec:typeIII_error} of the manuscript.
+The materials in this document supplement the information presented in the manuscript ``Validation of Visual Statistical Inference, Applied to Linear Models''. Section \ref{sec:proof_lemma} presents the proof of the Lemma \ref{p-lemma} in the manuscript. Section \ref{sec:lineup_selection} describes how the lineups are presented to the subjects for evaluation.  The data cleaning process is described in Section \ref{sec:data_cleaning}, supplementing Section \ref{p-sec:data_cleaning} of the manuscript. A detailed discussion on how much the sample of null plots might affect the observer's choice is in Section \ref{sec:null_choice}, supplementing a summary given in Section \ref{p-sec:null_choice} of the manuscript. Section \ref{sec:typeIII_error} contains more discussion about Type-III error, and supplements Section  \ref{p-sec:typeIII_error} of the manuscript.
 
 
 \section{Proof of the Lemma} \label{sec:proof_lemma}
@@ -139,7 +139,7 @@ P(p_D < p_{0}) &=& 1 - P(p_{0} \le p_D) = 1- \int_0^1  P(p_{0} \le p_D \mid p_D=
 \end{proof}
 
 \section{Selection of Lineups for each subject} \label{sec:lineup_selection}
-Table \ref{tbl:dist_lineup1} shows how the lineups are presented to the subjects for evaluation for the simulation experiment with categorical covariate described in Section \ref{p-sec:category} of the manuscript. The lineups are divided into four groups such as easy, medium, hard and mixed based on the parameter combinations shown in the table. The number of lineups randomly chosen for each difficulty level is shown in the table as well. Note that every subject saw at least one easy lineup in the pool of 10 lineups shown. Some subjects saw more than one easy lineup that comes from the mixed group. The number of total evaluations required for each lineup is also shown in the table. For example,  a lineup with sample size 100, standard error 5 and slope parameter 3 requires 203 evaluations so that the proportion correct can be estimated with margin of error 0.05 as described in the manuscript.  A total of 300 subjects would provide a total of 3000 evaluations that should roughly satisfy that plan.  We see in Table \ref{tbl:summary} that the total number of subjects actually participated in experiment 1 is 520 which is much higher than 300. The goal was to get total number of subject close to 300.   
+Table \ref{tbl:dist_lineup1} shows the selection process of the lineups for the subjects, across the experimental design parameters of experiment 1 (Section \ref{p-sec:category} of the manuscript), as required to obtain a margin of error of 0.05. The lineups are divided into four groups such as easy, medium, hard and mixed based on the parameter combinations shown in the table. The number of evaluations, along with the number of lineups, and the number of lineups from each category that a single subject would get, are shown in the table. Note that, every subject saw at least one easy lineup in the pool of 10 lineups they were given, with some subjects  seeing two easy lineups if they get one from the mixed group. These ideal sample sizes were generated using a goal of obtaining a margin of error no bigger than 0.05. For example,  a lineup with sample size = 100, standard error  = 5 and slope parameter = 3 requires 203 evaluations so that the proportion correct can be estimated with margin of error 0.05 as described in the manuscript.  A total of 300 subjects would provide a total of 3000 evaluations with this plan.  Table \ref{tbl:summary} shows the number of subjects actually participating in experiment 1 is 520 which is much higher than 300.    
 
 \begin{table}[hbtp]
 %\renewcommand\thetable{}
@@ -147,7 +147,7 @@ Table \ref{tbl:dist_lineup1} shows how the lineups are presented to the subjects
 \centering
 \begin{tabular}{c c c c  c c c}
 \hline\hline
-Difficulty& \multicolumn{3}{c}{parameter combination}& Number of evaluations &Total number  & number of lineups\\
+Difficulty& \multicolumn{3}{c}{parameter combination}& Number of evaluations &Total number  & Number of lineups\\
  \cline{2-4}
 level & $n$ & $\sigma$ & $\beta$ &required($n_{\gamma}$) & of lineups & randomly shown \\
 \hline
