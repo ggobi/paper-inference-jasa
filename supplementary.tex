@@ -139,7 +139,7 @@ P(p_D < p_{0}) &=& 1 - P(p_{0} \le p_D) = 1- \int_0^1  P(p_{0} \le p_D \mid p_D=
 \end{proof}
 
 \section{Selection of Lineups for each subject} \label{sec:lineup_selection}
-Table \ref{tbl:dist_lineup1} shows the selection process of the lineups for the subjects, across the experimental design parameters of experiment 1 (Section \ref{p-sec:category} of the manuscript), as required to obtain a margin of error of 0.05. The lineups are divided into four groups such as easy, medium, hard and mixed based on the parameter combinations shown in the table. The number of evaluations, along with the number of lineups, and the number of lineups from each category that a single subject would get, are shown in the table. Note that, every subject saw at least one easy lineup in the pool of 10 lineups they were given, with some subjects  seeing two easy lineups if they get one from the mixed group. These ideal sample sizes were generated using a goal of obtaining a margin of error no bigger than 0.05. For example,  a lineup with sample size = 100, standard error  = 5 and slope parameter = 3 requires 203 evaluations so that the proportion correct can be estimated with margin of error 0.05 as described in the manuscript.  A total of 300 subjects would provide a total of 3000 evaluations with this plan.  Table \ref{tbl:summary} shows the number of subjects actually participating in experiment 1 is 520 which is much higher than 300.    
+Table \ref{tbl:dist_lineup1} shows the selection process of the lineups for the subjects, across the experimental design parameters of experiment 1 (Section \ref{p-sec:category} of the manuscript), as required to obtain a margin of error of 0.05. The lineups are divided into four groups such as easy, medium, hard and mixed based on the parameter combinations shown in the table. The number of evaluations, along with the number of lineups, and the number of lineups from each category that a single subject would get, are shown in the table. Note that, every subject saw at least one easy lineup in the pool of 10 lineups they were given, with some subjects  seeing two easy lineups if they get one from the mixed group. These ideal sample sizes were generated using a goal of obtaining a margin of error no bigger than 0.05. For example,  a lineup with sample size = 100, standard error  = 5 and slope parameter = 3 requires 203 evaluations so that the proportion correct can be estimated with margin of error 0.05 as described in the manuscript.  A total of 300 subjects would provide a total of 3000 evaluations with this plan.  Table \ref{tbl:summary} shows the number of subjects actually participating in experiment 1 is 424 which is much higher than 300. The goal was to get final accepted data for 300 subjects.    
 
 \begin{table}[hbtp]
 %\renewcommand\thetable{}
@@ -176,16 +176,18 @@ Total &&&&&60&10\\
 
 \section{Data Cleaning}\label{sec:data_cleaning}
 
-Following six approaches have been examined while cleaning the data.  Table \ref{tbl:summary} displays number of subjects and their total evaluations in each screening criteria. The criteria 1 includes all the participants hence showing number of total subjects participated in the survey for all the experiments. As per the experimental design we always show at least one easy lineup and that lineup is used to process the payment of the subject. Thus, for our paper we used criteria six to clean the data and the results presented in the paper are based on the cleaned data.
+As per the experimental design each subject is shown at least one easy lineup. The subject was informed that an easy lineup would be used to accept their evaluations. Thus once we have all the evaluations we cleaned the data based on the easy lineups shown. The lineup having p-value $<$ 0.0002 is considered an easy lineup. We sample one easy lineup from a subject's records. If that lineup is evaluated {\bf correctly}, we include all (other) lineups of that subject, otherwise we exclude all lineup evaluations by this participant.  Table \ref{tbl:summary} displays number of subjects and their total evaluations before and after cleaning the data.
 
-\begin{enumerate}
-\item {\bf Include all participants} and their evaluations.
-\item Exclude all participants' evaluations, who did {\bf not} share their {\bf demographic information} (age, gender education level -- all three pieces of information are either missing or all present).
-\item Exclude participants' records, if {\bf none of the evaluations}  correctly identified the data plot -- every participant was shown a range of `easy' lineups.
-\item Include participants' records, if   {\bf at least 20 percent} of the evaluations are {\bf correct}  -- based on ten evaluations per participants, two correct evaluations are significant evidence against a person just guessing.
-\item Include participants' records, if at least {\bf 50\% of all very easy (p-value $<$ 0.0002) lineups are correct} .
-\item Use easy lineups as {\bf reference charts}: sample one easy lineup from a person's records. If that lineup is evaluated {\bf correctly}, include all (other) lineups of that person, otherwise exclude all lineup evaluations by this participant.
-\end{enumerate}
+%Following six approaches have been examined while cleaning the data.  Table \ref{tbl:summary} displays number of subjects and their total evaluations in each screening criteria. The criteria 1 includes all the participants hence showing number of total subjects participated in the survey for all the experiments. As per the experimental design we always show at least one easy lineup and that lineup is used to process the payment of the subject. Thus, for our paper we used criteria six to clean the data and the results presented in the paper are based on the cleaned data.
+
+%\begin{enumerate}
+%\item {\bf Include all participants} and their evaluations.
+%\item Exclude all participants' evaluations, who did {\bf not} share their {\bf demographic information} (age, gender education level -- all three pieces of information are either missing or all present).
+%\item Exclude participants' records, if {\bf none of the evaluations}  correctly identified the data plot -- every participant was shown a range of `easy' lineups.
+%\item Include participants' records, if   {\bf at least 20 percent} of the evaluations are {\bf correct}  -- based on ten evaluations per participants, two correct evaluations are significant evidence against a person just guessing.
+%\item Include participants' records, if at least {\bf 50\% of all very easy (p-value $<$ 0.0002) lineups are correct} .
+%\item Use easy lineups as {\bf reference charts}: sample one easy lineup from a person's records. If that lineup is evaluated {\bf correctly}, include all (other) lineups of that person, otherwise exclude all lineup evaluations by this participant.
+%\end{enumerate}
 
 
 %The power curves obtained by fitting mixed model to the data for all the experiments applying different screening criteria are shown in Figure \ref{fig:power_screening_subject}. This shows how the screening criteria may affect the results. The corresponding power curves of conventional test are also shown. Notice that no mater what criteria we apply the result does not change much for experiment 2.  
@@ -213,21 +215,20 @@ Note that in some of the lines the number of male and female participants does n
 \begin{center}
 \begin{tabular}{rrrrr|rrrr|rrrr}
   \hline
-Screening &  \multicolumn{4}{c} {Experiment 1}  & \multicolumn{4}{c} {Experiment 2}  & \multicolumn{4}{c} {Experiment 3} \\
+Data &  \multicolumn{4}{c} {Experiment 1}  & \multicolumn{4}{c} {Experiment 2}  & \multicolumn{4}{c} {Experiment 3} \\
  \cline{2-5}  \cline{6-9}   \cline{10-13}
-criteria & Subj & Male & Fem & Total & Subj & Male & Fem & Total & Subj & Male & Fem & Total \\ 
+cleaning & Subj & Male & Fem & Total & Subj & Male & Fem & Total & Subj & Male & Fem & Total \\ 
   \hline
-1 & 520 & 264 & 201 & 4914 & 390 & 203 & 182 & 4603 & 257 & 166 &  84 & 2830 \\ 
-  2 & 465 & 264 & 201 & 4624 & 385 & 203 & 182 & 4558 & 250 & 166 &  84 & 2782 \\ 
-  3 & 384 & 200 & 165 & 4187 & 384 & 199 & 181 & 4573 & 227 & 147 &  78 & 2648 \\ 
-  4 & 318 & 168 & 135 & 3395 & 378 & 195 & 179 & 4492 & 205 & 133 &  72 & 2393 \\ 
-  5 & 277 & 139 & 124 & 3008 & 374 & 193 & 177 & 4451 & 185 & 122 &  63 & 2121 \\ 
-  6 & 239 & 121 & 107 & 2317 & 351 & 185 & 164 & 3858 & 156 & 106 &  50 & 1681 \\ 
+before & 424 & 226 & 180 & 4516 & 386 & 199 & 182 & 4330 & 242 & 158 &  79 & 2565 \\ 
+after  & 239 & 121 & 107 & 2249 & 351 & 185 & 164 & 3636 & 155 & 103 &  52 & 1511 \\ 
    \hline
 \end{tabular}
 \end{center}
 \label{tbl:summary}
 \end{table}
+
+After cleaning the data we did not have 300 subjects for experiment 1 that we planned for. But we did not go for collecting more data as the proportion correct could be estimated with margin of error not much higher than 0.05 even with 239 subjects. We can see this from the bootstrap confidence band in Figure \ref{p-fig:power_loess_effect} in the manuscript. For experiment 2 and 3 we also have sufficient data even after cleaning.
+
 
 \section{How much do null plots affect the choice?} \label{sec:null_choice}
 

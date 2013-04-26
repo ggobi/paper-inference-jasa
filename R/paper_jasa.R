@@ -16,12 +16,47 @@ raw.dat3 <- read.csv("../data/raw_data_turk3.csv")
 
 source("calculate_ump_power.R") # functions to compute power
 
+
+# Getting actual raw data where 10 lineups were evaluated as per plan or
+# at least evaluated an easy lineup and got it correct.
+# The rest of the data are not considered since not completed as per 
+# experimental design.
+
+if (raw_dat$experiment[1]=='turk3') easy_dat <- subset(raw_dat, difficulty==0)
+
+get_actual_raw_data <- function(raw_dat){
+  d <- ddply(raw_dat,.(id),summarise,
+             total_response = length(response),
+             percent_correct = mean(response)*100,
+             easy_correct = ifelse(experiment[1]=='turk3',
+                                   response[difficulty==0][1],
+                                   response[p_value < 0.0002][1])
+  )
+  included_id <- d$id[((d$total_response > 9) | (d$easy_correct))]
+  indx <- raw_dat$id %in% included_id
+  actual_raw_dat <- subset(raw_dat,indx)
+  indx_dup <- with(actual_raw_dat, !duplicated(data.frame(id,pic_id))) #duplication index
+  # now returning actual raw data removing duplication
+  return(subset(actual_raw_dat,indx_dup))
+}
+
+actual_raw_dat1 <- get_actual_raw_data(raw.dat1)
+actual_raw_dat2 <- get_actual_raw_data(raw.dat2)
+actual_raw_dat3 <- get_actual_raw_data(raw.dat3)
+
+get_data_info <- function(dat){
+  d <- ddply(dat, .(gender), summarize, subject=length(unique(id)))
+  return(c(sum(d$subject), d$subject[1:2], nrow(dat)))
+}
+
+get_data_info(actual_raw_dat1)
+
 # cleaning the data based on criteria 6 and removing the duplicated data
 # (id,pic_id) should be unique since no person gets a lineup more than once.
 clean_data <- function(raw_dat){
   easy_dat <- subset(raw_dat, p_value < 0.0002)
   if (raw_dat$experiment[1]=='turk3') easy_dat <- subset(raw_dat, difficulty==0)
-  d <- ddply(subset(easy_dat),.(id),summarise,
+  d <- ddply(easy_dat,.(id),summarise,
              easy_cnt = length(response),
              percent_correct = mean(response)*100,
              include_id = response[1],
@@ -47,10 +82,9 @@ dat3 <- clean_data(raw.dat3)[,-indx2]
 
 
 # saving cleaned data as suplementary materials
-write.csv(dat1, file='../submission_initial/suplementary/data/data_turk1.csv',row.names=F)
-write.csv(dat2, file='../submission_initial/suplementary/data/data_turk2.csv',row.names=F)
-write.csv(dat3, file='../submission_initial/suplementary/data/data_turk3.csv',row.names=F)
-
+# write.csv(dat1, file='../submission_initial/suplementary/data/data_turk1.csv',row.names=F)
+# write.csv(dat2, file='../submission_initial/suplementary/data/data_turk2.csv',row.names=F)
+# write.csv(dat3, file='../submission_initial/suplementary/data/data_turk3.csv',row.names=F)
 
 
 # =================== mathematical test t distribution  ===================
