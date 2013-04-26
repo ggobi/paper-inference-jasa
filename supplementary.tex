@@ -139,17 +139,17 @@ P(p_D < p_{0}) &=& 1 - P(p_{0} \le p_D) = 1- \int_0^1  P(p_{0} \le p_D \mid p_D=
 \end{proof}
 
 \section{Selection of Lineups for each subject} \label{sec:lineup_selection}
-Table \ref{tbl:dist_lineup1} shows the selection process of the lineups for the subjects, across the experimental design parameters of experiment 1 (Section \ref{p-sec:category} of the manuscript), as required to obtain a margin of error of 0.05. The lineups are divided into four groups such as easy, medium, hard and mixed based on the parameter combinations shown in the table. The number of evaluations, along with the number of lineups, and the number of lineups from each category that a single subject would get, are shown in the table. Note that, every subject saw at least one easy lineup in the pool of 10 lineups they were given, with some subjects  seeing two easy lineups if they get one from the mixed group. These ideal sample sizes were generated using a goal of obtaining a margin of error no bigger than 0.05. For example,  a lineup with sample size = 100, standard error  = 5 and slope parameter = 3 requires 203 evaluations so that the proportion correct can be estimated with margin of error 0.05 as described in the manuscript.  A total of 300 subjects would provide a total of 3000 evaluations with this plan.  Table \ref{tbl:summary} shows the number of subjects actually participating in experiment 1 is 424 which is much higher than 300. The goal was to get final accepted data for 300 subjects.    
+Table \ref{tbl:dist_lineup1} shows the selection process of the lineups for the subjects, across the experimental design parameters of experiment 1 (Section \ref{p-sec:category} of the manuscript), as required to obtain a margin of error of 0.05. The lineups are divided into four groups -- easy, medium, hard and mixed -- based on the parameter combinations shown in the table. The number of evaluations, along with the number of lineups, and the number of lineups from each category that a single subject would get, are shown in the table. Note that, every subject saw a block of 10 lineups, selected across these groups, including at least 1 easy lineup, and possibly 2 if one was drawn from the mixed group. These ideal sample sizes were generated using a goal of obtaining a margin of error no bigger than 0.05. For example,  a lineup with sample size = 100, standard error  = 5 and slope parameter = 3 requires 203 evaluations so that the proportion correct can be estimated with margin of error of 0.05 following the procedures described in the manuscript.  A total of 300 subjects would provide a total of 3000 evaluations with this plan.  Table \ref{tbl:summary} shows the number of subjects actually participating in experiment 1 is 424 which is much higher than 300, but the number after cleaning was 239.    
 
 \begin{table}[hbtp]
 %\renewcommand\thetable{}
-\caption{Selection of 10 lineups for a person to evaluate in the simulation experiment with discrete covariate described in section \ref{p-sec:category} of the paper.} 
-\centering
+\caption{Ideal numbers for different experimental design parameters for exaperiment 1 (Section \ref{p-sec:category} of manuscript) in order to obtain a margin of error of 0.05. These numbers are used to choose a sample of 10 lineups for each subject. } 
+\begin{center}
 \begin{tabular}{c c c c  c c c}
 \hline\hline
 Difficulty& \multicolumn{3}{c}{parameter combination}& Number of evaluations &Total number  & Number of lineups\\
  \cline{2-4}
-level & $n$ & $\sigma$ & $\beta$ &required($n_{\gamma}$) & of lineups & randomly shown \\
+level & $n$ & $\sigma$ & $\beta$ &required~($n_{\gamma}$) & of lineups & randomly shown \\
 \hline
 easy&100& 5&8 & 1& 12 & 1\\
 &100&12&16 &1&&\\
@@ -171,12 +171,14 @@ mixed&100& 5&1, 5, 0& 214, 2, 73 & 21 &1\\
 Total &&&&&60&10\\
 \hline
 \end{tabular}
+\end{center}
 \label{tbl:dist_lineup1}
 \end{table} 
 
 \section{Data Cleaning}\label{sec:data_cleaning}
 
-As per the experimental design each subject is shown at least one easy lineup. The subject was informed that an easy lineup would be used to accept their evaluations. Thus once we have all the evaluations we cleaned the data based on the easy lineups shown. The lineup having p-value $<$ 0.0002 is considered an easy lineup. We sample one easy lineup from a subject's records. If that lineup is evaluated {\bf correctly}, we include all (other) lineups of that subject, otherwise we exclude all lineup evaluations by this participant.  Table \ref{tbl:summary} displays number of subjects and their total evaluations before and after cleaning the data.
+Amazon Turk is a relatively new source of subjects for experiments. The workers (``turkers'') are paid, minimal amounts for their efforts, on par with conventional human subject experiments. Most turkers make an effort to complete tasks as requested, but some turkers do nottake the task seriously. Our procedure for ensuring that reliable data was available for analysis was to provide one very easy lineup, one in which the observed data plot stands out as being very different from the null plots. The subject was informed that an easy lineup would be used to accept their evaluations. %Thus once we have all the evaluations we cleaned the data based on the easy lineups shown. %The lineup having p-value $<$ 0.0002 is considered an easy lineup. We sample one easy lineup from a subject's records. 
+If that lineup is evaluated {\bf correctly}, we include all (other) lineups of that subject, otherwise we exclude all lineup evaluations by this participant.  Table \ref{tbl:summary} displays number of subjects and their total evaluations before and after cleaning the data.
 
 %Following six approaches have been examined while cleaning the data.  Table \ref{tbl:summary} displays number of subjects and their total evaluations in each screening criteria. The criteria 1 includes all the participants hence showing number of total subjects participated in the survey for all the experiments. As per the experimental design we always show at least one easy lineup and that lineup is used to process the payment of the subject. Thus, for our paper we used criteria six to clean the data and the results presented in the paper are based on the cleaned data.
 
@@ -206,12 +208,9 @@ As per the experimental design each subject is shown at least one easy lineup. T
 %       \label{fig:power_screening_subject}
 %\end{figure}
 
-
-
-
 \begin{table}[hbtp]
-\caption{Number of unique subjects and their total feedbacks after applying six screening process on all three experimental data sets. 
-Note that in some of the lines the number of male and female participants does not add up to the total number of participants. This is due to missing demographic information. }
+\caption{Number of unique subjects and their total feedbacks before and after data cleaning. 
+Note that the number of male and female participants may not add up to the number of subjects, due to some participants declining to provide demographic information. }
 \begin{center}
 \begin{tabular}{rrrrr|rrrr|rrrr}
   \hline
@@ -227,7 +226,7 @@ after  & 239 & 121 & 107 & 2249 & 351 & 185 & 164 & 3636 & 155 & 103 &  52 & 151
 \label{tbl:summary}
 \end{table}
 
-After cleaning the data we did not have 300 subjects for experiment 1 that we planned for. But we did not go for collecting more data as the proportion correct could be estimated with margin of error not much higher than 0.05 even with 239 subjects. We can see this from the bootstrap confidence band in Figure \ref{p-fig:power_loess_effect} in the manuscript. For experiment 2 and 3 we also have sufficient data even after cleaning.
+After cleaning the data, for experiment 1, we did not have 300 subjects that we planned for. It was decided that more data was not needed, though, because the estimated with margin of error  with the 239 subjects was close to 0.05. This can be seen from the bootstrap confidence band in Figure \ref{p-fig:power_loess_effect} of the manuscript. With experiments 2 and 3 there was sufficient data even after cleaning. Part of the success with the later experiments comes from the researchers developing a reputation on Amazon for providing a good task and reliable payment, which means the reliable turkers look specifically for these tasks.
 
 
 \section{How much do null plots affect the choice?} \label{sec:null_choice}
